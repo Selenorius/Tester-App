@@ -1,4 +1,4 @@
-# HCW Tester
+# Tester App
 Create and solve tests to study for your exams.
 
 ## Guide
@@ -48,7 +48,7 @@ For True/False Questions instead of **String** *text* use *mark_true, mark_false
 If **Boolean** is left empty it will be set to *false*.
 
 ### Step 3: Solve your exam
-Start **HCW Tester**, enter *yes, y, true, t* or the **Numbered Index** displayed before the **Option** to start or enter *no, n, false, f* or the **Numbered Index** to close the program.
+Start **tester_app.jar**, enter *yes, y, true, t* or the **Numbered Index** displayed before the **Option** to start or enter *no, n, false, f* or the **Numbered Index** to close the program.
 Pick your **Topic**, then pick your **Exam**.
 
 Now you can solve your **Exam**!
