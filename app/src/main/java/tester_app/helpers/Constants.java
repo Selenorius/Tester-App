@@ -1,0 +1,50 @@
+package tester_app.helpers;
+
+import java.util.*;
+
+public final class Constants {
+    private Constants() {}
+
+    //ANSI COLORS
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+
+    //APP NAME
+    public static final String name = "Tester App";
+
+    //OPTION BOOLEANS
+    public static final List<String>
+        mark_true = new ArrayList<String>(List.of("true", "yes", "t", "y")),
+        mark_false = new ArrayList<String>(List.of("false", "no", "f", "n"));
+
+    //TAB
+    public static final String tab(int i) {
+        String s = "";
+
+        while(i > 0) {
+            s += "   ";
+            --i;
+        }
+
+        return s;
+    }
+    public static final String tab() { return "   "; }
+
+    //READ COMMANDS
+    public static final boolean publish(String s) {
+        return s.equals("dev -p");
+    }
+    public static final boolean update(String s) {
+        return s.equals("dev -u");
+    }
+    public static final boolean quit(String s) {
+        return s.equals("q");
+    }
+    public static final boolean back(String s) {
+        return s.equals("r");
+    }
+}
