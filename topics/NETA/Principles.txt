@@ -1,0 +1,31 @@
+{
+    {
+        "Which are characteristics of a network application?"
+        {
+            {
+                "Runs on different end systems"
+            }
+            true
+            {
+                "Runs only on servers"
+            }
+            false
+            {
+                "Communicates over networks"
+            }
+            true
+            {
+                "Runs on different core systems"
+            }
+            false
+            {
+                "Client-Server is a network application architecture"
+            }
+            true
+            {
+                "Peer-To-Peer is a network application architecture"
+            }
+            true
+        }
+    }
+}

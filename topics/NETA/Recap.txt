@@ -1,0 +1,551 @@
+{
+    {
+        "What does IETF stand for?"
+        {
+            {
+                "Internet Engineering Task Force"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "What does RFC stand for?"
+        {
+            {
+                "Request for Comments"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "Who publishes the RFC?"
+        {
+            {
+                "Internet Engineering Task Force"
+                "IETF"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "The Internet Engineering Task Force is an open global community of network designers, operators, vendors, and researchers producing technical specifications for the evolution of the Internet architecture and the smooth operation of the Internet."
+        {
+            {
+                mark_true
+            }
+            true
+            {
+                mark_false
+            }
+            false
+        }
+        ALT
+    }
+    {
+        "List all Layers of the OSI Model in order:"
+        {
+            {
+                "Physical Layer"
+                "Physical"
+            }
+            true
+            {
+                "Data Link Layer"
+                "Data Link"
+                "Link Layer"
+                "Link"
+            }
+            true
+            {
+                "Network Layer"
+                "Network"
+            }
+            true
+            {
+                "Transport Layer"
+                "Transport"
+            }
+            true
+            {
+                "Session Layer"
+                "Session"
+            }
+            true
+            {
+                "Presentation Layer"
+                "Presentation"
+            }
+            true
+            {
+                "Application Layer"
+                "Application"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "What is an IP Address?"
+        {
+            {
+                "Internet Protocol"
+            }
+            {
+                "A numeric label assigned to a Network Interface Controller (NIC)"
+            }
+            {
+                "A unique identifier in the network"
+            }
+        }
+    }
+    {
+        "Name 5 Application Layer Protocols:"
+        {
+            {
+                "DHCP"
+                "FTP"
+                "SMTP"
+                "HTTP"
+                "SSH"
+                "Telnet"
+                "SFTP"
+                "HTTPS"
+                "BGP"
+                "POP3"
+                "IMAP"
+                "SCP"
+                "DNS"
+                "BOOTP"
+                "SNMP"
+                "Syslog"
+                "NTP"
+                "RIP"
+                "RIP2"
+            }
+            true
+            {
+                "HTTP"
+                "DHCP"
+                "FTP"
+                "SMTP"
+                "Telnet"
+                "SFTP"
+                "HTTPS"
+                "BGP"
+                "POP3"
+                "IMAP"
+                "SCP"
+                "DNS"
+                "BOOTP"
+                "SNMP"
+                "Syslog"
+                "NTP"
+                "RIP"
+                "RIP2"
+                "SSH"
+            }
+            true
+            {
+                "FTP"
+                "DHCP"
+                "SMTP"
+                "HTTP"
+                "Telnet"
+                "SFTP"
+                "HTTPS"
+                "BGP"
+                "POP3"
+                "IMAP"
+                "SCP"
+                "DNS"
+                "BOOTP"
+                "SNMP"
+                "Syslog"
+                "NTP"
+                "RIP"
+                "RIP2"
+                "SSH"
+            }
+            true
+            {
+                "DNS"
+                "DHCP"
+                "FTP"
+                "SMTP"
+                "HTTP"
+                "Telnet"
+                "SFTP"
+                "HTTPS"
+                "BGP"
+                "POP3"
+                "IMAP"
+                "SCP"
+                "BOOTP"
+                "SNMP"
+                "Syslog"
+                "NTP"
+                "RIP"
+                "RIP2"
+                "SSH"
+            }
+            true
+            {
+                "SMTP"
+                "DHCP"
+                "FTP"
+                "HTTP"
+                "Telnet"
+                "SFTP"
+                "HTTPS"
+                "BGP"
+                "POP3"
+                "IMAP"
+                "SCP"
+                "DNS"
+                "BOOTP"
+                "SNMP"
+                "Syslog"
+                "NTP"
+                "RIP"
+                "RIP2"
+                "SSH"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "Name 2 Transport Layer Protocols:"
+        {
+            {
+                "TCP"
+                "UDP"
+                "RTP"
+            }
+            true
+            {
+                "UDP"
+                "TCP"
+                "RTP"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "IP is a Network Layer Protocol."
+        {
+            {
+                mark_true
+            }
+            true
+            {
+                mark_false
+            }
+            false
+        }
+        ALT
+    }
+    {
+        "Name 3 Network Layer Protocols:"
+        {
+            {
+                "IP"
+                "ARP"
+                "ICMP"
+                "IGMP"
+                "RARP"
+            }
+            true
+            {
+                "ARP"
+                "ICMP"
+                "IGMP"
+                "RARP"
+                "IP"
+            }
+            true
+            {
+                "ICMP"
+                "IGMP"
+                "RARP"
+                "IP"
+                "ARP"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "Which statement is true?"
+        {
+            {
+                "SSH operates on the Application and Transport Layer."
+            }
+            true
+            {
+                "SSH operates solely on the Application Layer."
+            }
+            false
+            {
+                "SSH operates solely on the Transport Layer."
+            }
+            false
+        }
+    }
+    {
+        "Which statement is true?"
+        {
+            {
+                "ARP operates on the Network and Data Link Layer."
+            }
+            true
+            {
+                "ARP operates solely on the Network Layer."
+            }
+            false
+            {
+                "ARP operates solely on the Data Link Layer."
+            }
+            false
+        }
+    }
+    {
+        "Name a physical Protocol:"
+        {
+            {
+                "Ethernet"
+                "ALOHA"
+                "CDMA"
+                "GSM"
+                "ISDN"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "Ethernet operates solely on the Physical Layer."
+        {
+            {
+                mark_true
+            }
+            false
+            {
+                mark_false
+                "Ethernet operates on the Physical and Data Link Layer."
+            }
+            true
+        }
+        ALT
+    }
+    {
+        "Name all elements of an IPv4 header:"
+        {
+            {
+                "IP Protocol Version Number"
+                "IP Version"
+                "IP version number"
+                "Protocol version number"
+            }
+            true
+            {
+                "Header Length (Bytes)"
+                "header length"
+            }
+            true
+            {
+                "Type of Service"
+                "type of data"
+                "data type"
+                "service type"
+            }
+            true
+            {
+                "Total Datagram Length (Bytes)"
+                "total datagram length"
+                "datagram length"
+                "length"
+            }
+            true
+            {
+                "16-Bit Identifier"
+                "identifier"
+            }
+            true
+            {
+                "Flags"
+            }
+            true
+            {
+                "Fragment Offset"
+                "offset"
+            }
+            true
+            {
+                "Time to Live"
+                "ttl"
+            }
+            true
+            {
+                "Upper Layer Protocol to Deliver Payload to"
+                "upper layer protocol"
+                "upper protocol"
+                "upper layer"
+            }
+            true
+            {
+                "Header Checksum"
+                "checksum"
+            }
+            true
+            {
+                "32-Bit Source IP Address"
+                "Source IP"
+                "Source IP Address"
+                "Source Address"
+                "Source"
+            }
+            true
+            {
+                "32-Bit Destination IP Address"
+                "Destination IP Address"
+                "Destination IP"
+                "Destination Address"
+                "Destination"
+            }
+            true
+            {
+                "Options (If Any)"
+                "Options"
+            }
+            true
+            {
+                "Data (Variable Length, Typically a TCP or UDP Segment)"
+                "Data"
+            }
+            true
+        }
+        NO_OPT
+    }
+    {
+        "Private IP addresses are routed through the internet."
+        {
+            {
+                mark_true
+            }
+            false
+            {
+                mark_false
+                "Public IP addresses are routed through the internet."
+            }
+            true
+        }
+        ALT
+    }
+    {
+        "What is ARP?"
+        {
+            {
+                "Address Resolution Protocol (RFC 826)"
+            }
+            {
+                "Finds Ethernet (MAC) address of a local IP address"
+            }
+            {
+                "Host queries an address and the owner replies"
+            }
+        }
+    }
+    {
+        "What is ICMP?"
+        {
+            {
+                "Internet Control Message Protocol (RFC 792)"
+            }
+            {
+                "Used by hosts & routers to communicate network-level information"
+            }
+            {
+                "Error reporting: unreachable host, network, port, protocol"
+            }
+            {
+                "Echo request/reply (used by ping)"
+            }
+            {
+                "ICMP msgs carried in IP datagrams"
+            }
+        }
+    }
+    {
+        "What is DHCP?"
+        {
+            {
+                "Dynamic Host Configuration Protocol"
+            }
+            {
+                "Assigns a local IP address to a host"
+            }
+            {
+                "Gets host started by automatically configuring it"
+            }
+            {
+                "Host sends request to server, which grants a lease"
+            }
+            {
+                "Encapsulated in UDP datagram"
+            }
+        }
+    }
+    {
+        "IP addresses can be hard-coded or assigned through DHCP."
+        {
+            {
+                mark_true
+            }
+            true
+            {
+                mark_false
+            }
+            false
+        }
+        ALT
+    }
+    {
+        "List all steps in a DHCP interaction in order:"
+        {
+            {
+                "Host broadcasts DHCP discover message"
+                "DHCP discover message"
+                "DHCP discover"
+                "discover"
+            }
+            true
+            {
+                "DHCP server responds with DHCP offer message"
+                "DHCP offer message"
+                "DHCP offer"
+                "offer"
+            }
+            true
+            {
+                "Host requests IP address with DHCP request message"
+                "DHCP request message"
+                "DHCP request"
+                "request"
+            }
+            true
+            {
+                "DHCP server sends address with DHCP ack message"
+                "DHCP ack message"
+                "DHCP ack"
+                "ack"
+            }
+            true
+        }
+        NO_OPT
+    }
+}
