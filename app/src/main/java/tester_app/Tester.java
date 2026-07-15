@@ -1,6 +1,15 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.*;
+import static tester_app.helpers.Constants.ANSI_CYAN;
+import static tester_app.helpers.Constants.ANSI_PURPLE;
+import static tester_app.helpers.Constants.ANSI_RED;
+import static tester_app.helpers.Constants.ANSI_RESET;
+import static tester_app.helpers.Constants.back;
+import static tester_app.helpers.Constants.name;
+import static tester_app.helpers.Constants.publish;
+import static tester_app.helpers.Constants.quit;
+import static tester_app.helpers.Constants.tab;
+import static tester_app.helpers.Constants.update;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +19,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Tester {
-    protected static int
+    public static int
         release,
         serial,
         modified_d,
@@ -18,7 +27,9 @@ public class Tester {
         modified_y;
 
     public Tester() {
+        System.out.println(ANSI_PURPLE + "Tester" + ANSI_RESET);
         File versionFile = new File("version.txt");
+
         if (!versionFile.exists()) {
             try {
                 if (versionFile.createNewFile()) {
@@ -34,14 +45,14 @@ public class Tester {
                         versionFileOut.close();
                         System.out.println(System.lineSeparator() + "Successfully updated to " + ANSI_PURPLE + "v" + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET + System.lineSeparator());
                     } catch (IOException e) {
-                        System.out.println(ANSI_RED + this + ": File writing error." + ANSI_RESET + System.lineSeparator());
+                        System.out.println(tab() + ANSI_RED + "File writing error." + ANSI_RESET);
                         e.printStackTrace();
                     }
                     
-                    System.out.println(this + ": Successfully created new version file.");
+                    System.out.println(tab() + "Successfully created new version file.");
                 }
             } catch (IOException e) {
-                System.out.println(ANSI_RED + this + ": An error occurred." + ANSI_RESET + System.lineSeparator());
+                System.out.println(tab() + ANSI_RED + "Failed to create version file." + ANSI_RESET);
                 e.printStackTrace();
             }
         }
@@ -96,19 +107,21 @@ public class Tester {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println(ANSI_RED + this + ": File reading error." + ANSI_RESET + System.lineSeparator());
+            System.out.println(tab() + ANSI_RED + "File reading error." + ANSI_RESET);
             e.printStackTrace();
         }
         
-        System.out.println(
-            ANSI_PURPLE + this + ANSI_RESET + System.lineSeparator() + 
-            tab() + "Successfully created Tester." + System.lineSeparator()
-        );
+        System.out.println(tab() + "Created Tester." + System.lineSeparator());
     }
 
     //READ
-    public int read(String s) {
+    public int read() {
+        System.out.print(ANSI_CYAN + "Your answer: " + ANSI_RESET);
+        Scanner in = new Scanner(System.in);
         LocalDate timestamp = LocalDate.now();
+        String s = in.nextLine();
+
+        in.close();
 
         s.toLowerCase();
         s.trim();
@@ -116,12 +129,13 @@ public class Tester {
         if(back(s)) {
             System.out.println();
             return 0;
-        }
-        else if(quit(s)) {
+        } else if(quit(s)) {
             System.out.println();
             return -1;
         }
         else if(update(s)) {
+            System.out.println(System.lineSeparator() + ANSI_PURPLE + "Update" + ANSI_RESET);
+
             modified_d = timestamp.getDayOfMonth();
             modified_m = timestamp.getMonthValue();
             modified_y = timestamp.getYear();
@@ -136,15 +150,18 @@ public class Tester {
                     modified_y
                 );
                 versionFileOut.close();
-                System.out.println(System.lineSeparator() + "Successfully updated to " + ANSI_PURPLE + "v" + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET + System.lineSeparator());
+                System.out.println(tab() + "Successfully updated to " + ANSI_PURPLE + "v" + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET);
             } catch (IOException e) {
-                System.out.println(ANSI_RED + this + ": File writing error." + ANSI_RESET + System.lineSeparator());
+                System.out.println(tab() + "File writing error." + ANSI_RESET);
                 e.printStackTrace();
             }
+            System.out.println();
 
             return -1;
         }
         else if(publish(s)) {
+            System.out.println(ANSI_PURPLE + "Publish" + ANSI_RESET + System.lineSeparator());
+
             serial = 0;
             modified_d = timestamp.getDayOfMonth();
             modified_m = timestamp.getMonthValue();
@@ -160,11 +177,12 @@ public class Tester {
                     modified_y
                 );
                 versionFileOut.close();
-                System.out.println(System.lineSeparator() + "Successfully published to " + ANSI_PURPLE + "v" + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET + System.lineSeparator());
+                System.out.println(tab() + "Successfully published to " + ANSI_PURPLE + 'v' + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET);
             } catch (IOException e) {
-                System.out.println(ANSI_RED + this + ": File writing error." + ANSI_RESET + System.lineSeparator());
+                System.out.println(tab() + ANSI_RED + "File writing error." + ANSI_RESET);
                 e.printStackTrace();
             }
+            System.out.println();
 
             return -1;
         }
@@ -174,6 +192,6 @@ public class Tester {
     }
 
     public void start() {
-        System.out.println("Welcome to " + name + ' ' + ANSI_PURPLE + release + ANSI_RESET + '.' + ANSI_PURPLE + serial + ANSI_RESET + '.' + ANSI_PURPLE + modified_d + ANSI_RESET + '.' + ANSI_PURPLE + modified_m + ANSI_RESET + '.' + ANSI_PURPLE + modified_y + ANSI_RESET + '!' + System.lineSeparator());
+        System.out.println(ANSI_PURPLE + "--- " + ANSI_RESET + "Welcome to " + name + '!' + ANSI_PURPLE + " ---" + ANSI_RESET + System.lineSeparator());
     }
 }

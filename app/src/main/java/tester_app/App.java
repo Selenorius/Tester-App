@@ -1,8 +1,9 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.*;
-
-import java.util.Scanner;
+import static tester_app.helpers.Constants.ANSI_PURPLE;
+import static tester_app.helpers.Constants.ANSI_RESET;
+import static tester_app.helpers.Constants.tab;
+import static tester_app.helpers.ReleaseManager.manageReleases;
 
 /*
     Decription: Create and solve your own questions to prepare for exams.
@@ -12,18 +13,15 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         System.out.println(
-            ANSI_PURPLE + "tester_app.App" + ANSI_RESET + System.lineSeparator() +
+            ANSI_PURPLE + "App" + ANSI_RESET + System.lineSeparator() +
             tab() + "Started App." + System.lineSeparator()
         );
 
-        Scanner in = new Scanner(System.in);
         Tester tester = new Tester();
+        manageReleases();
 
         tester.start();
 
-        System.out.print(ANSI_CYAN + "Enter Command: " + ANSI_RESET);
-        tester.read(in.nextLine());
-
-        in.close();
+        tester.read();
     }
 }
