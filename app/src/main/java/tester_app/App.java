@@ -13,7 +13,7 @@ import static tester_app.helpers.ReleaseManager.manageReleases;
 public class App {
     public static void main(String[] args) {
         System.out.println(
-            ANSI_PURPLE + "App" + ANSI_RESET + System.lineSeparator() +
+            System.lineSeparator() + ANSI_PURPLE + "App" + ANSI_RESET + System.lineSeparator() +
             tab() + "Started App." + System.lineSeparator()
         );
 
