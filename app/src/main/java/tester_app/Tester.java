@@ -192,6 +192,6 @@ public class Tester {
     }
 
     public void start() {
-        System.out.println(ANSI_PURPLE + "--- " + ANSI_RESET + "Welcome to " + name + '!' + ANSI_PURPLE + " ---" + ANSI_RESET + System.lineSeparator());
+        //System.out.println(ANSI_PURPLE + "--- " + ANSI_RESET + "Welcome to " + name + '!' + ANSI_PURPLE + " ---" + ANSI_RESET + System.lineSeparator());
     }
 }

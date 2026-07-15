@@ -1,6 +1,7 @@
 package tester_app.helpers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Constants {
     private Constants() {}
@@ -13,7 +14,7 @@ public final class Constants {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
 
-    //APP NAME
+    //APP DATA
     public static final String name = "Tester App";
 
     //OPTION BOOLEANS
