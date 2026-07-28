@@ -7,7 +7,6 @@ import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -416,9 +415,6 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
-    private void message(String text, String title, int type) {
-        JOptionPane.showMessageDialog(this, text, title, type);
-    }
     private void errorMessage(String text) {
         JOptionPane.showMessageDialog(this, text, "Error", JOptionPane.ERROR_MESSAGE);
     }

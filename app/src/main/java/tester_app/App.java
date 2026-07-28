@@ -1,11 +1,6 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.ANSI_PURPLE;
-import static tester_app.helpers.Constants.ANSI_RESET;
-import static tester_app.helpers.Constants.tab;
 import static tester_app.helpers.ReleaseManager.manageReleases;
-
-import tester_app.editors.TextEditor;
 
 /*
     Decription: Create and solve your own questions to prepare for exams.

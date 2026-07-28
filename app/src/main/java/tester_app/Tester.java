@@ -5,7 +5,6 @@ import static tester_app.helpers.Constants.ANSI_PURPLE;
 import static tester_app.helpers.Constants.ANSI_RED;
 import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.back;
-import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.publish;
 import static tester_app.helpers.Constants.quit;
 import static tester_app.helpers.Constants.tab;
