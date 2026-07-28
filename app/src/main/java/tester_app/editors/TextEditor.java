@@ -15,13 +15,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
@@ -34,6 +40,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -48,6 +56,7 @@ public class TextEditor extends JFrame implements ActionListener {
     private JComboBox<String> fontBox;
     private String defaultFont = "Segoe UI Semibold";
     private int defaultFontSize = 20;
+    private File root = new File("./topics");
 
     private JMenuBar menuBar;
     private JMenu
@@ -79,14 +88,64 @@ public class TextEditor extends JFrame implements ActionListener {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.addPropertyChangeListener(null);
         this.getContentPane().addComponentListener(new ComponentAdapter() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 scrollPane.setPreferredSize(getEditorSize());
             }
         });
         this.addWindowStateListener(new WindowStateListener() {
+            @Override
             public void windowStateChanged(WindowEvent e) {
                 scrollPane.setPreferredSize(getEditorSize());
             }
+        });
+        this.addWindowListener(new WindowListener() {
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowOpened'");
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    deleteEmptyDirectories(root);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowClosed'");
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowIconified'");
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowDeiconified'");
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowActivated'");
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'windowDeactivated'");
+            }
+            
         });
         
         textArea = new JTextArea();
@@ -158,7 +217,6 @@ public class TextEditor extends JFrame implements ActionListener {
         }
 
         if(e.getSource() == openItem) {
-            File root = new File("./topics");
             FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
             JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
             fileChooser.setCurrentDirectory(root);
@@ -194,12 +252,18 @@ public class TextEditor extends JFrame implements ActionListener {
             }
         }
         if(e.getSource() == saveItem) {
-            File root = new File("./topics");
             FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
             JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
             fileChooser.setCurrentDirectory(root);
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
             fileChooser.setFileFilter(filter);
+            fileChooser.setFont(new Font(defaultFont, Font.PLAIN, defaultFontSize));
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                    | UnsupportedLookAndFeelException e1) {
+                e1.printStackTrace();
+            }
 
             int response = fileChooser.showSaveDialog(null);
 
@@ -243,6 +307,29 @@ public class TextEditor extends JFrame implements ActionListener {
 
         return img;
     }
+
+    private static void deleteEmptyDirectories(File file) throws IOException {
+        for (File subDir : file.listFiles()) {
+
+            if (subDir.isDirectory()) {
+                deleteEmptyDirectories(subDir);
+            }
+
+            if(isEmpty(subDir)) subDir.delete();
+        }
+    }
+
+    public static boolean isEmpty(File dir) throws IOException {
+        Path path = Paths.get(dir.getAbsolutePath());
+
+        if (Files.isDirectory(path)) {
+            try (Stream<Path> entries = Files.list(path)) {
+                return !entries.findFirst().isPresent();
+            }
+        }
+            
+        return false;
+}
 
     private Dimension getEditorSize() {
         return new Dimension(this.getSize().width - 25, this.getSize().height - 75);
