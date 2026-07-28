@@ -6,6 +6,8 @@ import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.tab;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -23,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,6 +38,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -47,7 +49,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import javax.swing.plaf.TextUI;
 
 import tester_app.Tester;
 
@@ -72,8 +73,8 @@ public class TextEditor extends JFrame implements ActionListener {
         saveItem,
         clearItem;
 
-    private final Dimension size = new Dimension(600, 600),
-        SpinnerSize = new Dimension(62, 25);
+    private final Dimension size = new Dimension(1280, 720),
+        SpinnerSize = new Dimension(51, 20);
 
     private Tester tester;
 
@@ -82,13 +83,12 @@ public class TextEditor extends JFrame implements ActionListener {
 
         BufferedImage icon = loadImg("tester_app/favicon.ico");
 
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setTitle(name);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setTitle(name + " Editor");
         this.setIconImage(icon);
         this.setMinimumSize(size);
         this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
-        this.setExtendedState(MAXIMIZED_BOTH);
         this.addPropertyChangeListener(null);
         this.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
@@ -117,11 +117,11 @@ public class TextEditor extends JFrame implements ActionListener {
                                 case 0:
                                     try {
                                         if(data != "") {
-                                            setWindowState(Integer.parseInt(data));
+                                            setExtendedState(Integer.parseInt(data));
                                         }
                                     }
                                     catch (NumberFormatException e1) {
-                                        System.out.println(ANSI_PURPLE + "Window State");
+                                        System.out.println(ANSI_PURPLE + "Extended State");
                                         System.out.print(ANSI_RED + tab());
                                         e1.printStackTrace();
                                         System.out.println(ANSI_RESET);
@@ -169,12 +169,18 @@ public class TextEditor extends JFrame implements ActionListener {
             }
 
             @Override
-            public void windowClosing(WindowEvent e) {}
+            public void windowClosing(WindowEvent e) {
+                if(textArea.getText().length() != 0) {
+                    confirmCloseDialog();
+                } else {
+                    dispose();
+                }
+            }
 
             @Override
             public void windowClosed(WindowEvent e) {
                 try {
-                    deleteEmptyDirectories(root);
+                    deleteEmptyFiles(root);
                 } catch (IOException e1) {
                     System.out.println(ANSI_PURPLE + "Delete Empty Directories");
                     System.out.print(ANSI_RED + tab());
@@ -204,11 +210,15 @@ public class TextEditor extends JFrame implements ActionListener {
                 | UnsupportedLookAndFeelException e1) {
             e1.printStackTrace();
         }
+        this.getContentPane().setBackground(Color.WHITE);
         
         textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setFont(new Font(defaultFont, Font.PLAIN, defaultFontSize));
+        textArea.setBackground(new Color(25, 23, 20));
+        textArea.setForeground(Color.WHITE);
+        textArea.setCaretColor(Color.WHITE);
 
         scrollPane  = new JScrollPane(textArea);
         scrollPane.setSize(getEditorSize());
@@ -217,7 +227,6 @@ public class TextEditor extends JFrame implements ActionListener {
 
         fontSizeSpinner = new JSpinner();
         fontSizeSpinner.setPreferredSize(SpinnerSize);
-        fontSizeSpinner.setToolTipText("Change font size");
         fontSizeSpinner.setValue(defaultFontSize);
         fontSizeSpinner.addChangeListener(new ChangeListener() {
             @Override
@@ -231,6 +240,7 @@ public class TextEditor extends JFrame implements ActionListener {
         fontBox = new JComboBox<String>(fonts);
         fontBox.addActionListener(this);
         fontBox.setSelectedItem(defaultFont);
+        fontBox.setToolTipText("Change font");
 
         // Menu Bar
         menuBar = new JMenuBar();
@@ -242,14 +252,18 @@ public class TextEditor extends JFrame implements ActionListener {
         clearItem = new JMenuItem("Clear");
 
         openItem.addActionListener(this);
+        openItem.setToolTipText("Open existing file");
         saveItem.addActionListener(this);
+        saveItem.setToolTipText("Save current file");
         clearItem.addActionListener(this);
+        clearItem.setToolTipText("Clear text area");
 
         fileMenu.add(openItem);
         fileMenu.add(saveItem);
         fileMenu.add(clearItem);
 
         fontSizeMenu.add(fontSizeSpinner);
+        fontSizeMenu.setToolTipText("Change font size");
 
         fontMenu.add(fontBox);
 
@@ -286,18 +300,19 @@ public class TextEditor extends JFrame implements ActionListener {
                 file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 try {
                     fileIn = new Scanner(file);
-                    if(file.isFile()) {
-                        String line;
-                        while(fileIn.hasNextLine()) {
-                            line = fileIn.nextLine() + System.lineSeparator();
-                            textArea.append(line);
-                        }
+                    String line;
+                    while(fileIn.hasNextLine()) {
+                        line = fileIn.nextLine() + System.lineSeparator();
+                        textArea.append(line);
                     }
                 } catch (FileNotFoundException e1) {
                     System.out.println(ANSI_PURPLE + "Open Dialog");
                     System.out.print(ANSI_RED + tab());
                     e1.printStackTrace();
                     System.out.println(ANSI_RESET);
+
+                    errorMessage("Invalid file.");
+                    response = fileChooser.showOpenDialog(null);
                 } finally {
                     if(fileIn != null) {
                         fileIn.close();
@@ -315,15 +330,28 @@ public class TextEditor extends JFrame implements ActionListener {
             int response = fileChooser.showSaveDialog(null);
 
             if(response == JFileChooser.APPROVE_OPTION) {
-                try {
-                    FileWriter fileOut = new FileWriter(fileChooser.getSelectedFile().getAbsolutePath());
-                    fileOut.write(textArea.getText());
-                    fileOut.close();
-                } catch (Exception e1) {
-                    System.out.println(ANSI_PURPLE + "Save Dialog");
-                    System.out.print(ANSI_RED + tab());
-                    e1.printStackTrace();
-                    System.out.println(ANSI_RESET);
+                if(fileChooser.getSelectedFile().exists()) {
+                    response = JOptionPane.showConfirmDialog(
+                        this,
+                        "Are you sure you want to overwrite the existing file?",
+                        "Warning",
+                        JOptionPane.YES_NO_OPTION
+                    );
+                } else {
+                    response = JOptionPane.YES_OPTION;
+                }
+                
+                if (response == JOptionPane.YES_OPTION) {
+                    try {
+                        FileWriter fileOut = new FileWriter(fileChooser.getSelectedFile().getAbsolutePath());
+                        fileOut.write(textArea.getText());
+                        fileOut.close();
+                    } catch (Exception e1) {
+                        System.out.println(ANSI_PURPLE + "Save Dialog");
+                        System.out.print(ANSI_RED + tab());
+                        e1.printStackTrace();
+                        System.out.println(ANSI_RESET);
+                    }
                 }
             }
         }
@@ -348,14 +376,14 @@ public class TextEditor extends JFrame implements ActionListener {
         return img;
     }
 
-    private static void deleteEmptyDirectories(File file) throws IOException {
-        for (File subDir : file.listFiles()) {
+    private static void deleteEmptyFiles(File file) throws IOException {
+        for (File subFile : file.listFiles()) {
 
-            if (subDir.isDirectory()) {
-                deleteEmptyDirectories(subDir);
+            if (subFile.isDirectory()) {
+                deleteEmptyFiles(subFile);
             }
 
-            if(isEmpty(subDir)) subDir.delete();
+            if(isEmpty(subFile) || subFile.length() == 0) subFile.delete();
         }
     }
 
@@ -375,7 +403,7 @@ public class TextEditor extends JFrame implements ActionListener {
         try {
             FileWriter settingsFileOut = new FileWriter(settingsFile);
             settingsFileOut.write(
-                getWindowState() + System.lineSeparator() +
+                getExtendedState() + System.lineSeparator() +
                 fontSizeSpinner.getValue() + System.lineSeparator() +
                 fontBox.getSelectedItem()
             );
@@ -388,15 +416,26 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
+    private void message(String text, String title, int type) {
+        JOptionPane.showMessageDialog(this, text, title, type);
+    }
+    private void errorMessage(String text) {
+        JOptionPane.showMessageDialog(this, text, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void confirmCloseDialog() {
+        int response = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to close this window? All unsaved data will be lost.",
+            "Warning",
+            JOptionPane.YES_NO_OPTION
+        );
+        if (response == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }
+
     private Dimension getEditorSize() {
-        return new Dimension(this.getSize().width - 25, this.getSize().height - 75);
-    }
-
-    private int getWindowState() {
-        return this.getState();
-    }
-
-    private void setWindowState(int state) {
-        this.setState(state);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 72);
     }
 }

@@ -21,6 +21,6 @@ public class App {
         //tester.start();
         //tester.read();
 
-        new TextEditor(tester);
+        tester.startEditor();
     }
 }

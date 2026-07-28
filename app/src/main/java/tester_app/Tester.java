@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import tester_app.editors.TextEditor;
+
 public class Tester {
     public static int
         release,
@@ -189,6 +191,10 @@ public class Tester {
         System.out.println();
 
         return 1;
+    }
+
+    public void startEditor() {
+        new TextEditor(this);
     }
 
     public void start() {
