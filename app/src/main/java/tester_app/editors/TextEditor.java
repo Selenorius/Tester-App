@@ -20,6 +20,7 @@ import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -46,6 +47,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.plaf.TextUI;
 
 import tester_app.Tester;
 
@@ -54,7 +56,9 @@ public class TextEditor extends JFrame implements ActionListener {
     private JScrollPane scrollPane;
     private JSpinner fontSizeSpinner;
     private JComboBox<String> fontBox;
-    private String defaultFont = "Segoe UI Semibold";
+    private String
+        defaultFont = "Segoe UI Semibold",
+        settingsFile = "editorSettings.txt";
     private int defaultFontSize = 20;
     private File root = new File("./topics");
 
@@ -66,8 +70,7 @@ public class TextEditor extends JFrame implements ActionListener {
     private JMenuItem
         openItem,
         saveItem,
-        clearItem,
-        exitItem;
+        clearItem;
 
     private final Dimension size = new Dimension(600, 600),
         SpinnerSize = new Dimension(62, 25);
@@ -103,50 +106,104 @@ public class TextEditor extends JFrame implements ActionListener {
 
             @Override
             public void windowOpened(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowOpened'");
-            }
+                File test = new File(settingsFile);
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                try {
-                    deleteEmptyDirectories(root);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                if(test.isFile()) {
+                    try(Scanner settingsFileIn = new Scanner(test)) {
+                        int i = 0;
+                        while(settingsFileIn.hasNextLine()) {
+                            String data = settingsFileIn.nextLine();
+                            switch(i++) {
+                                case 0:
+                                    try {
+                                        if(data != "") {
+                                            setWindowState(Integer.parseInt(data));
+                                        }
+                                    }
+                                    catch (NumberFormatException e1) {
+                                        System.out.println(ANSI_PURPLE + "Window State");
+                                        System.out.print(ANSI_RED + tab());
+                                        e1.printStackTrace();
+                                        System.out.println(ANSI_RESET);
+                                    }
+                                    break;
+                                case 1:
+                                    try {
+                                        if(data != "") {
+                                            fontSizeSpinner.setValue(Integer.parseInt(data));
+                                            textArea.setFont(new Font(textArea.getFont().getFamily(), Font.PLAIN, Integer.parseInt(data)));
+                                        }
+                                    }
+                                    catch (NumberFormatException e1) {
+                                        System.out.println(ANSI_PURPLE + "Font Size Data");
+                                        System.out.print(ANSI_RED + tab());
+                                        e1.printStackTrace();
+                                        System.out.println(ANSI_RESET);
+                                    }
+                                    break;
+                                case 2:
+                                    try {
+                                        if(data != "") {
+                                            fontBox.setSelectedItem(data);
+                                            textArea.setFont(new Font(data, Font.PLAIN, textArea.getFont().getSize()));
+                                        }
+                                    }
+                                    catch (NumberFormatException e1) {
+                                        System.out.println(ANSI_PURPLE + "Font Data");
+                                        System.out.print(ANSI_RED + tab());
+                                        e1.printStackTrace();
+                                        System.out.println(ANSI_RESET);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    } catch (Exception e1) {
+                        System.out.println(ANSI_PURPLE + "Editor Settings File");
+                        System.out.print(ANSI_RED + tab());
+                        e1.printStackTrace();
+                        System.out.println(ANSI_RESET);
+                    }
                 }
             }
 
             @Override
+            public void windowClosing(WindowEvent e) {}
+
+            @Override
             public void windowClosed(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowClosed'");
+                try {
+                    deleteEmptyDirectories(root);
+                } catch (IOException e1) {
+                    System.out.println(ANSI_PURPLE + "Delete Empty Directories");
+                    System.out.print(ANSI_RED + tab());
+                    e1.printStackTrace();
+                    System.out.println(ANSI_RESET);
+                }
+                updateSettings();
+                tester.start();
             }
 
             @Override
-            public void windowIconified(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowIconified'");
-            }
+            public void windowIconified(WindowEvent e) {}
 
             @Override
-            public void windowDeiconified(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowDeiconified'");
-            }
+            public void windowDeiconified(WindowEvent e) {}
 
             @Override
-            public void windowActivated(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowActivated'");
-            }
+            public void windowActivated(WindowEvent e) {}
 
             @Override
-            public void windowDeactivated(WindowEvent e) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'windowDeactivated'");
-            }
+            public void windowDeactivated(WindowEvent e) {}
             
         });
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e1) {
+            e1.printStackTrace();
+        }
         
         textArea = new JTextArea();
         textArea.setLineWrap(true);
@@ -183,17 +240,14 @@ public class TextEditor extends JFrame implements ActionListener {
         openItem = new JMenuItem("Open");
         saveItem = new JMenuItem("Save");
         clearItem = new JMenuItem("Clear");
-        exitItem = new JMenuItem("Exit to Tester");
 
         openItem.addActionListener(this);
         saveItem.addActionListener(this);
         clearItem.addActionListener(this);
-        exitItem.addActionListener(this);
 
         fileMenu.add(openItem);
         fileMenu.add(saveItem);
         fileMenu.add(clearItem);
-        fileMenu.add(exitItem);
 
         fontSizeMenu.add(fontSizeSpinner);
 
@@ -257,25 +311,15 @@ public class TextEditor extends JFrame implements ActionListener {
             fileChooser.setCurrentDirectory(root);
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
             fileChooser.setFileFilter(filter);
-            fileChooser.setFont(new Font(defaultFont, Font.PLAIN, defaultFontSize));
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e1) {
-                e1.printStackTrace();
-            }
 
             int response = fileChooser.showSaveDialog(null);
 
             if(response == JFileChooser.APPROVE_OPTION) {
-                File file;
-                PrintWriter fileOut;
-
-                file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 try {
-                    fileOut = new PrintWriter(file);
-                    fileOut.println(textArea.getText());
-                } catch (FileNotFoundException e1) {
+                    FileWriter fileOut = new FileWriter(fileChooser.getSelectedFile().getAbsolutePath());
+                    fileOut.write(textArea.getText());
+                    fileOut.close();
+                } catch (Exception e1) {
                     System.out.println(ANSI_PURPLE + "Save Dialog");
                     System.out.print(ANSI_RED + tab());
                     e1.printStackTrace();
@@ -285,10 +329,6 @@ public class TextEditor extends JFrame implements ActionListener {
         }
         if(e.getSource() == clearItem) {
             textArea.setText("");
-        }
-        if(e.getSource() == exitItem) {
-            this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-            tester.start();
         }
     }
 
@@ -319,7 +359,7 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
-    public static boolean isEmpty(File dir) throws IOException {
+    private static boolean isEmpty(File dir) throws IOException {
         Path path = Paths.get(dir.getAbsolutePath());
 
         if (Files.isDirectory(path)) {
@@ -329,9 +369,34 @@ public class TextEditor extends JFrame implements ActionListener {
         }
             
         return false;
-}
+    }
+
+    private void updateSettings() {
+        try {
+            FileWriter settingsFileOut = new FileWriter(settingsFile);
+            settingsFileOut.write(
+                getWindowState() + System.lineSeparator() +
+                fontSizeSpinner.getValue() + System.lineSeparator() +
+                fontBox.getSelectedItem()
+            );
+            settingsFileOut.close();
+        } catch (Exception e1) {
+            System.out.println(ANSI_PURPLE + "Editor Settings");
+            System.out.print(ANSI_RED + tab());
+            e1.printStackTrace();
+            System.out.println(ANSI_RESET);
+        }
+    }
 
     private Dimension getEditorSize() {
         return new Dimension(this.getSize().width - 25, this.getSize().height - 75);
+    }
+
+    private int getWindowState() {
+        return this.getState();
+    }
+
+    private void setWindowState(int state) {
+        this.setState(state);
     }
 }

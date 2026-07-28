@@ -27,7 +27,6 @@ public class Tester {
         modified_y;
 
     public Tester() {
-        System.out.println(ANSI_PURPLE + "Tester" + ANSI_RESET);
         File versionFile = new File("version.txt");
 
         if (!versionFile.exists()) {
@@ -45,6 +44,7 @@ public class Tester {
                         versionFileOut.close();
                         System.out.println(System.lineSeparator() + "Successfully updated to " + ANSI_PURPLE + "v" + release + '.' + serial + '.' + modified_d + '.' + modified_m + '.' + modified_y + ANSI_RESET + System.lineSeparator());
                     } catch (IOException e) {
+                        System.out.println(ANSI_PURPLE + "Tester" + ANSI_RESET);
                         System.out.println(tab() + ANSI_RED + "File writing error." + ANSI_RESET);
                         e.printStackTrace();
                     }
@@ -52,6 +52,7 @@ public class Tester {
                     System.out.println(tab() + "Successfully created new version file.");
                 }
             } catch (IOException e) {
+                System.out.println(ANSI_PURPLE + "Tester" + ANSI_RESET);
                 System.out.println(tab() + ANSI_RED + "Failed to create version file." + ANSI_RESET);
                 e.printStackTrace();
             }
@@ -107,11 +108,10 @@ public class Tester {
                 }
             }
         } catch (FileNotFoundException e) {
+            System.out.println(ANSI_PURPLE + "Tester" + ANSI_RESET);
             System.out.println(tab() + ANSI_RED + "File reading error." + ANSI_RESET);
             e.printStackTrace();
         }
-        
-        System.out.println(tab() + "Created Tester." + System.lineSeparator());
     }
 
     //READ

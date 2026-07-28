@@ -14,11 +14,6 @@ import tester_app.editors.TextEditor;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println(
-            System.lineSeparator() + ANSI_PURPLE + "App" + ANSI_RESET + System.lineSeparator() +
-            tab() + "Started App." + System.lineSeparator()
-        );
-
         Tester tester = new Tester();
 
         manageReleases();
