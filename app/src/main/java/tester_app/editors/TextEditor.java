@@ -7,7 +7,6 @@ import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -73,7 +72,8 @@ public class TextEditor extends JFrame implements ActionListener {
         saveItem,
         clearItem;
 
-    private final Dimension size = new Dimension(1280, 720),
+    private final Dimension
+        size = new Dimension(1280, 720),
         SpinnerSize = new Dimension(51, 20);
 
     private Tester tester;
@@ -89,7 +89,6 @@ public class TextEditor extends JFrame implements ActionListener {
         this.setMinimumSize(size);
         this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
-        this.addPropertyChangeListener(null);
         this.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -165,6 +164,12 @@ public class TextEditor extends JFrame implements ActionListener {
                         e1.printStackTrace();
                         System.out.println(ANSI_RESET);
                     }
+                } else {
+                    updateSettings();
+                }
+
+                if(!root.exists()) {
+                    root.mkdir();
                 }
             }
 
@@ -416,9 +421,6 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
-    private void message(String text, String title, int type) {
-        JOptionPane.showMessageDialog(this, text, title, type);
-    }
     private void errorMessage(String text) {
         JOptionPane.showMessageDialog(this, text, "Error", JOptionPane.ERROR_MESSAGE);
     }

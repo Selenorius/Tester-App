@@ -36,12 +36,6 @@ public final class Constants {
     public static final String tab() { return "   "; }
 
     //READ COMMANDS
-    public static final boolean publish(String s) {
-        return s.equals("dev -p");
-    }
-    public static final boolean update(String s) {
-        return s.equals("dev -u");
-    }
     public static final boolean quit(String s) {
         return s.equals("q");
     }

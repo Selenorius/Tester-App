@@ -55,6 +55,8 @@ Now you can solve your **Exam**!
 
 ![Have Fun!](res/important_file.png)
 
+**Jar** file is in *tester_app/app/build/libs*.
+
 ## Help
 ### Commands
 | Key | Command |
