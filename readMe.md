@@ -58,11 +58,12 @@ Now you can solve your **Exam**!
 
 ![Have Fun!](app/src/main/java/tester_app/res/important_file.png)
 
-**Jar** file is in *tester_app/app/build/libs*.
-
 ## Help
 ### Commands
 | Key | Command |
 |:---:|:------- |
 | Q   | quit    |
 | R   | back    |
+
+### Jar Location
+**Jar** file is in *tester_app/app/build/libs*.

@@ -21,17 +21,17 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -51,8 +51,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
 import tester_app.Tester;
+import tester_app.helpers.ConsoleErrorJFrame;
 
-public class TextEditor extends JFrame implements ActionListener {
+public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JTextArea textArea;
     private JScrollPane scrollPane;
     private JSpinner fontSizeSpinner;
@@ -214,7 +215,7 @@ public class TextEditor extends JFrame implements ActionListener {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e1) {
-            e1.printStackTrace();
+            consoleErrorMessage(e1.getMessage());
         }
         this.getContentPane().setBackground(Color.WHITE);
         
@@ -312,10 +313,7 @@ public class TextEditor extends JFrame implements ActionListener {
                         textArea.append(line);
                     }
                 } catch (FileNotFoundException e1) {
-                    System.out.println(ANSI_PURPLE + "Open Dialog");
-                    System.out.print(ANSI_RED + tab());
-                    e1.printStackTrace();
-                    System.out.println(ANSI_RESET);
+                    consoleErrorMessage(e1.getMessage());
 
                     errorMessage("Invalid file.");
                     response = fileChooser.showOpenDialog(null);
@@ -353,10 +351,7 @@ public class TextEditor extends JFrame implements ActionListener {
                         fileOut.write(textArea.getText());
                         fileOut.close();
                     } catch (Exception e1) {
-                        System.out.println(ANSI_PURPLE + "Save Dialog");
-                        System.out.print(ANSI_RED + tab());
-                        e1.printStackTrace();
-                        System.out.println(ANSI_RESET);
+                        consoleErrorMessage(e1.getMessage());
                     }
                 }
             }
@@ -366,14 +361,31 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
-    private BufferedImage loadIcon(final String path) {
+    private Image loadIcon(final String path) {
         try {
-            return ImageIO.read(new FileInputStream(path));
-        } catch (IOException e) {
-            System.out.println(ANSI_PURPLE + "Load Icon Image");
-            System.out.print(ANSI_RED + tab());
-            e.printStackTrace();
-            System.out.println(ANSI_RESET);
+            URL source = getClass().getResource(path);
+            if(source == null) {
+                consoleErrorMessage(
+                    "Source cannot be null" + System.lineSeparator() +
+                    tab(2) + "Source path: " + path
+                );
+
+                return new BufferedImage(64, 64, Image.SCALE_FAST);
+            }
+
+            Image icon = new ImageIcon(source).getImage();
+            if(icon == null) {
+                consoleErrorMessage(
+                    "Image cannot be null" + System.lineSeparator() +
+                    tab(2) + "Image source: " + source
+                );
+
+                return new BufferedImage(64, 64, Image.SCALE_FAST);
+            }
+
+            return icon;
+        } catch (Exception e) {
+            consoleErrorMessage(e.getMessage());
 
             return new BufferedImage(64, 64, Image.SCALE_FAST);
         }
@@ -412,10 +424,7 @@ public class TextEditor extends JFrame implements ActionListener {
             );
             settingsFileOut.close();
         } catch (Exception e1) {
-            System.out.println(ANSI_PURPLE + "Editor Settings");
-            System.out.print(ANSI_RED + tab());
-            e1.printStackTrace();
-            System.out.println(ANSI_RESET);
+            consoleErrorMessage(e1.getMessage());
         }
     }
 
