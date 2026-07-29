@@ -1,10 +1,6 @@
 package tester_app.editors;
 
-import static tester_app.helpers.Constants.ANSI_PURPLE;
-import static tester_app.helpers.Constants.ANSI_RED;
-import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.name;
-import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,7 +30,6 @@ import java.util.stream.Stream;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -122,10 +117,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                                         }
                                     }
                                     catch (NumberFormatException e1) {
-                                        System.out.println(ANSI_PURPLE + "Extended State");
-                                        System.out.print(ANSI_RED + tab());
-                                        e1.printStackTrace();
-                                        System.out.println(ANSI_RESET);
+                                        consoleErrorMessage("setExtendedState", e1.getMessage());
                                     }
                                     break;
                                 case 1:
@@ -136,10 +128,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                                         }
                                     }
                                     catch (NumberFormatException e1) {
-                                        System.out.println(ANSI_PURPLE + "Font Size Data");
-                                        System.out.print(ANSI_RED + tab());
-                                        e1.printStackTrace();
-                                        System.out.println(ANSI_RESET);
+                                        consoleErrorMessage("setFontSize", e1.getMessage());
                                     }
                                     break;
                                 case 2:
@@ -150,10 +139,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                                         }
                                     }
                                     catch (NumberFormatException e1) {
-                                        System.out.println(ANSI_PURPLE + "Font Data");
-                                        System.out.print(ANSI_RED + tab());
-                                        e1.printStackTrace();
-                                        System.out.println(ANSI_RESET);
+                                        consoleErrorMessage("setFont", e1.getMessage());
                                     }
                                     break;
                                 default:
@@ -161,10 +147,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                             }
                         }
                     } catch (Exception e1) {
-                        System.out.println(ANSI_PURPLE + "Editor Settings File");
-                        System.out.print(ANSI_RED + tab());
-                        e1.printStackTrace();
-                        System.out.println(ANSI_RESET);
+                        consoleErrorMessage("windowOpened.Scanner", e1.getMessage());
                     }
                 } else {
                     updateSettings();
@@ -189,10 +172,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                 try {
                     deleteEmptyFiles(root);
                 } catch (IOException e1) {
-                    System.out.println(ANSI_PURPLE + "Delete Empty Directories");
-                    System.out.print(ANSI_RED + tab());
-                    e1.printStackTrace();
-                    System.out.println(ANSI_RESET);
+                    consoleErrorMessage("deleteEmptyFiles", e1.getMessage());
                 }
                 updateSettings();
                 tester.start();
@@ -215,7 +195,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e1) {
-            consoleErrorMessage(e1.getMessage());
+            consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
         this.getContentPane().setBackground(Color.WHITE);
         
@@ -313,7 +293,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                         textArea.append(line);
                     }
                 } catch (FileNotFoundException e1) {
-                    consoleErrorMessage(e1.getMessage());
+                    consoleErrorMessage("actionPerformed.openItem", e1.getMessage());
 
                     errorMessage("Invalid file.");
                     response = fileChooser.showOpenDialog(null);
@@ -351,7 +331,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                         fileOut.write(textArea.getText());
                         fileOut.close();
                     } catch (Exception e1) {
-                        consoleErrorMessage(e1.getMessage());
+                        consoleErrorMessage("actionPerformed.saveItem", e1.getMessage());
                     }
                 }
             }
@@ -366,8 +346,9 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
             URL source = getClass().getResource(path);
             if(source == null) {
                 consoleErrorMessage(
-                    "Source cannot be null" + System.lineSeparator() +
-                    tab(2) + "Source path: " + path
+                    "loadIcon",
+                    "Source cannot be null",
+                    "Source path: " + path
                 );
 
                 return new BufferedImage(64, 64, Image.SCALE_FAST);
@@ -376,8 +357,9 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
             Image icon = new ImageIcon(source).getImage();
             if(icon == null) {
                 consoleErrorMessage(
-                    "Image cannot be null" + System.lineSeparator() +
-                    tab(2) + "Image source: " + source
+                    "loadIcon",
+                    "Image cannot be null",
+                    "Image source: " + source
                 );
 
                 return new BufferedImage(64, 64, Image.SCALE_FAST);
@@ -385,7 +367,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
             return icon;
         } catch (Exception e) {
-            consoleErrorMessage(e.getMessage());
+            consoleErrorMessage("loadIcon", e.getMessage());
 
             return new BufferedImage(64, 64, Image.SCALE_FAST);
         }
@@ -424,7 +406,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
             );
             settingsFileOut.close();
         } catch (Exception e1) {
-            consoleErrorMessage(e1.getMessage());
+            consoleErrorMessage("updateSettings", e1.getMessage());
         }
     }
 

@@ -4,12 +4,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-
 import tester_app.editors.TextEditor;
+import tester_app.helpers.ConsoleErrorJFrame;
+
 import static tester_app.helpers.Constants.*;
 
-public class Tester extends JFrame {
+public class Tester extends ConsoleErrorJFrame {
     private final Dimension size = new Dimension(1280, 720);
     
     public Tester() {}

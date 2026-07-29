@@ -5,9 +5,7 @@ import static tester_app.helpers.Constants.ANSI_RED;
 import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.tab;
 
-import javax.swing.JFrame;
-
-public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage {
+public abstract class ConsoleErrorClass implements ConsoleErrorMessage {
     @Override
     public void consoleErrorMessage(String... message) {
         Boolean once = true;
