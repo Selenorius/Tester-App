@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -20,10 +21,10 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,9 +59,10 @@ public class TextEditor extends JFrame implements ActionListener {
     private JComboBox<String> fontBox;
     private String
         defaultFont = "Segoe UI Semibold",
-        settingsFile = "editorSettings.txt";
+        settingsFile = "editorSettings.txt",
+        resDir = "app/src/main/java/tester_app/res/";
     private int defaultFontSize = 20;
-    private File root = new File("./topics");
+    private File root = new File("topics");
 
     private JMenuBar menuBar;
     private JMenu
@@ -81,12 +83,11 @@ public class TextEditor extends JFrame implements ActionListener {
     public TextEditor(Tester testerIn) {
         tester = testerIn;
 
-        BufferedImage icon = loadImg("tester_app/favicon.ico");
-
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setTitle(name + " Editor");
-        this.setIconImage(icon);
+        this.setIconImage(loadIcon(resDir + "favicon.png"));
         this.setMinimumSize(size);
+        this.setSize(size);
         this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
         this.getContentPane().addComponentListener(new ComponentAdapter() {
@@ -365,20 +366,17 @@ public class TextEditor extends JFrame implements ActionListener {
         }
     }
 
-    private static BufferedImage loadImg(final String path) {
-        final InputStream is = TextEditor.class.getClassLoader().getResourceAsStream(path);
-        BufferedImage img = null;
-
+    private BufferedImage loadIcon(final String path) {
         try {
-            img = ImageIO.read(is);
-        } catch (final Exception e) {
-            System.out.println(ANSI_PURPLE + "Load Image");
+            return ImageIO.read(new FileInputStream(path));
+        } catch (IOException e) {
+            System.out.println(ANSI_PURPLE + "Load Icon Image");
             System.out.print(ANSI_RED + tab());
             e.printStackTrace();
             System.out.println(ANSI_RESET);
-        }
 
-        return img;
+            return new BufferedImage(64, 64, Image.SCALE_FAST);
+        }
     }
 
     private static void deleteEmptyFiles(File file) throws IOException {

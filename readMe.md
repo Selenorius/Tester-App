@@ -1,6 +1,9 @@
 # Tester App
 Create and solve tests to study for your exams.
 
+## Download
+[Releases](https://github.com/Selenorius/Tester-App/releases).
+
 ## Guide
 ### Step 1: Create a topic
 Create a new directory inside the *topics* directory with your desired topic name.
@@ -53,7 +56,7 @@ Pick your **Topic**, then pick your **Exam**.
 
 Now you can solve your **Exam**!
 
-![Have Fun!](res/important_file.png)
+![Have Fun!](app/src/main/java/tester_app/res/important_file.png)
 
 **Jar** file is in *tester_app/app/build/libs*.
 

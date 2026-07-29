@@ -53,4 +53,9 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
+    sourceSets.main.resources {
+        srcDirs = ["src/main/java"];
+        exclude "**/*.java"
+    }
 }
