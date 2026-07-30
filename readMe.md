@@ -57,6 +57,7 @@ Pick your **Topic**, then pick your **Exam**.
 Now you can solve your **Exam**!
 
 **Have Fun!**
+**Have Fun!**
 
 ## Help
 ### Commands
