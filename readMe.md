@@ -1,4 +1,4 @@
-# ![](app/src/main/resources/important_file.png) Tester App
+# ![App Icon](app/src/main/resources/tester_appx96.png) Tester App
 Create and solve tests to study for your exams.
 
 ## Download
@@ -56,8 +56,7 @@ Pick your **Topic**, then pick your **Exam**.
 
 Now you can solve your **Exam**!
 
-**Have Fun!**
-**Have Fun!**
+### Have Fun!
 
 ## Help
 ### Commands
