@@ -17,7 +17,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -28,8 +27,6 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -49,7 +46,6 @@ import javax.swing.filechooser.FileSystemView;
 
 import tester_app.Tester;
 import tester_app.helpers.ConsoleErrorJFrame;
-import tester_app.helpers.LoadIcon;
 
 public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JTextArea textArea;
@@ -57,9 +53,9 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JSpinner fontSizeSpinner;
     private JComboBox<String> fontBox;
     private String
-        defaultFont = "Segoe UI Semibold",
+        defaultFont = "Courier New",
         settingsFile = "editorSettings.txt";
-    private int defaultFontSize = 20;
+    private int defaultFontSize = 18;
 
     private JMenuBar menuBar;
     private JMenu
@@ -105,10 +101,10 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
             @Override
             public void windowOpened(WindowEvent e) {
-                File test = new File(settingsFile);
+                File settings = new File(settingsFile);
 
-                if(test.isFile()) {
-                    try(Scanner settingsFileIn = new Scanner(test)) {
+                if(settings.isFile()) {
+                    try(Scanner settingsFileIn = new Scanner(settings)) {
                         int i = 0;
                         while(settingsFileIn.hasNextLine()) {
                             String data = settingsFileIn.nextLine();
@@ -152,8 +148,6 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                     } catch (Exception e1) {
                         consoleErrorMessage("windowOpened.Scanner", e1.getMessage());
                     }
-                } else {
-                    updateSettings();
                 }
 
                 if(!root.exists()) {
@@ -229,7 +223,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
         fontBox = new JComboBox<String>(fonts);
         fontBox.addActionListener(this);
-        fontBox.setSelectedItem(defaultFont);
+        fontBox.setSelectedItem(defaultFont); // doesn't work anymore for some reason
         fontBox.setToolTipText("Change font");
 
         // Menu Bar

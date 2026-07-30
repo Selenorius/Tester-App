@@ -12,8 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import tester_app.Tester;
-
 public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage, LoadIcon {
     @Override
     public void consoleErrorMessage(String... message) {
