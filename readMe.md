@@ -1,4 +1,5 @@
-# ![App Icon](app/src/main/resources/tester_appx96.png) Tester App
+# |:---:|:------- |
+# | ![App Icon](app/src/main/resources/tester_app_editorx96.png) Tester App | Tester App |
 Create and solve tests to study for your exams.
 
 ## Download
@@ -55,8 +56,6 @@ Start **tester_app.jar**, enter *yes, y, true, t* or the **Numbered Index** disp
 Pick your **Topic**, then pick your **Exam**.
 
 Now you can solve your **Exam**!
-
-### Have Fun!
 
 ## Help
 ### Commands
