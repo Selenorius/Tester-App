@@ -1,5 +1,6 @@
 package tester_app.editors;
 
+import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.resDir;
 import static tester_app.helpers.Constants.root;
@@ -75,6 +76,8 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         size = new Dimension(1280, 720),
         SpinnerSize = new Dimension(51, 20);
 
+    private final Image icon = loadIcon(resDir + "tester_app_editorx96.png");
+
     private Tester tester;
 
     public TextEditor(Tester testerIn) {
@@ -82,7 +85,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setTitle(name + " Editor");
-        this.setIconImage(loadIcon(resDir + "tester_app_editorx96.png"));
+        this.setIconImage(icon);
         this.setMinimumSize(size);
         this.setSize(size);
         this.setLayout(new FlowLayout());
@@ -204,7 +207,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setFont(new Font(defaultFont, Font.PLAIN, defaultFontSize));
-        textArea.setBackground(new Color(25, 23, 20));
+        textArea.setBackground(backgroundColor);
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
 
@@ -339,38 +342,6 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         }
         if(e.getSource() == clearItem) {
             textArea.setText("");
-        }
-    }
-
-    private Image loadIcon(final String path) {
-        try {
-            BufferedImage source = ImageIO.read(new FileImageInputStream(new File(path)));
-            if(source == null) {
-                consoleErrorMessage(
-                    "loadIcon",
-                    "Source cannot be null",
-                    "Source path: " + path
-                );
-
-                return new BufferedImage(64, 64, Image.SCALE_FAST);
-            }
-
-            Image icon = new ImageIcon(source).getImage();
-            if(icon == null) {
-                consoleErrorMessage(
-                    "loadIcon",
-                    "Image cannot be null",
-                    "Image source: " + source
-                );
-
-                return new BufferedImage(64, 64, Image.SCALE_FAST);
-            }
-
-            return icon;
-        } catch (Exception e) {
-            consoleErrorMessage("loadIcon", e.getMessage());
-
-            return new BufferedImage(64, 64, Image.SCALE_FAST);
         }
     }
 

@@ -5,9 +5,16 @@ import static tester_app.helpers.Constants.ANSI_RED;
 import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.tab;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage {
+public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage, LoadIcon {
     @Override
     public void consoleErrorMessage(String... message) {
         Boolean once = true;
@@ -25,5 +32,38 @@ public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorM
         System.out.print(ANSI_RED);
         System.out.println(out);
         System.out.println(ANSI_RESET);
+    }
+
+    @Override
+    public Image loadIcon(final String path) {
+        try {
+            BufferedImage source = ImageIO.read(new FileImageInputStream(new File(path)));
+            if(source == null) {
+                consoleErrorMessage(
+                    "loadIcon",
+                    "Source cannot be null",
+                    "Source path: " + path
+                );
+
+                return new BufferedImage(64, 64, Image.SCALE_FAST);
+            }
+
+            Image icon = new ImageIcon(source).getImage();
+            if(icon == null) {
+                consoleErrorMessage(
+                    "loadIcon",
+                    "Image cannot be null",
+                    "Image source: " + source
+                );
+
+                return new BufferedImage(64, 64, Image.SCALE_FAST);
+            }
+
+            return icon;
+        } catch (Exception e) {
+            consoleErrorMessage("loadIcon", e.getMessage());
+
+            return new BufferedImage(64, 64, Image.SCALE_FAST);
+        }
     }
 }

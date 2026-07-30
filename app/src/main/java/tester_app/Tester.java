@@ -3,35 +3,48 @@ package tester_app;
 import static tester_app.helpers.Constants.ANSI_CYAN;
 import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.back;
+import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.quit;
 import static tester_app.helpers.Constants.resDir;
 import static tester_app.helpers.Constants.root;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
 
 public class Tester extends ConsoleErrorJFrame {
     private final Dimension size = new Dimension(1280, 720);
-    private JMenuBar buttonMenu;
+    private JMenuBar dirMenu, fileMenu;
+    private final Image
+        icon = loadIcon(resDir + "tester_appx96.png"),
+        dirButtonIcon = loadIcon(resDir + "dirButtonx32.png"),
+        backButtonIcon = loadIcon(resDir + "backButtonx32.png"),
+        fileButtonIcon = loadIcon(resDir + "fileButtonx32.png"),
+        editorButtonIcon = loadIcon(resDir + "editorButtonx32.png");
     
-    public Tester() {}
+    public Tester() {
+        dirMenu = new JMenuBar();
+        dirMenu.setBackground(backgroundColor);
+        dirMenu.setBorderPainted(false);
+
+        fileMenu = new JMenuBar();
+        fileMenu.setBackground(backgroundColor);
+        fileMenu.setBorderPainted(false);
+    }
 
     //READ
     public int read() {
@@ -56,38 +69,6 @@ public class Tester extends ConsoleErrorJFrame {
         return 1;
     }
 
-    private Image loadIcon(final String path) {
-        try {
-            BufferedImage source = ImageIO.read(new FileImageInputStream(new File(path)));
-            if(source == null) {
-                consoleErrorMessage(
-                    "loadIcon",
-                    "Source cannot be null",
-                    "Source path: " + path
-                );
-
-                return new BufferedImage(64, 64, Image.SCALE_FAST);
-            }
-
-            Image icon = new ImageIcon(source).getImage();
-            if(icon == null) {
-                consoleErrorMessage(
-                    "loadIcon",
-                    "Image cannot be null",
-                    "Image source: " + source
-                );
-
-                return new BufferedImage(64, 64, Image.SCALE_FAST);
-            }
-
-            return icon;
-        } catch (Exception e) {
-            consoleErrorMessage("loadIcon", e.getMessage());
-
-            return new BufferedImage(64, 64, Image.SCALE_FAST);
-        }
-    }
-
     private void loadDir(final File dir) {
         for (final File f : dir.listFiles()) {
             if (f.isDirectory()) {
@@ -97,14 +78,28 @@ public class Tester extends ConsoleErrorJFrame {
                         dirButtonAction(f);
                     }
                 });
-                buttonMenu.add(dirButton);
+                dirButton.setBackground(backgroundColor);
+                dirButton.setIcon(new ImageIcon(dirButtonIcon));
+                dirMenu.add(dirButton);
                 loadDir(f);
             }
         }
     }
 
     private void dirButtonAction(final File dir) {
-        buttonMenu.setVisible(false);
+        dirMenu.setVisible(false);
+        fileMenu.removeAll();
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                fileMenu.setVisible(false);
+                dirMenu.setVisible(true);
+            }
+        });
+        backButton.setBackground(backgroundColor);
+        backButton.setIcon(new ImageIcon(backButtonIcon));
+        fileMenu.add(backButton);
 
         for (final File f : dir.listFiles()) {
             if (!f.isDirectory()) {
@@ -118,9 +113,12 @@ public class Tester extends ConsoleErrorJFrame {
                         System.out.println(examName);
                     }
                 });
-                this.add(fileButton);
+                fileButton.setBackground(backgroundColor);
+                fileButton.setIcon(new ImageIcon(fileButtonIcon));
+                fileMenu.add(fileButton);
             }
         }
+        fileMenu.setVisible(true);
     }
 
     public void startEditor() {
@@ -130,16 +128,36 @@ public class Tester extends ConsoleErrorJFrame {
     public void start() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
-        this.setIconImage(loadIcon(resDir + "tester_appx96.png"));
+        this.setIconImage(icon);
         this.setMinimumSize(size);
         this.setSize(size);
         this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e1) {
+            consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
+        }
+        this.getContentPane().setBackground(backgroundColor);
 
-        //MEMORY LEAK HERE
-        buttonMenu = new JMenuBar();
+        this.add(dirMenu);
+
+        fileMenu.setVisible(false);
+        this.add(fileMenu);
+
+        dirMenu.removeAll();
+        JButton editorButton = new JButton("Editor");
+        editorButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startEditor();
+                dispose();
+            }
+        });
+        editorButton.setBackground(backgroundColor);
+        editorButton.setIcon(new ImageIcon(editorButtonIcon));
+        dirMenu.add(editorButton);
         loadDir(root);
-        this.add(buttonMenu);
 
         this.setVisible(true);
     }

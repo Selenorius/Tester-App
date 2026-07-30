@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public final class Constants {
     public static final String name = "Tester App";
     public static final String resDir = "app/src/main/resources/";
     public static File root = new File("topics");
+    public static Color backgroundColor = new Color(25, 23, 20);
 
     //OPTION BOOLEANS
     public static final List<String>
