@@ -3,7 +3,7 @@
 Create and solve tests to study for your exams.
 
 ## Download
-[Releases](https://github.com/Selenorius/Tester-App/releases).
+[Releases](https://github.com/Selenorius/Tester-App/releases)
 
 ## Guide
 ### Step 1: Create a topic
