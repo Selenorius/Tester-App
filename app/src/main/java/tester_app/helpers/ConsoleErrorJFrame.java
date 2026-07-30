@@ -7,12 +7,12 @@ import static tester_app.helpers.Constants.tab;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import tester_app.Tester;
 
 public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage, LoadIcon {
     @Override
@@ -35,14 +35,14 @@ public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorM
     }
 
     @Override
-    public Image loadIcon(final String path) {
+    public Image loadIcon(final String name) {
         try {
-            BufferedImage source = ImageIO.read(new FileImageInputStream(new File(path)));
+            BufferedImage source = ImageIO.read(ConsoleErrorJFrame.class.getResource(name));
             if(source == null) {
                 consoleErrorMessage(
                     "loadIcon",
                     "Source cannot be null",
-                    "Source path: " + path
+                    "Source: " + name
                 );
 
                 return new BufferedImage(64, 64, Image.SCALE_FAST);

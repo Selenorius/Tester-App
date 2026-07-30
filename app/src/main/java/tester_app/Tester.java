@@ -6,7 +6,6 @@ import static tester_app.helpers.Constants.back;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.quit;
-import static tester_app.helpers.Constants.resDir;
 import static tester_app.helpers.Constants.root;
 
 import java.awt.Dimension;
@@ -14,9 +13,11 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
@@ -25,16 +26,17 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.LoadIcon;
 
 public class Tester extends ConsoleErrorJFrame {
     private final Dimension size = new Dimension(1280, 720);
     private JMenuBar dirMenu, fileMenu;
     private final Image
-        icon = loadIcon(resDir + "tester_appx96.png"),
-        dirButtonIcon = loadIcon(resDir + "dirButtonx32.png"),
-        backButtonIcon = loadIcon(resDir + "backButtonx32.png"),
-        fileButtonIcon = loadIcon(resDir + "fileButtonx32.png"),
-        editorButtonIcon = loadIcon(resDir + "editorButtonx32.png");
+        icon = loadIcon("/tester_appx96.png"),
+        dirButtonIcon = loadIcon("/dirButtonx32.png"),
+        backButtonIcon = loadIcon("/backButtonx32.png"),
+        fileButtonIcon = loadIcon("/fileButtonx32.png"),
+        editorButtonIcon = loadIcon("/editorButtonx32.png");
     
     public Tester() {
         dirMenu = new JMenuBar();

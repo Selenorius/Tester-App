@@ -18,7 +18,6 @@ public final class Constants {
 
     //APP DATA
     public static final String name = "Tester App";
-    public static final String resDir = "app/src/main/resources/";
     public static File root = new File("topics");
     public static Color backgroundColor = new Color(25, 23, 20);
 

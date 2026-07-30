@@ -2,7 +2,6 @@ package tester_app.editors;
 
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
-import static tester_app.helpers.Constants.resDir;
 import static tester_app.helpers.Constants.root;
 
 import java.awt.Color;
@@ -30,7 +29,6 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -51,6 +49,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import tester_app.Tester;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.LoadIcon;
 
 public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JTextArea textArea;
@@ -76,7 +75,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         size = new Dimension(1280, 720),
         SpinnerSize = new Dimension(51, 20);
 
-    private final Image icon = loadIcon(resDir + "tester_app_editorx96.png");
+    private final Image icon = loadIcon("/tester_app_editorx96.png");
 
     private Tester tester;
 
