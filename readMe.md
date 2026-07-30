@@ -58,11 +58,5 @@ Pick your **Topic**, then pick your **Exam**.
 Now you can solve your **Exam**!
 
 ## Help
-### Commands
-| Key | Command |
-|:---:|:------- |
-| Q   | quit    |
-| R   | back    |
-
 ### Jar Location
-**Jar** file is in *tester_app/app/build/libs*.
+The **Jar** file is in *tester_app/app/build/libs*, but you can also find it in [releases](https://github.com/Selenorius/Tester-App/releases).
