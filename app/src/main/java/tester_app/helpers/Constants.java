@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public final class Constants {
     //APP DATA
     public static final String name = "Tester App";
     public static final String resDir = "app/src/main/resources/";
+    public static File root = new File("topics");
 
     //OPTION BOOLEANS
     public static final List<String>

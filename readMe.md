@@ -1,4 +1,4 @@
-![App Icon](app/src/main/resources/tester_app_editorx96.png)
+![App Icon](app/src/main/resources/tester_appx96.png)
 # Tester App
 Create and solve tests to study for your exams.
 

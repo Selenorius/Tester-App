@@ -2,6 +2,7 @@ package tester_app.editors;
 
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.resDir;
+import static tester_app.helpers.Constants.root;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -59,7 +60,6 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         defaultFont = "Segoe UI Semibold",
         settingsFile = "editorSettings.txt";
     private int defaultFontSize = 20;
-    private File root = new File("topics");
 
     private JMenuBar menuBar;
     private JMenu
