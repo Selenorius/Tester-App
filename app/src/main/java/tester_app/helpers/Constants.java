@@ -16,6 +16,7 @@ public final class Constants {
 
     //APP DATA
     public static final String name = "Tester App";
+    public static final String resDir = "app/src/main/resources/";
 
     //OPTION BOOLEANS
     public static final List<String>

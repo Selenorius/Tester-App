@@ -56,7 +56,7 @@ Pick your **Topic**, then pick your **Exam**.
 
 Now you can solve your **Exam**!
 
-![Have Fun!](app/src/main/java/tester_app/res/important_file.png)
+![Have Fun!](tester_appx96.png)
 
 ## Help
 ### Commands

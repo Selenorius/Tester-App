@@ -1,6 +1,7 @@
 package tester_app.editors;
 
 import static tester_app.helpers.Constants.name;
+import static tester_app.helpers.Constants.resDir;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,13 +21,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -55,8 +57,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JComboBox<String> fontBox;
     private String
         defaultFont = "Segoe UI Semibold",
-        settingsFile = "editorSettings.txt",
-        resDir = "app/src/main/java/tester_app/res/";
+        settingsFile = "editorSettings.txt";
     private int defaultFontSize = 20;
     private File root = new File("topics");
 
@@ -81,7 +82,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setTitle(name + " Editor");
-        this.setIconImage(loadIcon(resDir + "favicon.png"));
+        this.setIconImage(loadIcon(resDir + "tester_app_editorx96.png"));
         this.setMinimumSize(size);
         this.setSize(size);
         this.setLayout(new FlowLayout());
@@ -343,7 +344,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
 
     private Image loadIcon(final String path) {
         try {
-            URL source = getClass().getResource(path);
+            BufferedImage source = ImageIO.read(new FileImageInputStream(new File(path)));
             if(source == null) {
                 consoleErrorMessage(
                     "loadIcon",
