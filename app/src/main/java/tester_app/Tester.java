@@ -1,11 +1,7 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.ANSI_CYAN;
-import static tester_app.helpers.Constants.ANSI_RESET;
-import static tester_app.helpers.Constants.back;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
-import static tester_app.helpers.Constants.quit;
 import static tester_app.helpers.Constants.root;
 
 import java.awt.Dimension;
