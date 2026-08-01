@@ -1,17 +1,15 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.ANSI_CYAN;
-import static tester_app.helpers.Constants.ANSI_RESET;
-import static tester_app.helpers.Constants.back;
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
-import static tester_app.helpers.Constants.quit;
 import static tester_app.helpers.Constants.root;
+import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,9 +22,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -34,21 +30,20 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
     private final Dimension size = new Dimension(1280, 720);
-    private JScrollPane dirScrollPane, fileScrollPane;
-    private JPanel dirMenu, fileMenu;
-    private JButton backButton, editorButton;
+    private JScrollPane scrollPane;
+    private RoundedPanel dirMenu;
+    private RoundedButton editorButton;
     private final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
-        backButtonIcon = loadIcon("/backButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
         editorButtonIcon = loadIcon("/editorButtonx32.png");
-    private final Font
-        buttonFont = new Font("Courier New", Font.PLAIN, 18);
-    private String settingsFile = "settings.txt";
+    private final String settingsFile = "settings.txt";
     
     public Tester() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -70,10 +65,7 @@ public class Tester extends ConsoleErrorJFrame {
             public void componentResized(ComponentEvent e) {
                 Dimension testerSize = getTesterSize();
 
-                dirScrollPane.setPreferredSize(testerSize);
-                fileScrollPane.setPreferredSize(testerSize);
-                dirMenu.setPreferredSize(testerSize);
-                fileMenu.setPreferredSize(testerSize);
+                scrollPane.setPreferredSize(testerSize);
             }
         });
         this.addWindowStateListener(new WindowStateListener() {
@@ -81,10 +73,7 @@ public class Tester extends ConsoleErrorJFrame {
             public void windowStateChanged(WindowEvent e) {
                 Dimension testerSize = getTesterSize();
 
-                dirScrollPane.setPreferredSize(testerSize);
-                fileScrollPane.setPreferredSize(testerSize);
-                dirMenu.setPreferredSize(testerSize);
-                fileMenu.setPreferredSize(testerSize);
+                scrollPane.setPreferredSize(testerSize);
             }
         });
         this.addWindowListener(new WindowListener() {
@@ -131,53 +120,30 @@ public class Tester extends ConsoleErrorJFrame {
             
         });
 
-        dirMenu = new JPanel();
-        dirMenu.setBackground(backgroundColor);
-        dirMenu.setLayout(new GridLayout());
+        dirMenu = new RoundedPanel();
+        dirMenu.setBackground(fieldColor);
+        addMargin(dirMenu, margin);
+        dirMenu.setLayout(new BoxLayout(dirMenu, BoxLayout.Y_AXIS));
 
-        fileMenu = new JPanel();
-        fileMenu.setBackground(backgroundColor);
-        fileMenu.setLayout(new GridLayout());
+        scrollPane = new JScrollPane(dirMenu);
+        scrollPane.getViewport().setBackground(backgroundColor);
+        scrollPane.setBorder(null);
+        scrollPane.setSize(getTesterSize());
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        dirScrollPane = new JScrollPane(dirMenu);
-        dirScrollPane.setSize(getTesterSize());
-        dirScrollPane.setBackground(null);
-        dirScrollPane.setBorder(null);
-        dirScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        dirScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        fileScrollPane = new JScrollPane(fileMenu);
-        fileScrollPane.setSize(getTesterSize());
-        fileScrollPane.setBackground(null);
-        fileScrollPane.setBorder(null);
-        fileScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        fileScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        editorButton = new JButton("Editor");
+        editorButton = new RoundedButton();
         editorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startEditor();
                 dispose();
             }
         });
-        styleButton(editorButton, editorButtonIcon);
+        styleButton(editorButton, "Editor", editorButtonIcon);
 
-        backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                fileScrollPane.setVisible(false);
-                backButton.setVisible(false);
-                dirScrollPane.setVisible(true);
-                editorButton.setVisible(true);
-            }
-        });
-        styleButton(backButton, backButtonIcon);
-        backButton.setVisible(false);
-
-        this.add(dirScrollPane);
-        this.add(fileScrollPane);
+        this.add(scrollPane);
         this.add(editorButton);
-        this.add(backButton);
 
         this.setVisible(true);
     }
@@ -197,52 +163,16 @@ public class Tester extends ConsoleErrorJFrame {
     private void loadDir(final File dir) {
         for (final File f : dir.listFiles()) {
             if (f.isDirectory()) {
-                JButton dirButton = new JButton(f.getName());
-                dirButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        dirButtonAction(f);
-                    }
-                });
-                styleButton(dirButton, dirButtonIcon);
-                dirMenu.add(dirButton);
+                Topic dirTopic = new Topic(f.getName(), dirButtonIcon);
+                dirTopic.loadFiles(f, fileButtonIcon);
+                dirMenu.add(dirTopic);
                 loadDir(f);
             }
         }
     }
 
-    private void dirButtonAction(final File dir) {
-        dirScrollPane.setVisible(false);
-        editorButton.setVisible(false);
-        backButton.setVisible(true);
-        fileMenu.removeAll();
-
-        for (final File f : dir.listFiles()) {
-            if (!f.isDirectory()) {
-                String
-                    fileName = f.getName(),
-                    examName;
-                examName = fileName.substring(0, fileName.length() - 4);
-                JButton fileButton = new JButton(examName);
-                fileButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println(examName);
-                    }
-                });
-                styleButton(fileButton, fileButtonIcon);
-                fileMenu.add(fileButton);
-            }
-        }
-        fileScrollPane.setVisible(true);
-    }
-
-    private void styleButton(JButton button, Image buttonIcon) {
-        button.setBackground(null);
-        button.setFont(buttonFont);
-        button.setIcon(new ImageIcon(buttonIcon));
-    }
-
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 72 - 23);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 72 - 23 - 22);
     }
 
     public void startEditor() {
@@ -252,8 +182,6 @@ public class Tester extends ConsoleErrorJFrame {
     public void start() {
         dirMenu.removeAll();
         loadDir(root);
-
-        fileScrollPane.setVisible(false);
         
         this.setVisible(true);
     }
