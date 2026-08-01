@@ -1,6 +1,7 @@
 package tester_app;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Option {
     String text, answer, tip;

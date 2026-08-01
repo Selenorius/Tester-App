@@ -26,9 +26,9 @@ public final class Constants {
 
     //APP DATA
     public static final String name = "Tester App";
-    public static int margin = 4;
-    public static File root = new File("topics");
-    public static Color
+    public static final int margin = 4;
+    public static final File root = new File("topics");
+    public static final Color
         backgroundColor = new Color(25, 23, 20),
         fieldColor = new Color(20, 18, 15),
         borderColor = new Color(130, 128, 125),
@@ -54,15 +54,15 @@ public final class Constants {
     public static final String tab() { return "   "; }
 
     //READ COMMANDS
-    public static final boolean quit(String s) {
+    public static final boolean quit(final String s) {
         return s.equals("q");
     }
-    public static final boolean back(String s) {
+    public static final boolean back(final String s) {
         return s.equals("r");
     }
 
-    public static void styleButton(JButton button, String buttonText, Image buttonIcon, int hPos, int vPos) {
-        int inset = 4;
+    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
+        final int inset = 4;
 
         button.setBackground(buttonColor);
         button.setIcon(new ImageIcon(buttonIcon));
@@ -72,8 +72,8 @@ public final class Constants {
         button.setForeground(Color.WHITE);
         button.setMargin(new Insets(inset, inset, inset, inset));
     }
-    public static void styleButton(JButton button, String buttonText, Image buttonIcon, int hPos) {
-        int inset = 4;
+    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos) {
+        final int inset = 4;
 
         button.setBackground(buttonColor);
         button.setIcon(new ImageIcon(buttonIcon));
@@ -83,8 +83,8 @@ public final class Constants {
         button.setForeground(Color.WHITE);
         button.setMargin(new Insets(inset, inset, inset, inset));
     }
-    public static void styleButton(JButton button, String buttonText, Image buttonIcon) {
-        int inset = 4;
+    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon) {
+        final int inset = 4;
         
         button.setBackground(buttonColor);
         button.setIcon(new ImageIcon(buttonIcon));
@@ -95,7 +95,7 @@ public final class Constants {
         button.setMargin(new Insets(inset, inset, inset, inset));
     }
 
-    public static void addMargin(Component c, int val) {
+    public static final void addMargin(final Component c, final int val) {
         ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));
     }
 }
