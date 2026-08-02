@@ -32,7 +32,7 @@ public class RoundedPanel extends JPanel {
     protected void paintBorder(Graphics g) {
         if(borderPaint) {
             g.setColor(borderColor);
-            g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
+            g.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
         }
     }
 

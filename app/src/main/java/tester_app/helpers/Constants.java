@@ -29,11 +29,12 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        backgroundColor = new Color(25, 23, 20),
-        fieldColor = new Color(20, 18, 15),
-        borderColor = new Color(130, 128, 125),
-        buttonColor = new Color(30, 28, 25),
-        selectionColor = new Color(25, 135, 175);
+        backgroundColor = new Color(38, 38, 38),
+        fieldColor = new Color(32, 32, 32),
+        borderColor = new Color(35, 35, 35),
+        buttonBackgroundColor = new Color(44, 44, 44),
+        buttonBorderColor = new Color(41, 41, 41),
+        selectionColor = new Color(0, 120, 215);
 
     //OPTION BOOLEANS
     public static final List<String>
@@ -64,7 +65,7 @@ public final class Constants {
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
         final int inset = 4;
 
-        button.setBackground(buttonColor);
+        button.setBackground(buttonBackgroundColor);
         button.setIcon(new ImageIcon(buttonIcon));
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(vPos);
@@ -75,7 +76,7 @@ public final class Constants {
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos) {
         final int inset = 4;
 
-        button.setBackground(buttonColor);
+        button.setBackground(buttonBackgroundColor);
         button.setIcon(new ImageIcon(buttonIcon));
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(JButton.CENTER);
@@ -86,7 +87,7 @@ public final class Constants {
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon) {
         final int inset = 4;
         
-        button.setBackground(buttonColor);
+        button.setBackground(buttonBackgroundColor);
         button.setIcon(new ImageIcon(buttonIcon));
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);

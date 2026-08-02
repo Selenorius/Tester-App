@@ -1,6 +1,6 @@
 package tester_app.helpers;
 
-import static tester_app.helpers.Constants.borderColor;
+import static tester_app.helpers.Constants.buttonBorderColor;
 import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.Graphics;
@@ -33,8 +33,8 @@ public class RoundedButton extends JButton {
     @Override
     protected void paintBorder(Graphics g) { 
         if(borderPaint) {
-            g.setColor(borderColor);
-            g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
+            g.setColor(buttonBorderColor);
+            g.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
         }
     }
 
