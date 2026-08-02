@@ -71,16 +71,14 @@ public final class Constants {
         button.setIcon(new ImageIcon(buttonIcon));
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(vPos);
-        if(buttonIcon == null) {
-            button.setText("  " + buttonText + "  ");
-        } else if(vPos ==  JButton.CENTER) {
-            if(hPos == JButton.LEFT) {
+        if(buttonText != "") {
+            if(hPos ==  JButton.CENTER) {
+                button.setText("  " + buttonText + "  ");
+            } else if(hPos == JButton.LEFT) {
                 button.setText("  " + buttonText);
             } else {
                 button.setText(buttonText + "  ");
             }
-        } else {
-            button.setText(buttonText);
         }
         button.setForeground(Color.WHITE);
         button.setMargin(new Insets(inset, inset, inset, inset));
@@ -108,6 +106,15 @@ public final class Constants {
             button,
             buttonText,
             null,
+            JButton.CENTER,
+            JButton.BOTTOM
+        );
+    }
+    public static final void styleButton(final JButton button, final Image buttonIcon) {
+        styleButton(
+            button,
+            "",
+            buttonIcon,
             JButton.CENTER,
             JButton.BOTTOM
         );
