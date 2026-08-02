@@ -31,9 +31,9 @@ public final class Constants {
     public static final Color
         backgroundColor = new Color(38, 38, 38),
         fieldColor = new Color(32, 32, 32),
-        borderColor = new Color(35, 35, 35),
+        borderColor = new Color(75, 75, 75),
         buttonBackgroundColor = new Color(44, 44, 44),
-        buttonBorderColor = new Color(41, 41, 41),
+        buttonBorderColor = new Color(75, 75, 75),
         selectionColor = new Color(0, 120, 215);
 
     //OPTION BOOLEANS
@@ -74,26 +74,32 @@ public final class Constants {
         button.setMargin(new Insets(inset, inset, inset, inset));
     }
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos) {
-        final int inset = 4;
-
-        button.setBackground(buttonBackgroundColor);
-        button.setIcon(new ImageIcon(buttonIcon));
-        button.setHorizontalTextPosition(hPos);
-        button.setVerticalTextPosition(JButton.CENTER);
-        button.setText(buttonText);
-        button.setForeground(Color.WHITE);
-        button.setMargin(new Insets(inset, inset, inset, inset));
+        styleButton(
+            button,
+            buttonText,
+            buttonIcon,
+            hPos,
+            JButton.CENTER
+        );
+        button.setText(button.getText() + "  ");
     }
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon) {
-        final int inset = 4;
-        
-        button.setBackground(buttonBackgroundColor);
-        button.setIcon(new ImageIcon(buttonIcon));
-        button.setHorizontalTextPosition(JButton.CENTER);
-        button.setVerticalTextPosition(JButton.BOTTOM);
-        button.setText(buttonText);
-        button.setForeground(Color.WHITE);
-        button.setMargin(new Insets(inset, inset, inset, inset));
+        styleButton(
+            button,
+            buttonText,
+            buttonIcon,
+            JButton.CENTER,
+            JButton.BOTTOM
+        );
+    }
+    public static final void styleButton(final JButton button, final String buttonText) {
+        styleButton(
+            button,
+            buttonText,
+            null,
+            JButton.CENTER,
+            JButton.BOTTOM
+        );
     }
 
     public static final void addMargin(final Component c, final int val) {

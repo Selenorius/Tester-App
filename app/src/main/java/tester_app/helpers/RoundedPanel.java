@@ -1,6 +1,8 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.borderColor;
+import static tester_app.helpers.Constants.margin;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +17,7 @@ public class RoundedPanel extends JPanel {
     public RoundedPanel() {
         this.radius = 10;
         this.borderPaint = true;
+        addMargin(this, margin);
         
         setOpaque(false);
     }
@@ -32,7 +35,7 @@ public class RoundedPanel extends JPanel {
     protected void paintBorder(Graphics g) {
         if(borderPaint) {
             g.setColor(borderColor);
-            g.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+            g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
         }
     }
 

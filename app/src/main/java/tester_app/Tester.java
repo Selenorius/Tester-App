@@ -1,9 +1,7 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
-import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleButton;
@@ -122,7 +120,6 @@ public class Tester extends ConsoleErrorJFrame {
 
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor);
-        addMargin(dirMenu, margin);
         dirMenu.setLayout(new BoxLayout(dirMenu, BoxLayout.Y_AXIS));
 
         scrollPane = new JScrollPane(dirMenu);

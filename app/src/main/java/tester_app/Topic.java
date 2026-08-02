@@ -1,8 +1,7 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.buttonBackgroundColor;
-import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleButton;
 
@@ -36,8 +35,7 @@ public class Topic extends RoundedPanel {
         styleButton(topicButton, name, icon, JButton.RIGHT);
 
         fileMenu = new RoundedPanel();
-        fileMenu.setBackground(buttonBackgroundColor);
-        addMargin(fileMenu, margin);
+        fileMenu.setBackground(backgroundColor);
         fileMenu.setLayout(new BoxLayout(fileMenu, BoxLayout.Y_AXIS));
         fileMenu.setVisible(false);
 
@@ -61,19 +59,21 @@ public class Topic extends RoundedPanel {
                     }
                 });
                 styleButton(fileButton, examName, fileIcon, JButton.RIGHT);
-                fileButton.setBorderPainted(false);
-                fileButton.setBackground(null);
                 fileMenu.add(fileButton);
             }
         }
     }
 
-    public void toggle(JButton button) {
+    public void toggle(RoundedButton button) {
         if(fileMenu.isVisible()) {
             button.setBackground(buttonBackgroundColor);
+            button.setSelected(false);
+
             fileMenu.setVisible(false);
         } else {
             button.setBackground(selectionColor);
+            button.setSelected(true);
+
             fileMenu.setVisible(true);
         }
     }
