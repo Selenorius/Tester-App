@@ -1,4 +1,4 @@
-package tester_app.editors;
+package tester_app.helpers;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,11 +8,11 @@ import javax.swing.filechooser.FileSystemView;
 public class DirectoryRestrictedFileSystemView extends FileSystemView {
     private final File[] rootDirectories;
 
-    DirectoryRestrictedFileSystemView(File rootDirectory) {
+    public DirectoryRestrictedFileSystemView(File rootDirectory) {
         this.rootDirectories = new File[] {rootDirectory};
     }
 
-    DirectoryRestrictedFileSystemView(File[] rootDirectories) {
+    public DirectoryRestrictedFileSystemView(File[] rootDirectories) {
         this.rootDirectories = rootDirectories;
     }
 

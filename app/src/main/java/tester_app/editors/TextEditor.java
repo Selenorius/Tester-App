@@ -46,6 +46,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import tester_app.Tester;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.DirectoryRestrictedFileSystemView;
 
 public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JTextArea textArea;
