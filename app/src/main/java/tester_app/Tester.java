@@ -5,7 +5,9 @@ import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.size;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -21,6 +23,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -32,9 +35,8 @@ import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
-    private final Dimension size = new Dimension(1280, 720);
     private JScrollPane scrollPane;
-    private RoundedPanel dirMenu;
+    protected RoundedPanel dirMenu;
     private RoundedButton editorButton;
     private final Image
         icon = loadIcon("/tester_appx96.png"),
@@ -134,7 +136,6 @@ public class Tester extends ConsoleErrorJFrame {
         editorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startEditor();
-                dispose();
             }
         });
         styleButton(editorButton, "Editor", editorButtonIcon);
@@ -158,12 +159,36 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadDir(final File dir) {
-        for (final File f : dir.listFiles()) {
-            if (f.isDirectory()) {
-                Topic dirTopic = new Topic(f.getName(), dirButtonIcon);
-                dirTopic.loadFiles(f, fileButtonIcon);
-                dirMenu.add(dirTopic);
-                loadDir(f);
+        File[] files = dir.listFiles();
+
+        if(files.length == 0) {
+            RoundedPanel empty = new RoundedPanel();
+            JLabel text = new JLabel("No exams found.");
+
+            text.setForeground(Color.WHITE);
+
+            empty.add(text);
+            empty.setBackground(null);
+            empty.setBorderPainted(false);
+
+            dirMenu.add(empty);
+        } else {
+            for (final File f : files) {
+                if (f.isDirectory()) {
+                    Topic dirTopic = new Topic(f.getName(), dirButtonIcon, this);
+
+                    dirTopic.loadFiles(f, fileButtonIcon);
+                    
+                    dirMenu.add(dirTopic);
+                    loadDir(f);
+                } else if(f.getParentFile().compareTo(root) == 0) {
+                    String dirName = f.getName().substring(0, getName().length() - 3);
+                    Topic dirTopic = new Topic(dirName, dirButtonIcon, this);
+
+                    dirTopic.loadFiles(f, fileButtonIcon);
+
+                    dirMenu.add(dirTopic);
+                }
             }
         }
     }
@@ -174,6 +199,12 @@ public class Tester extends ConsoleErrorJFrame {
 
     public void startEditor() {
         new TextEditor(this);
+        this.dispose();
+    }
+
+    public void startExam(File f, Tester tester) {
+        new Exam(f, tester);
+        this.dispose();
     }
 
     public void start() {

@@ -19,9 +19,12 @@ import tester_app.helpers.RoundedPanel;
 public class Topic extends RoundedPanel {
     private RoundedButton topicButton;
     private RoundedPanel fileMenu;
+    private Tester tester;
 
-    public Topic(String name, Image icon) {
+    public Topic(String name, Image icon, Tester tester) {
         super();
+
+        this.tester = tester;
 
         this.setBackground(null);
         this.setBorderPainted(false);
@@ -46,21 +49,38 @@ public class Topic extends RoundedPanel {
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
-        for (final File f : dir.listFiles()) {
-            if (!f.isDirectory()) {
-                String
-                    fileName = f.getName(),
-                    examName;
-                examName = fileName.substring(0, fileName.length() - 4);
-                JButton fileButton = new RoundedButton();
-                fileButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        System.out.println(examName);
-                    }
-                });
-                styleButton(fileButton, examName, fileIcon, JButton.RIGHT);
-                fileMenu.add(fileButton);
+        if(dir.isDirectory()) {
+            for (final File f : dir.listFiles()) {
+                if (!f.isDirectory()) {
+                    String
+                        fileName = f.getName(),
+                        examName = fileName.substring(0, fileName.length() - 4);
+                    JButton fileButton = new RoundedButton();
+
+                    fileButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            tester.startExam(f, tester);
+                        }
+                    });
+                    styleButton(fileButton, examName, fileIcon, JButton.RIGHT);
+
+                    fileMenu.add(fileButton);
+                }
             }
+        } else {
+            String
+                fileName = dir.getName(),
+                examName = fileName.substring(0, fileName.length() - 4);
+            JButton fileButton = new RoundedButton();
+
+            fileButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    tester.dirMenu.add(new Exam(dir, tester));
+                }
+            });
+            styleButton(fileButton, examName, fileIcon, JButton.RIGHT);
+
+            fileMenu.add(fileButton);
         }
     }
 

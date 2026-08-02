@@ -3,6 +3,7 @@ package tester_app.editors;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
+import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,11 +54,6 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
     private JScrollPane scrollPane;
     private JSpinner fontSizeSpinner;
     private JComboBox<String> fontBox;
-    private String
-        defaultFont = "Courier New",
-        settingsFile = "editorSettings.txt";
-    private int defaultFontSize = 18;
-
     private JMenuBar menuBar;
     private JMenu
         fileMenu,
@@ -68,11 +64,12 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         saveItem,
         clearItem;
 
-    private final Dimension
-        size = new Dimension(1280, 720),
-        SpinnerSize = new Dimension(51, 20);
-
+    private final Dimension SpinnerSize = new Dimension(51, 20);
     private final Image icon = loadIcon("/tester_app_editorx96.png");
+    private String
+        defaultFont = "Courier New",
+        settingsFile = "editorSettings.txt";
+    private int defaultFontSize = 18;
 
     private Tester tester;
 

@@ -2,6 +2,7 @@ package tester_app.helpers;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
 import java.io.File;
@@ -25,6 +26,7 @@ public final class Constants {
     public static final String ANSI_CYAN = "\u001B[36m";
 
     //APP DATA
+    public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
     public static final int margin = 4;
     public static final File root = new File("topics");
