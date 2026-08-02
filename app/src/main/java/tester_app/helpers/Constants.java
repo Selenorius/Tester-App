@@ -29,11 +29,11 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        backgroundColor = new Color(38, 38, 38),
-        fieldColor = new Color(32, 32, 32),
-        borderColor = new Color(75, 75, 75),
-        buttonBackgroundColor = new Color(44, 44, 44),
-        buttonBorderColor = new Color(75, 75, 75),
+        backgroundColor = new Color(50, 50, 50),
+        fieldColor = new Color(30, 30, 30),
+        borderColor = new Color(90, 90, 90),
+        buttonBackgroundColor = new Color(70, 70, 70),
+        buttonBorderColor = borderColor,
         selectionColor = new Color(0, 120, 215);
 
     //OPTION BOOLEANS
@@ -69,7 +69,17 @@ public final class Constants {
         button.setIcon(new ImageIcon(buttonIcon));
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(vPos);
-        button.setText(buttonText);
+        if(buttonIcon == null) {
+            button.setText("  " + buttonText + "  ");
+        } else if(vPos ==  JButton.CENTER) {
+            if(hPos == JButton.LEFT) {
+                button.setText("  " + buttonText);
+            } else {
+                button.setText(buttonText + "  ");
+            }
+        } else {
+            button.setText(buttonText);
+        }
         button.setForeground(Color.WHITE);
         button.setMargin(new Insets(inset, inset, inset, inset));
     }
@@ -81,7 +91,6 @@ public final class Constants {
             hPos,
             JButton.CENTER
         );
-        button.setText(button.getText() + "  ");
     }
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon) {
         styleButton(
