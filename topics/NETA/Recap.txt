@@ -5,9 +5,7 @@
             {
                 "Internet Engineering Task Force"
             }
-            true
         }
-        NO_OPT
     }
     {
         "What does RFC stand for?"
@@ -15,9 +13,7 @@
             {
                 "Request for Comments"
             }
-            true
         }
-        NO_OPT
     }
     {
         "Who publishes the RFC?"
@@ -26,77 +22,55 @@
                 "Internet Engineering Task Force"
                 "IETF"
             }
-            true
         }
-        NO_OPT
     }
-    {
+    tf {
         "The Internet Engineering Task Force is an open global community of network designers, operators, vendors, and researchers producing technical specifications for the evolution of the Internet architecture and the smooth operation of the Internet."
         {
-            {
-                mark_true
-            }
             true
-            {
-                mark_false
-            }
-            false
         }
-        ALT
     }
-    {
+    or {
         "List all Layers of the OSI Model in order:"
         {
             {
                 "Physical Layer"
                 "Physical"
             }
-            true
             {
                 "Data Link Layer"
                 "Data Link"
                 "Link Layer"
                 "Link"
             }
-            true
             {
                 "Network Layer"
                 "Network"
             }
-            true
             {
                 "Transport Layer"
                 "Transport"
             }
-            true
             {
                 "Session Layer"
                 "Session"
             }
-            true
             {
                 "Presentation Layer"
                 "Presentation"
             }
-            true
             {
                 "Application Layer"
                 "Application"
             }
-            true
         }
-        NO_OPT
     }
     {
         "What is an IP Address?"
         {
             {
                 "Internet Protocol"
-            }
-            {
                 "A numeric label assigned to a Network Interface Controller (NIC)"
-            }
-            {
                 "A unique identifier in the network"
             }
         }

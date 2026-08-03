@@ -16,6 +16,7 @@ import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.BoxLayout;
@@ -27,6 +28,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.RoundedPanel;
+import tester_app.options.ButtonOption;
+import tester_app.options.TextOption;
+import tester_app.questions.MCQuestion;
+import tester_app.questions.Question;
+import tester_app.questions.TFQuestion;
+import tester_app.questions.WQuestion;
 
 public class Exam extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
@@ -36,6 +43,7 @@ public class Exam extends ConsoleErrorJFrame {
     private JLabel scoreLabel;
 
     private int score;
+    private ArrayList<Question> questions;
     private final Image
         icon = loadIcon("/fileButtonx32.png");
     private final String settingsFile = "examSettings.txt";
@@ -121,6 +129,8 @@ public class Exam extends ConsoleErrorJFrame {
             
         });
 
+        questions = new ArrayList<Question>();
+
         scoreLabel = new JLabel("Score: " + score);
         scoreLabel.setForeground(Color.WHITE);
 
@@ -143,17 +153,189 @@ public class Exam extends ConsoleErrorJFrame {
         this.add(scoreMenu);
         this.add(scrollPane);
 
-        loadQuestions();
+        loadQuestions(examFile);
 
         this.setVisible(true);
+
+        start();
     }
 
-    private void loadQuestions() {
+    @SuppressWarnings("null")
+    private void loadQuestions(File f) {
+        Question newQuestion = null;
+        ButtonOption newButtonOption = null;
+        TextOption newTextOption;
+        String
+            text = null,
+            goal;
         
+        try(Scanner settingsFileIn = new Scanner(f)) {
+            int layer = 0;
+            while(settingsFileIn.hasNextLine()) {
+                String line = settingsFileIn.nextLine();
+                switch (layer) {
+                    case 1:
+                        if(line.contains("{")) {
+                            line.toLowerCase();
+
+                            if(line.contains("multiple_choice") || line.contains("mc")) {
+                                newQuestion = new MCQuestion();
+                            } else if(line.contains("true_false") || line.contains("tf")) {
+                                newQuestion = new TFQuestion();
+                            } else {
+                                newQuestion = new WQuestion();
+                            }
+
+                            if(newQuestion.getClass() == WQuestion.class) {
+                                if(line.contains("\"")) {
+                                    goal = line.substring(line.indexOf("\"") + 1);
+                                    newQuestion.setGoal(Integer.parseInt(goal.substring(0, goal.indexOf("\""))));
+                                } else {
+                                    newQuestion.setGoal(1);
+                                }
+                            } else if(newQuestion.getClass() == TFQuestion.class) {
+                                newQuestion.setGoal(1);
+                            }
+
+                            ++layer;
+                        }
+                        else if(line.contains("}")) {
+                            --layer;
+                        }
+
+                        break;
+
+                    case 2:
+                        if(line.contains("{")) {
+                            ++layer;
+                        }
+                        else if(line.contains("}")) {
+                            questions.add(newQuestion);
+
+                            --layer;
+                        }
+                        else if(line.contains("\"")) {
+                            text = line.substring(line.indexOf("\"") + 1);
+
+                            if(newQuestion.getQuestionText() == null) {
+                                newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
+                            } else if(newQuestion.getAnswerText() == null) {
+                                newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
+                            } else if(newQuestion.getQuestionImage() == null) {
+                                newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                            } else if(newQuestion.getAnswerImage() == null) {
+                                newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                            }
+                        }
+
+                        break;
+
+                    case 3:
+                        if(line.contains("{")) {
+                            if(newQuestion.getClass() != WQuestion.class) {
+                                newButtonOption = new ButtonOption();
+
+                                line.toLowerCase();
+                                if(line.contains("true")) {
+                                    newButtonOption.setValue(true);
+                                } else if(line.contains("false")) {
+                                    newButtonOption.setValue(false);
+                                } else {
+                                    consoleErrorMessage("loadQuestions",  "No value for Option.");
+                                }
+                            }
+
+                            ++layer;
+                        }
+                        else if(line.contains("}")) {
+                            --layer;
+                        } else if(newQuestion.getClass() == TFQuestion.class) {
+                            newQuestion.setGoal(1);
+
+                            line.toLowerCase();
+                            if(line.contains("true")) {
+                                newButtonOption = new ButtonOption();
+                                newButtonOption.setText("True");
+                                newButtonOption.setValue(true);
+                                newQuestion.addOption(newButtonOption);
+
+                                newButtonOption = new ButtonOption();
+                                newButtonOption.setText("False");
+                                newButtonOption.setValue(false);
+                                newQuestion.addOption(newButtonOption);
+                            } else if(line.contains("false")) {
+                                newButtonOption = new ButtonOption();
+                                newButtonOption.setText("True");
+                                newButtonOption.setValue(false);
+                                newQuestion.addOption(newButtonOption);
+
+                                newButtonOption = new ButtonOption();
+                                newButtonOption.setText("False");
+                                newButtonOption.setValue(true);
+                                newQuestion.addOption(newButtonOption);
+                            } else {
+                                consoleErrorMessage("loadQuestions",  "No value for TFQuestion.");
+                            }
+
+                            newQuestion.addOption(newButtonOption);
+                        }
+                        
+                        break;
+
+                    case 4:
+                        if(line.contains("}")) {
+                            if(newQuestion.getClass() != WQuestion.class) {
+                                newButtonOption.setText(text);
+                                newQuestion.addOption(newButtonOption);
+                            }
+
+                            --layer;
+                        }
+                        else if(line.contains("\"")) {
+                            text = line.substring(line.indexOf("\"") + 1);
+
+                            if(newQuestion.getClass() == WQuestion.class) {
+                                newTextOption = new TextOption();
+                                newTextOption.setText(text.substring(0, line.indexOf("\"")));
+
+                                newQuestion.addOption(newTextOption);
+                            } else {
+                                newButtonOption.setText(text.substring(0, line.indexOf("\"")));
+                            }
+                        }
+
+                        break;
+
+                    default:
+                        if(line.contains("{")) ++layer;
+                        else if(line.contains("}")) --layer;
+
+                        break;
+                }
+            }
+
+            for(Question q : questions) {
+                if(q.getClass() == MCQuestion.class) {
+                    q.initGoal();
+                }
+
+                System.out.println(q.getQuestionText());
+            }
+        } catch (Exception e1) {
+            consoleErrorMessage("loadQuestions", e1.getMessage());
+        }
+    }
+
+    private void start() {
+        for(Question q : questions) {
+            questionMenu.removeAll();
+
+            questionMenu.add(q);
+        }
     }
 
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 48 - 37);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 48 - 39);
     }
 
     private void updateSettings() {

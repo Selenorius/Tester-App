@@ -5,20 +5,20 @@ import java.util.ArrayList;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 
-public class TFQuestion extends Question {
-    private ArrayList<ButtonOption> options;
-
-    public TFQuestion() {
+public class WQuestion extends Question {
+    private ArrayList<TextOption> options;
+    
+    public WQuestion() {
         options = new ArrayList<>();
     }
 
     @Override
-    public void addOption(ButtonOption o) {
+    public void addOption(TextOption o) {
         options.add(o);
     }
 
     @Override
-    public void addOption(TextOption textOption) {
+    public void addOption(ButtonOption buttonOption) {
         throw new UnsupportedOperationException("Unimplemented method 'addOption'");
     }
 
