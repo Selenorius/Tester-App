@@ -30,7 +30,9 @@ import tester_app.helpers.RoundedPanel;
 
 public class Exam extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
-    private RoundedPanel questionMenu;
+    private RoundedPanel
+        questionMenu,
+        scoreMenu;
     private JLabel scoreLabel;
 
     private int score;
@@ -119,13 +121,16 @@ public class Exam extends ConsoleErrorJFrame {
             
         });
 
-        scoreLabel = new JLabel("" + score);
+        scoreLabel = new JLabel("Score: " + score);
         scoreLabel.setForeground(Color.WHITE);
+
+        scoreMenu = new RoundedPanel();
+        scoreMenu.setBackground(fieldColor);
+        scoreMenu.add(scoreLabel);
 
         questionMenu = new RoundedPanel();
         questionMenu.setBackground(fieldColor);
         questionMenu.setLayout(new BoxLayout(questionMenu, BoxLayout.Y_AXIS));
-        questionMenu.add(scoreLabel);
 
         scrollPane = new JScrollPane(questionMenu);
         scrollPane.getViewport().setBackground(backgroundColor);
@@ -135,13 +140,20 @@ public class Exam extends ConsoleErrorJFrame {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
+        this.add(scoreMenu);
         this.add(scrollPane);
+
+        loadQuestions();
 
         this.setVisible(true);
     }
 
+    private void loadQuestions() {
+        
+    }
+
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 50);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 48 - 37);
     }
 
     private void updateSettings() {
