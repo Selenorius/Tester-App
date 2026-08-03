@@ -1,4 +1,4 @@
-package tester_app.question;
+package tester_app.questions;
 
 public class TFQuestion extends Question {
     

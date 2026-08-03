@@ -1,4 +1,4 @@
-package tester_app;
+package tester_app.options;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class Option {
 
         return allText;
     }
-    boolean value() { return value; }
+    public boolean isTrue() { return value; }
 
     //DISPLAYS
     void display() { if(text != null) System.out.println(text); }
