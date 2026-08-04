@@ -1,5 +1,6 @@
 package tester_app.questions;
 
+import java.awt.Dimension;
 import java.awt.Image;
 
 import tester_app.helpers.RoundedPanel;
@@ -24,18 +25,11 @@ public abstract class Question extends RoundedPanel {
         goal;
     protected RoundedPanel inputArea;
 
-    public Test test(ButtonOption o) {
-        if(o.isTrue()) {
-            ++score;
-
-            if(score >= goal) {
-                return Test.COMPLETION;
-            }
-
-            return Test.SUCCESS;
-        } else {
-            return Test.FAIL;
-        }
+    public void setInputAreaSize(int x, int y) {
+        inputArea.setSize(x, y);
+    }
+    public void setInputAreaSize(Dimension d) {
+        inputArea.setSize(d);
     }
 
     // GETTERS
@@ -80,8 +74,16 @@ public abstract class Question extends RoundedPanel {
         this.goal = goal;
     }
 
+    // ABSTRACT
     public abstract void addOption(TextOption textOption);
     public abstract void addOption(ButtonOption buttonOption);
     
     public abstract void initGoal();
+
+    public abstract void shuffle();
+
+    public abstract Test test(ButtonOption o);
+    public abstract Test test(String in);
+
+    public abstract Boolean isOrdered();
 }

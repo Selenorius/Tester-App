@@ -17,6 +17,7 @@ import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import javax.swing.BoxLayout;
@@ -74,6 +75,9 @@ public class Exam extends ConsoleErrorJFrame {
                 Dimension testerSize = getTesterSize();
 
                 scrollPane.setPreferredSize(testerSize);
+                for(Question q : questions) {
+                    q.setInputAreaSize(testerSize.width - 28, testerSize.height - 28);
+                }
             }
         });
         this.addWindowStateListener(new WindowStateListener() {
@@ -82,6 +86,9 @@ public class Exam extends ConsoleErrorJFrame {
                 Dimension testerSize = getTesterSize();
 
                 scrollPane.setPreferredSize(testerSize);
+                for(Question q : questions) {
+                    q.setInputAreaSize(testerSize.width - 28, testerSize.height - 28);
+                }
             }
         });
         this.addWindowListener(new WindowListener() {
@@ -180,22 +187,17 @@ public class Exam extends ConsoleErrorJFrame {
                             if(line.contains("true_false") || line.contains("tf")) {
                                 newQuestion = new TFQuestion();
                                 newQuestion.setGoal(1);
-                            } else if(line.contains("ordered") || line.contains("o")) {
-                                if(line.contains("multiple_choice") || line.contains("mc")) {
+                            } else if(line.contains("multiple_choice") || line.contains("mc")) {
+                                if(line.contains("ordered") || line.contains("o")) {
                                     newQuestion = new MCQuestion(true);
                                     newQuestion.initGoal();
                                 } else {
-                                    newQuestion = new WQuestion(true);
+                                    newQuestion = new MCQuestion();
                                     newQuestion.initGoal();
                                 }
                             } else {
-                                if(line.contains("multiple_choice") || line.contains("mc")) {
-                                    newQuestion = new MCQuestion();
-                                    newQuestion.initGoal();
-                                } else {
-                                    newQuestion = new WQuestion();
-                                    newQuestion.initGoal();
-                                }
+                                newQuestion = new WQuestion();
+                                newQuestion.initGoal();
                             }
 
                             ++layer;
@@ -329,10 +331,26 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     private void start() {
+        Boolean once = true;
+
+        Collections.shuffle(questions);
+
         for(Question q : questions) {
             questionMenu.removeAll();
 
+            if(q.getClass() == MCQuestion.class) {
+                if(!q.isOrdered()) {
+                    q.shuffle();
+                }
+            }
+
             questionMenu.add(q);
+
+            if(once) {
+                q.setVisible(true);
+            } else {
+                q.setVisible(false);
+            }
         }
     }
 
