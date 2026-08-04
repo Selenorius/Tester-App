@@ -31,6 +31,15 @@ public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorM
         System.out.println(out);
         System.out.println(ANSI_RESET);
     }
+    @Override
+    public void consoleErrorMessage(Exception... exception) {
+        System.out.println(ANSI_PURPLE + this.getClass().getName());
+        System.out.print(tab() + ANSI_RED);
+        for(Exception e : exception) {
+            e.printStackTrace();
+        }
+        System.out.println(ANSI_RESET);
+    }
 
     @Override
     public Image loadIcon(final String name) {

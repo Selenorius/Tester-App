@@ -9,6 +9,7 @@ public class TFQuestion extends Question {
     private ArrayList<ButtonOption> options;
 
     public TFQuestion() {
+        score = 0;
         options = new ArrayList<>();
     }
 

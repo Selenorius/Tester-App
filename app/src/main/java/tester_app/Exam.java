@@ -129,7 +129,7 @@ public class Exam extends ConsoleErrorJFrame {
             
         });
 
-        questions = new ArrayList<Question>();
+        questions = new ArrayList<>();
 
         scoreLabel = new JLabel("Score: " + score);
         scoreLabel.setForeground(Color.WHITE);
@@ -164,10 +164,9 @@ public class Exam extends ConsoleErrorJFrame {
     private void loadQuestions(File f) {
         Question newQuestion = null;
         ButtonOption newButtonOption = null;
-        TextOption newTextOption;
+        TextOption newTextOption = null;
         String
-            text = null,
-            goal;
+            text = null;
         
         try(Scanner settingsFileIn = new Scanner(f)) {
             int layer = 0;
@@ -178,23 +177,25 @@ public class Exam extends ConsoleErrorJFrame {
                         if(line.contains("{")) {
                             line.toLowerCase();
 
-                            if(line.contains("multiple_choice") || line.contains("mc")) {
-                                newQuestion = new MCQuestion();
-                            } else if(line.contains("true_false") || line.contains("tf")) {
+                            if(line.contains("true_false") || line.contains("tf")) {
                                 newQuestion = new TFQuestion();
-                            } else {
-                                newQuestion = new WQuestion();
-                            }
-
-                            if(newQuestion.getClass() == WQuestion.class) {
-                                if(line.contains("\"")) {
-                                    goal = line.substring(line.indexOf("\"") + 1);
-                                    newQuestion.setGoal(Integer.parseInt(goal.substring(0, goal.indexOf("\""))));
-                                } else {
-                                    newQuestion.setGoal(1);
-                                }
-                            } else if(newQuestion.getClass() == TFQuestion.class) {
                                 newQuestion.setGoal(1);
+                            } else if(line.contains("ordered") || line.contains("o")) {
+                                if(line.contains("multiple_choice") || line.contains("mc")) {
+                                    newQuestion = new MCQuestion(true);
+                                    newQuestion.initGoal();
+                                } else {
+                                    newQuestion = new WQuestion(true);
+                                    newQuestion.initGoal();
+                                }
+                            } else {
+                                if(line.contains("multiple_choice") || line.contains("mc")) {
+                                    newQuestion = new MCQuestion();
+                                    newQuestion.initGoal();
+                                } else {
+                                    newQuestion = new WQuestion();
+                                    newQuestion.initGoal();
+                                }
                             }
 
                             ++layer;
@@ -217,13 +218,19 @@ public class Exam extends ConsoleErrorJFrame {
                         else if(line.contains("\"")) {
                             text = line.substring(line.indexOf("\"") + 1);
 
-                            if(newQuestion.getQuestionText() == null) {
+                            if(newQuestion.getQuestionText() == null && text.contains("\"")) {
                                 newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
-                            } else if(newQuestion.getAnswerText() == null) {
+                                text = text.substring(text.indexOf("\"") + 1);
+                            }
+                            if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                 newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
-                            } else if(newQuestion.getQuestionImage() == null) {
+                                text = text.substring(text.indexOf("\"") + 1);
+                            }
+                            if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
                                 newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
-                            } else if(newQuestion.getAnswerImage() == null) {
+                                text = text.substring(text.indexOf("\"") + 1);
+                            }
+                            if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
                                 newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
                             }
                         }
@@ -232,7 +239,7 @@ public class Exam extends ConsoleErrorJFrame {
 
                     case 3:
                         if(line.contains("{")) {
-                            if(newQuestion.getClass() != WQuestion.class) {
+                            if(newQuestion.getClass() == MCQuestion.class) {
                                 newButtonOption = new ButtonOption();
 
                                 line.toLowerCase();
@@ -241,8 +248,10 @@ public class Exam extends ConsoleErrorJFrame {
                                 } else if(line.contains("false")) {
                                     newButtonOption.setValue(false);
                                 } else {
-                                    consoleErrorMessage("loadQuestions",  "No value for Option.");
+                                    consoleErrorMessage("loadQuestions.newButtonOption.setValue",  "No value for Option.");
                                 }
+                            } else if(newQuestion.getClass() == WQuestion.class) {
+                                newTextOption = new TextOption();
                             }
 
                             ++layer;
@@ -250,9 +259,8 @@ public class Exam extends ConsoleErrorJFrame {
                         else if(line.contains("}")) {
                             --layer;
                         } else if(newQuestion.getClass() == TFQuestion.class) {
-                            newQuestion.setGoal(1);
-
                             line.toLowerCase();
+
                             if(line.contains("true")) {
                                 newButtonOption = new ButtonOption();
                                 newButtonOption.setText("True");
@@ -274,7 +282,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 newButtonOption.setValue(true);
                                 newQuestion.addOption(newButtonOption);
                             } else {
-                                consoleErrorMessage("loadQuestions",  "No value for TFQuestion.");
+                                consoleErrorMessage("loadQuestions.newQuestion.addOption",  "No value for TFQuestion.");
                             }
 
                             newQuestion.addOption(newButtonOption);
@@ -284,9 +292,11 @@ public class Exam extends ConsoleErrorJFrame {
 
                     case 4:
                         if(line.contains("}")) {
-                            if(newQuestion.getClass() != WQuestion.class) {
+                            if(newQuestion.getClass() == MCQuestion.class) {
                                 newButtonOption.setText(text);
                                 newQuestion.addOption(newButtonOption);
+                            } else if(newQuestion.getClass() == WQuestion.class) {
+                                newQuestion.addOption(newTextOption);
                             }
 
                             --layer;
@@ -294,16 +304,16 @@ public class Exam extends ConsoleErrorJFrame {
                         else if(line.contains("\"")) {
                             text = line.substring(line.indexOf("\"") + 1);
 
-                            if(newQuestion.getClass() == WQuestion.class) {
-                                newTextOption = new TextOption();
-                                newTextOption.setText(text.substring(0, line.indexOf("\"")));
-
-                                newQuestion.addOption(newTextOption);
+                            if(text.contains("\"")) {
+                                if(newQuestion.getClass() == WQuestion.class) {
+                                    newTextOption.addText(text.substring(0, text.indexOf("\"")));
+                                } else {
+                                    newButtonOption.setText(text.substring(0, text.indexOf("\"")));
+                                }
                             } else {
-                                newButtonOption.setText(text.substring(0, line.indexOf("\"")));
+                                consoleErrorMessage("loadQuestions.newTextOption.addText", "No closing \".");
                             }
                         }
-
                         break;
 
                     default:
@@ -313,16 +323,8 @@ public class Exam extends ConsoleErrorJFrame {
                         break;
                 }
             }
-
-            for(Question q : questions) {
-                if(q.getClass() == MCQuestion.class) {
-                    q.initGoal();
-                }
-
-                System.out.println(q.getQuestionText());
-            }
         } catch (Exception e1) {
-            consoleErrorMessage("loadQuestions", e1.getMessage());
+            consoleErrorMessage(e1);
         }
     }
 

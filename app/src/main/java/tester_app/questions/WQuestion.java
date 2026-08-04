@@ -7,9 +7,17 @@ import tester_app.options.TextOption;
 
 public class WQuestion extends Question {
     private ArrayList<TextOption> options;
+    private Boolean ordered;
     
-    public WQuestion() {
+    public WQuestion(Boolean ordered) {
+        score = 0;
         options = new ArrayList<>();
+        this.ordered = ordered;
+    }
+    public WQuestion() {
+        score = 0;
+        options = new ArrayList<>();
+        ordered = false;
     }
 
     @Override
@@ -24,6 +32,12 @@ public class WQuestion extends Question {
 
     @Override
     public void initGoal() {
-        throw new UnsupportedOperationException("Unimplemented method 'initGoal'");
+        int count = 0;
+
+        for(@SuppressWarnings("unused") TextOption o : options) {
+            ++count;
+        }
+
+        goal = count;
     }
 }

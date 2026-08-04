@@ -7,9 +7,17 @@ import tester_app.options.TextOption;
 
 public class MCQuestion extends Question {
     private ArrayList<ButtonOption> options;
+    private Boolean ordered;
 
-    public MCQuestion() {
+    public MCQuestion(Boolean ordered) {
+        score = 0;
         options = new ArrayList<>();
+        this.ordered = ordered;
+    }
+    public MCQuestion() {
+        score = 0;
+        options = new ArrayList<>();
+        ordered = false;
     }
 
     @Override
