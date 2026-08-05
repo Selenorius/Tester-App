@@ -141,7 +141,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         questions = new ArrayList<>();
 
-        scoreLabel = new JLabel("Score: " + score);
+        scoreLabel = new JLabel("Question " + (currentIndex + 1) + "  |  Score: " + score);
         scoreLabel.setForeground(Color.WHITE);
 
         scoreMenu = new RoundedPanel();
@@ -374,6 +374,8 @@ public class Exam extends ConsoleErrorJFrame {
     public void next() {
         questionMenu.remove(questions.get(currentIndex++));
         questionMenu.add(questions.get(currentIndex));
+
+        scoreLabel.setText("Question " + (currentIndex + 1) + "  |  Score: " + score);
     }
 
     // GETTERS
