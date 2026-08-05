@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import tester_app.Exam;
 import tester_app.helpers.RoundedPanel;
@@ -61,8 +62,7 @@ public class WQuestion extends Question {
         inputArea.add(textArea);
         inputArea.setBackground(backgroundColor);
 
-        questionTextLabel = new JLabel();
-        questionTextLabel.setText("No question text found");
+        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         addMargin(questionTextLabel, margin * 4);
@@ -135,11 +135,13 @@ public class WQuestion extends Question {
         x -= 56;
         y -= 56;
 
+        questionTextLabel.setPreferredSize(new Dimension(x, y / 4));
         inputArea.setSize(x, y);
         textArea.setSize(x, y);
     }
     @Override
     public void setInputAreaSize(Dimension d) {
+        questionTextLabel.setPreferredSize(new Dimension(d.width, d.height / 4));
         inputArea.setSize(d.width - 56, d.height - 56);
         textArea.setSize(d.width - 56, d.height - 56);
     }

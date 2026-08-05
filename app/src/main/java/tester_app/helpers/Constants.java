@@ -70,24 +70,22 @@ public final class Constants {
 
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
         final int inset = 4;
-
+        
         button.setBackground(buttonBackgroundColor);
         if(buttonIcon != null) {
             button.setIcon(new ImageIcon(buttonIcon));
         }
+        button.setText(buttonText);
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(vPos);
-        if(buttonText != "") {
-            if(hPos ==  JButton.CENTER) {
-                button.setText("  " + buttonText + "  ");
-            } else if(hPos == JButton.LEFT) {
-                button.setText("  " + buttonText);
-            } else {
-                button.setText(buttonText + "  ");
-            }
-        }
         button.setForeground(Color.WHITE);
-        button.setMargin(new Insets(inset, inset, inset, inset));
+        if(hPos == JButton.LEFT) {
+            button.setMargin(new Insets(inset * 2, inset * 2 + 1 + margin * 2, inset * 2, inset * 2 - 1));
+        } else if(hPos == JButton.RIGHT) {
+            button.setMargin(new Insets(inset * 2, inset * 2 + 1, inset * 2, inset * 2 - 1 + margin * 2));
+        } else {
+            button.setMargin(new Insets(inset * 2, inset * 2 + 1, inset * 2, inset * 2 - 1));
+        }
     }
     public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos) {
         styleButton(

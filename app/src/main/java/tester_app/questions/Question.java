@@ -37,9 +37,11 @@ public abstract class Question extends RoundedPanel {
         y -= 56;
 
         inputArea.setSize(x, y);
+        questionTextLabel.setPreferredSize(new Dimension(x, y / 4));
     }
     public void setInputAreaSize(Dimension d) {
         inputArea.setSize(d.width - 56, d.height - 56);
+        questionTextLabel.setPreferredSize(new Dimension(d.width - 56, (d.height - 56) / 4));
     }
 
     // GETTERS
@@ -72,7 +74,7 @@ public abstract class Question extends RoundedPanel {
         this.questionText = questionText;
 
         if(questionText != null && questionTextLabel != null) {
-            questionTextLabel.setText(questionText);
+            questionTextLabel.setText("<html>" + questionText + "<html>");
         }
     }
 

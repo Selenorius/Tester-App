@@ -1,10 +1,13 @@
 package tester_app.questions;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import tester_app.Exam;
 import tester_app.helpers.RoundedButton;
@@ -37,6 +41,11 @@ public class MCQuestion extends Question {
         inputArea = new RoundedPanel();
         inputArea.setBackground(backgroundColor);
         inputArea.setLayout(new GridLayout());
+
+        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel.setForeground(Color.WHITE);
+        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        addMargin(questionTextLabel, margin * 4);
 
         for(ButtonOption o : options) {
             RoundedButton optionButton = new RoundedButton();
@@ -66,7 +75,12 @@ public class MCQuestion extends Question {
         inputArea.setBorderPainted(false);
         inputArea.setLayout(new GridLayout());
 
-        this.add(new JLabel(this.questionText));
+        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel.setForeground(Color.WHITE);
+        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        addMargin(questionTextLabel, margin * 4);
+
+        this.add(questionTextLabel);
         this.add(inputArea);
 
         setInputAreaSize(size.width - 28, size.height - 28);
@@ -87,7 +101,7 @@ public class MCQuestion extends Question {
     public void addOption(ButtonOption o) {
         options.add(o);
 
-        RoundedButton optionButton = new RoundedButton();
+        RoundedButton optionButton = new RoundedButton("<html>" + "No option text found" + "<html>");
 
         optionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -194,7 +194,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 72 - 23 - 22);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 72 - 23 - 28);
     }
 
     public void startEditor() {

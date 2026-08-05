@@ -265,7 +265,7 @@ public class Exam extends ConsoleErrorJFrame {
                             --layer;
                         } else if(newQuestion.getClass() == TFQuestion.class) {
                             line.toLowerCase();
-
+                            
                             if(line.contains("true")) {
                                 newButtonOption = new ButtonOption();
                                 newButtonOption.setText("True");
@@ -289,8 +289,6 @@ public class Exam extends ConsoleErrorJFrame {
                             } else {
                                 consoleErrorMessage("loadQuestions.newQuestion.addOption",  "No value for TFQuestion.");
                             }
-
-                            newQuestion.addOption(newButtonOption);
                         }
                         
                         break;
