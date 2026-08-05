@@ -19,7 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
-import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -54,19 +53,19 @@ public class TFQuestion extends Question {
 
     @Override
     public void addOption(ButtonOption o) {
-        options.add(o);
-
-        RoundedButton optionButton = new RoundedButton("<html>" + "No option text found" + "<html>");
-
-        optionButton.addActionListener(new ActionListener() {
+        o.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 test(o);
             }
         });
 
-        styleButton(optionButton, o.getText());
+        String text = o.getText();
+        if(text != null && !text.isBlank()) {
+            styleButton(o, text.substring(0, text.length()));
+        }
 
-        inputArea.add(optionButton);
+        options.add(o);
+        inputArea.add(o);
     }
 
     @Override
@@ -90,6 +89,7 @@ public class TFQuestion extends Question {
             ++score;
 
             if(score >= goal) {
+                exam.incrementScore();
                 next(exam, this);
 
                 return Test.COMPLETION;

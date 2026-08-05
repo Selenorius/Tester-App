@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -25,7 +26,8 @@ import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 
 public class WQuestion extends Question {
-    private ArrayList<TextOption> options;
+    private ArrayList<TextOption>
+        options;
 
     private JTextArea textArea;
     private JScrollPane scrollPane;
@@ -43,14 +45,29 @@ public class WQuestion extends Question {
         textArea = new JTextArea();
         textArea.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String in = textArea.getText();
 
                     if(in != null) {
+                        Test response = test(in);
                         textArea.setText("");
 
-                        test(in);
+                        if(response == Test.FAIL) {
+                            JOptionPane.showMessageDialog(
+                                exam,
+                                ("Answer: " + in + System.lineSeparator() + "Keep trying, you can do it!"),
+                                "Incorrect Answer!",
+                                JOptionPane.PLAIN_MESSAGE
+                            );
+                        } else if (response == Test.COMPLETION) {
+                            JOptionPane.showMessageDialog(
+                                exam,
+                                "Great Job!",
+                                "Correct Answer!",
+                                JOptionPane.PLAIN_MESSAGE
+                            );
+                        }
                     }
                 }
             }
@@ -96,7 +113,7 @@ public class WQuestion extends Question {
     public void initGoal() {
         int count = 0;
 
-        for(@SuppressWarnings("unused") TextOption o : options) {
+        for(int i = 0; i < options.size(); ++i) {
             ++count;
         }
 
@@ -112,9 +129,11 @@ public class WQuestion extends Question {
     public Test test(String in) {
         for(TextOption o : options) {
             if(o.isTrue(in)) {
+                options.remove(o);
                 ++score;
 
                 if(score >= goal) {
+                    exam.incrementScore();
                     next(exam, this);
 
                     return Test.COMPLETION;

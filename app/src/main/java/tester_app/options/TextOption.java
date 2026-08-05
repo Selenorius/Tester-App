@@ -13,12 +13,32 @@ public class TextOption extends RoundedPanel {
     }
 
      public boolean isTrue(String in) {
-        in.toLowerCase();
+        if(in != null && !in.isBlank()) {
+            in.toLowerCase();
+            in = in.substring(0, in.length() - 1);
 
-        return text.contains(in);
+            for(String s : text) {
+                if(s.equals(in)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void reverseText() {
+        text = new ArrayList<>(text.reversed());
     }
 
     public void addText(String text) {
-        this.text.add(text);
+        String out = text.toLowerCase();
+
+        this.text.add(out);
+    }
+
+    // GETTERS
+    public ArrayList<String> getText() {
+        return text;
     }
 }

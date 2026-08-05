@@ -123,6 +123,15 @@ public final class Constants {
             JButton.BOTTOM
         );
     }
+    public static final void styleButton(final JButton button) {
+        styleButton(
+            button,
+            null,
+            null,
+            JButton.CENTER,
+            JButton.BOTTOM
+        );
+    }
 
     public static final void addMargin(final Component c, final int val) {
         ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));

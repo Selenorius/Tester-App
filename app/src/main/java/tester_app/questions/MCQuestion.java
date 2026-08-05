@@ -26,7 +26,8 @@ import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 
 public class MCQuestion extends Question {
-    private ArrayList<ButtonOption> options;
+    private ArrayList<ButtonOption>
+        options;
     private Boolean ordered;
 
     public MCQuestion(Boolean ordered) {
@@ -100,19 +101,19 @@ public class MCQuestion extends Question {
 
     @Override
     public void addOption(ButtonOption o) {
-        options.add(o);
-
-        RoundedButton optionButton = new RoundedButton("<html>" + "No option text found" + "<html>");
-
-        optionButton.addActionListener(new ActionListener() {
+        o.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 test(o);
             }
         });
 
-        styleButton(optionButton, o.getText());
+        String text = o.getText();
+        if(text != null && !text.isBlank()) {
+            styleButton(o, text.substring(0, text.length() - 1));
+        }
 
-        inputArea.add(optionButton);
+        options.add(o);
+        inputArea.add(o);
     }
 
     @Override
@@ -128,9 +129,11 @@ public class MCQuestion extends Question {
     @Override
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
+            options.remove(o);
             ++score;
 
             if(score >= goal) {
+                exam.incrementScore();
                 next(exam, this);
 
                 return Test.COMPLETION;

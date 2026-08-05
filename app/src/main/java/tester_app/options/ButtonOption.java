@@ -7,7 +7,9 @@ public class ButtonOption extends RoundedButton {
     boolean value;
 
     // CONSTRUCTORS
-    public ButtonOption() {}
+    public ButtonOption() {
+        super("<html>" + "No option text found" + "<html>");
+    }
 
     // GETTERS
     public boolean isTrue() {

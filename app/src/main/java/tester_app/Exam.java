@@ -194,14 +194,11 @@ public class Exam extends ConsoleErrorJFrame {
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
                                 if(line.contains("ordered") || line.contains("o")) {
                                     newQuestion = new MCQuestion(true);
-                                    newQuestion.initGoal();
                                 } else {
                                     newQuestion = new MCQuestion(this);
-                                    newQuestion.initGoal();
                                 }
                             } else {
                                 newQuestion = new WQuestion(this);
-                                newQuestion.initGoal();
                             }
 
                             ++layer;
@@ -217,6 +214,9 @@ public class Exam extends ConsoleErrorJFrame {
                             ++layer;
                         }
                         else if(line.contains("}")) {
+                            if(newQuestion.getClass() != TFQuestion.class) {
+                                newQuestion.initGoal();
+                            }
                             questions.add(newQuestion);
 
                             --layer;
@@ -300,6 +300,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 newButtonOption.setText(text);
                                 newQuestion.addOption(newButtonOption);
                             } else if(newQuestion.getClass() == WQuestion.class) {
+                                newTextOption.reverseText();
                                 newQuestion.addOption(newTextOption);
                             }
 
@@ -366,17 +367,6 @@ public class Exam extends ConsoleErrorJFrame {
         ++score;
     }
 
-    public void finish() {
-        JOptionPane.showMessageDialog(
-            this,
-            "You finished your exam with " + score + " points!",
-            "Exam finished!",
-            JOptionPane.PLAIN_MESSAGE
-        );
-
-        this.dispose();
-    }
-
     public void next() {
         questionMenu.remove(questions.get(currentIndex++));
 
@@ -389,6 +379,25 @@ public class Exam extends ConsoleErrorJFrame {
         }
 
         scoreLabel.setText("Question " + (currentIndex + 1) + "  |  Score: " + score);
+    }
+
+    public void finish() {
+        String finishText = "You passed your exam with " + score + " points!";
+
+        if(score < (int) (questions.size() * 0.6)) {
+            finishText = "You failed your exam with " + score + " points!";
+        } else if(score == questions.size()) {
+            finishText = "You passed your exam with a perfect score of " + score + " points!";
+        }
+
+        JOptionPane.showMessageDialog(
+            this,
+            finishText,
+            "Exam finished!",
+            JOptionPane.PLAIN_MESSAGE
+        );
+
+        this.dispose();
     }
 
     // GETTERS
