@@ -70,6 +70,7 @@ Create and solve tests to study for your exams.
 If **Type** is left empty it will be set to *WRITTEN*.
 
 A **TextOption** has to contain an **Array** of any amount of **String** *text*.
+
 A **ButtonOption** has to contain a **String** *text* and a **Boolean** of value *true* or *false*.
 
 True/False Questions have to contain a **Boolean** of value *true* or *false*.
@@ -77,7 +78,7 @@ True/False Questions have to contain a **Boolean** of value *true* or *false*.
 ### Step 3: Solve your exam
 1. Start **tester_app.jar**.
 2. Pick your **Topic**.
-3. Then pick your **Exam**.
+3. Pick your **Exam**.
 
 Now you can solve your **Exam**!
 

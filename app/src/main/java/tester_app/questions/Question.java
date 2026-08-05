@@ -3,7 +3,6 @@ package tester_app.questions;
 import java.awt.Dimension;
 import java.awt.Image;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
