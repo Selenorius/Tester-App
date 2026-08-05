@@ -117,28 +117,62 @@ public class WQuestion extends Question {
             }
         }
 
-        for(TextOption o : options) {
-            if(o.isTrue(in)) {
-                used.add(in);
-                options.remove(o);
-                ++score;
-
-                if(score >= goal) {
-                    JOptionPane.showMessageDialog(
-                        exam,
-                        "Great Job!",
-                        "Correct Answer!",
-                        JOptionPane.PLAIN_MESSAGE
-                    );
-
-                    exam.incrementScore();
-                    next(exam, this);
-
-                    return Test.COMPLETION;
+        for(String u : used) {
+            if(in.contains(u)) {
+                String
+                    text = "",
+                    correctionText = "Correct Answers: ";
+                
+                if(options.size() == 1) {
+                    if(options.get(0).getTexts().size() == 1) {
+                        correctionText = "Correct Answer: ";
+                    }
                 }
 
-                return Test.SUCCESS;
+                for(TextOption o : options) {
+                    String s = o.getText();
+
+                    if(!text.contains(s)) {
+                        text += s + System.lineSeparator();
+                    }
+                }
+
+                JOptionPane.showMessageDialog(
+                    exam,
+                    correctionText + System.lineSeparator() + System.lineSeparator() +
+                    text +
+                    "Keep trying, you can do it!",
+                    "Incorrect Answer!",
+                    JOptionPane.PLAIN_MESSAGE
+                );
+
+                next(exam, this);
+
+                return Test.FAIL;
             }
+        }
+
+        TextOption t = options.get(0);
+        if(t.isTrue(in)) {
+            used.add(in);
+            options.remove(t);
+            ++score;
+
+            if(score >= goal) {
+                JOptionPane.showMessageDialog(
+                    exam,
+                    "Great Job!",
+                    "Correct Answer!",
+                    JOptionPane.PLAIN_MESSAGE
+                );
+
+                exam.incrementScore();
+                next(exam, this);
+
+                return Test.COMPLETION;
+            }
+
+            return Test.SUCCESS;
         }
 
         String

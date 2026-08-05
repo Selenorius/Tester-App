@@ -125,6 +125,12 @@ public class MCQuestion extends Question {
     @Override
     public void shuffle() {
         Collections.shuffle(options);
+
+        inputArea.removeAll();
+
+        for(ButtonOption o : options) {
+            inputArea.add(o);
+        }
     }
 
     @Override

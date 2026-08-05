@@ -14,7 +14,7 @@ Create and solve tests to study for your exams.
 1. Open the directory created in step 1 and create a new textfile with the name of your exam.
 2. Now open the textfile created in step 2 and add your questions in the following format:
 
-```json
+```r
 {
     {
         TRUE_FALSE {
