@@ -7,7 +7,6 @@ import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
