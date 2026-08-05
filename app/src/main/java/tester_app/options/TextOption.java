@@ -44,4 +44,8 @@ public class TextOption extends RoundedPanel {
 
         return out;
     }
+
+    public ArrayList<String> getTexts() {
+        return text;
+    }
 }

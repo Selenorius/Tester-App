@@ -16,6 +16,7 @@ import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
@@ -133,6 +134,13 @@ public class MCQuestion extends Question {
             ++score;
 
             if(score >= goal) {
+                JOptionPane.showMessageDialog(
+                    exam,
+                    "Great Job!",
+                    "Correct Answer!",
+                    JOptionPane.PLAIN_MESSAGE
+                );
+
                 exam.incrementScore();
                 next(exam, this);
 
@@ -141,6 +149,33 @@ public class MCQuestion extends Question {
 
             return Test.SUCCESS;
         } else {
+            options.remove(o);
+
+            String
+                text = "",
+                correctionText = "Correct Answers: ";
+        
+            if(options.size() == 1) {
+                correctionText = "Correct Answer: ";
+            }
+
+            for(ButtonOption b : options) {
+                String s = b.getText();
+
+                if(!text.contains(s)) {
+                    text += s + System.lineSeparator();
+                }
+            }
+
+            JOptionPane.showMessageDialog(
+                exam,
+                correctionText + System.lineSeparator() + System.lineSeparator() +
+                text + System.lineSeparator() +
+                "Keep trying, you can do it!",
+                "Incorrect Answer!",
+                JOptionPane.PLAIN_MESSAGE
+            );
+
             next(exam, this);
 
             return Test.FAIL;

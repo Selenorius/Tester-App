@@ -217,6 +217,11 @@ public class Exam extends ConsoleErrorJFrame {
                             if(newQuestion.getClass() != TFQuestion.class) {
                                 newQuestion.initGoal();
                             }
+                            if(newQuestion.getClass() == MCQuestion.class) {
+                                if(!newQuestion.isOrdered()) {
+                                    newQuestion.shuffle();
+                                }
+                            }
                             questions.add(newQuestion);
 
                             --layer;
@@ -337,12 +342,6 @@ public class Exam extends ConsoleErrorJFrame {
 
         Question currentQuestion = questions.get(0);
 
-        if(currentQuestion.getClass() == MCQuestion.class) {
-            if(!currentQuestion.isOrdered()) {
-                currentQuestion.shuffle();
-            }
-        }
-
         questionMenu.add(currentQuestion);
 
         scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
@@ -385,7 +384,7 @@ public class Exam extends ConsoleErrorJFrame {
     public void finish() {
         String finishText = "You passed your exam with " + score + " points!";
 
-        if(score < (int) (questions.size() * 0.6)) {
+        if(score < (int) (questions.size() * 0.6) || score == 0) {
             finishText = "You failed your exam with " + score + " points!";
         } else if(score == questions.size()) {
             finishText = "You passed your exam with a perfect score of " + score + " points!";

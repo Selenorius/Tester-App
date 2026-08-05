@@ -26,8 +26,8 @@ import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 
 public class WQuestion extends Question {
-    private ArrayList<TextOption>
-        options;
+    private ArrayList<TextOption> options;
+    private ArrayList<String> used;
 
     private JTextArea textArea;
     private JScrollPane scrollPane;
@@ -35,6 +35,7 @@ public class WQuestion extends Question {
     public WQuestion(Exam exam) {
         score = 0;
         options = new ArrayList<>();
+        used = new ArrayList<>();
         status = Test.SUCCESS;
         this.exam = exam;
 
@@ -110,8 +111,15 @@ public class WQuestion extends Question {
 
     @Override
     public Test test(String in) {
+        for(String u : used) {
+            if(in.contains(u)) {
+                in = in.substring(u.length(), in.length());
+            }
+        }
+
         for(TextOption o : options) {
             if(o.isTrue(in)) {
+                used.add(in);
                 options.remove(o);
                 ++score;
 
@@ -133,7 +141,16 @@ public class WQuestion extends Question {
             }
         }
 
-        String text = "";
+        String
+            text = "",
+            correctionText = "Correct Answers: ";
+        
+        if(options.size() == 1) {
+            if(options.get(0).getTexts().size() == 1) {
+                correctionText = "Correct Answer: ";
+            }
+        }
+
         for(TextOption o : options) {
             String s = o.getText();
 
@@ -144,9 +161,9 @@ public class WQuestion extends Question {
 
         JOptionPane.showMessageDialog(
             exam,
-            ("Correct Answers: " + System.lineSeparator() + System.lineSeparator() +
+            correctionText + System.lineSeparator() + System.lineSeparator() +
             text +
-            "Keep trying, you can do it!"),
+            "Keep trying, you can do it!",
             "Incorrect Answer!",
             JOptionPane.PLAIN_MESSAGE
         );
