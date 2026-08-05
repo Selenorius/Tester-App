@@ -14,6 +14,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import tester_app.Exam;
+import tester_app.questions.Question;
+import tester_app.questions.Question.Test;
+
 public final class Constants {
     private Constants() {}
 
@@ -68,7 +72,9 @@ public final class Constants {
         final int inset = 4;
 
         button.setBackground(buttonBackgroundColor);
-        button.setIcon(new ImageIcon(buttonIcon));
+        if(buttonIcon != null) {
+            button.setIcon(new ImageIcon(buttonIcon));
+        }
         button.setHorizontalTextPosition(hPos);
         button.setVerticalTextPosition(vPos);
         if(buttonText != "") {
@@ -113,7 +119,7 @@ public final class Constants {
     public static final void styleButton(final JButton button, final Image buttonIcon) {
         styleButton(
             button,
-            "",
+            null,
             buttonIcon,
             JButton.CENTER,
             JButton.BOTTOM
@@ -122,5 +128,20 @@ public final class Constants {
 
     public static final void addMargin(final Component c, final int val) {
         ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));
+    }
+
+    public static final void next(Exam exam, Question currentQuestion) {
+        ArrayList<Question> questions = exam.getQuestions();
+        int currentIndex = exam.getCurrentIndex();
+
+        if(currentQuestion.getStatus() == Test.COMPLETION) {
+            exam.incrementScore();
+        }
+
+        if(currentIndex >= questions.size() - 1) {
+            exam.finish();
+        } else {
+            exam.next();
+        }
     }
 }

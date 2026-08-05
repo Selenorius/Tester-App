@@ -3,6 +3,9 @@ package tester_app.questions;
 import java.awt.Dimension;
 import java.awt.Image;
 
+import javax.swing.JLabel;
+
+import tester_app.Exam;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -23,13 +26,20 @@ public abstract class Question extends RoundedPanel {
     protected int
         score,
         goal;
+    protected Test status;
+    protected Exam exam;
+
     protected RoundedPanel inputArea;
+    protected JLabel questionTextLabel;
 
     public void setInputAreaSize(int x, int y) {
+        x -= 56;
+        y -= 56;
+
         inputArea.setSize(x, y);
     }
     public void setInputAreaSize(Dimension d) {
-        inputArea.setSize(d);
+        inputArea.setSize(d.width - 56, d.height - 56);
     }
 
     // GETTERS
@@ -53,9 +63,17 @@ public abstract class Question extends RoundedPanel {
         return goal;
     }
 
+    public Test getStatus() {
+        return status;
+    }
+
     // SETTERS
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
+
+        if(questionText != null && questionTextLabel != null) {
+            questionTextLabel.setText(questionText);
+        }
     }
 
     public void setAnswerText(String answerText) {

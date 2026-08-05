@@ -43,7 +43,9 @@ public class Exam extends ConsoleErrorJFrame {
         scoreMenu;
     private JLabel scoreLabel;
 
-    private int score;
+    private int
+        score,
+        currentIndex;
     private ArrayList<Question> questions;
     private final Image
         icon = loadIcon("/fileButtonx32.png");
@@ -51,6 +53,7 @@ public class Exam extends ConsoleErrorJFrame {
 
     public Exam(File examFile, Tester tester) {
         this.score = 0;
+        currentIndex = 0;
         String
             examName = examFile.getName().substring(0, examFile.getName().length() - 4),
             topicName = examFile.getParent().substring(7);
@@ -76,7 +79,7 @@ public class Exam extends ConsoleErrorJFrame {
 
                 scrollPane.setPreferredSize(testerSize);
                 for(Question q : questions) {
-                    q.setInputAreaSize(testerSize.width - 28, testerSize.height - 28);
+                    q.setInputAreaSize(testerSize.width, testerSize.height);
                 }
             }
         });
@@ -87,7 +90,7 @@ public class Exam extends ConsoleErrorJFrame {
 
                 scrollPane.setPreferredSize(testerSize);
                 for(Question q : questions) {
-                    q.setInputAreaSize(testerSize.width - 28, testerSize.height - 28);
+                    q.setInputAreaSize(testerSize.width, testerSize.height);
                 }
             }
         });
@@ -185,18 +188,18 @@ public class Exam extends ConsoleErrorJFrame {
                             line.toLowerCase();
 
                             if(line.contains("true_false") || line.contains("tf")) {
-                                newQuestion = new TFQuestion();
+                                newQuestion = new TFQuestion(this);
                                 newQuestion.setGoal(1);
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
                                 if(line.contains("ordered") || line.contains("o")) {
                                     newQuestion = new MCQuestion(true);
                                     newQuestion.initGoal();
                                 } else {
-                                    newQuestion = new MCQuestion();
+                                    newQuestion = new MCQuestion(this);
                                     newQuestion.initGoal();
                                 }
                             } else {
-                                newQuestion = new WQuestion();
+                                newQuestion = new WQuestion(this);
                                 newQuestion.initGoal();
                             }
 
@@ -331,27 +334,17 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     private void start() {
-        Boolean once = true;
-
         Collections.shuffle(questions);
 
-        for(Question q : questions) {
-            questionMenu.removeAll();
+        Question currentQuestion = questions.get(0);
 
-            if(q.getClass() == MCQuestion.class) {
-                if(!q.isOrdered()) {
-                    q.shuffle();
-                }
-            }
-
-            questionMenu.add(q);
-
-            if(once) {
-                q.setVisible(true);
-            } else {
-                q.setVisible(false);
+        if(currentQuestion.getClass() == MCQuestion.class) {
+            if(!currentQuestion.isOrdered()) {
+                currentQuestion.shuffle();
             }
         }
+
+        questionMenu.add(currentQuestion);
     }
 
     private Dimension getTesterSize() {
@@ -368,5 +361,32 @@ public class Exam extends ConsoleErrorJFrame {
         } catch (Exception e1) {
             consoleErrorMessage("updateSettings", e1.getMessage());
         }
+    }
+
+    public void incrementScore() {
+        ++score;
+    }
+
+    public void finish() {
+        this.dispose();
+    }
+
+    public void next() {
+        questionMenu.remove(questions.get(currentIndex++));
+        questionMenu.add(questions.get(currentIndex));
+    }
+
+    // GETTERS
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    // SETTERS
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 }

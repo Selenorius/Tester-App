@@ -1,6 +1,9 @@
 package tester_app.questions;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
@@ -13,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import tester_app.Exam;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -22,9 +26,11 @@ public class WQuestion extends Question {
 
     private JTextArea textArea;
     
-    public WQuestion() {
+    public WQuestion(Exam exam) {
         score = 0;
         options = new ArrayList<>();
+        status = Test.SUCCESS;
+        this.exam = exam;
 
         this.setBackground(null);
         this.setBorderPainted(false);
@@ -47,19 +53,24 @@ public class WQuestion extends Question {
         });
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setBackground(backgroundColor);
+        textArea.setBackground(null);
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
 
         inputArea = new RoundedPanel();
         inputArea.add(textArea);
-        inputArea.setBackground(null);
-        inputArea.setBorderPainted(false);
+        inputArea.setBackground(backgroundColor);
+
+        questionTextLabel = new JLabel();
+        questionTextLabel.setText("No question text found");
+        questionTextLabel.setForeground(Color.WHITE);
+        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        addMargin(questionTextLabel, margin * 4);
         
-        this.add(new JLabel(this.questionText));
+        this.add(questionTextLabel);
         this.add(inputArea);
 
-        setInputAreaSize(size.width - 28, size.height - 28);
+        setInputAreaSize(size.width, size.height);
     }
 
     @Override
@@ -95,12 +106,16 @@ public class WQuestion extends Question {
                 ++score;
 
                 if(score >= goal) {
+                    next(exam, this);
+
                     return Test.COMPLETION;
                 }
 
                 return Test.SUCCESS;
             }
         }
+
+        next(exam, this);
 
         return Test.FAIL;
     }
@@ -117,12 +132,15 @@ public class WQuestion extends Question {
 
     @Override
     public void setInputAreaSize(int x, int y) {
+        x -= 56;
+        y -= 56;
+
         inputArea.setSize(x, y);
-        textArea.setSize(x - 28, y - 28);
+        textArea.setSize(x, y);
     }
     @Override
     public void setInputAreaSize(Dimension d) {
-        inputArea.setSize(d);
-        textArea.setSize(d);
+        inputArea.setSize(d.width - 56, d.height - 56);
+        textArea.setSize(d.width - 56, d.height - 56);
     }
 }
