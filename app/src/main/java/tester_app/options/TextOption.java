@@ -15,20 +15,15 @@ public class TextOption extends RoundedPanel {
      public boolean isTrue(String in) {
         if(in != null && !in.isBlank()) {
             in.toLowerCase();
-            in = in.substring(0, in.length() - 1);
-
+            
             for(String s : text) {
-                if(s.equals(in)) {
+                if(in.contains(s)) {
                     return true;
                 }
             }
         }
 
         return false;
-    }
-
-    public void reverseText() {
-        text = new ArrayList<>(text.reversed());
     }
 
     public void addText(String text) {
@@ -38,7 +33,15 @@ public class TextOption extends RoundedPanel {
     }
 
     // GETTERS
-    public ArrayList<String> getText() {
-        return text;
+    public String getText() {
+        String out = "";
+
+        for(String s : text) {
+            if(s != null) {
+                out += "- " + s + System.lineSeparator();
+            }
+        }
+
+        return out;
     }
 }

@@ -50,24 +50,7 @@ public class WQuestion extends Question {
                     String in = textArea.getText();
 
                     if(in != null) {
-                        Test response = test(in);
-                        textArea.setText("");
-
-                        if(response == Test.FAIL) {
-                            JOptionPane.showMessageDialog(
-                                exam,
-                                ("Answer: " + in + System.lineSeparator() + "Keep trying, you can do it!"),
-                                "Incorrect Answer!",
-                                JOptionPane.PLAIN_MESSAGE
-                            );
-                        } else if (response == Test.COMPLETION) {
-                            JOptionPane.showMessageDialog(
-                                exam,
-                                "Great Job!",
-                                "Correct Answer!",
-                                JOptionPane.PLAIN_MESSAGE
-                            );
-                        }
+                        test(in);
                     }
                 }
             }
@@ -133,6 +116,13 @@ public class WQuestion extends Question {
                 ++score;
 
                 if(score >= goal) {
+                    JOptionPane.showMessageDialog(
+                        exam,
+                        "Great Job!",
+                        "Correct Answer!",
+                        JOptionPane.PLAIN_MESSAGE
+                    );
+
                     exam.incrementScore();
                     next(exam, this);
 
@@ -142,6 +132,24 @@ public class WQuestion extends Question {
                 return Test.SUCCESS;
             }
         }
+
+        String text = "";
+        for(TextOption o : options) {
+            String s = o.getText();
+
+            if(!text.contains(s)) {
+                text += s + System.lineSeparator();
+            }
+        }
+
+        JOptionPane.showMessageDialog(
+            exam,
+            ("Correct Answers: " + System.lineSeparator() + System.lineSeparator() +
+            text +
+            "Keep trying, you can do it!"),
+            "Incorrect Answer!",
+            JOptionPane.PLAIN_MESSAGE
+        );
 
         next(exam, this);
 

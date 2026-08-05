@@ -100,10 +100,11 @@
                 "RIP2"
             }
             {
-                "HTTP"
                 "DHCP"
                 "FTP"
                 "SMTP"
+                "HTTP"
+                "SSH"
                 "Telnet"
                 "SFTP"
                 "HTTPS"
@@ -118,13 +119,13 @@
                 "NTP"
                 "RIP"
                 "RIP2"
-                "SSH"
             }
             {
-                "FTP"
                 "DHCP"
+                "FTP"
                 "SMTP"
                 "HTTP"
+                "SSH"
                 "Telnet"
                 "SFTP"
                 "HTTPS"
@@ -139,14 +140,13 @@
                 "NTP"
                 "RIP"
                 "RIP2"
-                "SSH"
             }
             {
-                "DNS"
                 "DHCP"
                 "FTP"
                 "SMTP"
                 "HTTP"
+                "SSH"
                 "Telnet"
                 "SFTP"
                 "HTTPS"
@@ -154,19 +154,20 @@
                 "POP3"
                 "IMAP"
                 "SCP"
+                "DNS"
                 "BOOTP"
                 "SNMP"
                 "Syslog"
                 "NTP"
                 "RIP"
                 "RIP2"
-                "SSH"
             }
             {
-                "SMTP"
                 "DHCP"
                 "FTP"
+                "SMTP"
                 "HTTP"
+                "SSH"
                 "Telnet"
                 "SFTP"
                 "HTTPS"
@@ -181,7 +182,6 @@
                 "NTP"
                 "RIP"
                 "RIP2"
-                "SSH"
             }
         }
     }
@@ -194,8 +194,8 @@
                 "RTP"
             }
             {
-                "UDP"
                 "TCP"
+                "UDP"
                 "RTP"
             }
         }
@@ -217,18 +217,18 @@
                 "RARP"
             }
             {
+                "IP"
                 "ARP"
                 "ICMP"
                 "IGMP"
                 "RARP"
-                "IP"
             }
             {
+                "IP"
+                "ARP"
                 "ICMP"
                 "IGMP"
                 "RARP"
-                "IP"
-                "ARP"
             }
         }
     }

@@ -142,7 +142,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         questions = new ArrayList<>();
 
-        scoreLabel = new JLabel("Question " + (currentIndex + 1) + "  |  Score: " + score);
+        scoreLabel = new JLabel("No label text found");
         scoreLabel.setForeground(Color.WHITE);
 
         scoreMenu = new RoundedPanel();
@@ -300,7 +300,6 @@ public class Exam extends ConsoleErrorJFrame {
                                 newButtonOption.setText(text);
                                 newQuestion.addOption(newButtonOption);
                             } else if(newQuestion.getClass() == WQuestion.class) {
-                                newTextOption.reverseText();
                                 newQuestion.addOption(newTextOption);
                             }
 
@@ -345,6 +344,8 @@ public class Exam extends ConsoleErrorJFrame {
         }
 
         questionMenu.add(currentQuestion);
+
+        scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
     }
 
     private Dimension getTesterSize() {
@@ -378,7 +379,7 @@ public class Exam extends ConsoleErrorJFrame {
             question.getTextArea().requestFocus();
         }
 
-        scoreLabel.setText("Question " + (currentIndex + 1) + "  |  Score: " + score);
+        scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
     }
 
     public void finish() {
