@@ -2,6 +2,7 @@ package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
@@ -26,6 +29,7 @@ public class WQuestion extends Question {
     private ArrayList<TextOption> options;
 
     private JTextArea textArea;
+    private JScrollPane scrollPane;
     
     public WQuestion(Exam exam) {
         score = 0;
@@ -54,12 +58,18 @@ public class WQuestion extends Question {
         });
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setBackground(null);
+        textArea.setBackground(backgroundColor);
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
+        textArea.setFont(null);
+
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setBorder(null);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         inputArea = new RoundedPanel();
-        inputArea.add(textArea);
+        inputArea.add(scrollPane);
         inputArea.setBackground(backgroundColor);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
@@ -136,13 +146,18 @@ public class WQuestion extends Question {
         y -= 56;
 
         questionTextLabel.setPreferredSize(new Dimension(x, y / 4));
-        inputArea.setSize(x, y);
-        textArea.setSize(x, y);
+        inputArea.setMaximumSize(new Dimension(x, y));
+        scrollPane.setPreferredSize(new Dimension(x - margin, y - y / 4 - margin * 5));
     }
     @Override
     public void setInputAreaSize(Dimension d) {
-        questionTextLabel.setPreferredSize(new Dimension(d.width, d.height / 4));
-        inputArea.setSize(d.width - 56, d.height - 56);
-        textArea.setSize(d.width - 56, d.height - 56);
+        questionTextLabel.setPreferredSize(new Dimension(d.width - 56, d.height / 4 - 56));
+        inputArea.setMaximumSize(new Dimension(d.width - 56, d.height - 56));
+        scrollPane.setPreferredSize(new Dimension(d.width - 56 - margin, d.height - 56 - d.height / 4 - margin * 5));
+    }
+
+    @Override
+    public JTextArea getTextArea() {
+        return textArea;
     }
 }

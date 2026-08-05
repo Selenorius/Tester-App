@@ -16,6 +16,7 @@ import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
@@ -150,5 +151,9 @@ public class MCQuestion extends Question {
     @Override
     public Boolean isOrdered() {
         return ordered;
+    }
+    @Override
+    public JTextArea getTextArea() {
+        throw new UnsupportedOperationException("Unimplemented method 'getTextArea'");
     }
 }

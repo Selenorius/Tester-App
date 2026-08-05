@@ -371,7 +371,14 @@ public class Exam extends ConsoleErrorJFrame {
 
     public void next() {
         questionMenu.remove(questions.get(currentIndex++));
-        questionMenu.add(questions.get(currentIndex));
+
+        Question question = questions.get(currentIndex);
+
+        questionMenu.add(question);
+
+        if(question.getClass() == WQuestion.class) {
+            question.getTextArea().requestFocus();
+        }
 
         scoreLabel.setText("Question " + (currentIndex + 1) + "  |  Score: " + score);
     }

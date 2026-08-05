@@ -1,6 +1,8 @@
 package tester_app.editors;
 
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
@@ -48,8 +50,10 @@ import javax.swing.filechooser.FileSystemView;
 import tester_app.Tester;
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.DirectoryRestrictedFileSystemView;
+import tester_app.helpers.RoundedPanel;
 
 public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
+    private RoundedPanel textPanel;
     private JTextArea textArea;
     private JScrollPane scrollPane;
     private JSpinner fontSizeSpinner;
@@ -86,13 +90,19 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         this.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                scrollPane.setPreferredSize(getEditorSize());
+                Dimension editorSize = getEditorSize();
+
+                textPanel.setPreferredSize(editorSize);
+                scrollPane.setPreferredSize(new Dimension(editorSize.width - margin, editorSize.height - margin * 5));
             }
         });
         this.addWindowStateListener(new WindowStateListener() {
             @Override
             public void windowStateChanged(WindowEvent e) {
-                scrollPane.setPreferredSize(getEditorSize());
+                Dimension editorSize = getEditorSize();
+
+                textPanel.setPreferredSize(editorSize);
+                scrollPane.setPreferredSize(new Dimension(editorSize.width - margin, editorSize.height - margin * 5));
             }
         });
         this.addWindowListener(new WindowListener() {
@@ -192,20 +202,26 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
                 | UnsupportedLookAndFeelException e1) {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
-        this.getContentPane().setBackground(Color.WHITE);
+        this.getContentPane().setBackground(backgroundColor);
         
         textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setFont(new Font(defaultFont, Font.PLAIN, defaultFontSize));
-        textArea.setBackground(backgroundColor);
+        textArea.setBackground(fieldColor);
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
 
-        scrollPane  = new JScrollPane(textArea);
-        scrollPane.setSize(getEditorSize());
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(getEditorSize().width - margin, getEditorSize().height - margin * 5));
+        scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        textPanel = new RoundedPanel();
+        textPanel.setSize(getEditorSize());
+        textPanel.setBackground(fieldColor);
+        textPanel.add(scrollPane);
 
         fontSizeSpinner = new JSpinner();
         fontSizeSpinner.setPreferredSize(SpinnerSize);
@@ -254,7 +270,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         menuBar.add(fontBox);
 
         this.setJMenuBar(menuBar);
-        this.add(scrollPane);
+        this.add(textPanel);
         this.setVisible(true);
 
         scrollPane.setPreferredSize(getEditorSize());

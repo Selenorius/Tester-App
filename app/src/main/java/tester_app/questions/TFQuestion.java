@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
@@ -110,5 +111,10 @@ public class TFQuestion extends Question {
     @Override
     public Boolean isOrdered() {
         throw new UnsupportedOperationException("Unimplemented method 'isOrdered'");
+    }
+
+    @Override
+    public JTextArea getTextArea() {
+        throw new UnsupportedOperationException("Unimplemented method 'getTextArea'");
     }
 }
