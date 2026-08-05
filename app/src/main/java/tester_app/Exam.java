@@ -22,6 +22,7 @@ import java.util.Scanner;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -366,6 +367,13 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     public void finish() {
+        JOptionPane.showMessageDialog(
+            this,
+            "You finished your exam with " + score + " points!",
+            "Exam finished!",
+            JOptionPane.PLAIN_MESSAGE
+        );
+
         this.dispose();
     }
 
