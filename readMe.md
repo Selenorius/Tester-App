@@ -42,7 +42,7 @@ Create and solve tests to study for your exams.
         }
     }
     {
-        {
+        WRITTEN {
             "Written Question text"
             {
                 TRUE {
