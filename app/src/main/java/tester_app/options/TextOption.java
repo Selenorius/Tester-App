@@ -1,5 +1,7 @@
 package tester_app.options;
 
+import static tester_app.helpers.Constants.tab;
+
 import java.util.ArrayList;
 
 import tester_app.helpers.RoundedPanel;
@@ -39,6 +41,18 @@ public class TextOption extends RoundedPanel {
         for(String s : text) {
             if(s != null) {
                 out += "- " + s + System.lineSeparator();
+            }
+        }
+
+        return out;
+    }
+
+    public String getProperText() {
+        String out = "";
+
+        for(String s : text) {
+            if(s != null) {
+                out += tab(4) + s + System.lineSeparator();
             }
         }
 

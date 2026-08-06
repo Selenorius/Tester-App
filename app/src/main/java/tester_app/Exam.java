@@ -346,8 +346,6 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     private void start() {
-        saveToFile(examName);
-
         Collections.shuffle(questions);
 
         Question currentQuestion = questions.get(0);
@@ -401,22 +399,27 @@ public class Exam extends ConsoleErrorJFrame {
                 answer = "";
             }
 
-            if(q.getClass() != WQuestion.class) {
+            if(q.getClass() == MCQuestion.class) {
                 for(ButtonOption o : q.getButtonOptions()) {
-                    options += tab(3); // !!! <--- HERE !!!
+                    options += tab(3) + o.isTrue() + " {" + System.lineSeparator();
+                    options += tab(4) + o.getText() + System.lineSeparator();
+                    options += tab(3) + "}" + System.lineSeparator();
+                }
+            } else if(q.getClass() == WQuestion.class) {
+                for(TextOption o : q.getTextOptions()) {
+                    options += tab(3) + "{" + System.lineSeparator();
+                    options += o.getProperText();
+                    options += tab(3) + "}" + System.lineSeparator();
                 }
             } else {
-                for(TextOption o : q.getTextOptions()) {
-
-                }
+                options += tab(3) + q.getButtonOptions().get(0).isTrue() + System.lineSeparator();
             }
 
             out += tab(1) + type + ordered + "{" + System.lineSeparator();
-            out += tab(2) + text + System.lineSeparator();
-            out += tab(2) + type + ordered + "{" + System.lineSeparator();
+            out += tab(2) + text + answer + System.lineSeparator();
+            out += tab(2) + "{" + System.lineSeparator();
             out += options;
-            out += tab(2) + type + ordered + "}" + System.lineSeparator();
-            out += tab(2) + answer + System.lineSeparator();
+            out += tab(2) + "}" + System.lineSeparator();
             out += tab(1) + "}" + System.lineSeparator();
         }
         out += "}";

@@ -1,8 +1,0 @@
-{
-   MULTIPLE_CHOICE {
-      Which are characteristics of a network application?
-      MULTIPLE_CHOICE {
-                                                            MULTIPLE_CHOICE }
-      
-   }
-}

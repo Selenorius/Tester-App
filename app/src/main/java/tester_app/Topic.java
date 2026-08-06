@@ -119,6 +119,9 @@ public class Topic extends RoundedPanel {
     public void clearFileMenu() {
         fileMenu.removeAll();
     }
+    public Boolean isEmpty() {
+        return fileMenu.getComponents().length == 0;
+    }
 
     private void addComponent(Component c, int anchor) {
         constraints.fill = GridBagConstraints.BOTH;
