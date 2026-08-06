@@ -184,10 +184,12 @@ public class MCQuestion extends Question {
             }
 
             for(ButtonOption b : options) {
-                String s = b.getText();
-
-                if(!text.contains(s)) {
-                    text += "- " + s + System.lineSeparator();
+                if(b.isTrue()) {
+                    String s = b.getText();
+                
+                    if(!text.contains(s)) {
+                        text += "- " + s + System.lineSeparator();
+                    }
                 }
             }
 
