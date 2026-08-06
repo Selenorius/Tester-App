@@ -2,6 +2,16 @@
 # Tester App
 Create and solve tests to study for your exams.
 
+## What does this thing look like?
+### The Menu
+<img width="946" height="713" alt="Screenshot 2026-08-06 173810" src="https://github.com/user-attachments/assets/8c73744a-fb75-466d-be4a-48757e37cbe6" />
+
+### The Questions
+<img width="946" height="713" alt="Screenshot 2026-08-06 173901" src="https://github.com/user-attachments/assets/3da92f15-cb66-4d9d-aeed-4cbfd60ad811" />
+
+### The Editor
+<img width="946" height="713" alt="Screenshot 2026-08-05 230436" src="https://github.com/user-attachments/assets/797452c8-5b29-4116-b12b-a08b68caf497" />
+
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
 
