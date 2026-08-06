@@ -8,20 +8,18 @@ import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
-import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -30,36 +28,37 @@ public class MCQuestion extends Question {
     private ArrayList<ButtonOption>
         options;
     private Boolean ordered;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
 
     public MCQuestion(Boolean ordered) {
         score = 0;
         options = new ArrayList<>();
         this.ordered = ordered;
         status = Test.SUCCESS;
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
 
         this.setBackground(null);
         this.setBorderPainted(false);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(layout);
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(backgroundColor);
-        inputArea.setLayout(new GridLayout());
+        inputArea.setLayout(layout);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         addMargin(questionTextLabel, margin * 4);
 
-        for(ButtonOption o : options) {
-            RoundedButton optionButton = new RoundedButton();
-
-            styleButton(optionButton, o.getText());
-
-            inputArea.add(optionButton);
-        }
-
-        this.add(new JLabel(this.questionText));
-        this.add(inputArea);
+        this.add(new JLabel(this.questionText), constraints);
+        this.add(inputArea, constraints);
 
         setInputAreaSize(size.width, size.height);
     }
@@ -68,23 +67,30 @@ public class MCQuestion extends Question {
         options = new ArrayList<>();
         ordered = false;
         this.exam = exam;
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
 
         this.setBackground(null);
         this.setBorderPainted(false);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(layout);
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(null);
         inputArea.setBorderPainted(false);
-        inputArea.setLayout(new GridLayout());
+        inputArea.setLayout(layout);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         addMargin(questionTextLabel, margin * 4);
 
-        this.add(questionTextLabel);
-        this.add(inputArea);
+        this.add(questionTextLabel, constraints);
+        this.add(inputArea, constraints);
 
         setInputAreaSize(size.width - 28, size.height - 28);
     }
@@ -113,8 +119,13 @@ public class MCQuestion extends Question {
             styleButton(o, text.substring(0, text.length() - 1));
         }
 
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+
         options.add(o);
-        inputArea.add(o);
+        inputArea.add(o, constraints);
     }
 
     @Override
@@ -128,8 +139,13 @@ public class MCQuestion extends Question {
 
         inputArea.removeAll();
 
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+
         for(ButtonOption o : options) {
-            inputArea.add(o);
+            inputArea.add(o, constraints);
         }
     }
 
@@ -137,6 +153,7 @@ public class MCQuestion extends Question {
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
             options.remove(o);
+            inputArea.remove(o);
             ++score;
 
             if(score >= goal) {
@@ -156,6 +173,7 @@ public class MCQuestion extends Question {
             return Test.SUCCESS;
         } else {
             options.remove(o);
+            inputArea.remove(o);
 
             String
                 text = "",
@@ -169,7 +187,7 @@ public class MCQuestion extends Question {
                 String s = b.getText();
 
                 if(!text.contains(s)) {
-                    text += s + System.lineSeparator();
+                    text += "- " + s + System.lineSeparator();
                 }
             }
 
@@ -199,5 +217,13 @@ public class MCQuestion extends Question {
     @Override
     public JTextArea getTextArea() {
         throw new UnsupportedOperationException("Unimplemented method 'getTextArea'");
+    }
+    @Override
+    public ArrayList<ButtonOption> getButtonOptions() {
+        return options;
+    }
+    @Override
+    public ArrayList<TextOption> getTextOptions() {
+        throw new UnsupportedOperationException("Unimplemented method 'getTextOptions'");
     }
 }

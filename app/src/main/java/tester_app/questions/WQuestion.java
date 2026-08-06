@@ -244,4 +244,14 @@ public class WQuestion extends Question {
     public JTextArea getTextArea() {
         return textArea;
     }
+
+    @Override
+    public ArrayList<ButtonOption> getButtonOptions() {
+        throw new UnsupportedOperationException("Unimplemented method 'getButtonOptions'");
+    }
+
+    @Override
+    public ArrayList<TextOption> getTextOptions() {
+        return options;
+    }
 }

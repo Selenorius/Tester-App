@@ -30,7 +30,7 @@
             true
         }
     }
-    o {
+    {
         "List all Layers of the OSI Model in order:"
         {
             {
@@ -278,7 +278,7 @@
             false
         }
     }
-    o {
+    {
         "Name all elements of an IPv4 header:"
         {
             {

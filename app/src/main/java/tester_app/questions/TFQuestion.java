@@ -116,26 +116,10 @@ public class TFQuestion extends Question {
                 }
             }
 
-            String
-                text = "",
-                correctionText = "Correct Answers: ";
-        
-            if(answers.size() == 1) {
-                correctionText = "Correct Answer: ";
-            }
-
-            for(ButtonOption b : answers) {
-                String s = b.getText();
-
-                if(!text.contains(s)) {
-                    text += s + System.lineSeparator();
-                }
-            }
-
             JOptionPane.showMessageDialog(
                 exam,
-                correctionText + System.lineSeparator() + System.lineSeparator() +
-                text + System.lineSeparator() +
+                "Correct Answer: " + System.lineSeparator() + System.lineSeparator() +
+                "- " + options.get(0) + System.lineSeparator() +
                 "Keep trying, you can do it!",
                 "Incorrect Answer!",
                 JOptionPane.PLAIN_MESSAGE
@@ -160,5 +144,15 @@ public class TFQuestion extends Question {
     @Override
     public JTextArea getTextArea() {
         throw new UnsupportedOperationException("Unimplemented method 'getTextArea'");
+    }
+
+    @Override
+    public ArrayList<ButtonOption> getButtonOptions() {
+        return options;
+    }
+
+    @Override
+    public ArrayList<TextOption> getTextOptions() {
+        throw new UnsupportedOperationException("Unimplemented method 'getTextOptions'");
     }
 }

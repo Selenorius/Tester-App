@@ -380,7 +380,8 @@ public class Exam extends ConsoleErrorJFrame {
             type = "",
             ordered = "",
             text = q.getQuestionText(),
-            answer = q.getAnswerText();
+            answer = q.getAnswerText(),
+            options = "";
 
             if(q.getClass() == MCQuestion.class) {
                 type = "MULTIPLE_CHOICE ";
@@ -400,8 +401,21 @@ public class Exam extends ConsoleErrorJFrame {
                 answer = "";
             }
 
+            if(q.getClass() != WQuestion.class) {
+                for(ButtonOption o : q.getButtonOptions()) {
+                    options += tab(3); // !!! <--- HERE !!!
+                }
+            } else {
+                for(TextOption o : q.getTextOptions()) {
+
+                }
+            }
+
             out += tab(1) + type + ordered + "{" + System.lineSeparator();
             out += tab(2) + text + System.lineSeparator();
+            out += tab(2) + type + ordered + "{" + System.lineSeparator();
+            out += options;
+            out += tab(2) + type + ordered + "}" + System.lineSeparator();
             out += tab(2) + answer + System.lineSeparator();
             out += tab(1) + "}" + System.lineSeparator();
         }
@@ -438,9 +452,19 @@ public class Exam extends ConsoleErrorJFrame {
         String finishText = "You passed your exam with " + score + " points!";
 
         if(score < (int) (questions.size() * 0.6) || score == 0) {
-            finishText = "You failed your exam with " + score + " points!";
+            if(score == 1) {
+                finishText = "You failed your exam with " + score + " point!";
+            } else {
+                finishText = "You failed your exam with " + score + " points!";
+            }
         } else if(score == questions.size()) {
-            finishText = "You passed your exam with a perfect score of " + score + " points!";
+            if(score == 1) {
+                finishText = "You passed your exam with a perfect score of " + score + " point!";
+            } else {
+                finishText = "You passed your exam with a perfect score of " + score + " points!";
+            }
+        } else if(score == 1) {
+            finishText = "You passed your exam with " + score + " point!";
         }
 
         JOptionPane.showMessageDialog(

@@ -2,6 +2,7 @@ package tester_app.questions;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -108,4 +109,6 @@ public abstract class Question extends RoundedPanel {
 
     public abstract Boolean isOrdered();
     public abstract JTextArea getTextArea();
+    public abstract ArrayList<ButtonOption> getButtonOptions();
+    public abstract ArrayList<TextOption> getTextOptions();
 }

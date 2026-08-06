@@ -1,5 +1,5 @@
 {
-    {
+    mc {
         "Which are characteristics of a network application?"
         {
             true {
