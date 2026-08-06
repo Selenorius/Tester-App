@@ -283,68 +283,76 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         }
 
         if(e.getSource() == openItem) {
-            FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
-            JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
-            fileChooser.setCurrentDirectory(root);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-            fileChooser.setFileFilter(filter);
+            try {
+                FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
+                JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
+                fileChooser.setCurrentDirectory(root);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+                fileChooser.setFileFilter(filter);
 
-            int response = fileChooser.showOpenDialog(null);
+                int response = fileChooser.showOpenDialog(null);
 
-            if(response == JFileChooser.APPROVE_OPTION) {
-                File file;
-                Scanner fileIn = null;
+                if(response == JFileChooser.APPROVE_OPTION) {
+                    File file;
+                    Scanner fileIn = null;
 
-                file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                try {
-                    fileIn = new Scanner(file);
-                    String line;
-                    while(fileIn.hasNextLine()) {
-                        line = fileIn.nextLine() + System.lineSeparator();
-                        textArea.append(line);
-                    }
-                } catch (FileNotFoundException e1) {
-                    consoleErrorMessage("actionPerformed.openItem", e1.getMessage());
+                    file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                    try {
+                        fileIn = new Scanner(file);
+                        String line;
+                        while(fileIn.hasNextLine()) {
+                            line = fileIn.nextLine() + System.lineSeparator();
+                            textArea.append(line);
+                        }
+                    } catch (FileNotFoundException e1) {
+                        consoleErrorMessage("actionPerformed.openItem", e1.getMessage());
 
-                    errorMessage("Invalid file.");
-                    response = fileChooser.showOpenDialog(null);
-                } finally {
-                    if(fileIn != null) {
-                        fileIn.close();
+                        errorMessage("Invalid file.");
+                        response = fileChooser.showOpenDialog(null);
+                    } finally {
+                        if(fileIn != null) {
+                            fileIn.close();
+                        }
                     }
                 }
+            } catch(Exception err) {
+                consoleErrorMessage(err);
             }
         }
         if(e.getSource() == saveItem) {
-            FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
-            JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
-            fileChooser.setCurrentDirectory(root);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-            fileChooser.setFileFilter(filter);
+            try {
+                FileSystemView fsv = new DirectoryRestrictedFileSystemView(root);
+                JFileChooser fileChooser = new JFileChooser(fsv.getHomeDirectory(), fsv);
+                fileChooser.setCurrentDirectory(root);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+                fileChooser.setFileFilter(filter);
 
-            int response = fileChooser.showSaveDialog(null);
+                int response = fileChooser.showSaveDialog(null);
 
-            if(response == JFileChooser.APPROVE_OPTION) {
-                if(fileChooser.getSelectedFile().exists()) {
-                    response = JOptionPane.showConfirmDialog(
-                        this,
-                        "Are you sure you want to overwrite the existing file?",
-                        "Warning",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                } else {
-                    response = JOptionPane.YES_OPTION;
-                }
-                
-                if (response == JOptionPane.YES_OPTION) {
-                    try {
-                        FileWriter fileOut = new FileWriter(fileChooser.getSelectedFile().getAbsolutePath());
-                        fileOut.write(textArea.getText());
-                        fileOut.close();
-                    } catch (Exception e1) {
-                        consoleErrorMessage("actionPerformed.saveItem", e1.getMessage());
+                if(response == JFileChooser.APPROVE_OPTION) {
+                    if(fileChooser.getSelectedFile().exists()) {
+                        response = JOptionPane.showConfirmDialog(
+                            this,
+                            "Are you sure you want to overwrite the existing file?",
+                            "Warning",
+                            JOptionPane.YES_NO_OPTION
+                        );
+                    } else {
+                        response = JOptionPane.YES_OPTION;
+                    }
+                    
+                    if (response == JOptionPane.YES_OPTION) {
+                        try {
+                            FileWriter fileOut = new FileWriter(fileChooser.getSelectedFile().getAbsolutePath());
+                            fileOut.write(textArea.getText());
+                            fileOut.close();
+                        } catch (Exception e1) {
+                            consoleErrorMessage("actionPerformed.saveItem", e1.getMessage());
+                        }
                     }
                 }
+            } catch(Exception err) {
+                consoleErrorMessage(err);
             }
         }
         if(e.getSource() == clearItem) {

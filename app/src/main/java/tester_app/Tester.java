@@ -231,7 +231,7 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized.clearFileMenu();
         dirMenu.removeAll();
         loadDir(root);
-        System.out.println(uncategorized.isEmpty());
+        
         if(uncategorized.isEmpty()) {
             uncategorized.setVisible(false);
         } else {
