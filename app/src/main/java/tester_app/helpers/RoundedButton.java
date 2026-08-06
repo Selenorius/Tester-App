@@ -9,8 +9,8 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 
 public class RoundedButton extends JButton {
-    private int radius;
-    private Boolean borderPaint;
+    protected int radius;
+    protected Boolean borderPaint;
 
     public RoundedButton(String text) { 
         super(text);
@@ -39,7 +39,7 @@ public class RoundedButton extends JButton {
             if(!this.isSelected()) this.borderPaint = true;
         }
         g.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
-        super.paintComponent(g); 
+        super.paintComponent(g);
     }
 
     @Override

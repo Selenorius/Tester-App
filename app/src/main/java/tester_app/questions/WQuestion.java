@@ -8,6 +8,7 @@ import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -62,8 +63,10 @@ public class WQuestion extends Question {
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
         textArea.setFont(null);
-
+        textArea.setMargin(new Insets(0, margin * 2, 0, margin * 2));
+        
         scrollPane = new JScrollPane(textArea);
+        scrollPane.setBackground(backgroundColor);
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -152,27 +155,31 @@ public class WQuestion extends Question {
             }
         }
 
-        TextOption t = options.get(0);
-        if(t.isTrue(in)) {
-            used.add(in);
-            options.remove(t);
-            ++score;
+        TextOption t = null;
+        if(!options.isEmpty()) {
+            t = options.get(0);
 
-            if(score >= goal) {
-                JOptionPane.showMessageDialog(
-                    exam,
-                    "Great Job!",
-                    "Correct Answer!",
-                    JOptionPane.PLAIN_MESSAGE
-                );
+            if(t.isTrue(in)) {
+                used.add(in);
+                options.remove(t);
+                ++score;
 
-                exam.incrementScore();
-                next(exam, this);
+                if(score >= goal) {
+                    JOptionPane.showMessageDialog(
+                        exam,
+                        "Great Job!",
+                        "Correct Answer!",
+                        JOptionPane.PLAIN_MESSAGE
+                    );
 
-                return Test.COMPLETION;
+                    exam.incrementScore();
+                    next(exam, this);
+
+                    return Test.COMPLETION;
+                }
+
+                return Test.SUCCESS;
             }
-
-            return Test.SUCCESS;
         }
 
         String

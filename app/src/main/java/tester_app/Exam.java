@@ -4,6 +4,7 @@ import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,14 +51,21 @@ public class Exam extends ConsoleErrorJFrame {
     private ArrayList<Question> questions;
     private final Image
         icon = loadIcon("/fileButtonx32.png");
-    private final String settingsFile = "examSettings.txt";
+    private final String
+        examName,
+        settingsFile = "examSettings.txt";
 
     public Exam(File examFile, Tester tester) {
         this.score = 0;
         currentIndex = 0;
-        String
-            examName = examFile.getName().substring(0, examFile.getName().length() - 4),
-            topicName = examFile.getParent().substring(7);
+        examName = examFile.getName().substring(0, examFile.getName().length() - 4);
+
+        String topicName = examFile.getParent();
+        if(!topicName.equals(root.getPath())) {
+            topicName = topicName.replace(root.getPath(), "").substring(1);
+        } else {
+            topicName = "Uncategorized";
+        }
 
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(topicName + " - " + examName);
@@ -338,6 +346,8 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     private void start() {
+        saveToFile(examName);
+
         Collections.shuffle(questions);
 
         Question currentQuestion = questions.get(0);
@@ -360,6 +370,49 @@ public class Exam extends ConsoleErrorJFrame {
             settingsFileOut.close();
         } catch (Exception e1) {
             consoleErrorMessage("updateSettings", e1.getMessage());
+        }
+    }
+
+    public void saveToFile(String filePath) {
+        String out = "{" + System.lineSeparator();
+        for(Question q : questions) {
+            String
+            type = "",
+            ordered = "",
+            text = q.getQuestionText(),
+            answer = q.getAnswerText();
+
+            if(q.getClass() == MCQuestion.class) {
+                type = "MULTIPLE_CHOICE ";
+
+                if(q.isOrdered()) {
+                    ordered = "ORDERED ";
+                }
+            } else if(q.getClass() == TFQuestion.class) {
+                type = "TRUE_FALSE ";
+            } else {
+                type = "WRITTEN ";
+            }
+
+            if(text == null) {
+                text = "";
+            } else if(answer == null) {
+                answer = "";
+            }
+
+            out += tab(1) + type + ordered + "{" + System.lineSeparator();
+            out += tab(2) + text + System.lineSeparator();
+            out += tab(2) + answer + System.lineSeparator();
+            out += tab(1) + "}" + System.lineSeparator();
+        }
+        out += "}";
+
+        try {
+            FileWriter fileOut = new FileWriter(new File(root + "/" + filePath + ".txt"));
+            fileOut.write(out);
+            fileOut.close();
+        } catch (Exception e1) {
+            consoleErrorMessage("saveToFile", e1.getMessage());
         }
     }
 

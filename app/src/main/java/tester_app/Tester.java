@@ -8,8 +8,11 @@ import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +25,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -38,12 +40,15 @@ public class Tester extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
     protected RoundedPanel dirMenu;
     private RoundedButton editorButton;
+    private Topic uncategorized;
     private final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
         editorButtonIcon = loadIcon("/editorButtonx32.png");
     private final String settingsFile = "settings.txt";
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
     
     public Tester() {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -120,9 +125,14 @@ public class Tester extends ConsoleErrorJFrame {
             
         });
 
+        uncategorized = new Topic("Uncategorized", dirButtonIcon, this);
+
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor);
-        dirMenu.setLayout(new BoxLayout(dirMenu, BoxLayout.Y_AXIS));
+        dirMenu.setLayout(layout);
 
         scrollPane = new JScrollPane(dirMenu);
         scrollPane.getViewport().setBackground(backgroundColor);
@@ -138,10 +148,9 @@ public class Tester extends ConsoleErrorJFrame {
                 startEditor();
             }
         });
-        styleButton(editorButton, "Editor", editorButtonIcon);
+        styleButton(editorButton, null, editorButtonIcon);
 
         this.add(scrollPane);
-        this.add(editorButton);
 
         this.setVisible(true);
     }
@@ -171,30 +180,41 @@ public class Tester extends ConsoleErrorJFrame {
             empty.setBackground(null);
             empty.setBorderPainted(false);
 
-            dirMenu.add(empty);
+            addComponent(empty);
         } else {
             for (final File f : files) {
                 if (f.isDirectory()) {
                     Topic dirTopic = new Topic(f.getName(), dirButtonIcon, this);
 
                     dirTopic.loadFiles(f, fileButtonIcon);
-                    
-                    dirMenu.add(dirTopic);
+
+                    addComponent(dirTopic);
                     loadDir(f);
                 } else if(f.getParentFile().compareTo(root) == 0) {
-                    String dirName = f.getName().substring(0, getName().length() - 3);
-                    Topic dirTopic = new Topic(dirName, dirButtonIcon, this);
-
-                    dirTopic.loadFiles(f, fileButtonIcon);
-
-                    dirMenu.add(dirTopic);
+                    uncategorized.loadFiles(f, fileButtonIcon);
                 }
             }
         }
+        
+        addComponent(uncategorized);
+        addComponent(editorButton, GridBagConstraints.SOUTH);
+    }
+
+    private void addComponent(Component c, int anchor) {
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = anchor;
+
+        dirMenu.add(c, constraints);
+    }
+    private void addComponent(Component c) {
+        addComponent(c, GridBagConstraints.CENTER);
     }
 
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 72 - 23 - 28);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 50);
     }
 
     public void startEditor() {
@@ -208,6 +228,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void start() {
+        uncategorized.clearFileMenu();
         dirMenu.removeAll();
         loadDir(root);
         
