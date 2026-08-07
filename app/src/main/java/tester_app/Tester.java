@@ -4,7 +4,6 @@ import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
-import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.size;
 
@@ -15,8 +14,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
@@ -35,7 +32,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.HamburgerMenu;
-import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
@@ -145,21 +141,9 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         styleScrollPane(scrollPane);
 
-        RoundedButton addTopicButton = new RoundedButton();
-        addTopicButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                startEditor();
-            }
-        });
-        styleButton(addTopicButton, "Create new topic", dirButtonIcon);
+        HamburgerMenu addTopicButton = new HamburgerMenu.HamburgerMenuBuilder().text("Create new topic").icon(dirButtonIcon).build();
 
-        RoundedButton addExamButton = new RoundedButton();
-        addExamButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                startEditor();
-            }
-        });
-        styleButton(addExamButton, "Create new exam", fileButtonIcon);
+        HamburgerMenu addExamButton = new HamburgerMenu.HamburgerMenuBuilder().text("Create new exam").icon(fileButtonIcon).build();
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
         addButton.addComponent(addTopicButton);
