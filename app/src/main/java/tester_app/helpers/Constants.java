@@ -40,7 +40,9 @@ public final class Constants {
         borderColor = new Color(90, 90, 90),
         buttonBackgroundColor = new Color(70, 70, 70),
         buttonBorderColor = borderColor,
-        selectionColor = new Color(0, 120, 215);
+        selectionColor = new Color(0, 120, 215),
+        editColor = new Color(0, 180, 40),
+        deleteColor = new Color(180, 40, 0);
 
     //OPTION BOOLEANS
     public static final List<String>

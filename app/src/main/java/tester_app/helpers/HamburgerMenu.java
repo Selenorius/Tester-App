@@ -68,14 +68,14 @@ public class HamburgerMenu extends RoundedPanel {
             addMargin(this, 0);
 
             menuButton.setBackground(buttonBackgroundColor);
-            menuButton.setrButtonBorderColor(buttonBorderColor);
+            menuButton.setBorderColor(buttonBorderColor);
 
             menu.setVisible(false);
         } else {
             addMargin(this, margin * 2);
 
             menuButton.setBackground(selectionColor);
-            menuButton.setrButtonBorderColor(selectionColor);
+            menuButton.setBorderColor(selectionColor);
 
             menu.setVisible(true);
         }

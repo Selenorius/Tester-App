@@ -12,7 +12,9 @@ import javax.swing.JButton;
 public class RoundedButton extends JButton {
     private int radius;
     private Boolean borderPaint;
-    private Color rButtonBorderColor;
+    private Color
+        rButtonBorderColor,
+        rButtonSelectionColor;
 
     public RoundedButton(String text) { 
         super(text);
@@ -23,6 +25,7 @@ public class RoundedButton extends JButton {
         this.radius = 10;
         this.borderPaint = true;
         this.rButtonBorderColor = buttonBorderColor;
+        this.rButtonSelectionColor = selectionColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
     }
     public RoundedButton() { 
@@ -34,17 +37,23 @@ public class RoundedButton extends JButton {
         this.radius = 10;
         this.borderPaint = true;
         this.rButtonBorderColor = buttonBorderColor;
+        this.rButtonSelectionColor = selectionColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
     }
     
-    public void setrButtonBorderColor(Color color) {
+    // SETTERS
+    public void setBorderColor(Color color) {
         rButtonBorderColor = color;
+    }
+
+    public void setSelectionColor(Color color) {
+        rButtonSelectionColor = color;
     }
 
     @Override
     protected void paintComponent(Graphics g) { 
         if (getModel().isRollover()) { 
-            g.setColor(selectionColor);
+            g.setColor(rButtonSelectionColor);
             this.borderPaint = false;
         } else { 
             g.setColor(getBackground());

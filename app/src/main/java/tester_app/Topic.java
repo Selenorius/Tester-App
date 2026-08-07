@@ -1,7 +1,11 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleButton;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,8 +45,13 @@ public class Topic extends HamburgerMenu {
                     styleButton(deleteButton, "Delete exam");
 
                     HamburgerMenu hamburgerMenu = new HamburgerMenu.HamburgerMenuBuilder().text(examName).icon(fileIcon).build();
+
                     hamburgerMenu.addComponent(startButton);
+                    
+                    editButton.setSelectionColor(editColor);
                     hamburgerMenu.addComponent(editButton);
+
+                    deleteButton.setSelectionColor(deleteColor);
                     hamburgerMenu.addComponent(deleteButton);
 
                     addComponent(hamburgerMenu);
@@ -67,8 +76,14 @@ public class Topic extends HamburgerMenu {
             styleButton(deleteButton, "Delete exam");
 
             HamburgerMenu hamburgerMenu = new HamburgerMenu.HamburgerMenuBuilder().text(examName).icon(fileIcon).build();
+
             hamburgerMenu.addComponent(startButton);
+
+            editButton.setSelectionColor(new Color(0, 215, 120));
             hamburgerMenu.addComponent(editButton);
+
+            deleteButton.setBorderColor(new Color(215, 120, 0));
+            deleteButton.setSelectionColor(new Color(215, 120, 0));
             hamburgerMenu.addComponent(deleteButton);
 
             addComponent(hamburgerMenu);
