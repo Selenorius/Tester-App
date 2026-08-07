@@ -4,29 +4,41 @@ import static tester_app.helpers.Constants.buttonBorderColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JButton;
 
 public class RoundedButton extends JButton {
-    protected int radius;
-    protected Boolean borderPaint;
+    private int radius;
+    private Boolean borderPaint;
+    private Color rButtonBorderColor;
 
     public RoundedButton(String text) { 
         super(text);
-        setContentAreaFilled(false); 
+        
+        setContentAreaFilled(false);
+        setFocusable(false);
 
         this.radius = 10;
         this.borderPaint = true;
+        this.rButtonBorderColor = buttonBorderColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
     }
     public RoundedButton() { 
         super();
-        setContentAreaFilled(false); 
+
+        setContentAreaFilled(false);
+        setFocusable(false);
 
         this.radius = 10;
         this.borderPaint = true;
+        this.rButtonBorderColor = buttonBorderColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
+    }
+    
+    public void setrButtonBorderColor(Color color) {
+        rButtonBorderColor = color;
     }
 
     @Override
@@ -45,7 +57,7 @@ public class RoundedButton extends JButton {
     @Override
     protected void paintBorder(Graphics g) { 
         if(borderPaint) {
-            g.setColor(buttonBorderColor);
+            g.setColor(rButtonBorderColor);
             g.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
         }
     }

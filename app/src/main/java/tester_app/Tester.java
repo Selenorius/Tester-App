@@ -33,13 +33,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
     protected RoundedPanel dirMenu;
-    private RoundedButton editorButton;
+    private HamburgerMenu addButton;
     private Topic uncategorized;
     private final Image
         icon = loadIcon("/tester_appx96.png"),
@@ -125,7 +126,7 @@ public class Tester extends ConsoleErrorJFrame {
             
         });
 
-        uncategorized = new Topic("Uncategorized", dirButtonIcon, this);
+        uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
@@ -142,13 +143,25 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        editorButton = new RoundedButton();
-        editorButton.addActionListener(new ActionListener() {
+        RoundedButton addTopicButton = new RoundedButton();
+        addTopicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startEditor();
             }
         });
-        styleButton(editorButton, null, editorButtonIcon);
+        styleButton(addTopicButton, "Create new topic");
+
+        RoundedButton addExamButton = new RoundedButton();
+        addExamButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                startEditor();
+            }
+        });
+        styleButton(addExamButton, "Create new exam");
+
+        addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
+        addButton.addComponent(addTopicButton);
+        addButton.addComponent(addExamButton);
 
         this.add(scrollPane);
 
@@ -184,7 +197,7 @@ public class Tester extends ConsoleErrorJFrame {
         } else {
             for (final File f : files) {
                 if (f.isDirectory()) {
-                    Topic dirTopic = new Topic(f.getName(), dirButtonIcon, this);
+                    Topic dirTopic = new Topic.TopicBuilder().text(f.getName()).icon(dirButtonIcon).tester(this).build();
 
                     dirTopic.loadFiles(f, fileButtonIcon);
 
@@ -197,7 +210,7 @@ public class Tester extends ConsoleErrorJFrame {
         }
         
         addComponent(uncategorized);
-        addComponent(editorButton, GridBagConstraints.SOUTH);
+        addComponent(addButton, GridBagConstraints.SOUTH);
     }
 
     private void addComponent(Component c, int anchor) {
@@ -228,7 +241,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void start() {
-        uncategorized.clearFileMenu();
+        uncategorized.clearMenu();
         dirMenu.removeAll();
         loadDir(root);
         
