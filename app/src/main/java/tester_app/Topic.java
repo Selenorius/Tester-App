@@ -33,6 +33,10 @@ public class Topic extends HamburgerMenu {
         } else {
             addExam(dir, fileIcon);
         }
+
+        HamburgerMenu addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(tester.editorButtonIcon).build();
+
+        addComponent(addButton);
     }
 
     public void addExam(final File file, final Image fileIcon) {

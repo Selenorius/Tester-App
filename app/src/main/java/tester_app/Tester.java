@@ -43,7 +43,7 @@ public class Tester extends ConsoleErrorJFrame {
     protected RoundedPanel dirMenu;
     private HamburgerMenu addButton;
     private Topic uncategorized;
-    private final Image
+    protected final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
@@ -151,7 +151,7 @@ public class Tester extends ConsoleErrorJFrame {
                 startEditor();
             }
         });
-        styleButton(addTopicButton, "Create new topic");
+        styleButton(addTopicButton, "Create new topic", dirButtonIcon);
 
         RoundedButton addExamButton = new RoundedButton();
         addExamButton.addActionListener(new ActionListener() {
@@ -159,7 +159,7 @@ public class Tester extends ConsoleErrorJFrame {
                 startEditor();
             }
         });
-        styleButton(addExamButton, "Create new exam");
+        styleButton(addExamButton, "Create new exam", fileButtonIcon);
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
         addButton.addComponent(addTopicButton);
@@ -203,9 +203,6 @@ public class Tester extends ConsoleErrorJFrame {
                     Topic dirTopic = new Topic.TopicBuilder().text(f.getName()).icon(dirButtonIcon).tester(this).build();
 
                     dirTopic.loadFiles(f, fileButtonIcon);
-                    if(f.listFiles().length == 0) {
-                        dirTopic.addComponent(empty);
-                    }
 
                     addComponent(dirTopic);
                     loadDir(f);
