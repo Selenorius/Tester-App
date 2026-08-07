@@ -16,7 +16,7 @@ public class TextOption extends RoundedPanel {
 
      public boolean isTrue(String in) {
         if(in != null && !in.isBlank()) {
-            in.toLowerCase();
+            in = in.toLowerCase();
             
             for(String s : text) {
                 if(in.contains(s)) {
@@ -29,7 +29,7 @@ public class TextOption extends RoundedPanel {
     }
 
     public void addText(String text) {
-        String out = text.toLowerCase();
+        String out = text;
 
         this.text.add(out);
     }
@@ -52,7 +52,7 @@ public class TextOption extends RoundedPanel {
 
         for(String s : text) {
             if(s != null) {
-                out += tab(4) + s + System.lineSeparator();
+                out += tab(4) + "\"" + s + "\"" + System.lineSeparator();
             }
         }
 

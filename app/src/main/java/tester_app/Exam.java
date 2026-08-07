@@ -174,9 +174,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         loadQuestions(examFile);
 
-        this.setVisible(true);
-
-        start();
+        this.setVisible(false);
     }
 
     @SuppressWarnings("null")
@@ -194,14 +192,14 @@ public class Exam extends ConsoleErrorJFrame {
                 switch (layer) {
                     case 1:
                         if(line.contains("{")) {
-                            line.toLowerCase();
+                            line = line.toLowerCase();
 
                             if(line.contains("true_false") || line.contains("tf")) {
                                 newQuestion = new TFQuestion(this);
                                 newQuestion.setGoal(1);
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
                                 if(line.contains("ordered") || line.contains("o")) {
-                                    newQuestion = new MCQuestion(true);
+                                    newQuestion = new MCQuestion(this);
                                 } else {
                                     newQuestion = new MCQuestion(this);
                                 }
@@ -219,6 +217,26 @@ public class Exam extends ConsoleErrorJFrame {
 
                     case 2:
                         if(line.contains("{")) {
+                            if(line.contains("\"")) {
+                                text = line.substring(line.indexOf("\"") + 1);
+
+                                if(newQuestion.getQuestionText() == null && text.contains("\"")) {
+                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getAnswerText() == null && text.contains("\"")) {
+                                    newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
+                                    newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
+                                    newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                                }
+                            }
+
                             ++layer;
                         }
                         else if(line.contains("}")) {
@@ -233,8 +251,7 @@ public class Exam extends ConsoleErrorJFrame {
                             questions.add(newQuestion);
 
                             --layer;
-                        }
-                        else if(line.contains("\"")) {
+                        } else if(line.contains("\"")) {
                             text = line.substring(line.indexOf("\"") + 1);
 
                             if(newQuestion.getQuestionText() == null && text.contains("\"")) {
@@ -255,13 +272,13 @@ public class Exam extends ConsoleErrorJFrame {
                         }
 
                         break;
-
+                        
                     case 3:
                         if(line.contains("{")) {
                             if(newQuestion.getClass() == MCQuestion.class) {
                                 newButtonOption = new ButtonOption();
 
-                                line.toLowerCase();
+                                line = line.toLowerCase();
                                 if(line.contains("true")) {
                                     newButtonOption.setValue(true);
                                 } else if(line.contains("false")) {
@@ -278,7 +295,7 @@ public class Exam extends ConsoleErrorJFrame {
                         else if(line.contains("}")) {
                             --layer;
                         } else if(newQuestion.getClass() == TFQuestion.class) {
-                            line.toLowerCase();
+                            line = line.toLowerCase();
                             
                             if(line.contains("true")) {
                                 newButtonOption = new ButtonOption();
@@ -345,7 +362,7 @@ public class Exam extends ConsoleErrorJFrame {
         }
     }
 
-    private void start() {
+    public void start() {
         Collections.shuffle(questions);
 
         Question currentQuestion = questions.get(0);
@@ -353,6 +370,8 @@ public class Exam extends ConsoleErrorJFrame {
         questionMenu.add(currentQuestion);
 
         scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+
+        setVisible(true);
     }
 
     private Dimension getTesterSize() {
@@ -371,14 +390,14 @@ public class Exam extends ConsoleErrorJFrame {
         }
     }
 
-    public void saveToFile(String filePath) {
+    public void saveToFile(String filePath, File parent) {
         String out = "{" + System.lineSeparator();
         for(Question q : questions) {
             String
             type = "",
             ordered = "",
-            text = q.getQuestionText(),
-            answer = q.getAnswerText(),
+            text = "\"" + q.getQuestionText() + "\" ",
+            answer = "\"" + q.getAnswerText() + "\" ",
             options = "";
 
             if(q.getClass() == MCQuestion.class) {
@@ -393,16 +412,16 @@ public class Exam extends ConsoleErrorJFrame {
                 type = "WRITTEN ";
             }
 
-            if(text == null) {
+            if(q.getQuestionText() == null) {
                 text = "";
-            } else if(answer == null) {
+            } else if(q.getAnswerText() == null) {
                 answer = "";
             }
 
             if(q.getClass() == MCQuestion.class) {
                 for(ButtonOption o : q.getButtonOptions()) {
                     options += tab(3) + o.isTrue() + " {" + System.lineSeparator();
-                    options += tab(4) + o.getText() + System.lineSeparator();
+                    options += tab(4) + "\"" + o.getText() + "\"" + System.lineSeparator();
                     options += tab(3) + "}" + System.lineSeparator();
                 }
             } else if(q.getClass() == WQuestion.class) {
@@ -416,8 +435,7 @@ public class Exam extends ConsoleErrorJFrame {
             }
 
             out += tab(1) + type + ordered + "{" + System.lineSeparator();
-            out += tab(2) + text + answer + System.lineSeparator();
-            out += tab(2) + "{" + System.lineSeparator();
+            out += tab(2) + text + answer + "{" + System.lineSeparator();
             out += options;
             out += tab(2) + "}" + System.lineSeparator();
             out += tab(1) + "}" + System.lineSeparator();
@@ -425,7 +443,7 @@ public class Exam extends ConsoleErrorJFrame {
         out += "}";
 
         try {
-            FileWriter fileOut = new FileWriter(new File(root + "/" + filePath + ".txt"));
+            FileWriter fileOut = new FileWriter(new File(parent + "/" + filePath + ".txt"));
             fileOut.write(out);
             fileOut.close();
         } catch (Exception e1) {

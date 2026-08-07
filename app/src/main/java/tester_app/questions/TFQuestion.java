@@ -119,7 +119,7 @@ public class TFQuestion extends Question {
             JOptionPane.showMessageDialog(
                 exam,
                 "Correct Answer: " + System.lineSeparator() + System.lineSeparator() +
-                "- " + options.get(0) + System.lineSeparator() +
+                "- " + options.get(0).getText() + System.lineSeparator() + System.lineSeparator() +
                 "Keep trying, you can do it!",
                 "Incorrect Answer!",
                 JOptionPane.PLAIN_MESSAGE

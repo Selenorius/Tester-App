@@ -1,7 +1,6 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
@@ -31,37 +30,6 @@ public class MCQuestion extends Question {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
 
-    public MCQuestion(Boolean ordered) {
-        score = 0;
-        options = new ArrayList<>();
-        this.ordered = ordered;
-        status = Test.SUCCESS;
-        layout = new GridBagLayout();
-        constraints = new GridBagConstraints();
-
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-
-        this.setBackground(null);
-        this.setBorderPainted(false);
-        this.setLayout(layout);
-
-        inputArea = new RoundedPanel();
-        inputArea.setBackground(backgroundColor);
-        inputArea.setLayout(layout);
-
-        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
-        questionTextLabel.setForeground(Color.WHITE);
-        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        addMargin(questionTextLabel, margin * 4);
-
-        this.add(new JLabel(this.questionText), constraints);
-        this.add(inputArea, constraints);
-
-        setInputAreaSize(size.width, size.height);
-    }
     public MCQuestion(Exam exam) {
         score = 0;
         options = new ArrayList<>();

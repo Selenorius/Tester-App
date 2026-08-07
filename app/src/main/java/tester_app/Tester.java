@@ -28,6 +28,7 @@ import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -182,24 +183,28 @@ public class Tester extends ConsoleErrorJFrame {
 
     private void loadDir(final File dir) {
         File[] files = dir.listFiles();
+        RoundedPanel empty = new RoundedPanel();
+        JLabel text = new JLabel("No exams found.");
+
+        text.setForeground(Color.WHITE);
+
+        empty.add(text);
+        empty.setBackground(null);
+        empty.setBorderPainted(false);
 
         if(files.length == 0) {
-            RoundedPanel empty = new RoundedPanel();
-            JLabel text = new JLabel("No exams found.");
-
-            text.setForeground(Color.WHITE);
-
-            empty.add(text);
-            empty.setBackground(null);
-            empty.setBorderPainted(false);
-
-            addComponent(empty);
+            if(dir == root) {
+                addComponent(empty);
+            }
         } else {
             for (final File f : files) {
                 if (f.isDirectory()) {
                     Topic dirTopic = new Topic.TopicBuilder().text(f.getName()).icon(dirButtonIcon).tester(this).build();
 
                     dirTopic.loadFiles(f, fileButtonIcon);
+                    if(f.listFiles().length == 0) {
+                        dirTopic.addComponent(empty);
+                    }
 
                     addComponent(dirTopic);
                     loadDir(f);
@@ -236,7 +241,8 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void startExam(File f, Tester tester) {
-        new Exam(f, tester);
+        new Exam(f, tester).start();
+    
         this.dispose();
     }
 
