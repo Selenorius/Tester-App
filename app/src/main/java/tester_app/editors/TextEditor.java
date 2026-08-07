@@ -6,6 +6,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -217,6 +218,7 @@ public class TextEditor extends ConsoleErrorJFrame implements ActionListener {
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        styleScrollPane(scrollPane);
 
         textPanel = new RoundedPanel();
         textPanel.setSize(getEditorSize());

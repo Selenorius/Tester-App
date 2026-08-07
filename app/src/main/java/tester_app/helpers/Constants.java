@@ -3,8 +3,12 @@ package tester_app.helpers;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +17,9 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import tester_app.Exam;
 import tester_app.questions.Question;
@@ -152,5 +159,76 @@ public final class Constants {
         } else {
             exam.next();
         }
+    }
+
+    public static void styleScrollPane(JScrollPane scrollPane) {
+        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            private final Dimension d = new Dimension();
+
+            @Override protected JButton createDecreaseButton(int orientation) {
+                return new RoundedButton() {
+                    @Override public Dimension getPreferredSize() {
+                        return d;
+                    }
+                };
+            }
+
+            @Override protected JButton createIncreaseButton(int orientation) {
+                return new RoundedButton() {
+                    @Override public Dimension getPreferredSize() {
+                        return d;
+                    }
+                };
+            }
+
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle r) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                g2.setPaint(backgroundColor);
+                g2.fillRect(r.x, r.y, r.width, r.height);
+
+                g2.setPaint(fieldColor);
+                g2.fillRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 2 - margin, r.height - 2 - margin, 10, 10);
+
+                g2.setPaint(borderColor);
+                g2.drawRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 3 - margin, r.height - 3 - margin, 10, 10);
+            }
+
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                Color color = buttonBackgroundColor;
+                JScrollBar sb = (JScrollBar)c;
+
+                if(!sb.isEnabled() || r.width > r.height) {
+                    return;
+                } else if(isDragging) {
+                    color = selectionColor;
+                } else if(isThumbRollover()) {
+                    color = selectionColor;
+                }
+
+                g2.setPaint(color);
+                g2.fillRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 2 - margin, r.height - 2 - margin, 10, 10);
+                
+                if(!isThumbRollover()) {
+                    color = buttonBackgroundColor;
+
+                    g2.setPaint(buttonBorderColor);
+                    g2.drawRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 3 - margin, r.height - 3 - margin, 10, 10);
+                }
+                
+                g2.dispose();
+            }
+
+            @Override
+            protected void setThumbBounds(int x, int y, int width, int height) {
+                super.setThumbBounds(x, y, width, height);
+                scrollbar.repaint();
+            }
+        });
     }
 }

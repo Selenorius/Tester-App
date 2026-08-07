@@ -5,6 +5,7 @@ import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
@@ -28,7 +29,6 @@ import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -143,6 +143,7 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        styleScrollPane(scrollPane);
 
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {

@@ -6,6 +6,8 @@ import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JButton;
 
@@ -51,23 +53,29 @@ public class RoundedButton extends JButton {
     }
 
     @Override
-    protected void paintComponent(Graphics g) { 
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         if (getModel().isRollover()) { 
-            g.setColor(rButtonSelectionColor);
+            g2.setColor(rButtonSelectionColor);
             this.borderPaint = false;
         } else { 
-            g.setColor(getBackground());
+            g2.setColor(getBackground());
             if(!this.isSelected()) this.borderPaint = true;
         }
-        g.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
-        super.paintComponent(g);
+        g2.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
+        super.paintComponent(g2);
     }
 
     @Override
     protected void paintBorder(Graphics g) { 
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         if(borderPaint) {
-            g.setColor(rButtonBorderColor);
-            g.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
+            g2.setColor(rButtonBorderColor);
+            g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
         }
     }
 

@@ -4,6 +4,7 @@ import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
@@ -168,6 +169,7 @@ public class Exam extends ConsoleErrorJFrame {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        styleScrollPane(scrollPane);
 
         this.add(scoreMenu);
         this.add(scrollPane);
