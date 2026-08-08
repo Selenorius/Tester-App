@@ -1,6 +1,7 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
@@ -48,7 +49,7 @@ public class MCQuestion extends Question {
         this.setLayout(layout);
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(null);
+        inputArea.setBackground(fieldColor);
         inputArea.setBorderPainted(false);
         inputArea.setLayout(layout);
 

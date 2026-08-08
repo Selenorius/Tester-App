@@ -1,28 +1,34 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -32,6 +38,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.HamburgerMenu;
+import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
@@ -39,14 +47,17 @@ public class Tester extends ConsoleErrorJFrame {
     protected RoundedPanel dirMenu;
     private HamburgerMenu addButton;
     private Topic uncategorized;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
+    private RoundedMenuBar menuBar;
+
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
-        editorButtonIcon = loadIcon("/editorButtonx32.png");
+        editorButtonIcon = loadIcon("/editorButtonx32.png"),
+        backButtonIcon = loadIcon("/backButtonx32.png");
     private final String settingsFile = "settings.txt";
-    private GridBagLayout layout;
-    private GridBagConstraints constraints;
     
     public Tester() {
         layout = new GridBagLayout();
@@ -66,7 +77,7 @@ public class Tester extends ConsoleErrorJFrame {
                 | UnsupportedLookAndFeelException e1) {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
-        this.getContentPane().setBackground(backgroundColor);
+        this.getContentPane().setBackground(fieldColor);
         this.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -79,12 +90,11 @@ public class Tester extends ConsoleErrorJFrame {
             @Override
             public void windowStateChanged(WindowEvent e) {
                 Dimension testerSize = getTesterSize();
-
+                
                 scrollPane.setPreferredSize(testerSize);
             }
         });
-        this.addWindowListener(new WindowListener() {
-
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
                 File settings = new File(settingsFile);
@@ -106,35 +116,70 @@ public class Tester extends ConsoleErrorJFrame {
             }
 
             @Override
-            public void windowClosing(WindowEvent e) {}
-
-            @Override
             public void windowClosed(WindowEvent e) {
                 updateSettings();
             }
-
-            @Override
-            public void windowIconified(WindowEvent e) {}
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-
-            @Override
-            public void windowActivated(WindowEvent e) {}
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-            
         });
+
+        RoundedButton minButton = new RoundedButton();
+        minButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setExtendedState(ICONIFIED);
+            }
+        });
+        styleButton(minButton, "Min");
+
+        RoundedButton maxButton = new RoundedButton();
+        maxButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(getExtendedState() == NORMAL) {
+                    setExtendedState(MAXIMIZED_BOTH);
+                } else {
+                    setExtendedState(NORMAL);
+                }
+            }
+        });
+        styleButton(maxButton, "Max");
+
+        RoundedButton backButton = new RoundedButton();
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        styleButton(backButton, "Exit");
+        backButton.setSelectionColor(deleteColor);
+
+        RoundedPanel space = new RoundedPanel();
+        space.setBackground(null);
+        space.setBorderPainted(false);
+
+        menuBar = new RoundedMenuBar();
+        menuBar.setBorderPainted(false);
+        menuBar.setBackground(fieldColor);
+        menuBar.setLayout(layout);
+        menuBar.add(Box.createHorizontalGlue());
+
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 10;
+        constraints.weighty = 0.5;
+
+        menuBar.add(space, constraints);
+
+        constraints.weightx = 0.5;
+
+        menuBar.add(minButton, constraints);
+        menuBar.add(maxButton, constraints);
+        menuBar.add(backButton, constraints);
 
         uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(fieldColor);
+        dirMenu.setBackground(backgroundColor);
         dirMenu.setLayout(layout);
 
         scrollPane = new JScrollPane(dirMenu);
-        scrollPane.getViewport().setBackground(backgroundColor);
+        scrollPane.getViewport().setBackground(fieldColor);
         scrollPane.setBorder(null);
         scrollPane.setSize(getTesterSize());
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -150,7 +195,13 @@ public class Tester extends ConsoleErrorJFrame {
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
 
-        this.add(scrollPane);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin, margin, margin, margin);
+
+        this.setJMenuBar(menuBar);
+        this.add(scrollPane, constraints);
 
         this.setVisible(true);
     }

@@ -2,6 +2,7 @@ package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
@@ -38,7 +39,8 @@ public class TFQuestion extends Question {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(backgroundColor);
+        inputArea.setBackground(fieldColor);
+        inputArea.setBorderPainted(false);
         inputArea.setLayout(new GridLayout());
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);

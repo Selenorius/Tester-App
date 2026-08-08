@@ -8,7 +8,6 @@ package tester_app;
 public class App {
     public static void main(String[] args) {
         Tester tester = new Tester();
-
         tester.start();
     }
 }

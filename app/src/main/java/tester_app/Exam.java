@@ -1,22 +1,28 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.borderColor;
+import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +40,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -49,6 +58,7 @@ public class Exam extends ConsoleErrorJFrame {
     private JLabel scoreLabel;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
+    private RoundedMenuBar menuBar;
 
     private int
         score,
@@ -61,6 +71,9 @@ public class Exam extends ConsoleErrorJFrame {
         settingsFile = "examSettings.txt";
 
     public Exam(File examFile, Tester tester) {
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
         this.score = 0;
         currentIndex = 0;
         examName = examFile.getName().substring(0, examFile.getName().length() - 4);
@@ -72,15 +85,12 @@ public class Exam extends ConsoleErrorJFrame {
             topicName = "Uncategorized";
         }
 
-        layout = new GridBagLayout();
-        constraints = new GridBagConstraints();
-
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(topicName + " - " + examName);
         this.setIconImage(icon);
         this.setMinimumSize(size);
         this.setSize(size);
-        this.setLayout(new FlowLayout());
+        this.setLayout(layout);
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
         try {
@@ -112,8 +122,7 @@ public class Exam extends ConsoleErrorJFrame {
                 }
             }
         });
-        this.addWindowListener(new WindowListener() {
-
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
                 File settings = new File(settingsFile);
@@ -135,27 +144,12 @@ public class Exam extends ConsoleErrorJFrame {
             }
 
             @Override
-            public void windowClosing(WindowEvent e) {}
-
-            @Override
             public void windowClosed(WindowEvent e) {
                 updateSettings();
                 tester.start();
             }
-
-            @Override
-            public void windowIconified(WindowEvent e) {}
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-
-            @Override
-            public void windowActivated(WindowEvent e) {}
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-            
         });
+        this.getContentPane().setBackground(fieldColor);
 
         questions = new ArrayList<>();
 
@@ -163,15 +157,74 @@ public class Exam extends ConsoleErrorJFrame {
         scoreLabel.setForeground(Color.WHITE);
 
         scoreMenu = new RoundedPanel();
-        scoreMenu.setBackground(fieldColor);
+        scoreMenu.setBackground(null);
+        scoreMenu.setBorderPainted(false);
+        scoreMenu.setLayout(layout);
         scoreMenu.add(scoreLabel);
 
+        RoundedButton minButton = new RoundedButton();
+        minButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setExtendedState(ICONIFIED);
+            }
+        });
+        styleButton(minButton, "Min");
+
+        RoundedButton maxButton = new RoundedButton();
+        maxButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(getExtendedState() == NORMAL) {
+                    setExtendedState(MAXIMIZED_BOTH);
+                } else {
+                    setExtendedState(NORMAL);
+                }
+            }
+        });
+        styleButton(maxButton, "Max");
+
+        RoundedButton backButton = new RoundedButton();
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        styleButton(backButton, "Back");
+        backButton.setSelectionColor(deleteColor);
+
+        RoundedPanel space = new RoundedPanel();
+        space.setBackground(null);
+        space.setBorderPainted(false);
+
+        menuBar = new RoundedMenuBar();
+        menuBar.setBorderPainted(false);
+        menuBar.setBackground(fieldColor);
+        menuBar.setLayout(layout);
+        menuBar.add(Box.createHorizontalGlue());
+
+        constraints.insets = new Insets(0, margin, 0, 0);
+
+        menuBar.add(scoreMenu, constraints);
+
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 10;
+        constraints.weighty = 0.5;
+
+        menuBar.add(space, constraints);
+
+        constraints.weightx = 0.5;
+
+        menuBar.add(minButton, constraints);
+        menuBar.add(maxButton, constraints);
+        menuBar.add(backButton, constraints);
+
         questionMenu = new RoundedPanel();
-        questionMenu.setBackground(fieldColor);
+        questionMenu.setBackground(backgroundColor);
         questionMenu.setLayout(new BoxLayout(questionMenu, BoxLayout.Y_AXIS));
 
         scrollPane = new JScrollPane(questionMenu);
-        scrollPane.getViewport().setBackground(backgroundColor);
+        scrollPane.getViewport().setBackground(fieldColor);
         scrollPane.setBorder(null);
         scrollPane.setSize(getTesterSize());
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -179,8 +232,13 @@ public class Exam extends ConsoleErrorJFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         styleScrollPane(scrollPane);
 
-        this.add(scoreMenu);
-        this.add(scrollPane);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin, margin, margin, margin);
+
+        this.setJMenuBar(menuBar);
+        this.add(scrollPane, constraints);
 
         loadQuestions(examFile);
 

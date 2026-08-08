@@ -1,13 +1,16 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -32,8 +35,13 @@ public class WQuestion extends Question {
 
     private JTextArea textArea;
     private JScrollPane scrollPane;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
     
     public WQuestion(Exam exam) {
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
         score = 0;
         options = new ArrayList<>();
         used = new ArrayList<>();
@@ -42,7 +50,7 @@ public class WQuestion extends Question {
 
         this.setBackground(null);
         this.setBorderPainted(false);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(layout);
 
         textArea = new JTextArea();
         textArea.addKeyListener(new KeyAdapter() {
@@ -59,29 +67,40 @@ public class WQuestion extends Question {
         });
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setBackground(backgroundColor);
+        textArea.setBackground(fieldColor);
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
         textArea.setFont(null);
-        textArea.setMargin(new Insets(0, margin * 2, 0, margin * 2));
+        textArea.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
         
         scrollPane = new JScrollPane(textArea);
-        scrollPane.setBackground(backgroundColor);
+        scrollPane.setBackground(fieldColor);
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         inputArea = new RoundedPanel();
         inputArea.add(scrollPane);
-        inputArea.setBackground(backgroundColor);
+        inputArea.setBorderPainted(false);
+        inputArea.setLayout(new GridLayout());
+        inputArea.setBackground(fieldColor);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         addMargin(questionTextLabel, margin * 4);
         
-        this.add(questionTextLabel);
-        this.add(inputArea);
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+
+        this.add(questionTextLabel, constraints);
+
+        constraints.weightx = 10;
+        constraints.weighty = 10;
+
+        this.add(inputArea, constraints);
 
         setInputAreaSize(size.width, size.height);
     }
