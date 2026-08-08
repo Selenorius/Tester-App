@@ -49,13 +49,17 @@ public class Tester extends ConsoleErrorJFrame {
     private GridBagConstraints constraints;
     
     public Tester() {
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+        
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
         this.setIconImage(icon);
         this.setMinimumSize(size);
         this.setSize(size);
-        this.setLayout(new FlowLayout());
+        this.setLayout(layout);
         this.setLocationRelativeTo(null);
+        this.setUndecorated(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -124,9 +128,6 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
-
-        layout = new GridBagLayout();
-        constraints = new GridBagConstraints();
 
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor);
@@ -214,7 +215,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 50);
+        return new Dimension(this.getSize().width - 28, this.getSize().height - 28);
     }
 
     public void startEditor() {

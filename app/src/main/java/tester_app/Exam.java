@@ -10,6 +10,8 @@ import static tester_app.helpers.Constants.tab;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -45,6 +47,8 @@ public class Exam extends ConsoleErrorJFrame {
         questionMenu,
         scoreMenu;
     private JLabel scoreLabel;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
 
     private int
         score,
@@ -68,6 +72,9 @@ public class Exam extends ConsoleErrorJFrame {
             topicName = "Uncategorized";
         }
 
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(topicName + " - " + examName);
         this.setIconImage(icon);
@@ -75,6 +82,7 @@ public class Exam extends ConsoleErrorJFrame {
         this.setSize(size);
         this.setLayout(new FlowLayout());
         this.setLocationRelativeTo(null);
+        this.setUndecorated(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
