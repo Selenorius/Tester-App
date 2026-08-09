@@ -37,6 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedMenuBar;
@@ -50,6 +51,10 @@ public class Tester extends ConsoleErrorJFrame {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
+
+    private int
+        windowstate,
+        prevWindowstate;
 
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
@@ -89,6 +94,12 @@ public class Tester extends ConsoleErrorJFrame {
         this.addWindowStateListener(new WindowStateListener() {
             @Override
             public void windowStateChanged(WindowEvent e) {
+                if(windowstate == ICONIFIED && windowstate != getExtendedState()) {
+                    setExtendedState(prevWindowstate);
+                } else if(windowstate != getExtendedState()) {
+                    setExtendedState(windowstate);
+                }
+
                 Dimension testerSize = getTesterSize();
                 
                 scrollPane.setPreferredSize(testerSize);
@@ -103,7 +114,8 @@ public class Tester extends ConsoleErrorJFrame {
                     try(Scanner settingsFileIn = new Scanner(settings)) {
                         String data = settingsFileIn.nextLine();
                         if(data != "") {
-                            setExtendedState(Integer.parseInt(data));
+                            windowstate = Integer.parseInt(data);
+                            setExtendedState(windowstate);
                         }
                     } catch (Exception e1) {
                         consoleErrorMessage("windowOpened.Scanner", e1.getMessage());
@@ -120,10 +132,16 @@ public class Tester extends ConsoleErrorJFrame {
                 updateSettings();
             }
         });
+        FrameDragListener frameDragListener = new FrameDragListener(this);
+        this.addMouseListener(frameDragListener);
+        this.addMouseMotionListener(frameDragListener);
+        this.getContentPane().setBackground(fieldColor);
 
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                prevWindowstate = getExtendedState();
+                windowstate = ICONIFIED;
                 setExtendedState(ICONIFIED);
             }
         });
@@ -133,8 +151,10 @@ public class Tester extends ConsoleErrorJFrame {
         maxButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(getExtendedState() == NORMAL) {
+                    windowstate = MAXIMIZED_BOTH;
                     setExtendedState(MAXIMIZED_BOTH);
                 } else {
+                    windowstate = NORMAL;
                     setExtendedState(NORMAL);
                 }
             }
@@ -199,6 +219,8 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.insets = new Insets(margin, margin, margin, margin);
+
+        constraints.insets = new Insets(1, 1, 1, 1);
 
         this.setJMenuBar(menuBar);
         this.add(scrollPane, constraints);

@@ -1,7 +1,6 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.backgroundColor;
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;

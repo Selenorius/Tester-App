@@ -19,7 +19,7 @@ public class TextOption extends RoundedPanel {
             in = in.toLowerCase();
             
             for(String s : text) {
-                if(in.contains(s)) {
+                if(in.contains(s.toLowerCase())) {
                     return true;
                 }
             }

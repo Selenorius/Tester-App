@@ -1,7 +1,6 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
