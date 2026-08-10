@@ -8,7 +8,8 @@ import java.awt.event.MouseEvent;
 
 public class FrameResizeListener extends MouseAdapter {
     private final Component frame;
-    private Point mouseDownCompCoords = null;
+    private Point
+        mouseDownCompCoords = null;
     private Dimension currSize = null;
 
     public FrameResizeListener(Component frame) {
@@ -26,8 +27,16 @@ public class FrameResizeListener extends MouseAdapter {
     }
 
     public void mouseDragged(MouseEvent e) {
-        Point currCoords = e.getLocationOnScreen();
+        Point
+            currCoords = e.getLocationOnScreen();
+        int
+            x = currCoords.x,
+            y = currCoords.y;
 
-        frame.setSize(currSize.width + (currCoords.x - mouseDownCompCoords.x), currSize.height + (currCoords.y - mouseDownCompCoords.y));
+        x = currSize.width + (currCoords.x - mouseDownCompCoords.x);
+
+        y = currSize.height + (currCoords.y - mouseDownCompCoords.y);
+
+        frame.setSize(x, y);
     }
 }

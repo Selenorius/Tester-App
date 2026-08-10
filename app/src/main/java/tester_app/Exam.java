@@ -1,5 +1,6 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
@@ -207,6 +208,7 @@ public class Exam extends ConsoleErrorJFrame {
         FrameDragListener frameDragListener = new FrameDragListener(this);
         menuBar.addMouseListener(frameDragListener);
         menuBar.addMouseMotionListener(frameDragListener);
+        addMargin(menuBar, margin);
 
         constraints.insets = new Insets(0, margin, 0, 0);
 
@@ -242,7 +244,7 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
-        constraints.insets = new Insets(margin, margin, margin, margin);
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         this.setJMenuBar(menuBar);
         this.add(scrollPane, constraints);
