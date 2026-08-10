@@ -38,6 +38,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.FrameDragListener;
+import tester_app.helpers.FrameResizeListener;
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedMenuBar;
@@ -132,9 +133,9 @@ public class Tester extends ConsoleErrorJFrame {
                 updateSettings();
             }
         });
-        FrameDragListener frameDragListener = new FrameDragListener(this);
-        this.addMouseListener(frameDragListener);
-        this.addMouseMotionListener(frameDragListener);
+        FrameResizeListener frameResizeListener = new FrameResizeListener(this);
+        this.addMouseListener(frameResizeListener);
+        this.addMouseMotionListener(frameResizeListener);
         this.getContentPane().setBackground(fieldColor);
 
         RoundedButton minButton = new RoundedButton();
@@ -179,6 +180,9 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.setBackground(fieldColor);
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
+        FrameDragListener frameDragListener = new FrameDragListener(this);
+        menuBar.addMouseListener(frameDragListener);
+        menuBar.addMouseMotionListener(frameDragListener);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
@@ -219,8 +223,6 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.insets = new Insets(margin, margin, margin, margin);
-
-        constraints.insets = new Insets(1, 1, 1, 1);
 
         this.setJMenuBar(menuBar);
         this.add(scrollPane, constraints);

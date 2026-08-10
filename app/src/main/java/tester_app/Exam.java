@@ -39,6 +39,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.FrameDragListener;
+import tester_app.helpers.FrameResizeListener;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
@@ -148,6 +150,9 @@ public class Exam extends ConsoleErrorJFrame {
                 tester.start();
             }
         });
+        FrameResizeListener frameResizeListener = new FrameResizeListener(this);
+        this.addMouseListener(frameResizeListener);
+        this.addMouseMotionListener(frameResizeListener);
         this.getContentPane().setBackground(fieldColor);
 
         questions = new ArrayList<>();
@@ -199,6 +204,9 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.setBackground(fieldColor);
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
+        FrameDragListener frameDragListener = new FrameDragListener(this);
+        menuBar.addMouseListener(frameDragListener);
+        menuBar.addMouseMotionListener(frameDragListener);
 
         constraints.insets = new Insets(0, margin, 0, 0);
 
