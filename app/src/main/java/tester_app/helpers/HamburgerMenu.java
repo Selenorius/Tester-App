@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -119,11 +120,18 @@ public class HamburgerMenu extends RoundedPanel {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = anchor;
+        constraints.insets = new Insets(margin, margin, margin, margin);
 
         menu.add(c, constraints);
     }
     public void addComponent(Component c) {
         addComponent(c, GridBagConstraints.CENTER);
+    }
+
+    public void replace(int index, Component c) {
+        if(index < menu.getComponents().length) {
+            menu.getComponents()[index] = c;
+        }
     }
 
     @Override

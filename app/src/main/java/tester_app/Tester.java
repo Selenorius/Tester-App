@@ -319,4 +319,25 @@ public class Tester extends ConsoleErrorJFrame {
         
         this.setVisible(true);
     }
+
+    // GETTERS
+    public Image getIcon() {
+        return icon;
+    }
+
+    public Image getDirButtonIcon() {
+        return dirButtonIcon;
+    }
+
+    public Image getFileButtonIcon() {
+        return fileButtonIcon;
+    }
+
+    public Image getEditorButtonIcon() {
+        return editorButtonIcon;
+    }
+
+    public Image getBackButtonIcon() {
+        return backButtonIcon;
+    }
 }

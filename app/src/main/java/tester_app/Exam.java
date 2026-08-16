@@ -588,4 +588,8 @@ public class Exam extends ConsoleErrorJFrame {
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
     }
+
+    public void setQuestions(ArrayList<Question> newQuestions) {
+        questions = newQuestions;
+    }
 }
