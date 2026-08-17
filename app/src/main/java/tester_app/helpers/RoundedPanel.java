@@ -72,6 +72,9 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportHeight() {
+        if(this.getMinimumSize().height < this.getParent().getSize().height) {
+            return true;
+        }
         return false;
     }
 }

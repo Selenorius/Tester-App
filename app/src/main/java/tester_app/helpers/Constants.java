@@ -186,14 +186,14 @@ public final class Constants {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                g2.setPaint(backgroundColor);
+                g2.setPaint(fieldColor);
                 g2.fillRect(r.x, r.y, r.width, r.height);
 
-                g2.setPaint(fieldColor);
-                g2.fillRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 2 - margin, r.height - 2 - margin, 10, 10);
+                g2.setPaint(backgroundColor);
+                g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
                 g2.setPaint(borderColor);
-                g2.drawRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 3 - margin, r.height - 3 - margin, 10, 10);
+                g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
             @Override
@@ -212,13 +212,13 @@ public final class Constants {
                 }
 
                 g2.setPaint(color);
-                g2.fillRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 2 - margin, r.height - 2 - margin, 10, 10);
+                g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
                 if(!isThumbRollover()) {
                     color = buttonBackgroundColor;
 
                     g2.setPaint(buttonBorderColor);
-                    g2.drawRoundRect(r.x + 2 + margin, r.y + 2 + margin, r.width - 3 - margin, r.height - 3 - margin, 10, 10);
+                    g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 }
                 
                 g2.dispose();

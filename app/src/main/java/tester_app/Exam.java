@@ -12,7 +12,6 @@ import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -219,10 +218,9 @@ public class Exam extends ConsoleErrorJFrame {
         scrollPane = new JScrollPane(questionMenu);
         scrollPane.getViewport().setBackground(fieldColor);
         scrollPane.setBorder(null);
-        scrollPane.setSize(getTesterSize());
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(64);
         styleScrollPane(scrollPane);
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -433,10 +431,6 @@ public class Exam extends ConsoleErrorJFrame {
         titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
 
         setVisible(true);
-    }
-
-    private Dimension getTesterSize() {
-        return new Dimension(this.getSize().width - 28, this.getSize().height - 48 - 39);
     }
 
     private void updateSettings() {

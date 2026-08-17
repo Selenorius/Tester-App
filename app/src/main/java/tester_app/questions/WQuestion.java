@@ -5,6 +5,7 @@ import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.size;
+import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -77,6 +78,7 @@ public class WQuestion extends Question {
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        styleScrollPane(scrollPane);
 
         inputArea = new RoundedPanel();
         inputArea.add(scrollPane);
