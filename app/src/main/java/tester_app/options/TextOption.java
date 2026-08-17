@@ -34,6 +34,10 @@ public class TextOption extends RoundedPanel {
         this.text.add(out);
     }
 
+    public void clearText() {
+        text.clear();
+    }
+
     // GETTERS
     public String getText() {
         String out = "";

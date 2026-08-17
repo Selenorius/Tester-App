@@ -61,13 +61,13 @@ public final class Constants {
         String s = "";
 
         while(i > 0) {
-            s += "   ";
+            s += "    ";
             --i;
         }
 
         return s;
     }
-    public static final String tab() { return "   "; }
+    public static final String tab() { return "    "; }
 
     //READ COMMANDS
     public static final boolean quit(final String s) {

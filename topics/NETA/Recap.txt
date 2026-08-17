@@ -1,38 +1,33 @@
 {
-    {
-        "What does IETF stand for?"
-        {
+    WRITTEN {
+        "What does IETF stand for?" {
             {
                 "Internet Engineering Task Force"
             }
         }
     }
-    {
-        "What does RFC stand for?"
-        {
+    WRITTEN {
+        "What does RFC stand for?" {
             {
                 "Request for Comments"
             }
         }
     }
-    {
-        "Who publishes the RFC?"
-        {
+    WRITTEN {
+        "Who publishes the RFC?" {
             {
                 "Internet Engineering Task Force"
                 "IETF"
             }
         }
     }
-    tf {
-        "The Internet Engineering Task Force is an open global community of network designers, operators, vendors, and researchers producing technical specifications for the evolution of the Internet architecture and the smooth operation of the Internet."
-        {
+    TRUE_FALSE {
+        "The Internet Engineering Task Force is an open global community of network designers, operators, vendors, and researchers producing technical specifications for the evolution of the Internet architecture and the smooth operation of the Internet." {
             true
         }
     }
-    {
-        "List all Layers of the OSI Model in order:"
-        {
+    WRITTEN {
+        "List all Layers of the OSI Model in order:" {
             {
                 "Physical Layer"
                 "Physical"
@@ -65,9 +60,8 @@
             }
         }
     }
-    {
-        "What is an IP Address?"
-        {
+    WRITTEN {
+        "What is an IP Address?" {
             {
                 "Internet Protocol"
                 "A numeric label assigned to a Network Interface Controller (NIC)"
@@ -75,9 +69,8 @@
             }
         }
     }
-    {
-        "Name 5 Application Layer Protocols:"
-        {
+    WRITTEN {
+        "Name 5 Application Layer Protocols:" {
             {
                 "DHCP"
                 "FTP"
@@ -185,9 +178,8 @@
             }
         }
     }
-    {
-        "Name 2 Transport Layer Protocols:"
-        {
+    WRITTEN {
+        "Name 2 Transport Layer Protocols:" {
             {
                 "TCP"
                 "UDP"
@@ -200,15 +192,13 @@
             }
         }
     }
-    tf {
-        "IP is a Network Layer Protocol."
-        {
+    TRUE_FALSE {
+        "IP is a Network Layer Protocol." {
             true
         }
     }
-    {
-        "Name 3 Network Layer Protocols:"
-        {
+    WRITTEN {
+        "Name 3 Network Layer Protocols:" {
             {
                 "IP"
                 "ARP"
@@ -232,37 +222,34 @@
             }
         }
     }
-    mc {
-        "Which statement is true?"
-        {
+    MULTIPLE_CHOICE {
+        "Which statement is true?" {
             true {
                 "SSH operates on the Application and Transport Layer."
             }
             false {
-                "SSH operates solely on the Application Layer."
+                "SSH operates solely on the Transport Layer."
             }
             false {
-                "SSH operates solely on the Transport Layer."
+                "SSH operates solely on the Application Layer."
             }
         }
     }
-    mc {
-        "Which statement is true?"
-        {
+    MULTIPLE_CHOICE {
+        "Which statement is true?" {
+            false {
+                "ARP operates solely on the Data Link Layer."
+            }
             true {
                 "ARP operates on the Network and Data Link Layer."
             }
             false {
                 "ARP operates solely on the Network Layer."
             }
-            false {
-                "ARP operates solely on the Data Link Layer."
-            }
         }
     }
-    {
-        "Name a physical Protocol:"
-        {
+    WRITTEN {
+        "Name a physical Protocol:" {
             {
                 "Ethernet"
                 "ALOHA"
@@ -272,15 +259,13 @@
             }
         }
     }
-    tf {
-        "Ethernet operates solely on the Physical Layer."
-        {
+    TRUE_FALSE {
+        "Ethernet operates solely on the Physical Layer." {
             false
         }
     }
-    {
-        "Name all elements of an IPv4 header:"
-        {
+    WRITTEN {
+        "Name all elements of an IPv4 header:" {
             {
                 "IP Protocol Version Number"
                 "IP Version"
@@ -352,15 +337,13 @@
             }
         }
     }
-    tf {
-        "Private IP addresses are routed through the internet."
-        {
+    TRUE_FALSE {
+        "Private IP addresses are routed through the internet." {
             false
         }
     }
-    {
-        "What is ARP?"
-        {
+    WRITTEN {
+        "What is ARP?" {
             {
                 "Address Resolution Protocol"
                 "Address Resolution Protocol (RFC 826)"
@@ -369,9 +352,8 @@
             }
         }
     }
-    {
-        "What is ICMP?"
-        {
+    WRITTEN {
+        "What is ICMP?" {
             {
                 "Internet Control Message Protocol"
                 "Internet Control Message Protocol (RFC 792)"
@@ -382,9 +364,8 @@
             }
         }
     }
-    {
-        "What is DHCP?"
-        {
+    WRITTEN {
+        "What is DHCP?" {
             {
                 "Dynamic Host Configuration Protocol"
                 "Assigns a local IP address to a host"
@@ -394,15 +375,13 @@
             }
         }
     }
-    tf {
-        "IP addresses can be hard-coded or assigned through DHCP."
-        {
+    TRUE_FALSE {
+        "IP addresses can be hard-coded or assigned through DHCP." {
             true
         }
     }
-    o {
-        "List all steps in a DHCP interaction in order:"
-        {
+    WRITTEN {
+        "List all steps in a DHCP interaction in order:" {
             {
                 "Host broadcasts DHCP discover message"
                 "DHCP discover message"

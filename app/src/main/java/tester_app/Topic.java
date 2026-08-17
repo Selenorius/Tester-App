@@ -418,19 +418,20 @@ public class Topic extends HamburgerMenu {
                     int
                         qCount = 0,
                         rCount = 0,
-                        oCount = 0;
+                        oCount = 0,
+                        tCount = 0;
 
                     for(Question q : questions) {
                         q.setQuestionText(questionTextAreas.get(qCount++).getText());
 
                         if(q.getClass() == WQuestion.class) {
-                            int tCount = 0;
-
                             ArrayList<TextOption> options = q.getTextOptions();
 
                             for(TextOption o : options) {
                                 String text = optionTextAreas.get(tCount++).getText();
                                 Stream<String> lines = text.lines();
+
+                                o.clearText();
 
                                 lines.forEach(line -> {
                                     o.addText(line);
@@ -440,9 +441,10 @@ public class Topic extends HamburgerMenu {
                             q.setTextOptions(options);
                         } else if(q.getClass() == MCQuestion.class) {
                             ArrayList<ButtonOption> options = q.getButtonOptions();
-                            int tCount = 0;
 
                             for(ButtonOption o : options) {
+                                o.setText("");
+
                                 o.setText(optionTextAreas.get(tCount++).getText());
                                 o.setValue(optionRadioButtons.get(rCount++).isSelected());
                             }
