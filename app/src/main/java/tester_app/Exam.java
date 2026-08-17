@@ -133,6 +133,7 @@ public class Exam extends ConsoleErrorJFrame {
         this.addMouseListener(frameResizeListener);
         this.addMouseMotionListener(frameResizeListener);
         this.getContentPane().setBackground(fieldColor);
+        this.setBackground(fieldColor);
 
         questions = new ArrayList<>();
 

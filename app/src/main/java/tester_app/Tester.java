@@ -130,6 +130,7 @@ public class Tester extends ConsoleErrorJFrame {
         this.addMouseListener(frameResizeListener);
         this.addMouseMotionListener(frameResizeListener);
         this.getContentPane().setBackground(fieldColor);
+        this.setBackground(fieldColor);
 
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
