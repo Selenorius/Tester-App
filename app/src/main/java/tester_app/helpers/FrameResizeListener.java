@@ -98,108 +98,76 @@ public class FrameResizeListener extends MouseAdapter {
         if(frame.getExtendedState() != JFrame.MAXIMIZED_BOTH) {
             Point
                 currCoords = e.getPoint(),
-                currFrameCoords = e.getLocationOnScreen();
+                currFrameCoords = e.getLocationOnScreen(),
+                change = new Point(
+                    currCoords.x - mouseDownCompCoords.x,
+                    currCoords.y - mouseDownCompCoords.y
+                );
             int
                 x = frameCoords.x,
                 y = frameCoords.y,
                 sizeX = frameSize.width,
                 sizeY = frameSize.height;
-            
+
             if(state != null) {
                 if(state == State.TOP_LEFT) {
-                    if(
-                        (
-                            frameSize.width > frame.getMinimumSize().width
-                        ) || (
-                            mouseDownCompCoords.x > currCoords.x
-                        )
-                    ) {
-                        sizeX = frameSize.width - (currCoords.x - mouseDownCompCoords.x);
+                    if(frameSize.width - change.x > frame.getMinimumSize().width) {
+                        sizeX -= change.x;
+                        frameSize.width = sizeX;
 
                         x = currFrameCoords.x - mouseDownCompCoords.x;
+                        frameCoords.x = x;
                     }
-                    if(
-                        (
-                            frameSize.height > frame.getMinimumSize().height
-                        ) || (
-                            mouseDownCompCoords.y > currCoords.y
-                        )
-                    ) {
-                        sizeY = frameSize.height - (currCoords.y - mouseDownCompCoords.y);
+                    if(frameSize.height - change.y > frame.getMinimumSize().height) {
+                        sizeY -= change.y;
+                        frameSize.height = sizeY;
 
                         y = currFrameCoords.y - mouseDownCompCoords.y;
+                        frameCoords.y = y;
                     }
-
-                    frameSize = new Dimension(sizeX, sizeY);
                 } else if(state == State.TOP_CENTER) {
-                    
-
-                    if(
-                        (
-                            frameSize.height > frame.getMinimumSize().height
-                        ) || (
-                            mouseDownCompCoords.y > currCoords.y
-                        )
-                    ) {
-                        sizeY = frameSize.height - (currCoords.y - mouseDownCompCoords.y);
+                    if(frameSize.height - change.y > frame.getMinimumSize().height) {
+                        sizeY -= change.y;
+                        frameSize.height = sizeY;
                         
                         y = currFrameCoords.y - mouseDownCompCoords.y;
+                        frameCoords.y = y;
                     }
-
-                    frameSize = new Dimension(sizeX, sizeY);
                 } else if(state == State.TOP_RIGHT) {
-                    if(
-                        (
-                            frameSize.height > frame.getMinimumSize().height
-                        ) || (
-                            mouseDownCompCoords.y > currCoords.y
-                        )
-                    ) {
-                        sizeY = frameSize.height - (currCoords.y - mouseDownCompCoords.y);
+                    if(frameSize.height - change.y > frame.getMinimumSize().height) {
+                        sizeY -= change.y;
+                        frameSize.height = sizeY;
 
                         y = currFrameCoords.y - mouseDownCompCoords.y;
+                        frameCoords.y = y;
                     }
 
-                    frameSize = new Dimension(sizeX, sizeY);
-
-                    sizeX = frameSize.width + (currCoords.x - mouseDownCompCoords.x);
+                    sizeX += change.x;
                 } else if(state == State.CENTER_RIGHT) {
-                    sizeX = frameSize.width + (currCoords.x - mouseDownCompCoords.x);
+                    sizeX += change.x;
                 } else if(state == State.BOTTOM_RIGHT) {
-                    sizeX = frameSize.width + (currCoords.x - mouseDownCompCoords.x);
-                    sizeY = frameSize.height + (currCoords.y - mouseDownCompCoords.y);
+                    sizeX += change.x;
+                    sizeY += change.y;
                 } else if(state == State.BOTTOM_CENTER) {
-                    sizeY = frameSize.height + (currCoords.y - mouseDownCompCoords.y);
+                    sizeY += change.y;
                 } else if(state == State.BOTTOM_LEFT) {
-                    if(
-                        (
-                            frameSize.width > frame.getMinimumSize().width
-                        ) || (
-                            mouseDownCompCoords.x > currCoords.x
-                        )
-                    ) {
-                        sizeX = frameSize.width - (currCoords.x - mouseDownCompCoords.x);
+                    if(frameSize.width - change.x > frame.getMinimumSize().width) {
+                        sizeX -= change.x;
+                        frameSize.width = sizeX;
 
                         x = currFrameCoords.x - mouseDownCompCoords.x;
+                        frameCoords.x = x;
                     }
 
-                    frameSize = new Dimension(sizeX, sizeY);
-
-                    sizeY = frameSize.height + (currCoords.y - mouseDownCompCoords.y);
+                    sizeY += currCoords.y - mouseDownCompCoords.y;
                 } else if(state == State.CENTER_LEFT) {
-                    if(
-                        (
-                            frameSize.width > frame.getMinimumSize().width
-                        ) || (
-                            mouseDownCompCoords.x > currCoords.x
-                        )
-                    ) {
-                        sizeX = frameSize.width - (currCoords.x - mouseDownCompCoords.x);
+                    if(frameSize.width - change.x > frame.getMinimumSize().width) {
+                        sizeX -= change.x;
+                        frameSize.width = sizeX;
                         
                         x = currFrameCoords.x - mouseDownCompCoords.x;
+                        frameCoords.x = x;
                     }
-
-                    frameSize = new Dimension(sizeX, sizeY);
                 }
             }
 
