@@ -7,9 +7,9 @@ import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.root;
-import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,8 +20,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -30,6 +28,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -47,12 +46,17 @@ import tester_app.helpers.RoundedPanel;
 
 public class Tester extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
-    protected RoundedPanel dirMenu;
+    protected RoundedPanel
+        dirMenu,
+        titleMenu;
     private HamburgerMenu addButton;
     private Topic uncategorized;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
+    private JLabel
+        iconLabel,
+        titleLabel;
 
     private int
         windowstate,
@@ -85,14 +89,6 @@ public class Tester extends ConsoleErrorJFrame {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
         this.getContentPane().setBackground(fieldColor);
-        this.getContentPane().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                Dimension testerSize = getTesterSize();
-
-                scrollPane.setPreferredSize(testerSize);
-            }
-        });
         this.addWindowStateListener(new WindowStateListener() {
             @Override
             public void windowStateChanged(WindowEvent e) {
@@ -101,10 +97,6 @@ public class Tester extends ConsoleErrorJFrame {
                 } else if(windowstate != getExtendedState()) {
                     setExtendedState(windowstate);
                 }
-
-                Dimension testerSize = getTesterSize();
-                
-                scrollPane.setPreferredSize(testerSize);
             }
         });
         this.addWindowListener(new WindowAdapter() {
@@ -186,9 +178,28 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
+        iconLabel = new JLabel();
+        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
+
+        titleLabel = new JLabel("Tester App");
+        titleLabel.setForeground(Color.WHITE);
+
+        titleMenu = new RoundedPanel();
+        titleMenu.setBackground(null);
+        titleMenu.setBorderPainted(false);
+        titleMenu.setLayout(layout);
+        
+        constraints.insets = new Insets(0, 0, 0, margin * 2);
+
+        titleMenu.add(iconLabel, constraints);
+        titleMenu.add(titleLabel, constraints);
+
+        menuBar.add(titleMenu);
+
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
         constraints.weighty = 0.5;
+        constraints.insets = new Insets(0, 0, 0, 0);
 
         menuBar.add(space, constraints);
 
@@ -210,7 +221,7 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setSize(getTesterSize());
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(64);
         styleScrollPane(scrollPane);
 
         HamburgerMenu addTopicButton = new HamburgerMenu.HamburgerMenuBuilder().text("Create new topic").icon(dirButtonIcon).build();
@@ -291,7 +302,7 @@ public class Tester extends ConsoleErrorJFrame {
         addComponent(c, GridBagConstraints.CENTER);
     }
 
-    private Dimension getTesterSize() {
+    public Dimension getTesterSize() {
         return new Dimension(this.getSize().width - 28, this.getSize().height - 28);
     }
 

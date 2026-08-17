@@ -4,13 +4,16 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.margin;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 
-public class RoundedPanel extends JPanel {
+public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
     private Boolean borderPaint;
 
@@ -45,5 +48,30 @@ public class RoundedPanel extends JPanel {
 
     public void setBorderPainted(Boolean val) {
         this.borderPaint = val;
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return this.getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 4;
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return 1;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return true;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
     }
 }

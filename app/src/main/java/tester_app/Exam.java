@@ -19,11 +19,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -32,6 +29,7 @@ import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -56,8 +54,10 @@ public class Exam extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
     private RoundedPanel
         questionMenu,
-        scoreMenu;
-    private JLabel scoreLabel;
+        titleMenu;
+    private JLabel
+        iconLabel,
+        titleLabel;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
@@ -67,7 +67,7 @@ public class Exam extends ConsoleErrorJFrame {
         currentIndex;
     private ArrayList<Question> questions;
     private final Image
-        icon = loadIcon("/fileButtonx32.png");
+        icon = loadIcon("/tester_app_editorx96.png");
     private final String
         examName,
         settingsFile = "examSettings.txt";
@@ -102,28 +102,6 @@ public class Exam extends ConsoleErrorJFrame {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
         this.getContentPane().setBackground(backgroundColor);
-        this.getContentPane().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                Dimension testerSize = getTesterSize();
-
-                scrollPane.setPreferredSize(testerSize);
-                for(Question q : questions) {
-                    q.setInputAreaSize(testerSize.width, testerSize.height);
-                }
-            }
-        });
-        this.addWindowStateListener(new WindowStateListener() {
-            @Override
-            public void windowStateChanged(WindowEvent e) {
-                Dimension testerSize = getTesterSize();
-
-                scrollPane.setPreferredSize(testerSize);
-                for(Question q : questions) {
-                    q.setInputAreaSize(testerSize.width, testerSize.height);
-                }
-            }
-        });
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -158,14 +136,21 @@ public class Exam extends ConsoleErrorJFrame {
 
         questions = new ArrayList<>();
 
-        scoreLabel = new JLabel("No label text found");
-        scoreLabel.setForeground(Color.WHITE);
+        iconLabel = new JLabel();
+        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
 
-        scoreMenu = new RoundedPanel();
-        scoreMenu.setBackground(null);
-        scoreMenu.setBorderPainted(false);
-        scoreMenu.setLayout(layout);
-        scoreMenu.add(scoreLabel);
+        titleLabel = new JLabel("No label text found");
+        titleLabel.setForeground(Color.WHITE);
+
+        titleMenu = new RoundedPanel();
+        titleMenu.setBackground(null);
+        titleMenu.setBorderPainted(false);
+        titleMenu.setLayout(layout);
+
+        constraints.insets = new Insets(0, 0, 0, margin * 2);
+
+        titleMenu.add(iconLabel, constraints);
+        titleMenu.add(titleLabel, constraints);
 
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
@@ -210,9 +195,7 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
-        constraints.insets = new Insets(0, margin, 0, 0);
-
-        menuBar.add(scoreMenu, constraints);
+        menuBar.add(titleMenu, constraints);
 
         constraints = new GridBagConstraints();
 
@@ -446,7 +429,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         questionMenu.add(currentQuestion);
 
-        scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+        titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
 
         setVisible(true);
     }
@@ -543,7 +526,7 @@ public class Exam extends ConsoleErrorJFrame {
             question.getTextArea().requestFocus();
         }
 
-        scoreLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+        titleLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
     }
 
     public void finish() {

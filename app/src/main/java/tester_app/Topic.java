@@ -27,13 +27,11 @@ import tester_app.questions.WQuestion;
 
 public class Topic extends HamburgerMenu {
     private Tester tester;
-    private ArrayList<HamburgerMenu> editMenus;
 
     public Topic(TopicBuilder builder) {
         super(builder);
 
         tester = builder.tester;
-        editMenus = new ArrayList<>();
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
@@ -117,13 +115,12 @@ public class Topic extends HamburgerMenu {
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         for(Question q : questions) {
-            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
-            textAreas.add(textArea);
-
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);
             editPanel.setBorderPainted(false);
             editPanel.setLayout(getLayout());
+
+            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
 
             RoundedButton deleteButton = new RoundedButton();
             deleteButton.addActionListener(new ActionListener() {
@@ -150,6 +147,9 @@ public class Topic extends HamburgerMenu {
             deleteButton.setSelectionColor(deleteColor);
 
             editPanel.add(textArea, constraints);
+
+            constraints.insets = new Insets(0, 0, 0, 0);
+
             editPanel.add(deleteButton, constraints);
             editMenu.addComponent(editPanel);
         }
@@ -247,8 +247,6 @@ public class Topic extends HamburgerMenu {
         styleButton(saveButton, "Save changes");
         saveButton.setSelectionColor(editColor);
         editMenu.addComponent(saveButton);
-
-        editMenus.add(editMenu);
         
         return editMenu;
     }

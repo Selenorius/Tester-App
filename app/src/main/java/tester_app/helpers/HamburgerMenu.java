@@ -75,6 +75,7 @@ public class HamburgerMenu extends RoundedPanel {
         constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.insets = new Insets(0, 0, 0, 0);
         this.add(menuButton, constraints);
 
         if(isEmpty()) {
