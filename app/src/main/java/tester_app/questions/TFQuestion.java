@@ -53,6 +53,11 @@ public class TFQuestion extends Question {
         setInputAreaSize(size.width, size.height);
     }
 
+    // GETTERS
+    public Boolean isTrue() {
+        return options.getFirst().isTrue();
+    }
+
     @Override
     public void addOption(ButtonOption o) {
         o.addActionListener(new ActionListener() {
@@ -155,5 +160,30 @@ public class TFQuestion extends Question {
     @Override
     public ArrayList<TextOption> getTextOptions() {
         throw new UnsupportedOperationException("Unimplemented method 'getTextOptions'");
+    }
+
+    @Override
+    public void removeOption(TextOption textOption) {
+        throw new UnsupportedOperationException("Unimplemented method 'removeOption'");
+    }
+
+    @Override
+    public void removeOption(ButtonOption buttonOption) {
+        options.remove(buttonOption);
+    }
+
+    @Override
+    public void setTextOptions(ArrayList<TextOption> options) {
+        throw new UnsupportedOperationException("Unimplemented method 'setTextOptions'");
+    }
+
+    @Override
+    public void setButtonOptions(ArrayList<ButtonOption> options) {
+        this.options = options;
+    }
+
+    @Override
+    public void setOrdered(Boolean ordered) {
+        throw new UnsupportedOperationException("Unimplemented method 'setOrdered'");
     }
 }

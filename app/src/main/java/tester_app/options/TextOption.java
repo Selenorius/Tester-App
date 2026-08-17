@@ -59,6 +59,24 @@ public class TextOption extends RoundedPanel {
         return out;
     }
 
+    public String getClearText() {
+        String out = "";
+        Boolean once = true;
+
+        for(String s : text) {
+            if(s != null) {
+                if(once) {
+                    out += s;
+                    once = false;
+                } else {
+                    out += System.lineSeparator() + s;
+                }
+            }
+        }
+
+        return out;
+    }
+
     public ArrayList<String> getTexts() {
         return text;
     }

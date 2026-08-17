@@ -99,6 +99,12 @@ public abstract class Question extends RoundedPanel {
     // ABSTRACT
     public abstract void addOption(TextOption textOption);
     public abstract void addOption(ButtonOption buttonOption);
+
+    public abstract void removeOption(TextOption textOption);
+    public abstract void removeOption(ButtonOption buttonOption);
+
+    public abstract void setTextOptions(ArrayList<TextOption> options);
+    public abstract void setButtonOptions(ArrayList<ButtonOption> options);
     
     public abstract void initGoal();
 
@@ -108,6 +114,9 @@ public abstract class Question extends RoundedPanel {
     public abstract Test test(String in);
 
     public abstract Boolean isOrdered();
+
+    public abstract void setOrdered(Boolean ordered);
+
     public abstract JTextArea getTextArea();
     public abstract ArrayList<ButtonOption> getButtonOptions();
     public abstract ArrayList<TextOption> getTextOptions();

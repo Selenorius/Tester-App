@@ -274,4 +274,29 @@ public class WQuestion extends Question {
     public ArrayList<TextOption> getTextOptions() {
         return options;
     }
+
+    @Override
+    public void removeOption(TextOption textOption) {
+        options.remove(textOption);
+    }
+
+    @Override
+    public void removeOption(ButtonOption buttonOption) {
+        throw new UnsupportedOperationException("Unimplemented method 'removeOption'");
+    }
+
+    @Override
+    public void setTextOptions(ArrayList<TextOption> options) {
+        this.options = options;
+    }
+
+    @Override
+    public void setButtonOptions(ArrayList<ButtonOption> options) {
+        throw new UnsupportedOperationException("Unimplemented method 'setButtonOptions'");
+    }
+
+    @Override
+    public void setOrdered(Boolean ordered) {
+        throw new UnsupportedOperationException("Unimplemented method 'setOrdered'");
+    }
 }

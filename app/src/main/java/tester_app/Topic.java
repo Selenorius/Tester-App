@@ -1,11 +1,13 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
@@ -13,13 +15,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
 import tester_app.helpers.RoundedTextArea;
+import tester_app.options.ButtonOption;
+import tester_app.options.TextOption;
 import tester_app.questions.MCQuestion;
 import tester_app.questions.Question;
 import tester_app.questions.TFQuestion;
@@ -106,21 +112,212 @@ public class Topic extends HamburgerMenu {
         RoundedPanel editPanel;
 
         ArrayList<Question> questions = exam.getQuestions();
-        ArrayList<RoundedTextArea> textAreas = new ArrayList<>();
+        ArrayList<RoundedTextArea> questionTextAreas = new ArrayList<>();
+        ArrayList<RoundedTextArea> optionTextAreas = new ArrayList<>();
+        ArrayList<JRadioButton>
+            optionRadioButtons = new ArrayList<>(),
+            orderedRadioButtons = new ArrayList<>();
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         for(Question q : questions) {
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 0.5;
+            constraints.weighty = 0.5;
+
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);
             editPanel.setBorderPainted(false);
             editPanel.setLayout(getLayout());
 
+            RoundedPanel textPanel = new RoundedPanel();
+            textPanel.setLayout(getLayout());
+            textPanel.setBackground(backgroundColor);
+
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
+            textPanel.add(textArea, constraints);
+
+            constraints.gridx = 1;
+            constraints.insets = new Insets(margin, margin, margin, margin);
+
+            editPanel.add(textPanel, constraints);
+            questionTextAreas.add(textArea);
+
+            if(q.getClass() == WQuestion.class) {
+                ArrayList<TextOption> options = q.getTextOptions();
+
+                for(TextOption o : options) {
+                    textPanel = new RoundedPanel();
+                    textPanel.setLayout(getLayout());
+                    textPanel.setBackground(backgroundColor);
+
+                    RoundedButton deleteButton = new RoundedButton();
+                    deleteButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            int response = JOptionPane.showConfirmDialog(
+                                tester,
+                                "Are you sure you want to delete this option?",
+                                "Warning",
+                                JOptionPane.YES_NO_OPTION
+                            );
+
+                            if (response == JOptionPane.YES_OPTION) {
+                                q.removeOption(o);
+
+                                exam.setQuestions(questions);
+                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
+                                tester.dispose();
+                                tester.start();
+                            }
+                        }
+                    });
+                    styleButton(deleteButton, "Delete option");
+                    deleteButton.setSelectionColor(deleteColor);
+
+                    constraints.insets = new Insets(0, 0, 0, 0);
+                    
+                    textArea = new RoundedTextArea(o.getClearText());
+                    textPanel.add(textArea, constraints);
+
+                    constraints.fill = GridBagConstraints.HORIZONTAL;
+                    constraints.insets = new Insets(0, 0, 0, 0);
+                    
+                    textPanel.add(deleteButton, constraints);
+
+                    constraints.insets = new Insets(margin, margin, margin, margin);
+
+                    editPanel.add(textPanel, constraints);
+                    
+                    optionTextAreas.add(textArea);
+                }
+            } else if(q.getClass() == MCQuestion.class) {
+                ArrayList<ButtonOption> options = q.getButtonOptions();
+
+                JRadioButton radioButton = new JRadioButton();
+                radioButton.setFocusable(false);
+                radioButton.setBackground(null);
+                radioButton.setForeground(Color.WHITE);
+                radioButton.setText("Ordered");
+                radioButton.setSelected(q.isOrdered());
+                textPanel.add(radioButton, constraints);
+
+                orderedRadioButtons.add(radioButton);
+
+                for(ButtonOption o : options) {
+                    textPanel = new RoundedPanel();
+                    textPanel.setLayout(getLayout());
+                    textPanel.setBackground(backgroundColor);
+
+                    RoundedButton deleteButton = new RoundedButton();
+                    deleteButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            int response = JOptionPane.showConfirmDialog(
+                                tester,
+                                "Are you sure you want to delete this option?",
+                                "Warning",
+                                JOptionPane.YES_NO_OPTION
+                            );
+
+                            if (response == JOptionPane.YES_OPTION) {
+                                q.removeOption(o);
+
+                                exam.setQuestions(questions);
+                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
+                                tester.dispose();
+                                tester.start();
+                            }
+                        }
+                    });
+                    styleButton(deleteButton, "Delete option");
+                    deleteButton.setSelectionColor(deleteColor);
+
+                    constraints.insets = new Insets(0, 0, 0, 0);
+                    
+                    textArea = new RoundedTextArea(o.getText());
+                    textPanel.add(textArea, constraints);
+
+                    radioButton = new JRadioButton();
+                    radioButton.setFocusable(false);
+                    radioButton.setBackground(null);
+                    radioButton.setForeground(Color.WHITE);
+                    radioButton.setText("True");
+                    radioButton.setSelected(o.isTrue());
+                    textPanel.add(radioButton, constraints);
+
+                    constraints.fill = GridBagConstraints.HORIZONTAL;
+                    constraints.insets = new Insets(0, 0, 0, 0);
+                    
+                    textPanel.add(deleteButton, constraints);
+
+                    constraints.insets = new Insets(margin, margin, margin, margin);
+
+                    editPanel.add(textPanel, constraints);
+                    
+                    optionRadioButtons.add(radioButton);
+                    optionTextAreas.add(textArea);
+                }
+            } else {
+                textPanel = new RoundedPanel();
+                textPanel.setLayout(getLayout());
+                textPanel.setBackground(backgroundColor);
+
+                constraints.insets = new Insets(0, 0, 0, 0);
+                
+                JRadioButton radioButton = new JRadioButton();
+                radioButton.setFocusable(false);
+                radioButton.setBackground(null);
+                radioButton.setForeground(Color.WHITE);
+                radioButton.setText("True");
+                radioButton.setSelected(q.getButtonOptions().getFirst().isTrue());
+                textPanel.add(radioButton, constraints);
+
+                constraints.insets = new Insets(margin, margin, margin, margin);
+
+                editPanel.add(textPanel, constraints);
+                
+                optionRadioButtons.add(radioButton);
+            }
+
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            constraints.insets = new Insets(0, 0, 0, 0);
+
+            if(q.getClass() == WQuestion.class) {
+                RoundedButton addButton = new RoundedButton();
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        q.addOption(new TextOption());
+
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
+                        tester.dispose();
+                        tester.start();
+                    }
+                });
+                styleButton(addButton, "Add option");
+                addButton.setSelectionColor(editColor);
+
+                editPanel.add(addButton, constraints);
+            } else if(q.getClass() == MCQuestion.class) {
+                RoundedButton addButton = new RoundedButton();
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        q.addOption(new ButtonOption());
+
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
+                        tester.dispose();
+                        tester.start();
+                    }
+                });
+                styleButton(addButton, "Add option");
+                addButton.setSelectionColor(editColor);
+
+                editPanel.add(addButton, constraints);
+            }
 
             RoundedButton deleteButton = new RoundedButton();
             deleteButton.addActionListener(new ActionListener() {
@@ -145,10 +342,6 @@ public class Topic extends HamburgerMenu {
             });
             styleButton(deleteButton, "Delete question");
             deleteButton.setSelectionColor(deleteColor);
-
-            editPanel.add(textArea, constraints);
-
-            constraints.insets = new Insets(0, 0, 0, 0);
 
             editPanel.add(deleteButton, constraints);
             editMenu.addComponent(editPanel);
@@ -222,10 +415,47 @@ public class Topic extends HamburgerMenu {
                 );
 
                 if (response == JOptionPane.YES_OPTION) {
-                    int i = 0;
+                    int
+                        qCount = 0,
+                        rCount = 0,
+                        oCount = 0;
 
                     for(Question q : questions) {
-                        q.setQuestionText(textAreas.get(i++).getText());
+                        q.setQuestionText(questionTextAreas.get(qCount++).getText());
+
+                        if(q.getClass() == WQuestion.class) {
+                            int tCount = 0;
+
+                            ArrayList<TextOption> options = q.getTextOptions();
+
+                            for(TextOption o : options) {
+                                String text = optionTextAreas.get(tCount++).getText();
+                                Stream<String> lines = text.lines();
+
+                                lines.forEach(line -> {
+                                    o.addText(line);
+                                });
+                            }
+
+                            q.setTextOptions(options);
+                        } else if(q.getClass() == MCQuestion.class) {
+                            ArrayList<ButtonOption> options = q.getButtonOptions();
+                            int tCount = 0;
+
+                            for(ButtonOption o : options) {
+                                o.setText(optionTextAreas.get(tCount++).getText());
+                                o.setValue(optionRadioButtons.get(rCount++).isSelected());
+                            }
+
+                            q.setOrdered(orderedRadioButtons.get(oCount++).isSelected());
+                            q.setButtonOptions(options);
+                        } else {
+                            ArrayList<ButtonOption> options = q.getButtonOptions();
+
+                            options.getFirst().setValue(optionRadioButtons.get(rCount++).isSelected());
+
+                            q.setButtonOptions(options);
+                        }
                     }
                 
                     exam.setQuestions(questions);
