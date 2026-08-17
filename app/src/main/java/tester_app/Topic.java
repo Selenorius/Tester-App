@@ -5,6 +5,7 @@ import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
@@ -13,7 +14,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -41,6 +47,39 @@ public class Topic extends HamburgerMenu {
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        RoundedPanel titlePanel = new RoundedPanel();
+        titlePanel.setBackground(fieldColor);
+        titlePanel.setBorderPainted(false);
+        titlePanel.setLayout(getLayout());
+
+        RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
+        titleArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String in = titleArea.getText();
+
+                    Path oldDirPath = Paths.get(dir.getPath());
+                    Path newDirPath = Paths.get(root.getPath() + "/" + in);
+                    try {
+                        Files.move(oldDirPath, newDirPath);
+                    } catch (Exception e1) {
+                        System.out.println("Error renaming topic: " + e1.getMessage());
+                    }
+
+                    tester.dispose();
+                    tester.start();
+                }
+            }
+        });
+        titlePanel.add(titleArea, constraints);
+        
+        addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
+
         if(dir.isDirectory()) {
             for (final File f : dir.listFiles()) {
                 if (!f.isDirectory()) {
@@ -51,9 +90,49 @@ public class Topic extends HamburgerMenu {
             addExam(dir, fileIcon);
         }
 
-        HamburgerMenu addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(tester.editorButtonIcon).build();
+        RoundedButton addButton = new RoundedButton();
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new File(dir.getPath() + "/New exam.txt").createNewFile();
+
+                    tester.dispose();
+                    tester.start();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        styleButton(addButton, "Add exam");
+        addButton.setSelectionColor(editColor);
+
+        RoundedButton deleteButton = new RoundedButton();
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(
+                    tester,
+                    "Are you sure you want to delete this topic?",
+                    "Warning",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (response == JOptionPane.YES_OPTION) {
+                    try {
+                        dir.delete();
+
+                        tester.dispose();
+                        tester.start();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+        styleButton(deleteButton, "Delete topic");
+        deleteButton.setSelectionColor(deleteColor);
 
         addComponent(addButton);
+        addComponent(deleteButton);
     }
 
     public void addExam(final File file, final Image fileIcon) {
@@ -64,6 +143,39 @@ public class Topic extends HamburgerMenu {
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
         HamburgerMenu hamburgerMenu = new HamburgerMenu.HamburgerMenuBuilder().text(examName).icon(fileIcon).build();
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        RoundedPanel titlePanel = new RoundedPanel();
+        titlePanel.setBackground(fieldColor);
+        titlePanel.setBorderPainted(false);
+        titlePanel.setLayout(getLayout());
+
+        RoundedTextArea titleArea = new RoundedTextArea(examName);
+        titleArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String in = titleArea.getText();
+
+                    Path oldDirPath = Paths.get(file.getPath());
+                    Path newDirPath = Paths.get(file.getParentFile().getPath() + "/" + in + ".txt");
+                    try {
+                        Files.move(oldDirPath, newDirPath);
+                    } catch (Exception e1) {
+                        System.out.println("Error renaming topic: " + e1.getMessage());
+                    }
+
+                    tester.dispose();
+                    tester.start();
+                }
+            }
+        });
+        titlePanel.add(titleArea, constraints);
+        
+        hamburgerMenu.addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

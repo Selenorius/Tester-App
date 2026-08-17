@@ -3,6 +3,7 @@ package tester_app;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
@@ -24,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.Box;
@@ -223,9 +225,33 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(64);
         styleScrollPane(scrollPane);
 
-        HamburgerMenu addTopicButton = new HamburgerMenu.HamburgerMenuBuilder().text("Create new topic").icon(dirButtonIcon).build();
+        RoundedButton addTopicButton = new RoundedButton();
+        addTopicButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new File(root.getPath() + "/New topic").mkdir();
 
-        HamburgerMenu addExamButton = new HamburgerMenu.HamburgerMenuBuilder().text("Create new exam").icon(fileButtonIcon).build();
+                dispose();
+                start();
+            }
+        });
+        styleButton(addTopicButton, "Create new topic", dirButtonIcon);
+        addTopicButton.setSelectionColor(editColor);
+
+        RoundedButton addExamButton = new RoundedButton();
+        addExamButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new File(root.getPath() + "/New exam.txt").createNewFile();
+                } catch (IOException e1) {
+                    consoleErrorMessage(e1);
+                }
+
+                dispose();
+                start();
+            }
+        });
+        styleButton(addExamButton, "Create new exam", fileButtonIcon);
+        addExamButton.setSelectionColor(editColor);
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
         addButton.addComponent(addTopicButton);

@@ -115,15 +115,21 @@ public class HamburgerMenu extends RoundedPanel {
         return menu.getComponents().length <= 1;
     }
 
-    public void addComponent(Component c, int anchor) {
-        constraints.fill = GridBagConstraints.BOTH;
+    public void addComponent(Component c, int anchor, int fill, double weighty) {
+        constraints.fill = fill;
         constraints.gridx = 1;
         constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
+        constraints.weighty = weighty;
         constraints.anchor = anchor;
         constraints.insets = new Insets(margin, margin, margin, margin);
 
         menu.add(c, constraints);
+    }
+    public void addComponent(Component c, int anchor, int fill) {
+        addComponent(c, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5);
+    }
+    public void addComponent(Component c, int anchor) {
+        addComponent(c, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
     }
     public void addComponent(Component c) {
         addComponent(c, GridBagConstraints.CENTER);
