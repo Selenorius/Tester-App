@@ -257,11 +257,12 @@ public class Exam extends ConsoleErrorJFrame {
                                 newQuestion = new TFQuestion(this);
                                 newQuestion.setGoal(1);
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
-                                if(line.contains("ordered") || line.contains("o")) {
+                                if(line.contains("ordered")) {
                                     newQuestion = new MCQuestion(this);
                                     newQuestion.setOrdered(true);
                                 } else {
                                     newQuestion = new MCQuestion(this);
+                                    newQuestion.setOrdered(false);
                                 }
                             } else {
                                 newQuestion = new WQuestion(this);
