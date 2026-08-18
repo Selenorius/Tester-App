@@ -259,6 +259,7 @@ public class Exam extends ConsoleErrorJFrame {
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
                                 if(line.contains("ordered") || line.contains("o")) {
                                     newQuestion = new MCQuestion(this);
+                                    newQuestion.setOrdered(true);
                                 } else {
                                     newQuestion = new MCQuestion(this);
                                 }
