@@ -89,7 +89,7 @@ public final class Constants {
         final int inset = 4;
         
         button.setBackground(buttonBackgroundColor);
-        button.setBorderColor(buttonBackgroundColor);
+        button.setBorderColor(buttonBorderColor);
         if(buttonIcon != null) {
             button.setIcon(new ImageIcon(buttonIcon));
         }
@@ -198,10 +198,10 @@ public final class Constants {
                 g2.setPaint(fieldColor);
                 g2.fillRect(r.x, r.y, r.width, r.height);
 
-                g2.setPaint(backgroundColor);
+                g2.setPaint(fieldColor);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(borderColor);
+                g2.setPaint(examAddBorderColor);
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 

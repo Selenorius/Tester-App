@@ -3,6 +3,7 @@ package tester_app;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.root;
@@ -212,7 +213,9 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.add(backButton, constraints);
 
         questionMenu = new RoundedPanel();
-        questionMenu.setBackground(backgroundColor);
+        questionMenu.setBackground(fieldColor);
+        questionMenu.setBorderColor(examAddBorderColor);
+        questionMenu.setBorderPainted(true);
         questionMenu.setLayout(new BoxLayout(questionMenu, BoxLayout.Y_AXIS));
 
         scrollPane = new JScrollPane(questionMenu);

@@ -1,7 +1,6 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.examAddBorderColor;
@@ -219,7 +218,9 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(backgroundColor);
+        dirMenu.setBackground(fieldColor);
+        dirMenu.setBorderColor(examAddBorderColor);
+        dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
         scrollPane = new JScrollPane(dirMenu);
