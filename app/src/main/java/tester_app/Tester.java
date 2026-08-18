@@ -4,6 +4,7 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
@@ -11,8 +12,6 @@ import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
-import static tester_app.helpers.Constants.topicBackgroundColor;
-import static tester_app.helpers.Constants.topicBorderColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -260,8 +259,9 @@ public class Tester extends ConsoleErrorJFrame {
         addExamButton.setSelectionColor(editColor);
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
-        addButton.setBackground(topicBackgroundColor);
-        addButton.setBorderColor(topicBorderColor);
+        addButton.setBackground(fieldColor);
+        addButton.setBorderColor(examAddBorderColor);
+        addButton.setBorderPainted(true);
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
 

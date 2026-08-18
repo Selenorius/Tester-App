@@ -1,11 +1,9 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editBackgroundColor;
 import static tester_app.helpers.Constants.editBorderColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examAddBackgroundColor;
 import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.examBackgroundColor;
 import static tester_app.helpers.Constants.examBorderColor;
@@ -64,7 +62,8 @@ public class Topic extends HamburgerMenu {
 
         RoundedPanel titlePanel = new RoundedPanel();
         titlePanel.setBackground(fieldColor);
-        titlePanel.setBorderPainted(false);
+        titlePanel.setBorderColor(examAddBorderColor);
+        titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
         RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
@@ -163,7 +162,8 @@ public class Topic extends HamburgerMenu {
 
         RoundedPanel titlePanel = new RoundedPanel();
         titlePanel.setBackground(fieldColor);
-        titlePanel.setBorderPainted(false);
+        titlePanel.setBorderColor(examAddBorderColor);
+        titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
@@ -255,12 +255,15 @@ public class Topic extends HamburgerMenu {
 
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);
-            editPanel.setBorderPainted(false);
+            editPanel.setBorderColor(examAddBorderColor);
+            editPanel.setBorderPainted(true);
             editPanel.setLayout(getLayout());
 
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
-            textPanel.setBackground(backgroundColor);
+            textPanel.setBackground(fieldColor);
+            textPanel.setBorderColor(examAddBorderColor);
+            textPanel.setBorderPainted(true);
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
             textPanel.add(textArea, constraints);
@@ -278,8 +281,8 @@ public class Topic extends HamburgerMenu {
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
                     textPanel.setBackground(fieldColor);
-                    textPanel.setBorderPainted(true);
                     textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBorderPainted(true);
 
                     RoundedButton deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
@@ -337,7 +340,9 @@ public class Topic extends HamburgerMenu {
                 for(ButtonOption o : options) {
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
-                    textPanel.setBackground(backgroundColor);
+                    textPanel.setBackground(fieldColor);
+                    textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBorderPainted(true);
 
                     RoundedButton deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
@@ -391,7 +396,9 @@ public class Topic extends HamburgerMenu {
             } else {
                 textPanel = new RoundedPanel();
                 textPanel.setLayout(getLayout());
-                textPanel.setBackground(backgroundColor);
+                textPanel.setBackground(fieldColor);
+                textPanel.setBorderColor(examAddBorderColor);
+                textPanel.setBorderPainted(true);
 
                 constraints.insets = new Insets(0, 0, 0, 0);
                 
@@ -478,8 +485,9 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBackground(examAddBackgroundColor);
+        addMenu.setBackground(fieldColor);
         addMenu.setBorderColor(examAddBorderColor);
+        addMenu.setBorderPainted(true);
 
         RoundedButton addWQButton = new RoundedButton();
         addWQButton.addActionListener(new ActionListener() {
@@ -497,6 +505,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addWQButton, "Add written question");
+        addWQButton.setSelectionColor(editColor);
         addMenu.addComponent(addWQButton);
 
         RoundedButton addMCButton = new RoundedButton();
@@ -515,6 +524,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addMCButton, "Add multiple choice question");
+        addMCButton.setSelectionColor(editColor);
         addMenu.addComponent(addMCButton);
 
         RoundedButton addTFButton = new RoundedButton();
@@ -543,6 +553,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addTFButton, "Add true/false question");
+        addTFButton.setSelectionColor(editColor);
         addMenu.addComponent(addTFButton);
 
         editMenu.addComponent(addMenu);
