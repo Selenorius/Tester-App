@@ -503,6 +503,16 @@ public class Topic extends HamburgerMenu {
                 TFQuestion tfQuestion = new TFQuestion(exam);
                 tfQuestion.setQuestionText("New true/false question");
 
+                ButtonOption trueOption = new ButtonOption();
+                trueOption.setText("True");
+                trueOption.setValue(true);
+                tfQuestion.addOption(trueOption);
+
+                ButtonOption falseOption = new ButtonOption();
+                falseOption.setText("False");
+                falseOption.setValue(false);
+                tfQuestion.addOption(falseOption);
+
                 questions.add(tfQuestion);
                 
                 exam.setQuestions(questions);
@@ -565,8 +575,10 @@ public class Topic extends HamburgerMenu {
                             q.setButtonOptions(options);
                         } else {
                             ArrayList<ButtonOption> options = q.getButtonOptions();
+                            Boolean value = optionRadioButtons.get(rCount++).isSelected();
 
-                            options.getFirst().setValue(optionRadioButtons.get(rCount++).isSelected());
+                            options.getFirst().setValue(value);
+                            options.getLast().setValue(!value);
 
                             q.setButtonOptions(options);
                         }
