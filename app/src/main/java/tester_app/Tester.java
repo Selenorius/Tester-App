@@ -72,6 +72,10 @@ public class Tester extends ConsoleErrorJFrame {
     private final String settingsFile = "settings.txt";
     
     public Tester() {
+        if(!root.exists()) {
+            root.mkdir();
+        }
+
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         
@@ -282,20 +286,8 @@ public class Tester extends ConsoleErrorJFrame {
 
     private void loadDir(final File dir) {
         File[] files = dir.listFiles();
-        RoundedPanel empty = new RoundedPanel();
-        JLabel text = new JLabel("No exams found.");
 
-        text.setForeground(Color.WHITE);
-
-        empty.add(text);
-        empty.setBackground(null);
-        empty.setBorderPainted(false);
-
-        if(files.length == 0) {
-            if(dir == root) {
-                addComponent(empty);
-            }
-        } else {
+        if(files.length != 0) {
             for (final File f : files) {
                 if (f.isDirectory()) {
                     Topic dirTopic = new Topic.TopicBuilder().text(f.getName()).icon(dirButtonIcon).tester(this).build();
