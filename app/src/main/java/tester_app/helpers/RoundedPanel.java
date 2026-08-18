@@ -1,9 +1,9 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.margin;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,13 +16,25 @@ import javax.swing.Scrollable;
 public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
     private Boolean borderPaint;
+    private Color borderColor;
 
     public RoundedPanel() {
         this.radius = 10;
-        this.borderPaint = true;
+        this.borderPaint = false;
+        this.borderColor = null;
         addMargin(this, margin);
         
         setOpaque(false);
+    }
+
+    // GETTERS
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    // SETTERS
+    public void setBorderColor(Color bordeColor) {
+        this.borderColor = bordeColor;
     }
 
     @Override

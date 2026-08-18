@@ -42,14 +42,22 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        backgroundColor = new Color(50, 50, 50),
-        fieldColor = new Color(30, 30, 30),
-        borderColor = new Color(90, 90, 90),
-        buttonBackgroundColor = new Color(70, 70, 70),
-        buttonBorderColor = borderColor,
-        selectionColor = new Color(0, 120, 215),
-        editColor = new Color(0, 180, 40),
-        deleteColor = new Color(180, 40, 0);
+        backgroundColor = new Color(10, 36, 27),
+        fieldColor = new Color(16, 20, 17),
+        borderColor = new Color(20, 72, 54),
+        buttonBackgroundColor = new Color(16, 60, 45),
+        buttonBorderColor = new Color(32, 120, 90),
+        selectionColor = new Color(15,130,215),
+        editColor = new Color(15, 191, 62),
+        deleteColor = new Color(208, 15, 0),
+        topicBackgroundColor = new Color(11, 40, 30),
+        topicBorderColor = new Color(22, 80, 60),
+        examBackgroundColor = new Color(12, 44, 33),
+        examBorderColor = new Color(24, 88, 66),
+        editBackgroundColor = new Color(13, 48, 36),
+        editBorderColor = new Color(26, 96, 72),
+        examAddBackgroundColor = new Color(14, 52, 39),
+        examAddBorderColor = new Color(28, 104, 78);
 
     //OPTION BOOLEANS
     public static final List<String>
@@ -77,10 +85,11 @@ public final class Constants {
         return s.equals("r");
     }
 
-    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
+    public static final void styleButton(final RoundedButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
         final int inset = 4;
         
         button.setBackground(buttonBackgroundColor);
+        button.setBorderColor(buttonBackgroundColor);
         if(buttonIcon != null) {
             button.setIcon(new ImageIcon(buttonIcon));
         }
@@ -96,7 +105,7 @@ public final class Constants {
             button.setMargin(new Insets(inset * 2, inset * 2 + 1, inset * 2, inset * 2 - 1));
         }
     }
-    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon, final int hPos) {
+    public static final void styleButton(final RoundedButton button, final String buttonText, final Image buttonIcon, final int hPos) {
         styleButton(
             button,
             buttonText,
@@ -105,7 +114,7 @@ public final class Constants {
             JButton.CENTER
         );
     }
-    public static final void styleButton(final JButton button, final String buttonText, final Image buttonIcon) {
+    public static final void styleButton(final RoundedButton button, final String buttonText, final Image buttonIcon) {
         styleButton(
             button,
             buttonText,
@@ -114,7 +123,7 @@ public final class Constants {
             JButton.BOTTOM
         );
     }
-    public static final void styleButton(final JButton button, final String buttonText) {
+    public static final void styleButton(final RoundedButton button, final String buttonText) {
         styleButton(
             button,
             buttonText,
@@ -123,7 +132,7 @@ public final class Constants {
             JButton.BOTTOM
         );
     }
-    public static final void styleButton(final JButton button, final Image buttonIcon) {
+    public static final void styleButton(final RoundedButton button, final Image buttonIcon) {
         styleButton(
             button,
             null,
@@ -132,7 +141,7 @@ public final class Constants {
             JButton.BOTTOM
         );
     }
-    public static final void styleButton(final JButton button) {
+    public static final void styleButton(final RoundedButton button) {
         styleButton(
             button,
             null,

@@ -1,7 +1,6 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
@@ -28,12 +27,18 @@ public class HamburgerMenu extends RoundedPanel {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private int radius;
-    JLabel text = new JLabel("Nothing here...");
+    private JLabel text = new JLabel("Nothing here...");
+    private Color
+        selectionColor,
+        borderColor;
 
     public HamburgerMenu(HamburgerMenuBuilder builder) {
         super();
 
         this.radius = 10;
+        this.selectionColor = Constants.selectionColor;
+        this.borderColor = null;
+
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
@@ -56,6 +61,7 @@ public class HamburgerMenu extends RoundedPanel {
         menu.setBorderPainted(false);
         menu.setVisible(false);
         menu.setLayout(layout);
+        addMargin(menu, 0);
 
         empty = new RoundedButton();
         empty.setBackground(fieldColor);
@@ -86,12 +92,12 @@ public class HamburgerMenu extends RoundedPanel {
     }
 
     public void toggle() {
-        if(isToggled()) {
+        if(isExtended()) {
             addMargin(this, 0);
 
             menu.setVisible(false);
         } else {
-            addMargin(this, margin);
+            addMargin(this, margin * 2);
 
             if(isEmpty()) {
                 empty.setVisible(true);
@@ -103,7 +109,7 @@ public class HamburgerMenu extends RoundedPanel {
         }
     }
 
-    public Boolean isToggled() {
+    public Boolean isExtended() {
         return menu.isVisible();
     }
 
@@ -121,7 +127,11 @@ public class HamburgerMenu extends RoundedPanel {
         constraints.weightx = 0.5;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
-        constraints.insets = new Insets(margin, margin, margin, margin);
+        if(c.getClass() == RoundedButton.class || c.getClass() == HamburgerMenu.class) {
+            constraints.insets = new Insets(0, 0, 0, 0);
+        } else {
+            constraints.insets = new Insets(margin, margin, margin, margin);
+        }
 
         menu.add(c, constraints);
     }
@@ -141,6 +151,25 @@ public class HamburgerMenu extends RoundedPanel {
         }
     }
 
+    // GETTERS
+    public Color getSelectionColor() {
+        return selectionColor;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    // SETTERS
+    public void setSelectionColor(Color selectionColor) {
+        this.menuButton.setSelectionColor(selectionColor);
+        this.selectionColor = selectionColor;
+    }
+    
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -150,7 +179,10 @@ public class HamburgerMenu extends RoundedPanel {
             width = getSize().width,
             height = getSize().height;
 
-        if(!isToggled()) {
+        if(!isExtended()) {
+            g2.setColor(null);
+            g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
+        } else {
             g2.setColor(getBackground());
             g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
         }
@@ -165,7 +197,7 @@ public class HamburgerMenu extends RoundedPanel {
             width = getSize().width,
             height = getSize().height;
 
-        if(!isToggled()) {
+        if(isExtended()) {
             g2.setColor(borderColor);
             g2.drawRoundRect(margin, margin, width - 1 - margin * 2, height - 1 - margin * 2, radius, radius);
         }

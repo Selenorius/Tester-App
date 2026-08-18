@@ -1,6 +1,7 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
@@ -82,7 +83,8 @@ public class WQuestion extends Question {
 
         inputArea = new RoundedPanel();
         inputArea.add(scrollPane);
-        inputArea.setBorderPainted(false);
+        inputArea.setBorderColor(examAddBorderColor);
+        inputArea.setBorderPainted(true);
         inputArea.setLayout(new GridLayout());
         inputArea.setBackground(fieldColor);
 
