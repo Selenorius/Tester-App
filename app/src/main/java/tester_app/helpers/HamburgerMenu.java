@@ -160,6 +160,10 @@ public class HamburgerMenu extends RoundedPanel {
         return borderColor;
     }
 
+    public RoundedPanel getMenu() {
+        return menu;
+    }
+
     // SETTERS
     public void setSelectionColor(Color selectionColor) {
         this.menuButton.setSelectionColor(selectionColor);
@@ -168,6 +172,10 @@ public class HamburgerMenu extends RoundedPanel {
     
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+    }
+    
+    public void setMenu(RoundedPanel menu) {
+        this.menu = menu;
     }
 
     @Override

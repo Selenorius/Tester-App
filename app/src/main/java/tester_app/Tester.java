@@ -14,6 +14,7 @@ import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -26,6 +27,7 @@ import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.Box;
@@ -61,8 +63,9 @@ public class Tester extends ConsoleErrorJFrame {
 
     private int
         windowstate,
-        prevWindowstate;
-
+        prevWindowstate,
+        cCount;
+    protected ArrayList<Boolean> extendedStates;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
@@ -78,6 +81,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
+        extendedStates = new ArrayList<>();
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
@@ -128,6 +132,11 @@ public class Tester extends ConsoleErrorJFrame {
 
             @Override
             public void windowClosed(WindowEvent e) {
+                if(extendedStates != null || !extendedStates.isEmpty()) {
+                    extendedStates.clear();
+                }
+
+                saveExtendedStates(dirMenu);
                 updateSettings();
             }
         });
@@ -235,9 +244,9 @@ public class Tester extends ConsoleErrorJFrame {
         addTopicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new File(root.getPath() + "/New topic").mkdir();
+                addComponent(new Topic.TopicBuilder().build());
 
-                dispose();
-                start();
+                reset();
             }
         });
         styleButton(addTopicButton, "Create new topic", dirButtonIcon);
@@ -247,13 +256,19 @@ public class Tester extends ConsoleErrorJFrame {
         addExamButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new File(root.getPath() + "/New exam.txt").createNewFile();
+                    File file = new File(root.getPath() + "/New exam.txt");
+                    file.createNewFile();
+                    if(uncategorized == null) {
+                        uncategorized = new Topic.TopicBuilder().text("Uncategorized").build();
+                        addComponent(uncategorized);
+                    }
+                    uncategorized.addExam(file, fileButtonIcon);
+                    uncategorized.setVisible(true);
                 } catch (IOException e1) {
                     consoleErrorMessage(e1);
                 }
 
-                dispose();
-                start();
+                reset();
             }
         });
         styleButton(addExamButton, "Create new exam", fileButtonIcon);
@@ -286,6 +301,53 @@ public class Tester extends ConsoleErrorJFrame {
             settingsFileOut.close();
         } catch (Exception e1) {
             consoleErrorMessage("updateSettings", e1.getMessage());
+        }
+    }
+
+    private void saveExtendedStates(Component component) {
+        if(((Container) component).getComponentCount() > 0) {
+            for(Component c : ((Container) component).getComponents()) {
+                if(c.getClass() == HamburgerMenu.class) {
+                    extendedStates.add(((HamburgerMenu) c).isExtended());
+
+                    saveExtendedStates(((HamburgerMenu) c).getMenu());
+                } else if(c.getClass() == Topic.class) {
+                    extendedStates.add(((Topic) c).isExtended());
+
+                    saveExtendedStates(((Topic) c).getMenu());
+                }
+            }
+        }
+    }
+
+    private void loadExtendedStates(Component component) {
+        int stateSize = extendedStates.size();
+
+        if(
+            extendedStates != null &&
+            ((Container) component).getComponentCount() > 0
+        ) {
+            for(Component c : ((Container) component).getComponents()) {
+                if(
+                    c.getClass() == HamburgerMenu.class &&
+                    cCount < stateSize
+                ) {
+                    if(extendedStates.get(cCount++)) {
+                        ((HamburgerMenu) c).toggle();
+                    }
+
+                    loadExtendedStates(((HamburgerMenu) c).getMenu());
+                } else if(
+                    c.getClass() == Topic.class &&
+                    cCount < stateSize
+                ) {
+                    if(extendedStates.get(cCount++)) {
+                        ((Topic) c).toggle();
+                    }
+
+                    loadExtendedStates(((Topic) c).getMenu());
+                }
+            }
         }
     }
 
@@ -335,7 +397,27 @@ public class Tester extends ConsoleErrorJFrame {
         this.dispose();
     }
 
+    public void reset() {
+        saveExtendedStates(dirMenu);
+
+        uncategorized.clearMenu();
+        dirMenu.removeAll();
+        loadDir(root);
+        
+        if(uncategorized.isEmpty()) {
+            uncategorized.setVisible(false);
+        } else {
+            uncategorized.setVisible(true);
+        }
+
+        loadExtendedStates(dirMenu);
+        revalidate();
+        repaint();
+    }
+
     public void start() {
+        cCount = 0;
+
         uncategorized.clearMenu();
         dirMenu.removeAll();
         loadDir(root);
@@ -347,6 +429,8 @@ public class Tester extends ConsoleErrorJFrame {
         }
         
         this.setVisible(true);
+
+        loadExtendedStates(dirMenu);
     }
 
     // GETTERS

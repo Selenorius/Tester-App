@@ -526,7 +526,7 @@ public class Exam extends ConsoleErrorJFrame {
             question.getTextArea().requestFocus();
         }
 
-        titleLabel.setText("Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+        titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
     }
 
     public void finish() {

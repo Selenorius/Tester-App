@@ -224,24 +224,24 @@
     }
     MULTIPLE_CHOICE {
         "Which statement is true?" {
-            true {
-                "SSH operates on the Application and Transport Layer."
+            false {
+                "SSH operates solely on the Application Layer."
             }
             false {
                 "SSH operates solely on the Transport Layer."
             }
-            false {
-                "SSH operates solely on the Application Layer."
+            true {
+                "SSH operates on the Application and Transport Layer."
             }
         }
     }
     MULTIPLE_CHOICE {
         "Which statement is true?" {
-            false {
-                "ARP operates solely on the Data Link Layer."
-            }
             true {
                 "ARP operates on the Network and Data Link Layer."
+            }
+            false {
+                "ARP operates solely on the Data Link Layer."
             }
             false {
                 "ARP operates solely on the Network Layer."

@@ -81,8 +81,7 @@ public class Topic extends HamburgerMenu {
                         System.out.println("Error renaming topic: " + e1.getMessage());
                     }
 
-                    tester.dispose();
-                    tester.start();
+                    tester.reset();
                 }
             }
         });
@@ -104,10 +103,11 @@ public class Topic extends HamburgerMenu {
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new File(dir.getPath() + "/New exam.txt").createNewFile();
+                    File file = new File(dir.getPath() + "/New exam.txt");
+                    file.createNewFile();
+                    addExam(file, fileIcon);
 
-                    tester.dispose();
-                    tester.start();
+                    tester.reset();
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -129,9 +129,9 @@ public class Topic extends HamburgerMenu {
                 if (response == JOptionPane.YES_OPTION) {
                     try {
                         dir.delete();
+                        deleteTopic();
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -181,8 +181,7 @@ public class Topic extends HamburgerMenu {
                         System.out.println("Error renaming topic: " + e1.getMessage());
                     }
 
-                    tester.dispose();
-                    tester.start();
+                    tester.reset();
                 }
             }
         });
@@ -205,7 +204,7 @@ public class Topic extends HamburgerMenu {
             public void actionPerformed(ActionEvent e) {
                 int response = JOptionPane.showConfirmDialog(
                     tester,
-                    "Are you sure you want to delete this file?",
+                    "Are you sure you want to delete this exam?",
                     "Warning",
                     JOptionPane.YES_NO_OPTION
                 );
@@ -213,9 +212,9 @@ public class Topic extends HamburgerMenu {
                 if (response == JOptionPane.YES_OPTION) {
                     try {
                         file.delete();
+                        deleteExam(hamburgerMenu);
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -300,8 +299,7 @@ public class Topic extends HamburgerMenu {
                                 exam.setQuestions(questions);
                                 exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                                tester.dispose();
-                                tester.start();
+                                tester.reset();
                             }
                         }
                     });
@@ -360,8 +358,7 @@ public class Topic extends HamburgerMenu {
                                 exam.setQuestions(questions);
                                 exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                                tester.dispose();
-                                tester.start();
+                                tester.reset();
                             }
                         }
                     });
@@ -424,13 +421,14 @@ public class Topic extends HamburgerMenu {
                 RoundedButton addButton = new RoundedButton();
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        q.addOption(new TextOption());
+                        TextOption option = new TextOption();
+                        option.addText("Text missing...");
+                        q.addOption(option);
 
                         exam.setQuestions(questions);
                         exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     }
                 });
                 styleButton(addButton, "Add option");
@@ -446,8 +444,7 @@ public class Topic extends HamburgerMenu {
                         exam.setQuestions(questions);
                         exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     }
                 });
                 styleButton(addButton, "Add option");
@@ -470,10 +467,9 @@ public class Topic extends HamburgerMenu {
                         questions.remove(q);
 
                         exam.setQuestions(questions);
-                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     }
                 }
             });
@@ -496,12 +492,10 @@ public class Topic extends HamburgerMenu {
                 wQuestion.setQuestionText("New written question");
 
                 questions.add(wQuestion);
-                
                 exam.setQuestions(questions);
                 exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                tester.dispose();
-                tester.start();
+                tester.reset();
             }
         });
         styleButton(addWQButton, "Add written question");
@@ -515,12 +509,10 @@ public class Topic extends HamburgerMenu {
                 mcQuestion.setQuestionText("New multiple choice question");
 
                 questions.add(mcQuestion);
-                
                 exam.setQuestions(questions);
                 exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                tester.dispose();
-                tester.start();
+                tester.reset();
             }
         });
         styleButton(addMCButton, "Add multiple choice question");
@@ -544,12 +536,10 @@ public class Topic extends HamburgerMenu {
                 tfQuestion.addOption(falseOption);
 
                 questions.add(tfQuestion);
-                
                 exam.setQuestions(questions);
                 exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                tester.dispose();
-                tester.start();
+                tester.reset();
             }
         });
         styleButton(addTFButton, "Add true/false question");
@@ -623,8 +613,7 @@ public class Topic extends HamburgerMenu {
                         }
                         exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
-                        tester.dispose();
-                        tester.start();
+                        tester.reset();
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -636,6 +625,14 @@ public class Topic extends HamburgerMenu {
         editMenu.addComponent(saveButton);
         
         return editMenu;
+    }
+
+    public void deleteTopic() {
+        tester.dirMenu.remove(this);
+    }
+
+    public void deleteExam(HamburgerMenu menu) {
+        getMenu().remove(menu);
     }
 
     public static class TopicBuilder extends HamburgerMenuBuilder {
