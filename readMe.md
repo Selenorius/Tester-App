@@ -4,25 +4,41 @@ Create and solve tests to study for your exams.
 
 ## What does this thing look like?
 ### The Menu
-<img width="946" height="713" alt="Screenshot 2026-08-06 173810" src="https://github.com/user-attachments/assets/8c73744a-fb75-466d-be4a-48757e37cbe6" />
-
-### The Questions
-<img width="946" height="713" alt="Screenshot 2026-08-06 173901" src="https://github.com/user-attachments/assets/3da92f15-cb66-4d9d-aeed-4cbfd60ad811" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/d806e786-b0fe-4dc3-bdcb-b2fd63ae14e3" />
 
 ### The Editor
-<img width="946" height="713" alt="Screenshot 2026-08-05 230436" src="https://github.com/user-attachments/assets/797452c8-5b29-4116-b12b-a08b68caf497" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/a296629b-680d-4361-89b0-2eaf50e1cbc6" />
+
+### The Questions
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/b7d4a82c-633a-4c64-a7a1-a7ad777e6922" />
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
 
 ## Guide
 ### Step 1: Create a topic
-1. Open the Editor from the **Tester** Menu.
-2. Create a new directory inside the *topics* directory with your desired topic name.
+1. Click on the big *PLUS* button
+2. Choose *Create new topic*
 
 ### Step 2: Create an exam
-1. Open the directory created in step 1 and create a new textfile with the name of your exam.
-2. Now open the textfile created in step 2 and add your questions in the following format:
+1. Click on the *Add exam* button
+2. Click on the big *PLUS* button
+3. Choose an option
+
+### Step 3: Solve your exam
+1. Start **Tester App.jar**.
+2. Pick your **Topic**.
+3. Pick your **Exam**.
+
+Now you can solve your **Exam**!
+
+## Help
+### Jar Location
+The **Jar** file is in *tester_app/app/build/libs*, but you can also find it in [releases](https://github.com/Selenorius/Tester-App/releases).
+
+### Create an exam by hand
+1. Open/create a directory and create a new textfile with the name of your exam.
+2. Now open the textfile created in step 1 and add your questions in the following format:
 
 ```r
 {
@@ -35,7 +51,7 @@ Create and solve tests to study for your exams.
         }
     }
     {
-        MULTIPLE_CHOICE [ORDERED] {
+        MULTIPLE_CHOICE ORDERED {
             "Multiple Choice Question text"
             {
                 TRUE {
@@ -84,14 +100,3 @@ A **TextOption** has to contain an **Array** of any amount of **String** *text*.
 A **ButtonOption** has to contain a **String** *text* and a **Boolean** of value *true* or *false*.
 
 True/False Questions have to contain a **Boolean** of value *true* or *false*.
-
-### Step 3: Solve your exam
-1. Start **tester_app.jar**.
-2. Pick your **Topic**.
-3. Pick your **Exam**.
-
-Now you can solve your **Exam**!
-
-## Help
-### Jar Location
-The **Jar** file is in *tester_app/app/build/libs*, but you can also find it in [releases](https://github.com/Selenorius/Tester-App/releases).
