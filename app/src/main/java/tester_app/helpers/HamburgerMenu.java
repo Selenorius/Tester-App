@@ -1,6 +1,9 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.blotBackgroundColor;
+import static tester_app.helpers.Constants.blotBorderColor;
+import static tester_app.helpers.Constants.buttonBackgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
@@ -23,21 +26,32 @@ public class HamburgerMenu extends RoundedPanel {
     private RoundedButton
         menuButton,
         empty;
-    private RoundedPanel menu;
+    private RoundedPanel
+        menu,
+        blot;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
-    private int radius;
-    private JLabel text = new JLabel("Nothing here...");
+    private int
+        radius,
+        menuSize,
+        blotOffset;
+    private JLabel
+        text,
+        size;
     private Color
         selectionColor,
         borderColor;
+    private String buttonText;
 
     public HamburgerMenu(HamburgerMenuBuilder builder) {
         super();
 
+        this.blotOffset = 0;
+        this.menuSize = 0;
         this.radius = 10;
         this.selectionColor = Constants.selectionColor;
         this.borderColor = null;
+        this.buttonText = builder.text;
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
@@ -48,13 +62,24 @@ public class HamburgerMenu extends RoundedPanel {
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
         addMargin(this, 0);
 
+        text = new JLabel("Nothing here...");
+
         menuButton = new RoundedButton();
         menuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 toggle();
             }
         });
-        styleButton(menuButton, builder.text, builder.icon);
+        styleButton(menuButton, buttonText, builder.icon);
+
+        blot = new RoundedPanel();
+        blot.setBackground(blotBackgroundColor);
+        blot.setBorderColor(blotBorderColor);
+        blot.setBorderPainted(true);
+
+        size  = new JLabel("0");
+        size.setForeground(Color.WHITE);
+        blot.add(size);
 
         menu = new RoundedPanel();
         menu.setBackground(null);
@@ -75,18 +100,35 @@ public class HamburgerMenu extends RoundedPanel {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.weightx = 2;
+
         this.add(menu, constraints);
         addComponent(empty);
 
-        constraints.gridx = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.001;
+        constraints.weighty = 0.001;
+        constraints.anchor = GridBagConstraints.NORTHEAST;
+        constraints.insets = new Insets(0, 0, 0, 0);
+
+        this.add(blot, constraints);
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(0, 0, 0, 0);
+
         this.add(menuButton, constraints);
 
         if(isEmpty()) {
             empty.setVisible(true);
         }
+
+        constraints = new GridBagConstraints();
 
         this.setVisible(true);
     }
@@ -94,10 +136,17 @@ public class HamburgerMenu extends RoundedPanel {
     public void toggle() {
         if(isExtended()) {
             addMargin(this, 0);
+            addMargin(menuButton, margin * 2);
 
+            menuButton.setSelectionColor(selectionColor);
+            menuButton.setBackground(buttonBackgroundColor);
+            menuButton.setBorder(true);
+            menuButton.setText(buttonText);
             menu.setVisible(false);
+            blot.setVisible(true);
         } else {
             addMargin(this, margin * 2);
+            addMargin(menuButton, 0);
 
             if(isEmpty()) {
                 empty.setVisible(true);
@@ -105,7 +154,14 @@ public class HamburgerMenu extends RoundedPanel {
                 empty.setVisible(false);
             }
 
+            blot.setVisible(false);
             menu.setVisible(true);
+            if(menuButton.getIcon() != null) {
+                menuButton.setText("");
+            }
+            menuButton.setBorder(false);
+            menuButton.setBackground(menu.getBackground());
+            menuButton.setSelectionColor(menu.getBackground());
         }
     }
 
@@ -121,19 +177,22 @@ public class HamburgerMenu extends RoundedPanel {
         return menu.getComponents().length <= 1;
     }
 
-    public void addComponent(Component c, int anchor, int fill, double weighty) {
+    public void addComponent(Component component, int anchor, int fill, double weighty) {
         constraints.fill = fill;
         constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
-        if(c.getClass() == RoundedButton.class || c.getClass() == HamburgerMenu.class) {
+        if(component.getClass() == RoundedButton.class || component.getClass() == HamburgerMenu.class) {
             constraints.insets = new Insets(0, 0, 0, 0);
         } else {
             constraints.insets = new Insets(margin, margin, margin, margin);
         }
 
-        menu.add(c, constraints);
+        menu.add(component, constraints);
+
+        menuSize = menu.getComponentCount() - 1 - blotOffset;
+        size.setText("" + menuSize);
     }
     public void addComponent(Component c, int anchor, int fill) {
         addComponent(c, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5);
@@ -164,6 +223,10 @@ public class HamburgerMenu extends RoundedPanel {
         return menu;
     }
 
+    public int getMenuSize() {
+        return menu.getComponentCount();
+    }
+
     // SETTERS
     public void setSelectionColor(Color selectionColor) {
         this.menuButton.setSelectionColor(selectionColor);
@@ -176,6 +239,10 @@ public class HamburgerMenu extends RoundedPanel {
     
     public void setMenu(RoundedPanel menu) {
         this.menu = menu;
+    }
+
+    public void setBlotOffset(int offset) {
+        this.blotOffset = offset;
     }
 
     @Override

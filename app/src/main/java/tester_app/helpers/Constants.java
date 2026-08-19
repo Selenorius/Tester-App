@@ -57,7 +57,9 @@ public final class Constants {
         editBackgroundColor = new Color(13, 48, 36),
         editBorderColor = new Color(26, 96, 72),
         examAddBackgroundColor = new Color(14, 52, 39),
-        examAddBorderColor = new Color(28, 104, 78);
+        examAddBorderColor = new Color(28, 104, 78),
+        blotBackgroundColor = new Color(34, 128, 96),
+        blotBorderColor = new Color(68, 255, 192);
 
     //OPTION BOOLEANS
     public static final List<String>

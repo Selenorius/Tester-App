@@ -126,7 +126,6 @@ public class Exam extends ConsoleErrorJFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 updateSettings();
-                tester.start();
             }
         });
         FrameResizeListener frameResizeListener = new FrameResizeListener(this);
@@ -179,7 +178,7 @@ public class Exam extends ConsoleErrorJFrame {
                 dispose();
             }
         });
-        styleButton(backButton, "Back");
+        styleButton(backButton, "End exam");
         backButton.setSelectionColor(deleteColor);
 
         RoundedPanel space = new RoundedPanel();

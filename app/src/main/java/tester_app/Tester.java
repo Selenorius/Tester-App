@@ -393,8 +393,6 @@ public class Tester extends ConsoleErrorJFrame {
 
     public void startExam(File f, Tester tester) {
         new Exam(f, tester).start();
-    
-        this.dispose();
     }
 
     public void reset() {

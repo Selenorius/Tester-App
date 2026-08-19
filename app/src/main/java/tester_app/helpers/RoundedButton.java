@@ -13,7 +13,9 @@ import javax.swing.JButton;
 
 public class RoundedButton extends JButton {
     private int radius;
-    private Boolean borderPaint;
+    private Boolean
+        borderPaint,
+        borderState;
     private Color
         rButtonBorderColor,
         rButtonSelectionColor;
@@ -26,6 +28,7 @@ public class RoundedButton extends JButton {
 
         this.radius = 10;
         this.borderPaint = true;
+        this.borderState = true;
         this.rButtonBorderColor = buttonBorderColor;
         this.rButtonSelectionColor = selectionColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
@@ -38,6 +41,7 @@ public class RoundedButton extends JButton {
 
         this.radius = 10;
         this.borderPaint = true;
+        this.borderState = true;
         this.rButtonBorderColor = buttonBorderColor;
         this.rButtonSelectionColor = selectionColor;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
@@ -50,6 +54,10 @@ public class RoundedButton extends JButton {
 
     public void setSelectionColor(Color color) {
         rButtonSelectionColor = color;
+    }
+
+    public void setBorder(Boolean borderState) {
+        this.borderState = borderState;
     }
 
     @Override
@@ -73,7 +81,7 @@ public class RoundedButton extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if(borderPaint) {
+        if(borderPaint && borderState) {
             g2.setColor(rButtonBorderColor);
             g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
         }

@@ -53,6 +53,7 @@ public class Topic extends HamburgerMenu {
 
         this.setBackground(topicBackgroundColor);
         this.setBorderColor(topicBorderColor);
+        this.setBlotOffset(3);
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
@@ -200,6 +201,8 @@ public class Topic extends HamburgerMenu {
         HamburgerMenu editMenu = loadEditMenu(file);
         hamburgerMenu.addComponent(editMenu);
 
+        hamburgerMenu.setBlotOffset(7 - editMenu.getMenuSize());
+
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int response = JOptionPane.showConfirmDialog(
@@ -251,6 +254,7 @@ public class Topic extends HamburgerMenu {
 
             editMenu.setBackground(editBackgroundColor);
             editMenu.setBorderColor(editBorderColor);
+            editMenu.setBlotOffset(2);
 
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);

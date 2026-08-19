@@ -39,17 +39,17 @@ public class FrameResizeListener extends MouseAdapter {
             Point currCoords = e.getPoint();
             Dimension currFrameSize = frame.getSize();
             int
-                xZone = currFrameSize.width / 3,
-                yZone = currFrameSize.height / 3;
+                xZone = currFrameSize.width / 6,
+                yZone = currFrameSize.height / 6;
             Rectangle
                 TOP_LEFT = new Rectangle(0, 0, xZone, yZone),
-                TOP_CENTER = new Rectangle(xZone, 0, xZone, yZone),
-                TOP_RIGHT = new Rectangle(xZone * 2, 0, xZone, yZone),
-                CENTER_RIGHT = new Rectangle(xZone * 2, yZone, xZone, yZone),
-                BOTTOM_RIGHT = new Rectangle(xZone * 2, yZone * 2, xZone, yZone),
-                BOTTOM_CENTER = new Rectangle(xZone, yZone * 2, xZone, yZone),
-                BOTTOM_LEFT = new Rectangle(0, yZone * 2, xZone, yZone),
-                CENTER_LEFT = new Rectangle(0, yZone, xZone, yZone);
+                TOP_CENTER = new Rectangle(xZone, 0, xZone * 4, yZone),
+                TOP_RIGHT = new Rectangle(xZone * 5, 0, xZone, yZone),
+                CENTER_RIGHT = new Rectangle(xZone * 5, yZone, xZone, yZone * 4),
+                BOTTOM_RIGHT = new Rectangle(xZone * 5, yZone * 5, xZone, yZone),
+                BOTTOM_CENTER = new Rectangle(xZone, yZone * 5, xZone * 4, yZone),
+                BOTTOM_LEFT = new Rectangle(0, yZone * 5, xZone, yZone),
+                CENTER_LEFT = new Rectangle(0, yZone, xZone, yZone * 4);
 
             if(TOP_LEFT.contains(currCoords)) {
                 frame.setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
