@@ -247,14 +247,14 @@ public class Topic extends HamburgerMenu {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
+        editMenu.setBackground(editBackgroundColor);
+        editMenu.setBorderColor(editBorderColor);
+        editMenu.setBlotOffset(2);
+
         for(Question q : questions) {
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
-
-            editMenu.setBackground(editBackgroundColor);
-            editMenu.setBorderColor(editBorderColor);
-            editMenu.setBlotOffset(2);
 
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);
