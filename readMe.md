@@ -3,14 +3,14 @@ Create and solve tests to study for your exams.
 
 ## What does this thing look like?
 ### The Menu
-<img width="1920" height="1440" alt="image" src="https://github.com/user-attachments/assets/e00a5d26-6cc3-418e-a80e-9d4bd03e8f73" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/815db90f-f276-48b6-96c0-97721024b535" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/a307af8c-309f-4559-93cb-03eec509d23a" />
 
 ### The Editor
-<img width="1920" height="1440" alt="image" src="https://github.com/user-attachments/assets/24332fa2-1ec9-4098-9f02-b2b09a7ee15c" />
-<img width="1920" height="1440" alt="image" src="https://github.com/user-attachments/assets/1df9ad54-cb33-445a-92aa-ab566b815756" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/dc6a6ee1-9ad4-424f-84a8-0ca320a840ae" />
 
 ### The Questions
-<img width="1920" height="1440" alt="image" src="https://github.com/user-attachments/assets/049c8f67-918a-496e-bd7f-9f844ee47b56" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/2ec2a938-3460-453b-bb92-4005bcd5bb3b" />
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
