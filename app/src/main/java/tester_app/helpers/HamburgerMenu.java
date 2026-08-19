@@ -51,7 +51,9 @@ public class HamburgerMenu extends RoundedPanel {
         this.radius = 10;
         this.selectionColor = Constants.selectionColor;
         this.borderColor = null;
-        this.buttonText = builder.text;
+        if(builder.text != null) {
+            this.buttonText = "   " + builder.text + "   ";
+        }
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();

@@ -28,7 +28,6 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,6 +37,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import tester_app.helpers.ConsoleErrorJFrame;
+import tester_app.helpers.ExamTimer;
 import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.FrameResizeListener;
 import tester_app.helpers.RoundedButton;
@@ -61,6 +61,7 @@ public class Exam extends ConsoleErrorJFrame {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
+    private ExamTimer timer;
 
     private int
         score,
@@ -215,7 +216,18 @@ public class Exam extends ConsoleErrorJFrame {
         questionMenu.setBackground(fieldColor);
         questionMenu.setBorderColor(examAddBorderColor);
         questionMenu.setBorderPainted(true);
-        questionMenu.setLayout(new BoxLayout(questionMenu, BoxLayout.Y_AXIS));
+        questionMenu.setLayout(layout);
+
+        timer = new ExamTimer();
+
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.gridwidth = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0;
+        constraints.anchor = GridBagConstraints.NORTHEAST;
+        constraints.insets = new Insets(margin, margin, margin, margin);
+
+        questionMenu.add(timer, constraints);
 
         scrollPane = new JScrollPane(questionMenu);
         scrollPane.getViewport().setBackground(fieldColor);
@@ -425,12 +437,22 @@ public class Exam extends ConsoleErrorJFrame {
         }
     }
 
+    public void addQuestion(Question question) {
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.SOUTH;
+
+        questionMenu.add(question, constraints);
+    }
+
     public void start() {
         Collections.shuffle(questions);
 
         Question currentQuestion = questions.get(0);
 
-        questionMenu.add(currentQuestion);
+        addQuestion(currentQuestion);
 
         titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
 
@@ -519,7 +541,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         Question question = questions.get(currentIndex);
 
-        questionMenu.add(question);
+        addQuestion(question);
 
         if(question.getClass() == WQuestion.class) {
             question.getTextArea().requestFocus();
@@ -529,8 +551,9 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     public void finish() {
-        String finishText = "You passed your exam with " + score + " points!";
+        timer.stop();
 
+        String finishText = "You passed your exam with " + score + " points!";
         if(score < (int) (questions.size() * 0.6) || score == 0) {
             if(score == 1) {
                 finishText = "You failed your exam with " + score + " point!";
@@ -549,7 +572,8 @@ public class Exam extends ConsoleErrorJFrame {
 
         JOptionPane.showMessageDialog(
             this,
-            finishText,
+            finishText + System.lineSeparator() +
+            "Time: " + timer.getTime(),
             "Exam finished!",
             JOptionPane.PLAIN_MESSAGE
         );
