@@ -1,5 +1,6 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editBackgroundColor;
 import static tester_app.helpers.Constants.editBorderColor;
@@ -92,6 +93,7 @@ public class Topic extends HamburgerMenu {
 
                             try {
                                 Files.move(oldDirPath, newDirPath);
+                                setText(fileTitle);
                             } catch (Exception e1) {
                                 System.out.println("Error renaming topic: " + e1.getMessage());
                                 e1.printStackTrace();
@@ -230,6 +232,7 @@ public class Topic extends HamburgerMenu {
 
                             try {
                                 Files.move(oldDirPath, newDirPath);
+                                hamburgerMenu.setText(fileTitle);
                             } catch (Exception e1) {
                                 System.out.println("Error renaming exam: " + e1.getMessage());
                                 e1.printStackTrace();
@@ -330,6 +333,7 @@ public class Topic extends HamburgerMenu {
             editPanel.setBorderColor(examAddBorderColor);
             editPanel.setBorderPainted(true);
             editPanel.setLayout(getLayout());
+            addMargin(editPanel, margin * 2);
 
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
@@ -349,7 +353,7 @@ public class Topic extends HamburgerMenu {
             textPanel.add(textArea, constraints);
 
             constraints.gridx = 1;
-            constraints.insets = new Insets(margin, margin, margin, margin);
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             editPanel.add(textPanel, constraints);
             questionTextAreas.add(textArea);
@@ -387,7 +391,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(deleteButton, "Delete option");
                     deleteButton.setSelectionColor(deleteColor);
 
-                    constraints.insets = new Insets(0, 0, 0, 0);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textArea = new RoundedTextArea(o.getClearText());
                     textArea.addKeyListener(new KeyAdapter() {
@@ -401,11 +405,11 @@ public class Topic extends HamburgerMenu {
                     textPanel.add(textArea, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
-                    constraints.insets = new Insets(0, 0, 0, 0);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textPanel.add(deleteButton, constraints);
 
-                    constraints.insets = new Insets(margin, margin, margin, margin);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
                     editPanel.add(textPanel, constraints);
                     
@@ -460,7 +464,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(deleteButton, "Delete option");
                     deleteButton.setSelectionColor(deleteColor);
 
-                    constraints.insets = new Insets(0, 0, 0, 0);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textArea = new RoundedTextArea(o.getText());
                     textArea.addKeyListener(new KeyAdapter() {
@@ -488,11 +492,11 @@ public class Topic extends HamburgerMenu {
                     textPanel.add(radioButton, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
-                    constraints.insets = new Insets(0, 0, 0, 0);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textPanel.add(deleteButton, constraints);
 
-                    constraints.insets = new Insets(margin, margin, margin, margin);
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
                     editPanel.add(textPanel, constraints);
                     
@@ -506,7 +510,7 @@ public class Topic extends HamburgerMenu {
                 textPanel.setBorderColor(examAddBorderColor);
                 textPanel.setBorderPainted(true);
 
-                constraints.insets = new Insets(0, 0, 0, 0);
+                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.addActionListener(new ActionListener() {
@@ -522,7 +526,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setSelected(q.getButtonOptions().getFirst().isTrue());
                 textPanel.add(radioButton, constraints);
 
-                constraints.insets = new Insets(margin, margin, margin, margin);
+                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
                 editPanel.add(textPanel, constraints);
                 
@@ -530,7 +534,7 @@ public class Topic extends HamburgerMenu {
             }
 
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.insets = new Insets(0, 0, 0, 0);
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             if(q.getClass() == WQuestion.class) {
                 RoundedButton addButton = new RoundedButton();
@@ -549,6 +553,8 @@ public class Topic extends HamburgerMenu {
                 styleButton(addButton, "Add option");
                 addButton.setSelectionColor(editColor);
 
+                constraints.insets = new Insets(margin, margin, margin, margin);
+
                 editPanel.add(addButton, constraints);
             } else if(q.getClass() == MCQuestion.class) {
                 RoundedButton addButton = new RoundedButton();
@@ -564,6 +570,8 @@ public class Topic extends HamburgerMenu {
                 });
                 styleButton(addButton, "Add option");
                 addButton.setSelectionColor(editColor);
+
+                constraints.insets = new Insets(margin, margin, margin, margin);
 
                 editPanel.add(addButton, constraints);
             }
@@ -590,6 +598,8 @@ public class Topic extends HamburgerMenu {
             });
             styleButton(deleteButton, "Delete question");
             deleteButton.setSelectionColor(deleteColor);
+
+            constraints.insets = new Insets(margin, margin, margin, margin);
 
             editPanel.add(deleteButton, constraints);
             editMenu.addComponent(editPanel);

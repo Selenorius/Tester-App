@@ -42,22 +42,23 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        backgroundColor = new Color(10, 36, 27),
         fieldColor = new Color(16, 20, 17),
-        borderColor = new Color(20, 72, 54),
-        buttonBackgroundColor = new Color(16, 60, 45),
-        buttonBorderColor = new Color(32, 120, 90),
         selectionColor = new Color(15,130,215),
         editColor = new Color(15, 191, 62),
         deleteColor = new Color(208, 15, 0),
-        topicBackgroundColor = new Color(11, 40, 30),
+
+        backgroundColor = new Color(10, 36, 27),
+        borderColor = new Color(20, 72, 54),
+        topicBackgroundColor = new Color(12, 44, 33),
         topicBorderColor = new Color(22, 80, 60),
-        examBackgroundColor = new Color(12, 44, 33),
+        examBackgroundColor = new Color(14, 52, 39),
         examBorderColor = new Color(24, 88, 66),
-        editBackgroundColor = new Color(13, 48, 36),
+        editBackgroundColor = new Color(16, 60, 45),
         editBorderColor = new Color(26, 96, 72),
-        examAddBackgroundColor = new Color(14, 52, 39),
+        examAddBackgroundColor = new Color(18, 68, 51),
         examAddBorderColor = new Color(28, 104, 78),
+        buttonBackgroundColor = new Color(20, 76, 57),
+        buttonBorderColor = new Color(32, 120, 90),
         blotBackgroundColor = new Color(34, 128, 96),
         blotBorderColor = new Color(68, 255, 192);
 

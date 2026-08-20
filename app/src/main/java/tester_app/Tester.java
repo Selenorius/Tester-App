@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.Box;
@@ -137,11 +138,6 @@ public class Tester extends ConsoleErrorJFrame {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                if(extendedStates != null || !extendedStates.isEmpty()) {
-                    extendedStates.clear();
-                }
-
-                saveExtendedStates(dirMenu);
                 updateSettings();
             }
         });
@@ -312,8 +308,27 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void saveExtendedStates(Component component) {
+        ArrayList<Topic> topics = new ArrayList<>();
+        ArrayList<HamburgerMenu> hams = new ArrayList<>();
+        ArrayList<Component> comp = new ArrayList<>();
+        
         if(((Container) component).getComponentCount() > 0) {
             for(Component c : ((Container) component).getComponents()) {
+                if(c.getClass() == HamburgerMenu.class) {
+                    hams.add((HamburgerMenu) c);
+                } else if(c.getClass() == Topic.class) {
+                    topics.add((Topic) c);
+                }
+            }
+        }
+
+        Arrays.sort(topics.toArray());
+
+        comp.addAll(topics);
+        comp.addAll(hams);
+
+        if(comp.size() > 0) {
+            for(Component c : comp) {
                 if(c.getClass() == HamburgerMenu.class) {
                     extendedStates.add(((HamburgerMenu) c).isExtended());
 
@@ -328,16 +343,13 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadExtendedStates(Component component) {
-        int stateSize = extendedStates.size();
-
         if(
             extendedStates != null &&
             ((Container) component).getComponentCount() > 0
         ) {
             for(Component c : ((Container) component).getComponents()) {
                 if(
-                    c.getClass() == HamburgerMenu.class &&
-                    cCount < stateSize
+                    c.getClass() == HamburgerMenu.class
                 ) {
                     if(extendedStates.get(cCount++)) {
                         ((HamburgerMenu) c).toggle();
@@ -345,8 +357,7 @@ public class Tester extends ConsoleErrorJFrame {
 
                     loadExtendedStates(((HamburgerMenu) c).getMenu());
                 } else if(
-                    c.getClass() == Topic.class &&
-                    cCount < stateSize
+                    c.getClass() == Topic.class
                 ) {
                     if(extendedStates.get(cCount++)) {
                         ((Topic) c).toggle();
@@ -403,6 +414,9 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void reset() {
+        cCount = 0;
+        extendedStates.clear();
+
         uncategorizedExtendedState = uncategorized.isExtended();
         addButtonExtendedState = addButton.isExtended();
         saveExtendedStates(dirMenu);
@@ -430,6 +444,7 @@ public class Tester extends ConsoleErrorJFrame {
 
     public void start() {
         cCount = 0;
+        extendedStates.clear();
 
         uncategorized.clearMenu();
         dirMenu.removeAll();

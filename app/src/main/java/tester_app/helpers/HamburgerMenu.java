@@ -147,7 +147,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             menu.setVisible(false);
             blot.setVisible(true);
         } else {
-            addMargin(this, margin * 2);
+            addMargin(this, margin * 3);
             addMargin(menuButton, 0);
 
             if(isEmpty()) {
@@ -186,9 +186,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.weighty = weighty;
         constraints.anchor = anchor;
         if(component.getClass() == RoundedButton.class || component.getClass() == HamburgerMenu.class) {
-            constraints.insets = new Insets(0, 0, 0, 0);
+            constraints.insets = new Insets(margin * 1, margin * 1, margin * 1, margin * 1);
         } else {
-            constraints.insets = new Insets(margin, margin, margin, margin);
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
         }
 
         menu.add(component, constraints);
@@ -292,6 +292,16 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         }
     }
 
+    @Override
+    public int compareTo(HamburgerMenu ham) {
+        if(this.getText() == null) {
+            return -999999;
+        } else if(ham.getText() == null) {
+            return 999999;
+        }
+        return this.getText().compareTo(ham.getText());
+    }
+
     public static class HamburgerMenuBuilder {
         public String text;
         public Image icon;
@@ -309,10 +319,5 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         public HamburgerMenu build() {
             return new HamburgerMenu(this);
         }
-    }
-
-    @Override
-    public int compareTo(HamburgerMenu ham) {
-        return this.getText().compareTo(ham.getText());
     }
 }
