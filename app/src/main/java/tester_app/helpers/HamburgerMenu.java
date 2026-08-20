@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
-public class HamburgerMenu extends RoundedPanel {
+public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
         menuButton,
         empty;
@@ -233,6 +233,10 @@ public class HamburgerMenu extends RoundedPanel {
         return blotOffset;
     }
 
+    public String getText() {
+        return buttonText;
+    }
+
     // SETTERS
     public void setSelectionColor(Color selectionColor) {
         this.menuButton.setSelectionColor(selectionColor);
@@ -249,6 +253,10 @@ public class HamburgerMenu extends RoundedPanel {
 
     public void setBlotOffset(int offset) {
         this.blotOffset = offset;
+    }
+
+    public void setText(String text) {
+        this.buttonText = text;
     }
 
     @Override
@@ -301,5 +309,10 @@ public class HamburgerMenu extends RoundedPanel {
         public HamburgerMenu build() {
             return new HamburgerMenu(this);
         }
+    }
+
+    @Override
+    public int compareTo(HamburgerMenu ham) {
+        return this.getText().compareTo(ham.getText());
     }
 }

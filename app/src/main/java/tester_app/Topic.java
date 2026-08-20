@@ -79,10 +79,12 @@ public class Topic extends HamburgerMenu {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    if(titleArea.getText().length() <= 30) {
+                    String fileTitle = titleArea.getText();
+
+                    if(fileTitle.length() <= 30) {
                         String
                             oldPath = dir.getPath(),
-                            newPath = dir.getParentFile().getPath() + "/" + titleArea.getText();
+                            newPath = dir.getParentFile().getPath() + "/" + fileTitle;
 
                         if(oldPath != newPath) {
                             Path oldDirPath = Paths.get(oldPath);
@@ -215,10 +217,12 @@ public class Topic extends HamburgerMenu {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    if(titleArea.getText().length() <= 30) {
+                    String fileTitle = titleArea.getText();
+
+                    if(fileTitle.length() <= 30) {
                         String
                             oldPath = file.getPath(),
-                            newPath = file.getParentFile().getPath() + "/" + titleArea.getText() + ".txt";
+                            newPath = file.getParentFile().getPath() + "/" + fileTitle + ".txt";
 
                         if(oldPath != newPath) {
                             Path oldDirPath = Paths.get(oldPath);
