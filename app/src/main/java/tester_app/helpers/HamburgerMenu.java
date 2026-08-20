@@ -2,7 +2,6 @@ package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.blotBackgroundColor;
-import static tester_app.helpers.Constants.blotBorderColor;
 import static tester_app.helpers.Constants.buttonBackgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
@@ -76,8 +75,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         blot = new RoundedPanel();
         blot.setBackground(blotBackgroundColor);
-        blot.setBorderColor(blotBorderColor);
+        blot.setBorderColor(blotBackgroundColor.brighter());
         blot.setBorderPainted(true);
+        blot.setRadius(4);
+        addMargin(blot, 0);
 
         size  = new JLabel("0");
         size.setForeground(Color.WHITE);
@@ -92,7 +93,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         empty = new RoundedButton();
         empty.setBackground(fieldColor);
-        empty.setBorderColor(fieldColor);
         empty.setSelectionColor(fieldColor);
         empty.setLayout(layout);
 
@@ -140,9 +140,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             addMargin(this, 0);
             addMargin(menuButton, margin * 2);
 
-            menuButton.setSelectionColor(selectionColor);
+            menuButton.setSelectionColor(null);
             menuButton.setBackground(buttonBackgroundColor);
-            menuButton.setBorder(true);
             menuButton.setText(buttonText);
             menu.setVisible(false);
             blot.setVisible(true);
@@ -161,7 +160,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             if(menuButton.getIcon() != null) {
                 menuButton.setText("");
             }
-            menuButton.setBorder(false);
             menuButton.setBackground(menu.getBackground());
             menuButton.setSelectionColor(menu.getBackground());
         }

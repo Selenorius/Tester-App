@@ -39,6 +39,10 @@ public class RoundedPanel extends JPanel implements Scrollable {
         this.borderColor = bordeColor;
     }
 
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -44,23 +44,22 @@ public final class Constants {
     public static final Color
         fieldColor = new Color(16, 20, 17),
         selectionColor = new Color(15,130,215),
-        editColor = new Color(15, 191, 62),
-        deleteColor = new Color(208, 15, 0),
+        editColor = new Color(48, 140, 28),
+        deleteColor = new Color(140, 48, 28),
 
-        backgroundColor = new Color(10, 36, 27),
-        borderColor = new Color(20, 72, 54),
-        topicBackgroundColor = new Color(12, 44, 33),
-        topicBorderColor = new Color(22, 80, 60),
-        examBackgroundColor = new Color(14, 52, 39),
-        examBorderColor = new Color(24, 88, 66),
-        editBackgroundColor = new Color(16, 60, 45),
-        editBorderColor = new Color(26, 96, 72),
-        examAddBackgroundColor = new Color(18, 68, 51),
-        examAddBorderColor = new Color(28, 104, 78),
-        buttonBackgroundColor = new Color(20, 76, 57),
-        buttonBorderColor = new Color(32, 120, 90),
-        blotBackgroundColor = new Color(34, 128, 96),
-        blotBorderColor = new Color(68, 255, 192);
+        backgroundColor = new Color(30, 36, 27),
+        borderColor = new Color(60, 72, 54),
+        topicBackgroundColor = new Color(40, 44, 33),
+        topicBorderColor = new Color(80, 80, 60),
+        examBackgroundColor = new Color(50, 52, 39),
+        examBorderColor = new Color(100, 88, 66),
+        editBackgroundColor = new Color(60, 60, 45),
+        editBorderColor = new Color(120, 96, 72),
+        examAddBackgroundColor = new Color(70, 68, 51),
+        examAddBorderColor = new Color(140, 84, 28),
+
+        buttonBackgroundColor = new Color(140, 84, 28),
+        blotBackgroundColor = new Color(184, 28, 84);
 
     //OPTION BOOLEANS
     public static final List<String>
@@ -92,7 +91,6 @@ public final class Constants {
         final int inset = 4;
         
         button.setBackground(buttonBackgroundColor);
-        button.setBorderColor(buttonBorderColor);
         if(buttonIcon != null) {
             button.setIcon(new ImageIcon(buttonIcon));
         }
@@ -218,20 +216,23 @@ public final class Constants {
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
                 } else if(isDragging) {
-                    color = selectionColor;
+                    color = buttonBackgroundColor.darker();
                 } else if(isThumbRollover()) {
-                    color = selectionColor;
+                    color = buttonBackgroundColor.darker();
                 }
 
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
-                if(!isThumbRollover()) {
-                    color = buttonBackgroundColor;
-
-                    g2.setPaint(buttonBorderColor);
-                    g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
+                if(isDragging) {
+                    g2.setPaint(buttonBackgroundColor);
+                } else if(isThumbRollover()) {
+                    g2.setPaint(buttonBackgroundColor);
+                } else {
+                    g2.setPaint(buttonBackgroundColor.brighter());
                 }
+
+                g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 
                 g2.dispose();
             }

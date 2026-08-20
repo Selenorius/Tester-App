@@ -160,7 +160,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addButton, "Add exam");
-        addButton.setSelectionColor(editColor);
+        addButton.setBackground(editColor);
 
         RoundedButton deleteButton = new RoundedButton();
         deleteButton.addActionListener(new ActionListener() {
@@ -185,7 +185,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(deleteButton, "Delete topic");
-        deleteButton.setSelectionColor(deleteColor);
+        deleteButton.setBackground(deleteColor);
 
         if(titled) {
             addComponent(addButton);
@@ -298,7 +298,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(deleteButton, "Delete exam");
-        deleteButton.setSelectionColor(deleteColor);
+        deleteButton.setBackground(deleteColor);
         hamburgerMenu.addComponent(deleteButton);
 
         addComponent(hamburgerMenu);
@@ -389,7 +389,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
                     styleButton(deleteButton, "Delete option");
-                    deleteButton.setSelectionColor(deleteColor);
+                    deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
@@ -462,7 +462,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
                     styleButton(deleteButton, "Delete option");
-                    deleteButton.setSelectionColor(deleteColor);
+                    deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
@@ -551,7 +551,7 @@ public class Topic extends HamburgerMenu {
                     }
                 });
                 styleButton(addButton, "Add option");
-                addButton.setSelectionColor(editColor);
+                addButton.setBackground(editColor);
 
                 constraints.insets = new Insets(margin, margin, margin, margin);
 
@@ -569,7 +569,7 @@ public class Topic extends HamburgerMenu {
                     }
                 });
                 styleButton(addButton, "Add option");
-                addButton.setSelectionColor(editColor);
+                addButton.setBackground(editColor);
 
                 constraints.insets = new Insets(margin, margin, margin, margin);
 
@@ -597,7 +597,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
             styleButton(deleteButton, "Delete question");
-            deleteButton.setSelectionColor(deleteColor);
+            deleteButton.setBackground(deleteColor);
 
             constraints.insets = new Insets(margin, margin, margin, margin);
 
@@ -623,7 +623,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addWQButton, "Add written question");
-        addWQButton.setSelectionColor(editColor);
+        addWQButton.setBackground(editColor);
         addMenu.addComponent(addWQButton);
 
         RoundedButton addMCButton = new RoundedButton();
@@ -639,7 +639,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addMCButton, "Add multiple choice question");
-        addMCButton.setSelectionColor(editColor);
+        addMCButton.setBackground(editColor);
         addMenu.addComponent(addMCButton);
 
         RoundedButton addTFButton = new RoundedButton();
@@ -665,7 +665,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         styleButton(addTFButton, "Add true/false question");
-        addTFButton.setSelectionColor(editColor);
+        addTFButton.setBackground(editColor);
         addMenu.addComponent(addTFButton);
 
         editMenu.addComponent(addMenu);

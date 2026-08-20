@@ -1,7 +1,6 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.margin;
-import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.Color;
 import java.awt.Insets;
@@ -28,7 +27,7 @@ public class RoundedTextArea extends JTextArea {
             @Override
             public void mouseExited(MouseEvent e) {
                 setFocusable(false);
-                setForeground(Color.GRAY);
+                setForeground(Color.WHITE.darker());
             }
 
             @Override

@@ -178,7 +178,7 @@ public class Tester extends ConsoleErrorJFrame {
             }
         });
         styleButton(backButton, "Exit");
-        backButton.setSelectionColor(deleteColor);
+        backButton.setBackground(deleteColor);
 
         RoundedPanel space = new RoundedPanel();
         space.setBackground(null);
@@ -257,7 +257,7 @@ public class Tester extends ConsoleErrorJFrame {
             }
         });
         styleButton(addTopicButton, "Create new topic", dirButtonIcon);
-        addTopicButton.setSelectionColor(editColor);
+        addTopicButton.setBackground(editColor);
 
         RoundedButton addExamButton = new RoundedButton();
         addExamButton.addActionListener(new ActionListener() {
@@ -275,7 +275,7 @@ public class Tester extends ConsoleErrorJFrame {
             }
         });
         styleButton(addExamButton, "Create new exam", fileButtonIcon);
-        addExamButton.setSelectionColor(editColor);
+        addExamButton.setBackground(editColor);
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
         addButton.setBackground(fieldColor);
