@@ -327,6 +327,7 @@ public class Topic extends HamburgerMenu {
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             editPanel = new RoundedPanel();
             editPanel.setBackground(fieldColor);
@@ -430,6 +431,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+
                 textPanel.add(radioButton, constraints);
 
                 orderedRadioButtons.add(radioButton);
