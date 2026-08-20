@@ -66,6 +66,9 @@ public class Tester extends ConsoleErrorJFrame {
         prevWindowstate,
         cCount;
     protected ArrayList<Boolean> extendedStates;
+    protected Boolean
+        addButtonExtendedState,
+        uncategorizedExtendedState;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
@@ -82,6 +85,8 @@ public class Tester extends ConsoleErrorJFrame {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         extendedStates = new ArrayList<>();
+        uncategorizedExtendedState = false;
+        addButtonExtendedState = false;
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
@@ -225,6 +230,8 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.add(backButton, constraints);
 
         uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
+        uncategorized.setTitled(false);
+        uncategorized.setBlotOffset(0);
 
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor);
@@ -243,10 +250,13 @@ public class Tester extends ConsoleErrorJFrame {
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new File(root.getPath() + "/New topic").mkdir();
-                addComponent(new Topic.TopicBuilder().build());
+                File file = new File(root.getPath() + "/New topic");
+                if(!file.exists()) {
+                    file.mkdir();
+                    addComponent(new Topic.TopicBuilder().build());
 
-                reset();
+                    reset();
+                }
             }
         });
         styleButton(addTopicButton, "Create new topic", dirButtonIcon);
@@ -257,18 +267,14 @@ public class Tester extends ConsoleErrorJFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     File file = new File(root.getPath() + "/New exam.txt");
-                    file.createNewFile();
-                    if(uncategorized == null) {
-                        uncategorized = new Topic.TopicBuilder().text("Uncategorized").build();
-                        addComponent(uncategorized);
+                    if(!file.exists()) {
+                        file.createNewFile();
+                        
+                        reset();
                     }
-                    uncategorized.addExam(file, fileButtonIcon);
-                    uncategorized.setVisible(true);
                 } catch (IOException e1) {
                     consoleErrorMessage(e1);
                 }
-
-                reset();
             }
         });
         styleButton(addExamButton, "Create new exam", fileButtonIcon);
@@ -396,6 +402,8 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void reset() {
+        uncategorizedExtendedState = uncategorized.isExtended();
+        addButtonExtendedState = addButton.isExtended();
         saveExtendedStates(dirMenu);
 
         uncategorized.clearMenu();
@@ -408,6 +416,12 @@ public class Tester extends ConsoleErrorJFrame {
             uncategorized.setVisible(true);
         }
 
+        if(addButtonExtendedState) {
+            addButton.toggle();
+        }
+        if(uncategorizedExtendedState) {
+            uncategorized.toggle();
+        }
         loadExtendedStates(dirMenu);
         revalidate();
         repaint();
@@ -428,6 +442,12 @@ public class Tester extends ConsoleErrorJFrame {
         
         this.setVisible(true);
 
+        if(addButtonExtendedState) {
+            addButton.toggle();
+        }
+        if(uncategorizedExtendedState) {
+            uncategorized.toggle();
+        }
         loadExtendedStates(dirMenu);
     }
 

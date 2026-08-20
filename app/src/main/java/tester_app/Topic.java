@@ -9,7 +9,6 @@ import static tester_app.helpers.Constants.examBackgroundColor;
 import static tester_app.helpers.Constants.examBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
-import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.topicBackgroundColor;
 import static tester_app.helpers.Constants.topicBorderColor;
@@ -20,6 +19,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -45,11 +46,13 @@ import tester_app.questions.WQuestion;
 
 public class Topic extends HamburgerMenu {
     private Tester tester;
+    private boolean titled;
 
     public Topic(TopicBuilder builder) {
         super(builder);
 
         tester = builder.tester;
+        titled = true;
 
         this.setBackground(topicBackgroundColor);
         this.setBorderColor(topicBorderColor);
@@ -67,29 +70,65 @@ public class Topic extends HamburgerMenu {
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
-        RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
-        titleArea.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String in = titleArea.getText();
+        RoundedPanel untitledPanel = new RoundedPanel();
+        untitledPanel.setBackground(null);
+        untitledPanel.setBorderPainted(false);
 
-                    Path oldDirPath = Paths.get(dir.getPath());
-                    Path newDirPath = Paths.get(root.getPath() + "/" + in);
-                    try {
-                        Files.move(oldDirPath, newDirPath);
-                    } catch (Exception e1) {
-                        System.out.println("Error renaming topic: " + e1.getMessage());
+        RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
+        titleArea.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(e != null) {
+                    if(titleArea.getText().length() <= 30) {
+                        String
+                            oldPath = dir.getPath(),
+                            newPath = dir.getParentFile().getPath() + "/" + titleArea.getText();
+
+                        if(oldPath != newPath) {
+                            Path oldDirPath = Paths.get(oldPath);
+                            Path newDirPath = Paths.get(newPath);
+
+                            try {
+                                Files.move(oldDirPath, newDirPath);
+                            } catch (Exception e1) {
+                                System.out.println("Error renaming topic: " + e1.getMessage());
+                                e1.printStackTrace();
+                            }
+                        }
                     }
 
                     tester.reset();
                 }
             }
         });
-        titlePanel.add(titleArea, constraints);
-        
-        addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
+        titleArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(titleArea.getText().length() <= 30) {
+                    titleArea.setForeground(Color.WHITE);
+                } else {
+                    titleArea.setForeground(deleteColor);
+                }
 
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    tester.requestFocus();
+                }
+            }
+        });
+        titlePanel.add(titleArea, constraints);
+
+        constraints.weightx = 0;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        
+        if(titled) {
+            addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
+        } else {
+            getMenu().add(untitledPanel, constraints);
+            setBlotOffset(getMenuSize() / 2);
+        }
+        
         if(dir.isDirectory()) {
             for (final File f : dir.listFiles()) {
                 if (!f.isDirectory()) {
@@ -105,10 +144,12 @@ public class Topic extends HamburgerMenu {
             public void actionPerformed(ActionEvent e) {
                 try {
                     File file = new File(dir.getPath() + "/New exam.txt");
-                    file.createNewFile();
-                    addExam(file, fileIcon);
+                    if(!file.exists()) {
+                        file.createNewFile();
+                        addExam(file, fileIcon);
 
-                    tester.reset();
+                        tester.reset();
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
@@ -142,8 +183,10 @@ public class Topic extends HamburgerMenu {
         styleButton(deleteButton, "Delete topic");
         deleteButton.setSelectionColor(deleteColor);
 
-        addComponent(addButton);
-        addComponent(deleteButton);
+        if(titled) {
+            addComponent(addButton);
+            addComponent(deleteButton);
+        }
     }
 
     public void addExam(final File file, final Image fileIcon) {
@@ -168,21 +211,44 @@ public class Topic extends HamburgerMenu {
         titlePanel.setLayout(getLayout());
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
-        titleArea.addKeyListener(new KeyAdapter() {
+        titleArea.addFocusListener(new FocusAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String in = titleArea.getText();
+            public void focusLost(FocusEvent e) {
+                if(e != null) {
+                    if(titleArea.getText().length() <= 30) {
+                        String
+                            oldPath = file.getPath(),
+                            newPath = file.getParentFile().getPath() + "/" + titleArea.getText() + ".txt";
 
-                    Path oldDirPath = Paths.get(file.getPath());
-                    Path newDirPath = Paths.get(file.getParentFile().getPath() + "/" + in + ".txt");
-                    try {
-                        Files.move(oldDirPath, newDirPath);
-                    } catch (Exception e1) {
-                        System.out.println("Error renaming topic: " + e1.getMessage());
+                        if(oldPath != newPath) {
+                            Path oldDirPath = Paths.get(oldPath);
+                            Path newDirPath = Paths.get(newPath);
+
+                            try {
+                                Files.move(oldDirPath, newDirPath);
+                            } catch (Exception e1) {
+                                System.out.println("Error renaming exam: " + e1.getMessage());
+                                e1.printStackTrace();
+                            }
+                        }
                     }
 
                     tester.reset();
+                }
+            }
+        });
+        titleArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(titleArea.getText().length() <= 30) {
+                    titleArea.setForeground(Color.WHITE);
+                } else {
+                    titleArea.setForeground(deleteColor);
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    tester.requestFocus();
                 }
             }
         });
@@ -201,7 +267,7 @@ public class Topic extends HamburgerMenu {
         HamburgerMenu editMenu = loadEditMenu(file);
         hamburgerMenu.addComponent(editMenu);
 
-        hamburgerMenu.setBlotOffset(7 - editMenu.getMenuSize());
+        hamburgerMenu.setBlotOffset(6 - editMenu.getMenuSize());
 
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -234,13 +300,12 @@ public class Topic extends HamburgerMenu {
     private HamburgerMenu loadEditMenu(File file) {
         Exam exam = new Exam(file, tester);
         HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().text("Edit exam").build();
-        RoundedButton
-            saveButton = new RoundedButton();
         RoundedPanel editPanel;
 
         ArrayList<Question> questions = exam.getQuestions();
-        ArrayList<RoundedTextArea> questionTextAreas = new ArrayList<>();
-        ArrayList<RoundedTextArea> optionTextAreas = new ArrayList<>();
+        ArrayList<RoundedTextArea>
+            questionTextAreas = new ArrayList<>(),
+            optionTextAreas = new ArrayList<>();
         ArrayList<JRadioButton>
             optionRadioButtons = new ArrayList<>(),
             orderedRadioButtons = new ArrayList<>();
@@ -249,7 +314,7 @@ public class Topic extends HamburgerMenu {
 
         editMenu.setBackground(editBackgroundColor);
         editMenu.setBorderColor(editBorderColor);
-        editMenu.setBlotOffset(2);
+        editMenu.setBlotOffset(1);
 
         for(Question q : questions) {
             constraints.fill = GridBagConstraints.BOTH;
@@ -269,6 +334,14 @@ public class Topic extends HamburgerMenu {
             textPanel.setBorderPainted(true);
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
+            textArea.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    }
+                }
+            });
             textPanel.add(textArea, constraints);
 
             constraints.gridx = 1;
@@ -300,9 +373,7 @@ public class Topic extends HamburgerMenu {
                             if (response == JOptionPane.YES_OPTION) {
                                 q.removeOption(o);
 
-                                exam.setQuestions(questions);
-                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                                 tester.reset();
                             }
                         }
@@ -313,6 +384,14 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(0, 0, 0, 0);
                     
                     textArea = new RoundedTextArea(o.getClearText());
+                    textArea.addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                            if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                            }
+                        }
+                    });
                     textPanel.add(textArea, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -330,6 +409,12 @@ public class Topic extends HamburgerMenu {
                 ArrayList<ButtonOption> options = q.getButtonOptions();
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    }
+                });
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
@@ -359,9 +444,7 @@ public class Topic extends HamburgerMenu {
                             if (response == JOptionPane.YES_OPTION) {
                                 q.removeOption(o);
 
-                                exam.setQuestions(questions);
-                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                                 tester.reset();
                             }
                         }
@@ -372,9 +455,23 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(0, 0, 0, 0);
                     
                     textArea = new RoundedTextArea(o.getText());
+                    textArea.addKeyListener(new KeyAdapter() {
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                            if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                            }
+                        }
+                    });
                     textPanel.add(textArea, constraints);
 
                     radioButton = new JRadioButton();
+                    radioButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                        }
+                    });
                     radioButton.setFocusable(false);
                     radioButton.setBackground(null);
                     radioButton.setForeground(Color.WHITE);
@@ -404,6 +501,12 @@ public class Topic extends HamburgerMenu {
                 constraints.insets = new Insets(0, 0, 0, 0);
                 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    }
+                });
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
@@ -429,9 +532,7 @@ public class Topic extends HamburgerMenu {
                         option.addText("Text missing...");
                         q.addOption(option);
 
-                        exam.setQuestions(questions);
-                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                         tester.reset();
                     }
                 });
@@ -445,9 +546,7 @@ public class Topic extends HamburgerMenu {
                     public void actionPerformed(ActionEvent e) {
                         q.addOption(new ButtonOption());
 
-                        exam.setQuestions(questions);
-                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                         tester.reset();
                     }
                 });
@@ -470,9 +569,7 @@ public class Topic extends HamburgerMenu {
                     if (response == JOptionPane.YES_OPTION) {
                         questions.remove(q);
 
-                        exam.setQuestions(questions);
-                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                         tester.reset();
                     }
                 }
@@ -496,9 +593,8 @@ public class Topic extends HamburgerMenu {
                 wQuestion.setQuestionText("New written question");
 
                 questions.add(wQuestion);
-                exam.setQuestions(questions);
-                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                
+                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                 tester.reset();
             }
         });
@@ -513,9 +609,8 @@ public class Topic extends HamburgerMenu {
                 mcQuestion.setQuestionText("New multiple choice question");
 
                 questions.add(mcQuestion);
-                exam.setQuestions(questions);
-                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
+                
+                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                 tester.reset();
             }
         });
@@ -540,9 +635,8 @@ public class Topic extends HamburgerMenu {
                 tfQuestion.addOption(falseOption);
 
                 questions.add(tfQuestion);
-                exam.setQuestions(questions);
-                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
 
+                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                 tester.reset();
             }
         });
@@ -551,84 +645,89 @@ public class Topic extends HamburgerMenu {
         addMenu.addComponent(addTFButton);
 
         editMenu.addComponent(addMenu);
+        
+        return editMenu;
+    }
 
-        saveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(
-                    tester,
-                    "Are you sure you want to save these changes?",
-                    "Warning",
-                    JOptionPane.YES_NO_OPTION
-                );
+    private void saveExam(
+        File file,
+        ArrayList<Question> questions,
+        ArrayList<RoundedTextArea> questionTextAreas,
+        ArrayList<RoundedTextArea> optionTextAreas,
+        ArrayList<JRadioButton> optionRadioButtons,
+        ArrayList<JRadioButton> orderedRadioButtons
+    ) {
+        Exam exam = new Exam(file, tester);
+        int
+            qCount = 0,
+            rCount = 0,
+            oCount = 0,
+            tCount = 0;
 
-                if (response == JOptionPane.YES_OPTION) {
-                    int
-                        qCount = 0,
-                        rCount = 0,
-                        oCount = 0,
-                        tCount = 0;
+        for(Question q : questions) {
+            if(qCount < questionTextAreas.size()) {
+                q.setQuestionText(questionTextAreas.get(qCount++).getText());
 
-                    for(Question q : questions) {
-                        q.setQuestionText(questionTextAreas.get(qCount++).getText());
+                if(q.getClass() == WQuestion.class) {
+                    ArrayList<TextOption> options = q.getTextOptions();
 
-                        if(q.getClass() == WQuestion.class) {
-                            ArrayList<TextOption> options = q.getTextOptions();
+                    for(TextOption o : options) {
+                        if(tCount < optionTextAreas.size()) {
+                            String text = optionTextAreas.get(tCount++).getText();
+                            Stream<String> lines = text.lines();
 
-                            for(TextOption o : options) {
-                                String text = optionTextAreas.get(tCount++).getText();
-                                Stream<String> lines = text.lines();
+                            o.clearText();
 
-                                o.clearText();
+                            lines.forEach(line -> {
+                                o.addText(line);
+                            });
+                        }
+                    }
 
-                                lines.forEach(line -> {
-                                    o.addText(line);
-                                });
-                            }
+                    q.setTextOptions(options);
+                } else if(q.getClass() == MCQuestion.class) {
+                    if(oCount < orderedRadioButtons.size()) {
+                        ArrayList<ButtonOption> options = q.getButtonOptions();
 
-                            q.setTextOptions(options);
-                        } else if(q.getClass() == MCQuestion.class) {
-                            ArrayList<ButtonOption> options = q.getButtonOptions();
-
-                            for(ButtonOption o : options) {
+                        for(ButtonOption o : options) {
+                            if(
+                                tCount < optionTextAreas.size() &&
+                                rCount < optionRadioButtons.size()
+                            ) {
                                 o.setText("");
 
                                 o.setText(optionTextAreas.get(tCount++).getText());
                                 o.setValue(optionRadioButtons.get(rCount++).isSelected());
                             }
-
-                            q.setOrdered(orderedRadioButtons.get(oCount++).isSelected());
-                            q.setButtonOptions(options);
-                        } else {
-                            ArrayList<ButtonOption> options = q.getButtonOptions();
-                            Boolean value = optionRadioButtons.get(rCount++).isSelected();
-
-                            options.getFirst().setValue(value);
-                            options.getLast().setValue(!value);
-
-                            q.setButtonOptions(options);
                         }
+
+                        q.setOrdered(orderedRadioButtons.get(oCount++).isSelected());
+                        q.setButtonOptions(options);
                     }
-                
-                    exam.setQuestions(questions);
-                    
-                    try {
-                        if(file.exists()) {
-                            file.delete();
-                        }
-                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+                } else {
+                    if(rCount < optionRadioButtons.size()) {
+                        ArrayList<ButtonOption> options = q.getButtonOptions();
+                        Boolean value = optionRadioButtons.get(rCount++).isSelected();
 
-                        tester.reset();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
+                        options.getFirst().setValue(value);
+                        options.getLast().setValue(!value);
+
+                        q.setButtonOptions(options);
                     }
                 }
             }
-        });
-        styleButton(saveButton, "Save changes");
-        saveButton.setSelectionColor(editColor);
-        editMenu.addComponent(saveButton);
+        }
+    
+        exam.setQuestions(questions);
         
-        return editMenu;
+        try {
+            if(file.exists()) {
+                file.delete();
+            }
+            exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     public void deleteTopic() {
@@ -637,6 +736,11 @@ public class Topic extends HamburgerMenu {
 
     public void deleteExam(HamburgerMenu menu) {
         getMenu().remove(menu);
+    }
+
+    // SETTERS
+    public void setTitled(Boolean titled) {
+        this.titled = titled;
     }
 
     public static class TopicBuilder extends HamburgerMenuBuilder {

@@ -229,6 +229,10 @@ public class HamburgerMenu extends RoundedPanel {
         return menu.getComponentCount();
     }
 
+    public int getBlotOffset() {
+        return blotOffset;
+    }
+
     // SETTERS
     public void setSelectionColor(Color selectionColor) {
         this.menuButton.setSelectionColor(selectionColor);
@@ -281,8 +285,8 @@ public class HamburgerMenu extends RoundedPanel {
     }
 
     public static class HamburgerMenuBuilder {
-        protected String text;
-        protected Image icon;
+        public String text;
+        public Image icon;
 
         public HamburgerMenuBuilder text(String text) {
             this.text = text;
