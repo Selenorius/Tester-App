@@ -180,7 +180,7 @@ public class Exam extends ConsoleErrorJFrame {
             }
         });
         styleButton(backButton, "End exam");
-        backButton.setSelectionColor(deleteColor);
+        backButton.setBackground(deleteColor);
 
         RoundedPanel space = new RoundedPanel();
         space.setBackground(null);
