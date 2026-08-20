@@ -245,6 +245,7 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(64);
+        scrollPane.setViewportView(dirMenu);
         styleScrollPane(scrollPane);
 
         RoundedButton addTopicButton = new RoundedButton();
@@ -441,14 +442,6 @@ public class Tester extends ConsoleErrorJFrame {
         }
         
         this.setVisible(true);
-
-        if(addButtonExtendedState) {
-            addButton.toggle();
-        }
-        if(uncategorizedExtendedState) {
-            uncategorized.toggle();
-        }
-        loadExtendedStates(dirMenu);
     }
 
     // GETTERS
