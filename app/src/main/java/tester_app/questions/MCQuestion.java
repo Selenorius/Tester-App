@@ -106,7 +106,9 @@ public class MCQuestion extends Question {
 
     @Override
     public void shuffle() {
-        Collections.shuffle(options);
+        if(!ordered) {
+            Collections.shuffle(options);
+        }
 
         inputArea.removeAll();
 

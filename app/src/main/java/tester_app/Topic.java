@@ -373,7 +373,9 @@ public class Topic extends HamburgerMenu {
                             if (response == JOptionPane.YES_OPTION) {
                                 q.removeOption(o);
 
-                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                                exam.setQuestions(questions);
+                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
                                 tester.reset();
                             }
                         }
@@ -444,7 +446,9 @@ public class Topic extends HamburgerMenu {
                             if (response == JOptionPane.YES_OPTION) {
                                 q.removeOption(o);
 
-                                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                                exam.setQuestions(questions);
+                                exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
                                 tester.reset();
                             }
                         }
@@ -532,7 +536,9 @@ public class Topic extends HamburgerMenu {
                         option.addText("Text missing...");
                         q.addOption(option);
 
-                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
                         tester.reset();
                     }
                 });
@@ -546,7 +552,9 @@ public class Topic extends HamburgerMenu {
                     public void actionPerformed(ActionEvent e) {
                         q.addOption(new ButtonOption());
 
-                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
                         tester.reset();
                     }
                 });
@@ -569,7 +577,9 @@ public class Topic extends HamburgerMenu {
                     if (response == JOptionPane.YES_OPTION) {
                         questions.remove(q);
 
-                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
                         tester.reset();
                     }
                 }

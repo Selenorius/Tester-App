@@ -318,11 +318,6 @@ public class Exam extends ConsoleErrorJFrame {
                             if(newQuestion.getClass() != TFQuestion.class) {
                                 newQuestion.initGoal();
                             }
-                            if(newQuestion.getClass() == MCQuestion.class) {
-                                if(!newQuestion.isOrdered()) {
-                                    newQuestion.shuffle();
-                                }
-                            }
                             questions.add(newQuestion);
 
                             --layer;
@@ -449,6 +444,12 @@ public class Exam extends ConsoleErrorJFrame {
 
     public void start() {
         Collections.shuffle(questions);
+
+        for(Question q : questions) {
+            if(q.getClass() == MCQuestion.class) {
+                q.shuffle();
+            }
+        }
 
         Question currentQuestion = questions.get(0);
 
