@@ -2,7 +2,6 @@ package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.blotBackgroundColor;
-import static tester_app.helpers.Constants.buttonBackgroundColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
