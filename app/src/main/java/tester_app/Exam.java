@@ -159,7 +159,6 @@ public class Exam extends ConsoleErrorJFrame {
                 setExtendedState(ICONIFIED);
             }
         });
-        styleButton(minButton, "Min");
 
         RoundedButton maxButton = new RoundedButton();
         maxButton.addActionListener(new ActionListener() {
@@ -171,7 +170,6 @@ public class Exam extends ConsoleErrorJFrame {
                 }
             }
         });
-        styleButton(maxButton, "Max");
 
         RoundedButton backButton = new RoundedButton();
         backButton.addActionListener(new ActionListener() {
@@ -179,8 +177,6 @@ public class Exam extends ConsoleErrorJFrame {
                 dispose();
             }
         });
-        styleButton(backButton, "End exam");
-        backButton.setBackground(deleteColor);
 
         RoundedPanel space = new RoundedPanel();
         space.setBackground(null);
@@ -211,6 +207,11 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.add(minButton, constraints);
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
+
+        styleButton(minButton, "Min");
+        styleButton(maxButton, "Max");
+        styleButton(backButton, "End exam");
+        backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel();
         questionMenu.setBackground(fieldColor);

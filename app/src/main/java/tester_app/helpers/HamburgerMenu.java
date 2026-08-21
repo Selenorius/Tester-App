@@ -9,6 +9,7 @@ import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -28,6 +29,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     private RoundedPanel
         menu,
         blot;
+    private Component parent;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private int
@@ -38,6 +40,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         text,
         size;
     private Color
+        buttonColor,
         selectionColor,
         borderColor;
     private String buttonText;
@@ -53,6 +56,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         if(builder.text != null) {
             this.buttonText = "   " + builder.text + "   ";
         }
+        this.parent = builder.parent;
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
@@ -71,7 +75,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                 toggle();
             }
         });
-        styleButton(menuButton, buttonText, builder.icon);
 
         blot = new RoundedPanel();
         blot.setBackground(blotBackgroundColor);
@@ -126,6 +129,14 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         this.add(menuButton, constraints);
 
+        if(parent != null) {
+            ((Container) parent).add(this);
+        }
+
+        styleButton(menuButton, buttonText, builder.icon);
+
+        buttonColor = menuButton.getBackground();
+
         if(isEmpty()) {
             empty.setVisible(true);
         }
@@ -141,7 +152,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             addMargin(menuButton, margin * 2);
 
             menuButton.setSelectionColor(null);
-            menuButton.setBackground(buttonBackgroundColor);
+            menuButton.setBackground(buttonColor);
             menuButton.setText(buttonText);
             menu.setVisible(false);
             blot.setVisible(true);
@@ -303,6 +314,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     public static class HamburgerMenuBuilder {
         public String text;
         public Image icon;
+        public Component parent;
 
         public HamburgerMenuBuilder text(String text) {
             this.text = text;
@@ -311,6 +323,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         public HamburgerMenuBuilder icon(Image icon) {
             this.icon = icon;
+            return this;
+        }
+
+        public HamburgerMenuBuilder parent(Component parent) {
+            this.parent = parent;
             return this;
         }
 

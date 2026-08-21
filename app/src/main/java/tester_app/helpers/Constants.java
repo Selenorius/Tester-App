@@ -11,7 +11,6 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -42,29 +41,28 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(16, 20, 17),
-        selectionColor = new Color(15,130,215),
-        editColor = new Color(48, 140, 28),
-        deleteColor = new Color(140, 48, 28),
+        fieldColor = new Color(28, 28, 19),
+        selectionColor = Color.YELLOW,
 
-        backgroundColor = new Color(30, 36, 27),
-        borderColor = new Color(60, 72, 54),
-        topicBackgroundColor = new Color(40, 44, 33),
-        topicBorderColor = new Color(80, 80, 60),
-        examBackgroundColor = new Color(50, 52, 39),
-        examBorderColor = new Color(100, 88, 66),
-        editBackgroundColor = new Color(60, 60, 45),
-        editBorderColor = new Color(120, 96, 72),
-        examAddBackgroundColor = new Color(70, 68, 51),
+        backgroundColor = fieldColor.brighter(),
+        borderColor = backgroundColor.brighter().brighter(),
+        topicBackgroundColor = backgroundColor.brighter(),
+        topicBorderColor = borderColor.brighter(),
+        examBackgroundColor = topicBackgroundColor.brighter(),
+        examBorderColor = topicBorderColor.brighter(),
+        editBackgroundColor = examBackgroundColor.brighter(),
+        editBorderColor = examBorderColor.brighter(),
+        examAddBackgroundColor = fieldColor,
         examAddBorderColor = new Color(140, 84, 28),
 
-        buttonBackgroundColor = new Color(140, 84, 28),
-        blotBackgroundColor = new Color(184, 28, 84);
-
-    //OPTION BOOLEANS
-    public static final List<String>
-        mark_true = new ArrayList<String>(List.of("true", "yes", "t", "y")),
-        mark_false = new ArrayList<String>(List.of("false", "no", "f", "n"));
+        editColor = new Color(48, 140, 28),
+        deleteColor = new Color(140, 48, 28),
+        blotBackgroundColor = new Color(184, 28, 84),
+        buttonBackgroundColor = new Color(
+            editBackgroundColor.getRed() + 40,
+            editBackgroundColor.getGreen() + 40,
+            editBackgroundColor.getBlue() + 40
+        );
 
     //TAB
     public static final String tab(int i) {
@@ -79,20 +77,29 @@ public final class Constants {
     }
     public static final String tab() { return "    "; }
 
-    //READ COMMANDS
-    public static final boolean quit(final String s) {
-        return s.equals("q");
-    }
-    public static final boolean back(final String s) {
-        return s.equals("r");
+    public static final Color findParentBackground(Component component) {
+        if(component != null) {
+            if(component.getBackground() == null && component.getParent() != null) {
+                findParentBackground(component.getParent());
+            }
+            return component.getBackground();
+        } else {
+            return null;
+        }
     }
 
     public static final void styleButton(final RoundedButton button, final String buttonText, final Image buttonIcon, final int hPos, final int vPos) {
-        final int inset = 4;
-        
-        button.setBackground(buttonBackgroundColor);
+        final int inset = margin;
+        Color pColor = findParentBackground(button.getParent());
+
+        if(pColor != null) {
+            button.setBackground(pColor.brighter());
+        } else {
+            button.setBackground(buttonBackgroundColor);
+        }
         if(buttonIcon != null) {
             button.setIcon(new ImageIcon(buttonIcon));
+            button.setMinimumSize(new Dimension(button.getIcon().getIconWidth() * 2, button.getIcon().getIconHeight() * 2));
         }
         button.setText(buttonText);
         button.setHorizontalTextPosition(hPos);

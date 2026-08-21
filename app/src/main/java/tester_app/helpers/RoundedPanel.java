@@ -5,6 +5,7 @@ import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.margin;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

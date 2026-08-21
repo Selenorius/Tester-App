@@ -68,13 +68,13 @@ public class TFQuestion extends Question {
             }
         });
 
+        options.add(o);
+        inputArea.add(o);
+
         String text = o.getText();
         if(text != null && !text.isBlank()) {
             styleButton(o, text.substring(0, text.length()));
         }
-
-        options.add(o);
-        inputArea.add(o);
     }
 
     @Override

@@ -85,11 +85,6 @@ public class MCQuestion extends Question {
             }
         });
 
-        String text = o.getText();
-        if(text != null && !text.isBlank()) {
-            styleButton(o, text.substring(0, text.length() - 1));
-        }
-
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.weightx = 0.5;
@@ -97,6 +92,11 @@ public class MCQuestion extends Question {
 
         options.add(o);
         inputArea.add(o, constraints);
+
+        String text = o.getText();
+        if(text != null && !text.isBlank()) {
+            styleButton(o, text.substring(0, text.length() - 1));
+        }
     }
 
     @Override

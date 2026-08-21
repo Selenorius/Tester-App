@@ -155,7 +155,6 @@ public class Tester extends ConsoleErrorJFrame {
                 setExtendedState(ICONIFIED);
             }
         });
-        styleButton(minButton, "Min");
 
         RoundedButton maxButton = new RoundedButton();
         maxButton.addActionListener(new ActionListener() {
@@ -169,7 +168,6 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
-        styleButton(maxButton, "Max");
 
         RoundedButton backButton = new RoundedButton();
         backButton.addActionListener(new ActionListener() {
@@ -177,8 +175,6 @@ public class Tester extends ConsoleErrorJFrame {
                 dispose();
             }
         });
-        styleButton(backButton, "Exit");
-        backButton.setBackground(deleteColor);
 
         RoundedPanel space = new RoundedPanel();
         space.setBackground(null);
@@ -225,6 +221,11 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
 
+        styleButton(minButton, "Min");
+        styleButton(maxButton, "Max");
+        styleButton(backButton, "Exit");
+        backButton.setBackground(deleteColor);
+
         uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
@@ -256,8 +257,6 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
-        styleButton(addTopicButton, "Create new topic", dirButtonIcon);
-        addTopicButton.setBackground(editColor);
 
         RoundedButton addExamButton = new RoundedButton();
         addExamButton.addActionListener(new ActionListener() {
@@ -274,15 +273,19 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
-        styleButton(addExamButton, "Create new exam", fileButtonIcon);
-        addExamButton.setBackground(editColor);
 
-        addButton = new HamburgerMenu.HamburgerMenuBuilder().icon(editorButtonIcon).build();
+        addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
         addButton.setBackground(fieldColor);
         addButton.setBorderColor(examAddBorderColor);
         addButton.setBorderPainted(true);
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
+
+        styleButton(addTopicButton, "Create new topic", dirButtonIcon);
+        addTopicButton.setBackground(editColor);
+
+        styleButton(addExamButton, "Create new exam", fileButtonIcon);
+        addExamButton.setBackground(editColor);
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
@@ -375,7 +378,7 @@ public class Tester extends ConsoleErrorJFrame {
         if(files.length != 0) {
             for (final File f : files) {
                 if (f.isDirectory()) {
-                    Topic dirTopic = new Topic.TopicBuilder().text(f.getName()).icon(dirButtonIcon).tester(this).build();
+                    Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
 
                     dirTopic.loadFiles(f, fileButtonIcon);
 
