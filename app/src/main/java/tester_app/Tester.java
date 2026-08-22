@@ -344,9 +344,9 @@ public class Tester extends ConsoleErrorJFrame {
                             c != uncategorized &&
                             c != addButton
                         ) {
-                            HamburgerMenu ham = extendedStates.get(sCount++);
+                            HamburgerMenu ham = extendedStates.get(sCount);
 
-                            System.out.println(sCount - 1 +  ". " + ((HamburgerMenu) c).getText() + ": " + ham.isExtended());
+                            System.out.println(sCount + ". " + ((HamburgerMenu) c).getText() + ": " + ham.isExtended());
 
                             if(ham.getText() != null) {
                                 if(ham.getText().equals(((HamburgerMenu) c).getText())) {
@@ -375,6 +375,8 @@ public class Tester extends ConsoleErrorJFrame {
 
                                 System.out.println(ANSI_GREEN + "DEFAULTED" + ANSI_RESET);
                             }
+
+                            ++sCount;
                         }
 
                         loadExtendedStates(((HamburgerMenu) c).getMenu());

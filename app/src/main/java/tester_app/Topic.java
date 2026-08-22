@@ -217,6 +217,8 @@ public class Topic extends HamburgerMenu {
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
+        HamburgerMenu editMenu = loadEditMenu(file, hamburgerMenu);
+
         RoundedTextArea titleArea = new RoundedTextArea(examName);
         titleArea.addFocusListener(new FocusAdapter() {
             @Override
@@ -236,6 +238,7 @@ public class Topic extends HamburgerMenu {
                             try {
                                 Files.move(oldDirPath, newDirPath);
                                 hamburgerMenu.setText(fileTitle);
+                                editMenu.setText("Edit " + fileTitle);
                             } catch (Exception e1) {
                                 System.out.println("Error renaming exam: " + e1.getMessage());
                                 e1.printStackTrace();
@@ -276,7 +279,6 @@ public class Topic extends HamburgerMenu {
         hamburgerMenu.addComponent(startButton);
         styleButton(startButton, "Start exam");
     
-        HamburgerMenu editMenu = loadEditMenu(file, hamburgerMenu);
         hamburgerMenu.addComponent(editMenu);
 
         hamburgerMenu.setBlotOffset(6 - editMenu.getMenuSize());
