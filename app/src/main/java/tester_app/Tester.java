@@ -1,5 +1,7 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.ANSI_GREEN;
+import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
@@ -334,23 +336,34 @@ public class Tester extends ConsoleErrorJFrame {
         ) {
             for(Component c : ((Container) component).getComponents()) {
                 try {
-                    if((c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class)) {
+                    if(
+                        c.getClass() == Topic.class ||
+                        c.getClass() == HamburgerMenu.class
+                    ) {
                         if(
                             c != uncategorized &&
                             c != addButton
                         ) {
                             HamburgerMenu ham = extendedStates.get(sCount++);
 
+                            System.out.println(sCount - 1 +  ". " + ((HamburgerMenu) c).getText() + ": " + ham.isExtended());
+
                             if(ham.getText() != null) {
                                 if(ham.getText().equals(((HamburgerMenu) c).getText())) {
                                     if(ham.isExtended()) {
                                         ((HamburgerMenu) c).toggle();
                                     }
+
+                                    System.out.println(ANSI_GREEN + "HAM EQUALS" + ANSI_RESET);
                                 } else {
                                     for(HamburgerMenu h : extendedStates) {
                                         if(h.getText() != null) {
-                                            if(h.getText().equals(((HamburgerMenu) c).getText()) && h.isExtended()) {
-                                                ((HamburgerMenu) c).toggle();
+                                            if(h.getText().equals(((HamburgerMenu) c).getText())) {
+                                                if(h.isExtended()) {
+                                                    ((HamburgerMenu) c).toggle();
+                                                }
+
+                                                System.out.println(ANSI_GREEN + "H EQUALS" + ANSI_RESET);
                                             }
                                         }
                                     }
@@ -359,6 +372,8 @@ public class Tester extends ConsoleErrorJFrame {
                                 if(ham.isExtended()) {
                                     ((HamburgerMenu) c).toggle();
                                 }
+
+                                System.out.println(ANSI_GREEN + "DEFAULTED" + ANSI_RESET);
                             }
                         }
 
@@ -421,6 +436,8 @@ public class Tester extends ConsoleErrorJFrame {
 
         saveExtendedStates(dirMenu);
 
+        System.out.println(getExtendedStates());
+
         uncategorized.clearMenu();
         dirMenu.removeAll();
         loadDir(root);
@@ -477,15 +494,17 @@ public class Tester extends ConsoleErrorJFrame {
 
     public String getExtendedStates() {
         String out = "";
-        int count = 0;
+        int
+            count = 0,
+            extended = 0;
 
         for(HamburgerMenu h : extendedStates) {
-            out += h.getText() + ": " + h.isExtended() + System.lineSeparator();
+            out += count++ + ". " + h.getText() + ": " + h.isExtended() + System.lineSeparator();
             if(h.isExtended()) {
-                ++count;
+                ++extended;
             }
         }
 
-        return out + System.lineSeparator() + extendedStates.size() + ":" + count;
+        return out + System.lineSeparator() + extendedStates.size() + ":" + extended;
     }
 }

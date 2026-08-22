@@ -312,7 +312,7 @@ public class Topic extends HamburgerMenu {
 
     private HamburgerMenu loadEditMenu(File file, Component parent) {
         Exam exam = new Exam(file, tester);
-        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text("Edit exam").build();
+        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text("Edit " + exam.getName()).build();
         RoundedPanel editPanel;
 
         ArrayList<Question> questions = exam.getQuestions();

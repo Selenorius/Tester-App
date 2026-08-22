@@ -592,6 +592,10 @@ public class Exam extends ConsoleErrorJFrame {
         return currentIndex;
     }
 
+    public String getName() {
+        return examName;
+    }
+
     // SETTERS
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
