@@ -268,7 +268,9 @@ public class Topic extends HamburgerMenu {
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tester.startExam(file, tester);
+                if(new Exam(file, tester).getQuestions().size() > 0) {
+                    tester.startExam(file, tester);
+                }
             }
         });
         hamburgerMenu.addComponent(startButton);

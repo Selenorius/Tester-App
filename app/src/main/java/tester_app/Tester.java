@@ -1,7 +1,5 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.ANSI_GREEN;
-import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
@@ -68,9 +66,6 @@ public class Tester extends ConsoleErrorJFrame {
         prevWindowstate,
         sCount;
     protected ArrayList<HamburgerMenu> extendedStates;
-    protected Boolean
-        addButtonExtendedState,
-        uncategorizedExtendedState;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
@@ -87,8 +82,6 @@ public class Tester extends ConsoleErrorJFrame {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         extendedStates = new ArrayList<>();
-        uncategorizedExtendedState = false;
-        addButtonExtendedState = false;
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
@@ -227,10 +220,6 @@ public class Tester extends ConsoleErrorJFrame {
         styleButton(backButton, "Exit");
         backButton.setBackground(deleteColor);
 
-        uncategorized = new Topic.TopicBuilder().text("Uncategorized").icon(dirButtonIcon).tester(this).build();
-        uncategorized.setTitled(false);
-        uncategorized.setBlotOffset(0);
-
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor);
         dirMenu.setBorderColor(examAddBorderColor);
@@ -246,13 +235,17 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setViewportView(dirMenu);
         styleScrollPane(scrollPane);
 
+        uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).tester(this).build();
+        uncategorized.setTitled(false);
+        uncategorized.setBlotOffset(0);
+
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 File file = new File(root.getPath() + "/New topic");
                 if(!file.exists()) {
                     file.mkdir();
-                    addComponent(new Topic.TopicBuilder().build());
+                    addComponent(new Topic.TopicBuilder().text("New topic").build());
 
                     reset();
                 }
@@ -266,6 +259,7 @@ public class Tester extends ConsoleErrorJFrame {
                     File file = new File(root.getPath() + "/New exam.txt");
                     if(!file.exists()) {
                         file.createNewFile();
+                        uncategorized.addComponent(new HamburgerMenu.HamburgerMenuBuilder().text("New exam").build());
                         
                         reset();
                     }
@@ -315,11 +309,15 @@ public class Tester extends ConsoleErrorJFrame {
         if(((Container) component).getComponentCount() > 0) {
             for(Component c : ((Container) component).getComponents()) {
                 if(c.getClass() == HamburgerMenu.class) {
-                    extendedStates.add(((HamburgerMenu) c));
+                    if(c != addButton) {
+                        extendedStates.add(((HamburgerMenu) c));
+                    }
 
                     saveExtendedStates(((HamburgerMenu) c).getMenu());
                 } else if(c.getClass() == Topic.class) {
-                    extendedStates.add(((Topic) c));
+                    if(c != uncategorized) {
+                        extendedStates.add(((Topic) c));
+                    }
 
                     saveExtendedStates(((Topic) c).getMenu());
                 }
@@ -330,7 +328,11 @@ public class Tester extends ConsoleErrorJFrame {
     private void loadExtendedStates(Component component) {
         if(((Container) component).getComponentCount() > 0) {
             for(Component c : ((Container) component).getComponents()) {
-                if((c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class) && extendedStates != null) {
+                if(
+                    (c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class) &&
+                    extendedStates != null &&
+                    sCount < extendedStates.size()
+                ) {
                     HamburgerMenu ham = extendedStates.get(sCount++);
 
                     if(ham.getText() != null) {
@@ -407,9 +409,8 @@ public class Tester extends ConsoleErrorJFrame {
         sCount = 0;
         extendedStates.clear();
 
-        uncategorizedExtendedState = uncategorized.isExtended();
-        addButtonExtendedState = addButton.isExtended();
         saveExtendedStates(dirMenu);
+        System.out.println(getExtendedStates());
 
         uncategorized.clearMenu();
         dirMenu.removeAll();
@@ -421,13 +422,8 @@ public class Tester extends ConsoleErrorJFrame {
             uncategorized.setVisible(true);
         }
 
-        if(addButtonExtendedState) {
-            addButton.toggle();
-        }
-        if(uncategorizedExtendedState) {
-            uncategorized.toggle();
-        }
         loadExtendedStates(dirMenu);
+        System.out.println(getExtendedStates());
 
         revalidate();
         repaint();
@@ -469,5 +465,19 @@ public class Tester extends ConsoleErrorJFrame {
 
     public Image getBackButtonIcon() {
         return backButtonIcon;
+    }
+
+    public String getExtendedStates() {
+        String out = "";
+        int count = 0;
+
+        for(HamburgerMenu h : extendedStates) {
+            out += h.getText() + ": " + h.isExtended() + System.lineSeparator();
+            if(h.isExtended()) {
+                ++count;
+            }
+        }
+
+        return out + System.lineSeparator() + extendedStates.size() + ":" + count;
     }
 }

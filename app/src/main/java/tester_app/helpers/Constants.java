@@ -7,8 +7,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -16,8 +19,12 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import tester_app.Exam;
@@ -179,6 +186,8 @@ public final class Constants {
     }
 
     public static void styleScrollPane(JScrollPane scrollPane) {
+        addScrollMouseListener(scrollPane);
+
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             private final Dimension d = new Dimension();
 
@@ -250,5 +259,56 @@ public final class Constants {
                 scrollbar.repaint();
             }
         });
+    }
+
+    public static void addScrollMouseListener(JScrollPane scrollPane) {
+        Component object;
+        if(
+            scrollPane.getViewport().getView().getClass() == JTextArea.class ||
+            scrollPane.getViewport().getView().getClass() == RoundedTextArea.class
+        ) {
+            object = (JTextArea) scrollPane.getViewport().getView();
+            ((JTextArea)object).setAutoscrolls(true);
+        } else {
+            object = (JPanel) scrollPane.getViewport().getView();
+            ((JPanel)object).setAutoscrolls(true);
+        }
+
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            Point origin;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                origin = new Point(e.getPoint());
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (origin != null) {
+                    JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, object);
+
+                    if (viewPort != null) {
+                        int deltaX = origin.x - e.getX();
+                        int deltaY = origin.y - e.getY();
+
+                        Rectangle view = viewPort.getViewRect();
+                        view.x += deltaX;
+                        view.y += deltaY;
+
+                        if(
+                            scrollPane.getViewport().getView().getClass() == JTextArea.class ||
+                            scrollPane.getViewport().getView().getClass() == RoundedTextArea.class
+                        ) {
+                            ((JTextArea)object).scrollRectToVisible(view);
+                        } else {
+                            ((JPanel)object).scrollRectToVisible(view);
+                        }
+                    }
+                }
+            }
+        };
+
+        object.addMouseListener(mouseAdapter);
+        object.addMouseMotionListener(mouseAdapter);
     }
 }
