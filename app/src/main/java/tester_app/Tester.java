@@ -259,7 +259,9 @@ public class Tester extends ConsoleErrorJFrame {
                     File file = new File(root.getPath() + "/New exam.txt");
                     if(!file.exists()) {
                         file.createNewFile();
-                        uncategorized.addComponent(new HamburgerMenu.HamburgerMenuBuilder().text("New exam").build());
+                        HamburgerMenu newExam = new HamburgerMenu.HamburgerMenuBuilder().text("New exam").build();
+                        newExam.addComponent(new HamburgerMenu.HamburgerMenuBuilder().build());
+                        uncategorized.addComponent(newExam);
                         
                         reset();
                     }
@@ -326,36 +328,44 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadExtendedStates(Component component) {
-        if(((Container) component).getComponentCount() > 0) {
+        if(
+            ((Container) component).getComponentCount() > 0 &&
+            extendedStates != null
+        ) {
             for(Component c : ((Container) component).getComponents()) {
-                if(
-                    (c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class) &&
-                    extendedStates != null &&
-                    sCount < extendedStates.size()
-                ) {
-                    HamburgerMenu ham = extendedStates.get(sCount++);
+                try {
+                    if((c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class)) {
+                        if(
+                            c != uncategorized &&
+                            c != addButton
+                        ) {
+                            HamburgerMenu ham = extendedStates.get(sCount++);
 
-                    if(ham.getText() != null) {
-                        if(ham.getText().equals(((HamburgerMenu) c).getText())) {
-                            if(ham.isExtended()) {
-                                ((HamburgerMenu) c).toggle();
-                            }
-                        } else {
-                            for(HamburgerMenu h : extendedStates) {
-                                if(h.getText() != null) {
-                                    if(h.getText().equals(((HamburgerMenu) c).getText()) && h.isExtended()) {
+                            if(ham.getText() != null) {
+                                if(ham.getText().equals(((HamburgerMenu) c).getText())) {
+                                    if(ham.isExtended()) {
                                         ((HamburgerMenu) c).toggle();
                                     }
+                                } else {
+                                    for(HamburgerMenu h : extendedStates) {
+                                        if(h.getText() != null) {
+                                            if(h.getText().equals(((HamburgerMenu) c).getText()) && h.isExtended()) {
+                                                ((HamburgerMenu) c).toggle();
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if(ham.isExtended()) {
+                                    ((HamburgerMenu) c).toggle();
                                 }
                             }
                         }
-                    } else {
-                        if(ham.isExtended()) {
-                            ((HamburgerMenu) c).toggle();
-                        }
-                    }
 
-                    loadExtendedStates(((HamburgerMenu) c).getMenu());
+                        loadExtendedStates(((HamburgerMenu) c).getMenu());
+                    }
+                } catch(Exception e) {
+                    consoleErrorMessage(e);
                 }
             }
         }
@@ -410,7 +420,6 @@ public class Tester extends ConsoleErrorJFrame {
         extendedStates.clear();
 
         saveExtendedStates(dirMenu);
-        System.out.println(getExtendedStates());
 
         uncategorized.clearMenu();
         dirMenu.removeAll();
@@ -423,7 +432,6 @@ public class Tester extends ConsoleErrorJFrame {
         }
 
         loadExtendedStates(dirMenu);
-        System.out.println(getExtendedStates());
 
         revalidate();
         repaint();

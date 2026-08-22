@@ -1,6 +1,0 @@
-{
-    MULTIPLE_CHOICE {
-        "New multiple choice question" {
-        }
-    }
-}
