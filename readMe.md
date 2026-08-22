@@ -3,13 +3,14 @@ Create and solve tests to study for your exams.
 
 ## What does this thing look like?
 ### The Menu
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/6fe0a1a7-bc65-4e37-9f01-af866ad8b431" />
+<img width="960" height="720" alt="Screenshot 2026-08-22 205820" src="https://github.com/user-attachments/assets/dd850688-893d-4b33-b8ef-c374ab70ee82" />
 
 ### The Editor
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/41f8e17e-2ca5-4cc0-8010-0a495fd9bf4a" />
+<img width="960" height="720" alt="Screenshot 2026-08-22 205834" src="https://github.com/user-attachments/assets/5219bd27-a43a-47e6-8a17-6b8c286fde2c" />
 
-### The Questions
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/f77a0895-4888-461b-b450-20e7d8686e19" />
+### The Exams
+<img width="960" height="720" alt="Screenshot 2026-08-22 205849" src="https://github.com/user-attachments/assets/8390a171-f893-4c8d-9235-71dcec7a06cd" />
+
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)

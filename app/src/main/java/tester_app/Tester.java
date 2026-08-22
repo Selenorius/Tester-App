@@ -346,7 +346,7 @@ public class Tester extends ConsoleErrorJFrame {
                         ) {
                             HamburgerMenu ham = extendedStates.get(sCount);
 
-                            System.out.println(sCount + ". " + ((HamburgerMenu) c).getText() + ": " + ham.isExtended());
+                            //System.out.println(sCount + ". " + ((HamburgerMenu) c).getText() + ": " + ham.isExtended());
 
                             if(ham.getText() != null) {
                                 if(ham.getText().equals(((HamburgerMenu) c).getText())) {
@@ -354,7 +354,7 @@ public class Tester extends ConsoleErrorJFrame {
                                         ((HamburgerMenu) c).toggle();
                                     }
 
-                                    System.out.println(ANSI_GREEN + "HAM EQUALS" + ANSI_RESET);
+                                    //System.out.println(ANSI_GREEN + "HAM EQUALS" + ANSI_RESET);
                                 } else {
                                     for(HamburgerMenu h : extendedStates) {
                                         if(h.getText() != null) {
@@ -363,7 +363,7 @@ public class Tester extends ConsoleErrorJFrame {
                                                     ((HamburgerMenu) c).toggle();
                                                 }
 
-                                                System.out.println(ANSI_GREEN + "H EQUALS" + ANSI_RESET);
+                                                //System.out.println(ANSI_GREEN + "H EQUALS" + ANSI_RESET);
                                             }
                                         }
                                     }
@@ -373,7 +373,7 @@ public class Tester extends ConsoleErrorJFrame {
                                     ((HamburgerMenu) c).toggle();
                                 }
 
-                                System.out.println(ANSI_GREEN + "DEFAULTED" + ANSI_RESET);
+                                //System.out.println(ANSI_GREEN + "DEFAULTED" + ANSI_RESET);
                             }
 
                             ++sCount;
@@ -438,7 +438,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         saveExtendedStates(dirMenu);
 
-        System.out.println(getExtendedStates());
+        //System.out.println(getExtendedStates());
 
         uncategorized.clearMenu();
         dirMenu.removeAll();

@@ -148,7 +148,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     public void toggle() {
         if(isExtended()) {
             addMargin(this, 0);
-            addMargin(menuButton, margin * 2);
 
             menuButton.setSelectionColor(null);
             menuButton.setBackground(buttonColor);
@@ -157,7 +156,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             blot.setVisible(true);
         } else {
             addMargin(this, margin * 3);
-            addMargin(menuButton, 0);
 
             if(isEmpty()) {
                 empty.setVisible(true);
