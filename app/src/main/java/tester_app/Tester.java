@@ -1,7 +1,5 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.ANSI_GREEN;
-import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;

@@ -11,6 +11,7 @@ import static tester_app.helpers.Constants.styleButton;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public class MCQuestion extends Question {
         addMargin(questionTextLabel, margin * 4);
 
         this.add(questionTextLabel, constraints);
+
+        constraints.weightx = 10;
+        constraints.weighty = 10;
+
         this.add(inputArea, constraints);
 
         setInputAreaSize(size.width - 28, size.height - 28);

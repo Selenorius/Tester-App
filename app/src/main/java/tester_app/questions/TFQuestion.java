@@ -9,12 +9,14 @@ import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -27,6 +29,8 @@ import tester_app.options.TextOption;
 
 public class TFQuestion extends Question {
     private ArrayList<ButtonOption> options;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
 
     public TFQuestion(Exam exam) {
         score = 0;
@@ -34,9 +38,17 @@ public class TFQuestion extends Question {
         status = Test.SUCCESS;
         this.exam = exam;
 
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+
         this.setBackground(null);
         this.setBorderPainted(false);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(layout);
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(fieldColor);
@@ -49,8 +61,12 @@ public class TFQuestion extends Question {
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         addMargin(questionTextLabel, margin * 4);
 
-        this.add(questionTextLabel);
-        this.add(inputArea);
+        this.add(questionTextLabel, constraints);
+
+        constraints.weightx = 10;
+        constraints.weighty = 10;
+
+        this.add(inputArea, constraints);
 
         setInputAreaSize(size.width, size.height);
     }
@@ -68,8 +84,14 @@ public class TFQuestion extends Question {
             }
         });
 
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridy = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
         options.add(o);
-        inputArea.add(o);
+        inputArea.add(o, constraints);
 
         String text = o.getText();
         if(text != null && !text.isBlank()) {
