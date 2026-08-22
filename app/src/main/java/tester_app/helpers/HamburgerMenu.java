@@ -242,6 +242,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     }
 
     public String getText() {
+        if(buttonText != null) {
+            return buttonText.trim();
+        }
         return buttonText;
     }
 
@@ -264,7 +267,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     }
 
     public void setText(String text) {
-        this.buttonText = text;
+        this.buttonText = "   " + text + "   ";
     }
 
     @Override

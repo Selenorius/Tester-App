@@ -1,5 +1,7 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.ANSI_GREEN;
+import static tester_app.helpers.Constants.ANSI_RESET;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
@@ -28,7 +30,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.Box;
@@ -65,8 +66,8 @@ public class Tester extends ConsoleErrorJFrame {
     private int
         windowstate,
         prevWindowstate,
-        cCount;
-    protected ArrayList<Boolean> extendedStates;
+        sCount;
+    protected ArrayList<HamburgerMenu> extendedStates;
     protected Boolean
         addButtonExtendedState,
         uncategorizedExtendedState;
@@ -311,33 +312,14 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void saveExtendedStates(Component component) {
-        ArrayList<Topic> topics = new ArrayList<>();
-        ArrayList<HamburgerMenu> hams = new ArrayList<>();
-        ArrayList<Component> comp = new ArrayList<>();
-        
         if(((Container) component).getComponentCount() > 0) {
             for(Component c : ((Container) component).getComponents()) {
                 if(c.getClass() == HamburgerMenu.class) {
-                    hams.add((HamburgerMenu) c);
-                } else if(c.getClass() == Topic.class) {
-                    topics.add((Topic) c);
-                }
-            }
-        }
-
-        Arrays.sort(topics.toArray());
-
-        comp.addAll(topics);
-        comp.addAll(hams);
-
-        if(comp.size() > 0) {
-            for(Component c : comp) {
-                if(c.getClass() == HamburgerMenu.class) {
-                    extendedStates.add(((HamburgerMenu) c).isExtended());
+                    extendedStates.add(((HamburgerMenu) c));
 
                     saveExtendedStates(((HamburgerMenu) c).getMenu());
                 } else if(c.getClass() == Topic.class) {
-                    extendedStates.add(((Topic) c).isExtended());
+                    extendedStates.add(((Topic) c));
 
                     saveExtendedStates(((Topic) c).getMenu());
                 }
@@ -346,27 +328,32 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadExtendedStates(Component component) {
-        if(
-            extendedStates != null &&
-            ((Container) component).getComponentCount() > 0
-        ) {
+        if(((Container) component).getComponentCount() > 0) {
             for(Component c : ((Container) component).getComponents()) {
-                if(
-                    c.getClass() == HamburgerMenu.class
-                ) {
-                    if(extendedStates.get(cCount++)) {
-                        ((HamburgerMenu) c).toggle();
+                if((c.getClass() == Topic.class || c.getClass() == HamburgerMenu.class) && extendedStates != null) {
+                    HamburgerMenu ham = extendedStates.get(sCount++);
+
+                    if(ham.getText() != null) {
+                        if(ham.getText().equals(((HamburgerMenu) c).getText())) {
+                            if(ham.isExtended()) {
+                                ((HamburgerMenu) c).toggle();
+                            }
+                        } else {
+                            for(HamburgerMenu h : extendedStates) {
+                                if(h.getText() != null) {
+                                    if(h.getText().equals(((HamburgerMenu) c).getText()) && h.isExtended()) {
+                                        ((HamburgerMenu) c).toggle();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if(ham.isExtended()) {
+                            ((HamburgerMenu) c).toggle();
+                        }
                     }
 
                     loadExtendedStates(((HamburgerMenu) c).getMenu());
-                } else if(
-                    c.getClass() == Topic.class
-                ) {
-                    if(extendedStates.get(cCount++)) {
-                        ((Topic) c).toggle();
-                    }
-
-                    loadExtendedStates(((Topic) c).getMenu());
                 }
             }
         }
@@ -417,7 +404,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     public void reset() {
-        cCount = 0;
+        sCount = 0;
         extendedStates.clear();
 
         uncategorizedExtendedState = uncategorized.isExtended();
@@ -441,12 +428,13 @@ public class Tester extends ConsoleErrorJFrame {
             uncategorized.toggle();
         }
         loadExtendedStates(dirMenu);
+
         revalidate();
         repaint();
     }
 
     public void start() {
-        cCount = 0;
+        sCount = 0;
         extendedStates.clear();
 
         uncategorized.clearMenu();
