@@ -1,6 +1,7 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editBackgroundColor;
 import static tester_app.helpers.Constants.editBorderColor;
@@ -26,9 +27,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -58,7 +61,7 @@ public class Topic extends HamburgerMenu {
 
         this.setBackground(topicBackgroundColor);
         this.setBorderColor(topicBorderColor);
-        this.setBlotOffset(3);
+        this.setBlotOffset(5);
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
@@ -93,7 +96,7 @@ public class Topic extends HamburgerMenu {
                             Path newDirPath = Paths.get(newPath);
 
                             try {
-                                Files.move(oldDirPath, newDirPath);
+                                Files.copy(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
                                 setText(fileTitle);
                             } catch (Exception e1) {
                                 System.out.println("Error renaming topic: " + e1.getMessage());
@@ -161,6 +164,20 @@ public class Topic extends HamburgerMenu {
             }
         });
 
+        RoundedButton pasteButton = new RoundedButton();
+        pasteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                paste(dir);
+            }
+        });
+
+        RoundedButton copyButton = new RoundedButton();
+        copyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                copy(dir);
+            }
+        });
+
         RoundedButton deleteButton = new RoundedButton();
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -186,10 +203,18 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             addComponent(addButton);
+            addComponent(pasteButton);
+            addComponent(copyButton);
             addComponent(deleteButton);
 
             styleButton(addButton, "Add exam");
             addButton.setBackground(editColor);
+
+            styleButton(pasteButton, "Paste exam");
+            pasteButton.setBackground(examAddBorderColor);
+
+            styleButton(copyButton, "Copy topic");
+            copyButton.setBackground(copyColor);
 
             styleButton(deleteButton, "Delete topic");
             deleteButton.setBackground(deleteColor);
@@ -203,9 +228,9 @@ public class Topic extends HamburgerMenu {
         RoundedButton
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
-        HamburgerMenu hamburgerMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
-        hamburgerMenu.setBackground(examBackgroundColor);
-        hamburgerMenu.setBorderColor(examBorderColor);
+        HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
+        examMenu.setBackground(examBackgroundColor);
+        examMenu.setBorderColor(examBorderColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -217,7 +242,7 @@ public class Topic extends HamburgerMenu {
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
-        HamburgerMenu editMenu = loadEditMenu(file, hamburgerMenu);
+        HamburgerMenu editMenu = loadEditMenu(file, examMenu);
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
         titleArea.addFocusListener(new FocusAdapter() {
@@ -227,22 +252,16 @@ public class Topic extends HamburgerMenu {
                     String fileTitle = titleArea.getText();
 
                     if(fileTitle.length() <= 30) {
-                        String
-                            oldPath = file.getPath(),
-                            newPath = file.getParentFile().getPath() + "/" + fileTitle + ".txt";
+                        Path oldDirPath = Paths.get(file.getPath());
+                        Path newDirPath = Paths.get(file.getParentFile().getPath(), fileTitle + ".txt");
 
-                        if(oldPath != newPath) {
-                            Path oldDirPath = Paths.get(oldPath);
-                            Path newDirPath = Paths.get(newPath);
-
-                            try {
-                                Files.move(oldDirPath, newDirPath);
-                                hamburgerMenu.setText(fileTitle);
-                                editMenu.setText("Edit " + fileTitle);
-                            } catch (Exception e1) {
-                                System.out.println("Error renaming exam: " + e1.getMessage());
-                                e1.printStackTrace();
-                            }
+                        try {
+                            Files.copy(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
+                            examMenu.setText(fileTitle);
+                            editMenu.setText("Edit " + fileTitle);
+                        } catch (Exception e1) {
+                            System.out.println("Error renaming exam: " + e1.getMessage());
+                            e1.printStackTrace();
                         }
                     }
 
@@ -267,7 +286,7 @@ public class Topic extends HamburgerMenu {
         });
         titlePanel.add(titleArea, constraints);
         
-        hamburgerMenu.addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
+        examMenu.addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -276,12 +295,19 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        hamburgerMenu.addComponent(startButton);
+        examMenu.addComponent(startButton);
         styleButton(startButton, "Start exam");
     
-        hamburgerMenu.addComponent(editMenu);
+        examMenu.addComponent(editMenu);
 
-        hamburgerMenu.setBlotOffset(6 - editMenu.getMenuSize());
+        examMenu.setBlotOffset(7 - editMenu.getMenuSize());
+
+        RoundedButton copyButton = new RoundedButton();
+        copyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                copy(file, examMenu);
+            }
+        });
 
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -295,7 +321,7 @@ public class Topic extends HamburgerMenu {
                 if (response == JOptionPane.YES_OPTION) {
                     try {
                         file.delete();
-                        deleteExam(hamburgerMenu);
+                        deleteExam(examMenu);
 
                         tester.reset();
                     } catch (Exception e1) {
@@ -304,12 +330,16 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        hamburgerMenu.addComponent(deleteButton);
+        examMenu.addComponent(copyButton);
+        examMenu.addComponent(deleteButton);
+
+        styleButton(copyButton, "Copy exam");
+        copyButton.setBackground(copyColor);
 
         styleButton(deleteButton, "Delete exam");
         deleteButton.setBackground(deleteColor);
 
-        addComponent(hamburgerMenu);
+        addComponent(examMenu);
     }
 
     private HamburgerMenu loadEditMenu(File file, Component parent) {
@@ -782,6 +812,49 @@ public class Topic extends HamburgerMenu {
 
     public void deleteExam(HamburgerMenu menu) {
         getMenu().remove(menu);
+    }
+
+    public void copy(File file, Component component) {
+        tester.setCopiedComponent(component);
+        tester.setCopiedFile(file);
+    }
+    public void copy(File file) {
+        tester.setCopiedComponent(this);
+        tester.setCopiedFile(file);
+    }
+
+    public void paste(File dir) {
+        if(
+            tester.getCopiedComponent() != null &&
+            tester.getCopiedFile() != null
+        ) {
+            if(tester.getCopiedComponent().getClass() == HamburgerMenu.class) {
+                HamburgerMenu copy = (HamburgerMenu) tester.getCopiedComponent();
+
+                for(Component c : this.getMenu().getComponents()) {
+                    if(c.getClass() == HamburgerMenu.class) {
+                        if(((HamburgerMenu) c).getText() != null) {
+                            if(((HamburgerMenu) c).getText().equals(copy.getText())) {
+                                (copy).setText(copy.getText() + " - Copy");
+                            }
+                        }
+                    }
+                }
+
+                File file = new File(dir.getPath() + "/" + copy.getText() + ".txt");
+                Path oldDirPath = Paths.get(tester.getCopiedFile().getPath());
+                Path newDirPath = Paths.get(file.getPath());
+
+                try {
+                    Files.copy(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
+                    addComponent(copy);
+
+                    tester.reset();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     // SETTERS

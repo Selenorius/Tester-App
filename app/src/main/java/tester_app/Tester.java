@@ -27,6 +27,9 @@ import java.awt.event.WindowStateListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -60,6 +63,8 @@ public class Tester extends ConsoleErrorJFrame {
     private JLabel
         iconLabel,
         titleLabel;
+    private Component copiedComponent;
+    private File copiedFile;
 
     private int
         windowstate,
@@ -271,12 +276,21 @@ public class Tester extends ConsoleErrorJFrame {
             }
         });
 
+        RoundedButton pasteButton = new RoundedButton();
+        pasteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                paste();
+            }
+        });
+
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
         addButton.setBackground(fieldColor);
         addButton.setBorderColor(examAddBorderColor);
         addButton.setBorderPainted(true);
+        
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
+        addButton.addComponent(pasteButton);
 
         styleButton(addTopicButton, "Create new topic", dirButtonIcon);
         addTopicButton.setBackground(editColor);
@@ -284,13 +298,18 @@ public class Tester extends ConsoleErrorJFrame {
         styleButton(addExamButton, "Create new exam", fileButtonIcon);
         addExamButton.setBackground(editColor);
 
+        styleButton(pasteButton, "Paste");
+        pasteButton.setBackground(examAddBorderColor);
+
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, margin * 2, margin * 2, margin * 2);
 
         this.setJMenuBar(menuBar);
         this.add(scrollPane, constraints);
+
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         this.setVisible(true);
     }
@@ -471,6 +490,54 @@ public class Tester extends ConsoleErrorJFrame {
         this.setVisible(true);
     }
 
+    public void paste() {
+        if(
+            copiedComponent != null &&
+            copiedFile != null
+        ) {
+            for(Component c : dirMenu.getComponents()) {
+                if(
+                    c.getClass() == HamburgerMenu.class ||
+                    c.getClass() == Topic.class
+                ) {
+                    if(((HamburgerMenu) c).getText() != null) {
+                        if(((HamburgerMenu) c).getText().equals(((HamburgerMenu) copiedComponent).getText())) {
+                            ((HamburgerMenu) copiedComponent).setText(((HamburgerMenu) copiedComponent).getText() + " - Copy");
+                        }
+                    }
+                }
+            }
+
+            Path oldDirPath = Paths.get(copiedFile.getPath());
+            Path newDirPath = Paths.get(root.getPath(), ((HamburgerMenu) copiedComponent).getText());
+
+            if(copiedComponent.getClass() == HamburgerMenu.class) {
+                newDirPath = Paths.get(root.getPath(), ((HamburgerMenu) copiedComponent).getText() + ".txt");
+
+                uncategorized.addComponent(copiedComponent);
+            } else {
+                addComponent(copiedComponent);
+            }
+
+            try {
+                Files.copy(oldDirPath, newDirPath);
+                if(copiedComponent.getClass() == Topic.class) {
+                    for(String f : copiedFile.list()) {
+                        try {
+                            Files.copy(Paths.get(copiedFile.getPath(), f), Paths.get(root.getPath(), ((HamburgerMenu) copiedComponent).getText(), f));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                reset();
+            } catch (IOException e) {
+                consoleErrorMessage(e);
+            }
+        }
+    }
+
     // GETTERS
     public Image getIcon() {
         return icon;
@@ -506,5 +573,22 @@ public class Tester extends ConsoleErrorJFrame {
         }
 
         return out + System.lineSeparator() + extendedStates.size() + ":" + extended;
+    }
+
+    public File getCopiedFile() {
+        return this.copiedFile;
+    }
+
+    public Component getCopiedComponent() {
+        return this.copiedComponent;
+    }
+
+    // SETTERS
+    public void setCopiedComponent(Component component) {
+        this.copiedComponent =  component;
+    }
+
+    public void setCopiedFile(File file) {
+        this.copiedFile = file;
     }
 }

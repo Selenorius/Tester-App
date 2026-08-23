@@ -62,6 +62,7 @@ public final class Constants {
         examAddBackgroundColor = fieldColor,
         examAddBorderColor = new Color(140, 84, 28),
 
+        copyColor = new Color(28, 108, 160),
         editColor = new Color(48, 140, 28),
         deleteColor = new Color(140, 48, 28),
         blotBackgroundColor = new Color(184, 28, 84),

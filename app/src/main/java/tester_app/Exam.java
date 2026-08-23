@@ -241,10 +241,12 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, margin * 2, margin * 2, margin * 2);
 
         this.setJMenuBar(menuBar);
         this.add(scrollPane, constraints);
+
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         loadQuestions(examFile);
 
