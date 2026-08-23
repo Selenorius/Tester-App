@@ -33,6 +33,8 @@ import tester_app.options.TextOption;
 public class WQuestion extends Question {
     private ArrayList<TextOption> options;
     private ArrayList<String> used;
+    private Boolean ordered;
+    private int goal;
 
     private JTextArea textArea;
     private JScrollPane scrollPane;
@@ -43,6 +45,8 @@ public class WQuestion extends Question {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
+        goal = 1;
+        ordered = false;
         score = 0;
         options = new ArrayList<>();
         used = new ArrayList<>();
@@ -236,6 +240,16 @@ public class WQuestion extends Question {
         return Test.FAIL;
     }
 
+    // GETTERS
+    public int getGoal() {
+        return this.goal;
+    }
+
+    // SETTERS
+    public void setGoal(int goal) {
+        this.goal = goal;
+    }
+
     @Override
     public Test test(ButtonOption o) {
         throw new UnsupportedOperationException("Unimplemented method 'test'");
@@ -243,7 +257,7 @@ public class WQuestion extends Question {
 
     @Override
     public Boolean isOrdered() {
-        throw new UnsupportedOperationException("Unimplemented method 'isOrdered'");
+        return ordered;
     }
 
     @Override
@@ -299,6 +313,6 @@ public class WQuestion extends Question {
 
     @Override
     public void setOrdered(Boolean ordered) {
-        throw new UnsupportedOperationException("Unimplemented method 'setOrdered'");
+        this.ordered = ordered;
     }
 }

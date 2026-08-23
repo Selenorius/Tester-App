@@ -37,10 +37,12 @@ import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.SpinnerNumberModel;
 
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
+import tester_app.helpers.RoundedSpinner;
 import tester_app.helpers.RoundedTextArea;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -362,6 +364,8 @@ public class Topic extends HamburgerMenu {
         editMenu.setBlotOffset(1);
 
         for(Question q : questions) {
+            constraints = new GridBagConstraints();
+
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
@@ -399,6 +403,28 @@ public class Topic extends HamburgerMenu {
 
             if(q.getClass() == WQuestion.class) {
                 ArrayList<TextOption> options = q.getTextOptions();
+
+                JRadioButton radioButton = new JRadioButton();
+                radioButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    }
+                });
+                radioButton.setFocusable(false);
+                radioButton.setBackground(null);
+                radioButton.setForeground(Color.WHITE);
+                radioButton.setText("Ordered");
+                radioButton.setSelected(q.isOrdered());
+
+                textPanel.add(radioButton, constraints);
+                orderedRadioButtons.add(radioButton);
+
+                RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(1, 0, 99, 1));
+
+                if(!q.isOrdered()) {
+                    textPanel.add(goalSpinner, constraints);
+                }
 
                 for(TextOption o : options) {
                     textPanel = new RoundedPanel();
@@ -597,7 +623,7 @@ public class Topic extends HamburgerMenu {
 
                 editPanel.add(addButton, constraints);
 
-                styleButton(addButton, "Add option");
+                styleButton(addButton, "Add answer");
                 addButton.setBackground(editColor);
             } else if(q.getClass() == MCQuestion.class) {
                 RoundedButton addButton = new RoundedButton();
