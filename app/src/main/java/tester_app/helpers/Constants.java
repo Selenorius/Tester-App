@@ -32,7 +32,6 @@ import tester_app.questions.Question;
 import tester_app.questions.Question.Test;
 
 public final class Constants {
-    private Constants() {}
 
     //ANSI COLORS
     public static final String ANSI_RESET = "\u001B[0m";

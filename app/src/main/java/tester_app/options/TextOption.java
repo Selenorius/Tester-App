@@ -67,15 +67,19 @@ public class TextOption extends RoundedPanel {
         String out = "";
         Boolean once = true;
 
-        for(String s : text) {
-            if(s != null) {
-                if(once) {
-                    out += s;
-                    once = false;
-                } else {
-                    out += System.lineSeparator() + s;
+        if(!text.isEmpty()) {
+            for(String s : text) {
+                if(s != null) {
+                    if(once) {
+                        out += s;
+                        once = false;
+                    } else {
+                        out += System.lineSeparator() + s;
+                    }
                 }
             }
+        } else {
+            out = "Option text missing...";
         }
 
         return out;

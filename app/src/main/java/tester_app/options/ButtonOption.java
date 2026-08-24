@@ -8,7 +8,7 @@ public class ButtonOption extends RoundedButton {
 
     // CONSTRUCTORS
     public ButtonOption() {
-        super("Text missing....");
+        super("Option text missing....");
     }
 
     // GETTERS

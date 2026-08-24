@@ -38,6 +38,8 @@ import java.util.stream.Stream;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
@@ -404,27 +406,41 @@ public class Topic extends HamburgerMenu {
             if(q.getClass() == WQuestion.class) {
                 ArrayList<TextOption> options = q.getTextOptions();
 
-                JRadioButton radioButton = new JRadioButton();
-                radioButton.addActionListener(new ActionListener() {
+                RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(1, 1, 99, 1), "Answer");
+                goalSpinner.addChangeListener(new ChangeListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    public void stateChanged(ChangeEvent e) {
+                        if((Integer) goalSpinner.getValue() == 1) {
+                            goalSpinner.setText("Answer");
+                        } else {
+                            goalSpinner.setText("Answers");
+                        }
                     }
                 });
+
+                JRadioButton radioButton = new JRadioButton();
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+                radioButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if( radioButton.isSelected()) {
+                            goalSpinner.setVisible(false);
+                        } else {
+                            goalSpinner.setVisible(true);
+                        }
+
+                        saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
+                    }
+                });
 
                 textPanel.add(radioButton, constraints);
                 orderedRadioButtons.add(radioButton);
 
-                RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(1, 0, 99, 1));
-
-                if(!q.isOrdered()) {
-                    textPanel.add(goalSpinner, constraints);
-                }
+                textPanel.add(goalSpinner, constraints);
 
                 for(TextOption o : options) {
                     textPanel = new RoundedPanel();
@@ -549,6 +565,7 @@ public class Topic extends HamburgerMenu {
                             saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons);
                         }
                     });
+
                     radioButton.setFocusable(false);
                     radioButton.setBackground(null);
                     radioButton.setForeground(Color.WHITE);
@@ -609,7 +626,6 @@ public class Topic extends HamburgerMenu {
                 addButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         TextOption option = new TextOption();
-                        option.addText("Text missing...");
                         q.addOption(option);
 
                         exam.setQuestions(questions);
@@ -686,7 +702,8 @@ public class Topic extends HamburgerMenu {
         addWQButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WQuestion wQuestion = new WQuestion(exam);
-                wQuestion.setQuestionText("New written question");
+                wQuestion.setQuestionText("Question text missing...");
+                wQuestion.addOption(new TextOption());
 
                 questions.add(wQuestion);
                 
@@ -704,7 +721,8 @@ public class Topic extends HamburgerMenu {
         addMCButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MCQuestion mcQuestion = new MCQuestion(exam);
-                mcQuestion.setQuestionText("New multiple choice question");
+                mcQuestion.setQuestionText("Question text missing...");
+                mcQuestion.addOption(new ButtonOption());
 
                 questions.add(mcQuestion);
                 
@@ -722,7 +740,7 @@ public class Topic extends HamburgerMenu {
         addTFButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TFQuestion tfQuestion = new TFQuestion(exam);
-                tfQuestion.setQuestionText("New true/false question");
+                tfQuestion.setQuestionText("Question text missing...");
 
                 ButtonOption trueOption = new ButtonOption();
                 trueOption.setText("True");

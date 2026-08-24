@@ -97,9 +97,8 @@ public class Exam extends ConsoleErrorJFrame {
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | UnsupportedLookAndFeelException e1) {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
         this.getContentPane().setBackground(backgroundColor);
