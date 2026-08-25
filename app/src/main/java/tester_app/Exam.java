@@ -259,7 +259,9 @@ public class Exam extends ConsoleErrorJFrame {
         ButtonOption newButtonOption = null;
         TextOption newTextOption = null;
         String
-            text = null;
+            text = null,
+            qt = "",
+            at = "";
         
         try(Scanner settingsFileIn = new Scanner(f)) {
             int layer = 0;
@@ -308,6 +310,20 @@ public class Exam extends ConsoleErrorJFrame {
                     case 2:
                         if(line.contains("{")) {
                             if(line.contains("\"")) {
+                                if(qt != "") {
+                                    qt += line.substring(0, line.indexOf("\""));
+
+                                    newQuestion.setQuestionText(qt);
+
+                                    qt = "";
+                                } else if(at != "") {
+                                    at += line.substring(0, line.indexOf("\""));
+
+                                    newQuestion.setAnswerText(at);
+
+                                    at = "";
+                                }
+
                                 text = line.substring(line.indexOf("\"") + 1);
 
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
@@ -336,23 +352,55 @@ public class Exam extends ConsoleErrorJFrame {
                             questions.add(newQuestion);
 
                             --layer;
-                        } else if(line.contains("\"")) {
-                            text = line.substring(line.indexOf("\"") + 1);
+                        } else {
+                            text = null;
 
-                            if(newQuestion.getQuestionText() == null && text.contains("\"")) {
-                                newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
-                                text = text.substring(text.indexOf("\"") + 1);
+                            if(line.contains("\"")) {
+                                if(qt != "") {
+                                    qt += line.substring(0, line.indexOf("\""));
+
+                                    newQuestion.setQuestionText(qt);
+
+                                    qt = "";
+                                } else if(at != "") {
+                                    at += line.substring(0, line.indexOf("\""));
+
+                                    newQuestion.setAnswerText(at);
+
+                                    at = "";
+                                }
+
+                                text = line.substring(line.indexOf("\"") + 1);
+
+                                if(newQuestion.getQuestionText() == null && text.contains("\"")) {
+                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getAnswerText() == null && text.contains("\"")) {
+                                    newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
+                                    newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                                    text = text.substring(text.indexOf("\"") + 1);
+                                }
+                                if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
+                                    newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                                }
                             }
-                            if(newQuestion.getAnswerText() == null && text.contains("\"")) {
-                                newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
-                                text = text.substring(text.indexOf("\"") + 1);
-                            }
-                            if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
-                                newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
-                                text = text.substring(text.indexOf("\"") + 1);
-                            }
-                            if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
-                                newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
+
+                            if(newQuestion.getQuestionText() == null) {
+                                if(text == null) {
+                                    qt += line + System.lineSeparator();
+                                } else {
+                                    qt += text + System.lineSeparator();
+                                }
+                            } else if(newQuestion.getAnswerText() == null) {
+                                if(text == null) {
+                                    at += line + System.lineSeparator();
+                                } else {
+                                    at += text + System.lineSeparator();
+                                }
                             }
                         }
 
