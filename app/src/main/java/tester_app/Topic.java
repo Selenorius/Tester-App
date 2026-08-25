@@ -84,6 +84,7 @@ public class Topic extends HamburgerMenu {
         untitledPanel.setBorderPainted(false);
 
         RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
+        titleArea.setToolTipText("Click to change the name of this topic");
         titleArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -249,6 +250,7 @@ public class Topic extends HamburgerMenu {
         HamburgerMenu editMenu = loadEditMenu(file, examMenu);
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
+        titleArea.setToolTipText("Click to change the name of this exam");
         titleArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -388,6 +390,7 @@ public class Topic extends HamburgerMenu {
             textPanel.setBorderPainted(true);
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
+            textArea.setToolTipText("Click to change the question text");
             textArea.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
@@ -408,6 +411,7 @@ public class Topic extends HamburgerMenu {
                 ArrayList<TextOption> options = q.getTextOptions();
 
                 RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(q.getGoal(), 1, ((WQuestion) q).getMaxScore(), 1), "Answer");
+                goalSpinner.setToolTipText("Determines how many correct answers are needed to pass");
                 if((Integer) goalSpinner.getValue() > 1) {
                     goalSpinner.setText("Answers");
                 }
@@ -428,6 +432,7 @@ public class Topic extends HamburgerMenu {
                 }
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
@@ -487,6 +492,7 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textArea = new RoundedTextArea(o.getClearText());
+                    textArea.setToolTipText("Click to change the answer text");
                     textArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyReleased(KeyEvent e) {
@@ -515,6 +521,7 @@ public class Topic extends HamburgerMenu {
                 ArrayList<ButtonOption> options = q.getButtonOptions();
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -562,6 +569,7 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textArea = new RoundedTextArea(o.getText());
+                    textArea.setToolTipText("Click to change the option text");
                     textArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyPressed(KeyEvent e) {
@@ -581,6 +589,7 @@ public class Topic extends HamburgerMenu {
                     textPanel.add(textArea, constraints);
 
                     radioButton = new JRadioButton();
+                    radioButton.setToolTipText("Is this option true?");
                     radioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -620,6 +629,7 @@ public class Topic extends HamburgerMenu {
                 constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setToolTipText("Is the question text true?");
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

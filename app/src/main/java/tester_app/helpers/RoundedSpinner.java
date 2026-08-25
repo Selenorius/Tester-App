@@ -12,15 +12,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
-import javax.swing.Timer;
 
 public class RoundedSpinner extends JSpinner {
     private Color borderColor;
@@ -29,7 +26,6 @@ public class RoundedSpinner extends JSpinner {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private JLabel label;
-    private final Timer repaintTimer;
 
     public RoundedSpinner(SpinnerModel model, String text) {
         super(model);
@@ -41,16 +37,6 @@ public class RoundedSpinner extends JSpinner {
         setBackground(fieldColor);
         this.setDoubleBuffered(true);
         addMargin(this, margin);
-
-        repaintTimer = new Timer(50, e -> repaint());
-        repaintTimer.setRepeats(false);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaintTimer.restart();
-            }
-        });
 
         label = new JLabel(text);
         label.setForeground(Color.WHITE);
@@ -95,16 +81,6 @@ public class RoundedSpinner extends JSpinner {
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
-        repaintTimer = new Timer(50, e -> repaint());
-        repaintTimer.setRepeats(false);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaintTimer.restart();
-            }
-        });
-
         label = new JLabel();
         label.setForeground(Color.WHITE);
         
@@ -146,16 +122,6 @@ public class RoundedSpinner extends JSpinner {
         setBackground(fieldColor);
         this.setDoubleBuffered(true);
         addMargin(this, margin);
-
-        repaintTimer = new Timer(50, e -> repaint());
-        repaintTimer.setRepeats(false);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaintTimer.restart();
-            }
-        });
 
         label = new JLabel();
         label.setForeground(Color.WHITE);
