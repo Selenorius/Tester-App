@@ -292,7 +292,7 @@ public class WQuestion extends Question {
     }
 
     public int getMaxScore() {
-        return this.maxScore;
+        return Math.max(this.maxScore, 1);
     }
 
     // SETTERS
