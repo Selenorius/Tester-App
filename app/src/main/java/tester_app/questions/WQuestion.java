@@ -34,7 +34,9 @@ public class WQuestion extends Question {
     private ArrayList<TextOption> options;
     private ArrayList<String> used;
     private Boolean ordered;
-    private int goal;
+    private int
+        goal,
+        maxScore;
 
     private JTextArea textArea;
     private JScrollPane scrollPane;
@@ -46,6 +48,7 @@ public class WQuestion extends Question {
         constraints = new GridBagConstraints();
 
         goal = 1;
+        maxScore = 99;
         ordered = false;
         score = 0;
         options = new ArrayList<>();
@@ -124,13 +127,27 @@ public class WQuestion extends Question {
 
     @Override
     public void initGoal() {
-        int count = 0;
+        if(ordered) {
+            int count = 0;
 
-        for(int i = 0; i < options.size(); ++i) {
-            ++count;
+            for(int i = 0; i < options.size(); ++i) {
+                ++count;
+            }
+
+            goal = count;
+        } else {
+            int count = 0;
+
+            if(options.size() > 1) {
+                for(int i = 0; i < options.size(); ++i) {
+                    ++count;
+                }
+            } else {
+                count = options.get(0).getTexts().size();
+            }
+
+            maxScore = count;
         }
-
-        goal = count;
     }
 
     @Override
@@ -142,12 +159,12 @@ public class WQuestion extends Question {
     public Test test(String in) {
         for(String u : used) {
             if(in.contains(u)) {
-                in = in.substring(u.length(), in.length());
+                in = in.replaceFirst(u, "");
             }
         }
 
         for(String u : used) {
-            if(in.contains(u)) {
+            if(in.trim().equals(u.trim())) {
                 String
                     text = "",
                     correctionText = "Correct Answers: ";
@@ -181,30 +198,59 @@ public class WQuestion extends Question {
             }
         }
 
-        TextOption t = null;
         if(!options.isEmpty()) {
-            t = options.get(0);
+            if(ordered) {
+                TextOption t = options.get(0);
 
-            if(t.isTrue(in)) {
-                used.add(in);
-                options.remove(t);
-                ++score;
+                if(t.isTrue(in)) {
+                    used.add(in);
+                    if(options.size() > 1) {
+                        options.remove(t);
+                    }
+                    ++score;
 
-                if(score >= goal) {
-                    JOptionPane.showMessageDialog(
-                        exam,
-                        "Great Job!",
-                        "Correct Answer!",
-                        JOptionPane.PLAIN_MESSAGE
-                    );
+                    if(score >= goal) {
+                        JOptionPane.showMessageDialog(
+                            exam,
+                            "Great Job!",
+                            "Correct Answer!",
+                            JOptionPane.PLAIN_MESSAGE
+                        );
 
-                    exam.incrementScore();
-                    next(exam, this);
+                        exam.incrementScore();
+                        next(exam, this);
 
-                    return Test.COMPLETION;
+                        return Test.COMPLETION;
+                    }
+
+                    return Test.SUCCESS;
                 }
+            } else {
+                for(TextOption o : options) {
+                    if(o.isTrue(in)) {
+                        used.add(in);
+                        if(options.size() > 1) {
+                            options.remove(o);
+                        }
+                        ++score;
 
-                return Test.SUCCESS;
+                        if(score >= goal) {
+                            JOptionPane.showMessageDialog(
+                                exam,
+                                "Great Job!",
+                                "Correct Answer!",
+                                JOptionPane.PLAIN_MESSAGE
+                            );
+
+                            exam.incrementScore();
+                            next(exam, this);
+
+                            return Test.COMPLETION;
+                        }
+
+                        return Test.SUCCESS;
+                    }
+                }
             }
         }
 
@@ -243,6 +289,10 @@ public class WQuestion extends Question {
     // GETTERS
     public int getGoal() {
         return this.goal;
+    }
+
+    public int getMaxScore() {
+        return this.maxScore;
     }
 
     // SETTERS

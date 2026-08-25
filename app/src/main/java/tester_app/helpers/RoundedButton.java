@@ -7,8 +7,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
+import javax.swing.Timer;
 
 public class RoundedButton extends JButton {
     private int radius;
@@ -18,12 +21,24 @@ public class RoundedButton extends JButton {
     private Color
         buttonSelectionColor,
         buttonBorderColor;
+    private final Timer repaintTimer;
 
     public RoundedButton(String text) { 
         super(text);
         
         setContentAreaFilled(false);
         setFocusable(false);
+        setDoubleBuffered(true);
+
+        repaintTimer = new Timer(50, e -> repaint());
+        repaintTimer.setRepeats(false);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                repaintTimer.restart();
+            }
+        });
 
         this.radius = 10;
         this.borderPaint = true;
@@ -35,6 +50,16 @@ public class RoundedButton extends JButton {
 
         setContentAreaFilled(false);
         setFocusable(false);
+
+        repaintTimer = new Timer(50, e -> repaint());
+        repaintTimer.setRepeats(false);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                repaintTimer.restart();
+            }
+        });
 
         this.radius = 10;
         this.borderPaint = true;

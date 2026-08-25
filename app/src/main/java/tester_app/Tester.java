@@ -88,6 +88,7 @@ public class Tester extends ConsoleErrorJFrame {
         constraints = new GridBagConstraints();
         extendedStates = new ArrayList<>();
         
+        this.getContentPane().setIgnoreRepaint(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(name);
         this.setIconImage(icon);

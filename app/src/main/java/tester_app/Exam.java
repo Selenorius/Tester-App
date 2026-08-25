@@ -88,6 +88,7 @@ public class Exam extends ConsoleErrorJFrame {
             topicName = "Uncategorized";
         }
 
+        this.getContentPane().setIgnoreRepaint(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle(topicName + " - " + examName);
         this.setIconImage(icon);
@@ -273,15 +274,27 @@ public class Exam extends ConsoleErrorJFrame {
                                 newQuestion = new TFQuestion(this);
                                 newQuestion.setGoal(1);
                             } else if(line.contains("multiple_choice") || line.contains("mc")) {
+                                newQuestion = new MCQuestion(this);
+                                
                                 if(line.contains("ordered")) {
-                                    newQuestion = new MCQuestion(this);
                                     newQuestion.setOrdered(true);
                                 } else {
-                                    newQuestion = new MCQuestion(this);
                                     newQuestion.setOrdered(false);
                                 }
                             } else {
                                 newQuestion = new WQuestion(this);
+
+                                if(line.contains("ordered")) {
+                                    newQuestion.setOrdered(true);
+                                } else {
+                                    newQuestion.setOrdered(false);
+
+                                    if(line.contains("\"")) {
+                                        text = line.substring(line.indexOf("\"") + 1);
+
+                                        newQuestion.setGoal(Integer.parseInt(text.substring(0, text.indexOf("\""))));
+                                    }
+                                }
                             }
 
                             ++layer;
@@ -481,6 +494,7 @@ public class Exam extends ConsoleErrorJFrame {
             String
             type = "",
             ordered = "",
+            goal = "",
             text = "\"" + q.getQuestionText() + "\" ",
             answer = "\"" + q.getAnswerText() + "\" ",
             options = "";
@@ -495,6 +509,12 @@ public class Exam extends ConsoleErrorJFrame {
                 type = "TRUE_FALSE ";
             } else {
                 type = "WRITTEN ";
+
+                if(q.isOrdered()) {
+                    ordered = "ORDERED ";
+                } else {
+                    goal = "\"" + q.getGoal() + "\" ";
+                }
             }
 
             if(q.getQuestionText() == null) {
@@ -519,7 +539,7 @@ public class Exam extends ConsoleErrorJFrame {
                 options += tab(3) + q.getButtonOptions().get(0).isTrue() + System.lineSeparator();
             }
 
-            out += tab(1) + type + ordered + "{" + System.lineSeparator();
+            out += tab(1) + type + ordered + goal + "{" + System.lineSeparator();
             out += tab(2) + text + answer + "{" + System.lineSeparator();
             out += options;
             out += tab(2) + "}" + System.lineSeparator();

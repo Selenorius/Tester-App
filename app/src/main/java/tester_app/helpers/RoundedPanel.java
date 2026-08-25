@@ -10,21 +10,36 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
+import javax.swing.Timer;
 
 public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
     private Boolean borderPaint;
     private Color borderColor;
+    private final Timer repaintTimer;
 
     public RoundedPanel() {
         this.radius = 10;
         this.borderPaint = true;
         this.setBackground(backgroundColor);
         this.borderColor = Constants.borderColor;
+        this.setDoubleBuffered(true);
         addMargin(this, margin);
+
+        repaintTimer = new Timer(50, e -> repaint());
+        repaintTimer.setRepeats(false);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                repaintTimer.restart();
+            }
+        });
         
         setOpaque(false);
     }

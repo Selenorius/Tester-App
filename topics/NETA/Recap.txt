@@ -1,19 +1,19 @@
 {
-    WRITTEN {
+    WRITTEN "1" {
         "What does IETF stand for?" {
             {
                 "Internet Engineering Task Force"
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "What does RFC stand for?" {
             {
                 "Request for Comments"
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "Who publishes the RFC?" {
             {
                 "Internet Engineering Task Force"
@@ -26,7 +26,7 @@
             true
         }
     }
-    WRITTEN {
+    WRITTEN ORDERED {
         "List all Layers of the OSI Model in order:" {
             {
                 "Physical Layer"
@@ -60,7 +60,7 @@
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "What is an IP Address?" {
             {
                 "Internet Protocol"
@@ -69,7 +69,7 @@
             }
         }
     }
-    WRITTEN {
+    WRITTEN "5" {
         "Name 5 Application Layer Protocols:" {
             {
                 "DHCP"
@@ -92,99 +92,10 @@
                 "RIP"
                 "RIP2"
             }
-            {
-                "DHCP"
-                "FTP"
-                "SMTP"
-                "HTTP"
-                "SSH"
-                "Telnet"
-                "SFTP"
-                "HTTPS"
-                "BGP"
-                "POP3"
-                "IMAP"
-                "SCP"
-                "DNS"
-                "BOOTP"
-                "SNMP"
-                "Syslog"
-                "NTP"
-                "RIP"
-                "RIP2"
-            }
-            {
-                "DHCP"
-                "FTP"
-                "SMTP"
-                "HTTP"
-                "SSH"
-                "Telnet"
-                "SFTP"
-                "HTTPS"
-                "BGP"
-                "POP3"
-                "IMAP"
-                "SCP"
-                "DNS"
-                "BOOTP"
-                "SNMP"
-                "Syslog"
-                "NTP"
-                "RIP"
-                "RIP2"
-            }
-            {
-                "DHCP"
-                "FTP"
-                "SMTP"
-                "HTTP"
-                "SSH"
-                "Telnet"
-                "SFTP"
-                "HTTPS"
-                "BGP"
-                "POP3"
-                "IMAP"
-                "SCP"
-                "DNS"
-                "BOOTP"
-                "SNMP"
-                "Syslog"
-                "NTP"
-                "RIP"
-                "RIP2"
-            }
-            {
-                "DHCP"
-                "FTP"
-                "SMTP"
-                "HTTP"
-                "SSH"
-                "Telnet"
-                "SFTP"
-                "HTTPS"
-                "BGP"
-                "POP3"
-                "IMAP"
-                "SCP"
-                "DNS"
-                "BOOTP"
-                "SNMP"
-                "Syslog"
-                "NTP"
-                "RIP"
-                "RIP2"
-            }
         }
     }
-    WRITTEN {
+    WRITTEN "2" {
         "Name 2 Transport Layer Protocols:" {
-            {
-                "TCP"
-                "UDP"
-                "RTP"
-            }
             {
                 "TCP"
                 "UDP"
@@ -197,22 +108,8 @@
             true
         }
     }
-    WRITTEN {
+    WRITTEN "3" {
         "Name 3 Network Layer Protocols:" {
-            {
-                "IP"
-                "ARP"
-                "ICMP"
-                "IGMP"
-                "RARP"
-            }
-            {
-                "IP"
-                "ARP"
-                "ICMP"
-                "IGMP"
-                "RARP"
-            }
             {
                 "IP"
                 "ARP"
@@ -248,7 +145,7 @@
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "Name a physical Protocol:" {
             {
                 "Ethernet"
@@ -264,7 +161,7 @@
             false
         }
     }
-    WRITTEN {
+    WRITTEN ORDERED {
         "Name all elements of an IPv4 header:" {
             {
                 "IP Protocol Version Number"
@@ -342,7 +239,7 @@
             false
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "What is ARP?" {
             {
                 "Address Resolution Protocol"
@@ -352,7 +249,7 @@
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "What is ICMP?" {
             {
                 "Internet Control Message Protocol"
@@ -364,7 +261,7 @@
             }
         }
     }
-    WRITTEN {
+    WRITTEN "1" {
         "What is DHCP?" {
             {
                 "Dynamic Host Configuration Protocol"
@@ -380,7 +277,7 @@
             true
         }
     }
-    WRITTEN {
+    WRITTEN ORDERED {
         "List all steps in a DHCP interaction in order:" {
             {
                 "Host broadcasts DHCP discover message"
