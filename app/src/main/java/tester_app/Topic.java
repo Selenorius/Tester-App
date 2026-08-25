@@ -564,6 +564,14 @@ public class Topic extends HamburgerMenu {
                     textArea = new RoundedTextArea(o.getText());
                     textArea.addKeyListener(new KeyAdapter() {
                         @Override
+                        public void keyPressed(KeyEvent e) {
+                            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                                e.consume();
+                                tester.requestFocus();
+                            }
+                        }
+
+                        @Override
                         public void keyReleased(KeyEvent e) {
                             if(e.getKeyCode() != KeyEvent.VK_ENTER) {
                                 saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
