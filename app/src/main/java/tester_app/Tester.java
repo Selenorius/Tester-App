@@ -359,7 +359,8 @@ public class Tester extends ConsoleErrorJFrame {
                     ) {
                         if(
                             c != uncategorized &&
-                            c != addButton
+                            c != addButton &&
+                            sCount < extendedStates.size()
                         ) {
                             HamburgerMenu ham = extendedStates.get(sCount);
 
