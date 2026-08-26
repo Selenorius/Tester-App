@@ -2,7 +2,6 @@
 Create and solve tests to study for your exams.
 
 ## What does this thing look like?
-## Preview
 <img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/a3bbcad7-8b20-4351-bb65-55d5e36058ed" />
 <img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/b42f1bf2-9ae3-414c-a0fd-d6635c52ca66" />
 <img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/5757ec21-e2b7-4229-8f22-7a35a7c7e262" />
