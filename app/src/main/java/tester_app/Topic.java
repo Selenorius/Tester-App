@@ -35,11 +35,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
@@ -389,6 +391,44 @@ public class Topic extends HamburgerMenu {
             textPanel.setBackground(fieldColor);
             textPanel.setBorderColor(examAddBorderColor);
             textPanel.setBorderPainted(true);
+            
+            RoundedButton imageButton = new RoundedButton();
+            imageButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setCurrentDirectory(new File("./resources"));
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
+                    fileChooser.setFileFilter(filter);
+
+                    int response = fileChooser.showOpenDialog(null);
+
+                    if(response == JFileChooser.APPROVE_OPTION) {
+                        q.setQuestionImage(fileChooser.getSelectedFile().getAbsolutePath());
+                    }
+
+                    saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+
+                    tester.reset();
+                }
+            });
+
+            String questionImage = q.getQuestionImage();
+            if(
+                questionImage != null &&
+                !questionImage.isBlank() &&
+                (questionImage.contains("/") || questionImage.contains("\\"))
+            ) {
+                if(questionImage.contains("/")) {
+                    styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("/") + 1));
+                } else {
+                    styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("\\") + 1));
+                }
+            } else {
+                styleButton(imageButton, "Add image");
+            }
+            textPanel.add(imageButton, constraints);
+
+            constraints.gridx = 1;
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
             textArea.setLabel("Enter question...");
@@ -542,11 +582,56 @@ public class Topic extends HamburgerMenu {
                 orderedRadioButtons.add(radioButton);
 
                 for(ButtonOption o : options) {
+                    constraints = new GridBagConstraints();
+
+                    constraints.fill = GridBagConstraints.BOTH;
+                    constraints.weightx = 0.5;
+                    constraints.weighty = 0.5;
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
                     textPanel.setBackground(fieldColor);
                     textPanel.setBorderColor(examAddBorderColor);
                     textPanel.setBorderPainted(true);
+
+                    imageButton = new RoundedButton();
+                    imageButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            JFileChooser fileChooser = new JFileChooser();
+                            fileChooser.setCurrentDirectory(new File("./resources"));
+                            FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
+                            fileChooser.setFileFilter(filter);
+
+                            int response = fileChooser.showOpenDialog(null);
+
+                            if(response == JFileChooser.APPROVE_OPTION) {
+                                o.setImagePath(fileChooser.getSelectedFile().getAbsolutePath());
+                            }
+
+                            saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+
+                            tester.reset();
+                        }
+                    });
+
+                    String imagePath = o.getImagePath();
+                    if(
+                        imagePath != null &&
+                        !imagePath.isBlank() &&
+                        (imagePath.contains("/") || imagePath.contains("\\"))
+                    ) {
+                        if(imagePath.contains("/")) {
+                            styleButton(imageButton, imagePath.substring(imagePath.lastIndexOf("/") + 1));
+                        } else {
+                            styleButton(imageButton, imagePath.substring(imagePath.lastIndexOf("\\") + 1));
+                        }
+                    } else {
+                        styleButton(imageButton, "Add image");
+                    }
+                    textPanel.add(imageButton, constraints);
+
+                    constraints.gridx = 1;
 
                     RoundedButton deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {

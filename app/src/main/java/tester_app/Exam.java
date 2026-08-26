@@ -334,12 +334,17 @@ public class Exam extends ConsoleErrorJFrame {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 }
-                                if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
-                                    text = text.substring(text.indexOf("\"") + 1);
+                            }
+
+                            if(line.contains("<")) {
+                                text = line.substring(line.indexOf("<") + 1);
+
+                                if(newQuestion.getQuestionImage() == null && text.contains(">")) {
+                                    newQuestion.setQuestionImage(text.substring(0, text.indexOf(">")));
+                                    text = text.substring(text.indexOf(">") + 1);
                                 }
-                                if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
-                                    newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
+                                if(newQuestion.getAnswerImage() == null && text.contains(">")) {
+                                    newQuestion.setAnswerImage(text.substring(0, text.indexOf(">")));
                                 }
                             }
 
@@ -380,13 +385,6 @@ public class Exam extends ConsoleErrorJFrame {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 }
-                                if(newQuestion.getQuestionImage() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionImage(loadIcon(text.substring(0, text.indexOf("\""))));
-                                    text = text.substring(text.indexOf("\"") + 1);
-                                }
-                                if(newQuestion.getAnswerImage() == null && text.contains("\"")) {
-                                    newQuestion.setAnswerImage(loadIcon(text.substring(0, text.indexOf("\""))));
-                                }
                             }
 
                             if(newQuestion.getQuestionText() == null) {
@@ -400,6 +398,18 @@ public class Exam extends ConsoleErrorJFrame {
                                     at += line + System.lineSeparator();
                                 } else {
                                     at += text + System.lineSeparator();
+                                }
+                            }
+
+                            if(line.contains("<")) {
+                                text = line.substring(line.indexOf("<") + 1);
+
+                                if(newQuestion.getQuestionImage() == null && text.contains(">")) {
+                                    newQuestion.setQuestionImage(text.substring(0, text.indexOf(">")));
+                                    text = text.substring(text.indexOf(">") + 1);
+                                }
+                                if(newQuestion.getAnswerImage() == null && text.contains(">")) {
+                                    newQuestion.setAnswerImage(text.substring(0, text.indexOf(">")));
                                 }
                             }
                         }
@@ -460,7 +470,6 @@ public class Exam extends ConsoleErrorJFrame {
                     case 4:
                         if(line.contains("}")) {
                             if(newQuestion.getClass() == MCQuestion.class) {
-                                newButtonOption.setText(text);
                                 newQuestion.addOption(newButtonOption);
                             } else if(newQuestion.getClass() == WQuestion.class) {
                                 newQuestion.addOption(newTextOption);
@@ -468,17 +477,31 @@ public class Exam extends ConsoleErrorJFrame {
 
                             --layer;
                         }
-                        else if(line.contains("\"")) {
-                            text = line.substring(line.indexOf("\"") + 1);
+                        else if(line.contains("\"") || line.contains("<")) {
+                            if(line.contains("\"")) {
+                                text = line.substring(line.indexOf("\"") + 1);
 
-                            if(text.contains("\"")) {
-                                if(newQuestion.getClass() == WQuestion.class) {
-                                    newTextOption.addText(text.substring(0, text.indexOf("\"")));
+                                if(text.contains("\"")) {
+                                    if(newQuestion.getClass() == WQuestion.class) {
+                                        newTextOption.addText(text.substring(0, text.indexOf("\"")));
+                                    } else {
+                                        newButtonOption.setText(text.substring(0, text.indexOf("\"")));
+                                    }
                                 } else {
-                                    newButtonOption.setText(text.substring(0, text.indexOf("\"")));
+                                    consoleErrorMessage("loadQuestions.option.addText", "No closing \".");
                                 }
-                            } else {
-                                consoleErrorMessage("loadQuestions.newTextOption.addText", "No closing \".");
+                            }
+
+                            if(line.contains("<")) {
+                                text = line.substring(line.indexOf("<") + 1);
+
+                                if(text.contains(">")) {
+                                    if(newQuestion.getClass() == MCQuestion.class) {
+                                        newButtonOption.setImagePath(text.substring(0, text.indexOf(">")));
+                                    }
+                                } else {
+                                    consoleErrorMessage("loadQuestions.option.addImage", "No closing >.");
+                                }
                             }
                         }
                         break;
@@ -545,6 +568,8 @@ public class Exam extends ConsoleErrorJFrame {
             goal = "",
             text = "\"" + q.getQuestionText() + "\" ",
             answer = "\"" + q.getAnswerText() + "\" ",
+            qImage = "<" + q.getQuestionImage() + "> ",
+            aImage = "<" + q.getAnswerImage() + "> ",
             options = "";
 
             if(q.getClass() == MCQuestion.class) {
@@ -567,14 +592,57 @@ public class Exam extends ConsoleErrorJFrame {
 
             if(q.getQuestionText() == null) {
                 text = "";
-            } else if(q.getAnswerText() == null) {
+            } else if(q.getQuestionText().isBlank()) {
+                text = "";
+            }
+            if(q.getAnswerText() == null) {
                 answer = "";
+            }
+            else if(q.getAnswerText().isBlank()) {
+                answer = "";
+            }
+            if(q.getQuestionImage() == null) {
+                qImage = "";
+            }
+            else if(q.getQuestionImage().isBlank()) {
+                qImage = "";
+            }
+            if(q.getAnswerImage() == null) {
+                aImage = "";
+            }else if(q.getAnswerImage().isBlank()) {
+                aImage = "";
             }
 
             if(q.getClass() == MCQuestion.class) {
+                String
+                    optionText,
+                    optionImage;
+
                 for(ButtonOption o : q.getButtonOptions()) {
+                    optionText = o.getText();
+                    optionImage = o.getImagePath();
+
+                    if(optionText != null) {
+                        if(optionText == "null" || optionText.isBlank()) {
+                            optionText = "";
+                        } else {
+                            optionText = "\"" + optionText + "\" ";
+                        }
+                    } else {
+                        optionText = "";
+                    }
+                    if(optionImage != null) {
+                        if(optionImage == "null" || optionImage.isBlank()) {
+                            optionImage = "";
+                        } else {
+                            optionImage = "<" + optionImage + ">";
+                        }
+                    } else {
+                        optionImage = "";
+                    }
+
                     options += tab(3) + o.isTrue() + " {" + System.lineSeparator();
-                    options += tab(4) + "\"" + o.getText() + "\"" + System.lineSeparator();
+                    options += tab(4) + optionText + optionImage + System.lineSeparator();
                     options += tab(3) + "}" + System.lineSeparator();
                 }
             } else if(q.getClass() == WQuestion.class) {
@@ -588,7 +656,23 @@ public class Exam extends ConsoleErrorJFrame {
             }
 
             out += tab(1) + type + ordered + goal + "{" + System.lineSeparator();
-            out += tab(2) + text + answer + "{" + System.lineSeparator();
+            if(answer.isBlank() && qImage.isBlank() && aImage.isBlank()) {
+                out += tab(2) + text + "{" + System.lineSeparator();
+            } else {
+                if(!text.isBlank()) {
+                    out += tab(2) + text + System.lineSeparator();
+                }
+                if(!answer.isBlank()) {
+                    out += tab(2) + answer + System.lineSeparator();
+                }
+                if(!qImage.isBlank()) {
+                    out += tab(2) + qImage + System.lineSeparator();
+                }
+                if(!aImage.isBlank()) {
+                    out += tab(2) + aImage + System.lineSeparator();
+                }
+                out += tab(2) + "{" + System.lineSeparator();
+            }
             out += options;
             out += tab(2) + "}" + System.lineSeparator();
             out += tab(1) + "}" + System.lineSeparator();

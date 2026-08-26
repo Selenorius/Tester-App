@@ -5,18 +5,20 @@ import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
-import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -49,26 +51,52 @@ public class TFQuestion extends Question {
         this.setBackground(null);
         this.setBorderPainted(false);
         this.setLayout(layout);
+        this.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if(questionTextLabel.getIcon() != null)  {
+                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+                    }
+                }
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {}
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                if(questionTextLabel.getIcon() != null)  {
+                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+                    }
+                }
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {}
+        });
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(fieldColor);
         inputArea.setBorderColor(examAddBorderColor);
         inputArea.setBorderPainted(true);
-        inputArea.setLayout(new GridLayout());
+        inputArea.setLayout(layout);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        addMargin(questionTextLabel, margin * 4);
+        questionTextLabel.setLayout(layout);
+        questionTextLabel.setHorizontalTextPosition(JLabel.CENTER);
+        questionTextLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        questionTextLabel.setIconTextGap(margin * 3);
+        addMargin(questionTextLabel, margin * 3);
 
         this.add(questionTextLabel, constraints);
 
-        constraints.weightx = 10;
-        constraints.weighty = 10;
-
         this.add(inputArea, constraints);
 
-        setInputAreaSize(size.width, size.height);
+        constraints = new GridBagConstraints();
     }
 
     // GETTERS
@@ -86,8 +114,8 @@ public class TFQuestion extends Question {
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridy = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
+        constraints.weightx = 10;
+        constraints.weighty = 10;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         options.add(o);

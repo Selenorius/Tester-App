@@ -20,8 +20,10 @@ public class RoundedTextArea extends JTextArea {
     public RoundedTextArea(String s) {
         super();
 
-        if(!s.equals("null")) {
-            this.setText(s);
+        if(s != null) {
+            if(!s.equals("null")) {
+                this.setText(s);
+            }
         }
 
         this.setLineWrap(true);

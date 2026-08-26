@@ -5,7 +5,6 @@ import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
-import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
@@ -13,11 +12,15 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -59,6 +62,31 @@ public class WQuestion extends Question {
         this.setBackground(null);
         this.setBorderPainted(false);
         this.setLayout(layout);
+        this.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if(questionTextLabel.getIcon() != null)  {
+                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+                    }
+                }
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {}
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                if(questionTextLabel.getIcon() != null)  {
+                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+                    }
+                }
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {}
+        });
 
         textArea = new JTextArea();
         textArea.addKeyListener(new KeyAdapter() {
@@ -98,7 +126,11 @@ public class WQuestion extends Question {
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        addMargin(questionTextLabel, margin * 4);
+        questionTextLabel.setLayout(layout);
+        questionTextLabel.setHorizontalTextPosition(JLabel.CENTER);
+        questionTextLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        questionTextLabel.setIconTextGap(margin * 3);
+        addMargin(questionTextLabel, margin * 3);
         
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
@@ -107,12 +139,7 @@ public class WQuestion extends Question {
 
         this.add(questionTextLabel, constraints);
 
-        constraints.weightx = 10;
-        constraints.weighty = 10;
-
         this.add(inputArea, constraints);
-
-        setInputAreaSize(size.width, size.height);
     }
 
     @Override

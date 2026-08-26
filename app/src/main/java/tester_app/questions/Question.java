@@ -1,9 +1,9 @@
 package tester_app.questions;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
@@ -21,8 +21,7 @@ public abstract class Question extends RoundedPanel {
 
     protected String
         questionText,
-        answerText;
-    protected Image
+        answerText,
         questionImage,
         answerImage;
     protected int
@@ -55,11 +54,11 @@ public abstract class Question extends RoundedPanel {
         return answerText;
     }
 
-    public Image getQuestionImage() {
+    public String getQuestionImage() {
         return questionImage;
     }
 
-    public Image getAnswerImage() {
+    public String getAnswerImage() {
         return answerImage;
     }
 
@@ -75,13 +74,10 @@ public abstract class Question extends RoundedPanel {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
 
-        if(
-            questionText != null &&
-            questionTextLabel != null &&
-            !questionText.equals("null") &&
-            (!questionText.isBlank() && questionImage == null)
-        ) {
-            questionTextLabel.setText("<html>" + questionText + "<html>");
+        if(questionText != null && questionTextLabel != null) {
+            if(!questionText.isBlank() && !questionText.equals("null")) {
+                questionTextLabel.setText("<html>" + questionText + "<html>");
+            }
         }
     }
 
@@ -89,11 +85,21 @@ public abstract class Question extends RoundedPanel {
         this.answerText = answerText;
     }
 
-    public void setQuestionImage(Image questionImage) {
+    public void setQuestionImage(String questionImage) {
         this.questionImage = questionImage;
+
+        if(questionImage != null) {
+            questionTextLabel.setIcon(new ImageIcon(questionImage));
+
+            if(questionText == null) {
+                questionTextLabel.setText("");
+            } else if(questionText.isBlank()) {
+                questionTextLabel.setText("");
+            }
+        }
     }
 
-    public void setAnswerImage(Image answerImage) {
+    public void setAnswerImage(String answerImage) {
         this.answerImage = answerImage;
     }
 
