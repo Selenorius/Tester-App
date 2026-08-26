@@ -3,10 +3,11 @@ Create and solve tests to study for your exams.
 
 ## What does this thing look like?
 ## Preview
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/e043227d-1dcb-4ea5-b07e-1844c6d587c6" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/e9dcabd6-c009-4d48-93ea-3fb77041f896" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/8c975a6f-594d-41f4-9c47-68f8c40de8dc" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/b7838f66-e1d3-4ef5-b231-bab74f4abd4e" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/a3bbcad7-8b20-4351-bb65-55d5e36058ed" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/b42f1bf2-9ae3-414c-a0fd-d6635c52ca66" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/5757ec21-e2b7-4229-8f22-7a35a7c7e262" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/d29d92f5-2241-44ba-9746-bb9058c929f1" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/37881956-98d2-4db8-8271-9900ffb8a62d" />
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
