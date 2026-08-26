@@ -2,14 +2,10 @@
 Create and solve tests to study for your exams.
 
 ## What does this thing look like?
-### The Menu
-<img width="960" height="720" alt="Screenshot 2026-08-22 205820" src="https://github.com/user-attachments/assets/dd850688-893d-4b33-b8ef-c374ab70ee82" />
-
-### The Editor
-<img width="960" height="720" alt="Screenshot 2026-08-22 205834" src="https://github.com/user-attachments/assets/5219bd27-a43a-47e6-8a17-6b8c286fde2c" />
-
-### The Exams
-<img width="960" height="720" alt="Screenshot 2026-08-22 205849" src="https://github.com/user-attachments/assets/8390a171-f893-4c8d-9235-71dcec7a06cd" />
+## Preview
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/e043227d-1dcb-4ea5-b07e-1844c6d587c6" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/e9dcabd6-c009-4d48-93ea-3fb77041f896" />
+<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/8c975a6f-594d-41f4-9c47-68f8c40de8dc" />
 
 
 ## Download
