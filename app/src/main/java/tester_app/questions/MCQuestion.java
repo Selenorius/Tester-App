@@ -158,11 +158,17 @@ public class MCQuestion extends Question {
         } else if(text != null) {
             if(!text.isBlank()) {
                 styleButton(o, text);
+            } else {
+                styleButton(o);
             }
         } else if(image != null) {
             if(!image.isBlank()) {
                 styleButton(o, new ImageIcon(image).getImage());
+            } else {
+                styleButton(o);
             }
+        } else {
+            styleButton(o);
         }
     }
 

@@ -391,6 +391,19 @@ public class Topic extends HamburgerMenu {
             textPanel.setBackground(fieldColor);
             textPanel.setBorderColor(examAddBorderColor);
             textPanel.setBorderPainted(true);
+
+            RoundedButton deleteImageButton = new RoundedButton();
+            deleteImageButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    q.setQuestionImage("");
+
+                    saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+
+                    tester.reset();
+                }
+            });
+            styleButton(deleteImageButton, "Delete image");
+            deleteImageButton.setBackground(deleteColor);
             
             RoundedButton imageButton = new RoundedButton();
             imageButton.addActionListener(new ActionListener() {
@@ -404,6 +417,14 @@ public class Topic extends HamburgerMenu {
 
                     if(response == JFileChooser.APPROVE_OPTION) {
                         q.setQuestionImage(fileChooser.getSelectedFile().getAbsolutePath());
+                    }
+
+                    if(q.getQuestionImage() == null) {
+                        deleteImageButton.setVisible(false);
+                    } else if(q.getQuestionImage().isBlank()) {
+                        deleteImageButton.setVisible(false);
+                    } else {
+                        deleteImageButton.setVisible(true);
                     }
 
                     saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
@@ -428,6 +449,15 @@ public class Topic extends HamburgerMenu {
             }
             textPanel.add(imageButton, constraints);
 
+            constraints.gridy = 1;
+
+            textPanel.add(deleteImageButton, constraints);
+
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 0.5;
+            constraints.weighty = 0.5;
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
             constraints.gridx = 1;
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
@@ -595,6 +625,19 @@ public class Topic extends HamburgerMenu {
                     textPanel.setBorderColor(examAddBorderColor);
                     textPanel.setBorderPainted(true);
 
+                    RoundedButton deleteImagePathButton = new RoundedButton();
+                    deleteImagePathButton.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            o.setImagePath("");
+
+                            saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+
+                            tester.reset();
+                        }
+                    });
+                    styleButton(deleteImagePathButton, "Delete image");
+                    deleteImagePathButton.setBackground(deleteColor);
+
                     imageButton = new RoundedButton();
                     imageButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -631,6 +674,15 @@ public class Topic extends HamburgerMenu {
                     }
                     textPanel.add(imageButton, constraints);
 
+                    constraints.gridy = 1;
+
+                    textPanel.add(deleteImagePathButton, constraints);
+
+                    constraints = new GridBagConstraints();
+                    constraints.fill = GridBagConstraints.BOTH;
+                    constraints.weightx = 0.5;
+                    constraints.weighty = 0.5;
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     constraints.gridx = 1;
 
                     RoundedButton deleteButton = new RoundedButton();
