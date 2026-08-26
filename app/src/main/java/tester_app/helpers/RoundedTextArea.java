@@ -3,16 +3,26 @@ package tester_app.helpers;
 import static tester_app.helpers.Constants.margin;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 public class RoundedTextArea extends JTextArea {
+    private JLabel label;
+
     public RoundedTextArea(String s) {
-        super(s);
+        super();
+
+        if(!s.equals("null")) {
+            this.setText(s);
+        }
 
         this.setLineWrap(true);
         this.setWrapStyleWord(true);
@@ -23,12 +33,26 @@ public class RoundedTextArea extends JTextArea {
         this.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
         this.setFocusable(false);
         this.setDoubleBuffered(true);
+        this.setLayout(new GridLayout());
+
+        label = new JLabel();
+        label.setForeground(Color.WHITE.darker());
+        this.add(label);
+        if(!this.getText().isEmpty()) {
+            label.setVisible(false);
+        }
 
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
                 setFocusable(false);
                 setForeground(Color.WHITE.darker());
+
+                if(getText().isEmpty()) {
+                    label.setVisible(true);
+                } else {
+                    label.setVisible(false);
+                }
             }
 
             @Override
@@ -37,8 +61,25 @@ public class RoundedTextArea extends JTextArea {
                 setForeground(Color.WHITE);
             }
         });
+
+        this.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                label.setVisible(false);
+            }
+        });
     }
 
     @Override
     public void scrollRectToVisible(final Rectangle aRect) {}
+
+    // GETTERS
+    public String getLabel() {
+        return label.getText();
+    }
+
+    // SETTERS
+    public void setLabel(String text) {
+        label.setText(text);
+    }
 }

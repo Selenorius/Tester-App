@@ -101,7 +101,7 @@ public class Topic extends HamburgerMenu {
                             Path newDirPath = Paths.get(newPath);
 
                             try {
-                                Files.copy(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
+                                Files.move(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
                                 setText(fileTitle);
                             } catch (Exception e1) {
                                 System.out.println("Error renaming topic: " + e1.getMessage());
@@ -251,6 +251,7 @@ public class Topic extends HamburgerMenu {
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
         titleArea.setToolTipText("Click to change the name of this exam");
+        titleArea.setLabel("Enter exam name...");
         titleArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -262,7 +263,7 @@ public class Topic extends HamburgerMenu {
                         Path newDirPath = Paths.get(file.getParentFile().getPath(), fileTitle + ".txt");
 
                         try {
-                            Files.copy(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
+                            Files.move(oldDirPath, newDirPath, StandardCopyOption.REPLACE_EXISTING);
                             examMenu.setText(fileTitle);
                             editMenu.setText("Edit " + fileTitle);
                         } catch (Exception e1) {
@@ -390,6 +391,7 @@ public class Topic extends HamburgerMenu {
             textPanel.setBorderPainted(true);
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
+            textArea.setLabel("Enter question...");
             textArea.setToolTipText("Click to change the question text");
             textArea.addKeyListener(new KeyAdapter() {
                 @Override
@@ -473,7 +475,7 @@ public class Topic extends HamburgerMenu {
                         public void actionPerformed(ActionEvent e) {
                             int response = JOptionPane.showConfirmDialog(
                                 tester,
-                                "Are you sure you want to delete this option?",
+                                "Are you sure you want to delete this answer?",
                                 "Warning",
                                 JOptionPane.YES_NO_OPTION
                             );
@@ -493,6 +495,7 @@ public class Topic extends HamburgerMenu {
                     
                     textArea = new RoundedTextArea(o.getClearText());
                     textArea.setToolTipText("Click to change the answer text");
+                    textArea.setLabel("Enter answer...");
                     textArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyReleased(KeyEvent e) {
@@ -508,7 +511,7 @@ public class Topic extends HamburgerMenu {
                     
                     textPanel.add(deleteButton, constraints);
 
-                    styleButton(deleteButton, "Delete option");
+                    styleButton(deleteButton, "Delete answer");
                     deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -550,7 +553,7 @@ public class Topic extends HamburgerMenu {
                         public void actionPerformed(ActionEvent e) {
                             int response = JOptionPane.showConfirmDialog(
                                 tester,
-                                "Are you sure you want to delete this option?",
+                                "Are you sure you want to delete this answer?",
                                 "Warning",
                                 JOptionPane.YES_NO_OPTION
                             );
@@ -569,7 +572,8 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     
                     textArea = new RoundedTextArea(o.getText());
-                    textArea.setToolTipText("Click to change the option text");
+                    textArea.setToolTipText("Click to change the answer text");
+                    textArea.setLabel("Enter answer...");
                     textArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyPressed(KeyEvent e) {
@@ -589,7 +593,7 @@ public class Topic extends HamburgerMenu {
                     textPanel.add(textArea, constraints);
 
                     radioButton = new JRadioButton();
-                    radioButton.setToolTipText("Is this option true?");
+                    radioButton.setToolTipText("Is this answer true?");
                     radioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -609,7 +613,7 @@ public class Topic extends HamburgerMenu {
                     
                     textPanel.add(deleteButton, constraints);
 
-                    styleButton(deleteButton, "Delete option");
+                    styleButton(deleteButton, "Delete answer");
                     deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -690,7 +694,7 @@ public class Topic extends HamburgerMenu {
 
                 editPanel.add(addButton, constraints);
 
-                styleButton(addButton, "Add option");
+                styleButton(addButton, "Add answer");
                 addButton.setBackground(editColor);
             }
 
@@ -734,7 +738,6 @@ public class Topic extends HamburgerMenu {
         addWQButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 WQuestion wQuestion = new WQuestion(exam);
-                wQuestion.setQuestionText("Question text missing...");
                 wQuestion.addOption(new TextOption());
 
                 questions.add(wQuestion);
@@ -753,7 +756,6 @@ public class Topic extends HamburgerMenu {
         addMCButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MCQuestion mcQuestion = new MCQuestion(exam);
-                mcQuestion.setQuestionText("Question text missing...");
                 mcQuestion.addOption(new ButtonOption());
 
                 questions.add(mcQuestion);
@@ -772,7 +774,6 @@ public class Topic extends HamburgerMenu {
         addTFButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TFQuestion tfQuestion = new TFQuestion(exam);
-                tfQuestion.setQuestionText("Question text missing...");
 
                 ButtonOption trueOption = new ButtonOption();
                 trueOption.setText("True");

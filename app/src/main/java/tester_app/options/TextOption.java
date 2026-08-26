@@ -78,8 +78,6 @@ public class TextOption extends RoundedPanel {
                     }
                 }
             }
-        } else {
-            out = "Option text missing...";
         }
 
         return out;

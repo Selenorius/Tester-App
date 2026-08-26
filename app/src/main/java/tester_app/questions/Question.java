@@ -75,7 +75,12 @@ public abstract class Question extends RoundedPanel {
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
 
-        if(questionText != null && questionTextLabel != null) {
+        if(
+            questionText != null &&
+            questionTextLabel != null &&
+            !questionText.equals("null") &&
+            (!questionText.isBlank() && questionImage == null)
+        ) {
             questionTextLabel.setText("<html>" + questionText + "<html>");
         }
     }
