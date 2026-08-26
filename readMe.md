@@ -64,7 +64,7 @@ The **Jar** file is in *tester_app/app/build/libs*, but you can also find it in 
         }
     }
     {
-        WRITTEN {
+        WRITTEN ORDERED {
             "Written Question text"
             {
                 TRUE {
@@ -87,7 +87,7 @@ The **Jar** file is in *tester_app/app/build/libs*, but you can also find it in 
 |:--------------- |:-------------------------- |
 | MULTIPLE_CHOICE or MC | Multiple Choice Question, can be ORDERED |
 | TRUE_FALSE or TF | True/False Question |
-| - | Written Question |
+| - | Written Question, can be ORDERED |
 
 If **Type** is left empty it will be set to *WRITTEN*.
 
