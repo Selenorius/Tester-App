@@ -3,3 +3,11 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore App config
+settings.txt
+editorSettings.txt
+examSettings.txt
+
+# Ignore installer commands
+installer_commands.txt

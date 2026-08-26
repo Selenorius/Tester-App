@@ -47,7 +47,7 @@ jar {
         attributes 'Main-Class': application.mainClass
     }
 
-    archiveBaseName = 'Tester App'
+    archiveBaseName = 'TesterApp'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from {
