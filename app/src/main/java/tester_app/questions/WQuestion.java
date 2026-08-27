@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -20,7 +19,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -65,11 +63,7 @@ public class WQuestion extends Question {
         this.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
-                if(questionTextLabel.getIcon() != null)  {
-                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
-                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                    }
-                }
+                adjustImage();
             }
 
             @Override
@@ -77,11 +71,7 @@ public class WQuestion extends Question {
 
             @Override
             public void componentShown(ComponentEvent e) {
-                if(questionTextLabel.getIcon() != null)  {
-                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
-                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                    }
-                }
+                adjustImage();
             }
 
             @Override

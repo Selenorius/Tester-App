@@ -1,6 +1,9 @@
 package tester_app.questions;
 
+import static tester_app.helpers.Constants.margin;
+
 import java.awt.Dimension;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -43,6 +46,14 @@ public abstract class Question extends RoundedPanel {
     public void setInputAreaSize(Dimension d) {
         inputArea.setSize(d.width - 56, d.height - 56);
         questionTextLabel.setPreferredSize(new Dimension(d.width - 56, (d.height - 56) / 4));
+    }
+
+    public void adjustImage() {
+        if(questionTextLabel.getIcon() != null)  {
+            if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+            }
+        }
     }
 
     // GETTERS

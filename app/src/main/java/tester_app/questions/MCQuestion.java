@@ -56,19 +56,7 @@ public class MCQuestion extends Question {
         this.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
-                if(questionTextLabel.getIcon() != null)  {
-                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
-                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                    }
-                }
-
-                for(ButtonOption o : options) {
-                    if(o.getIcon() != null)  {
-                        if(o.getWidth() - margin * 6 < o.getIcon().getIconWidth()) {
-                            o.setIcon(new ImageIcon(new ImageIcon(o.getImagePath()).getImage().getScaledInstance(o.getWidth() - margin * 6, o.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                        }
-                    }
-                }
+                adjustImage();
             }
 
             @Override
@@ -76,19 +64,7 @@ public class MCQuestion extends Question {
 
             @Override
             public void componentShown(ComponentEvent e) {
-                if(questionTextLabel.getIcon() != null)  {
-                    if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
-                        questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                    }
-                }
-
-                for(ButtonOption o : options) {
-                    if(o.getIcon() != null)  {
-                        if(o.getWidth() - margin * 6 < o.getIcon().getIconWidth()) {
-                            o.setIcon(new ImageIcon(new ImageIcon(o.getImagePath()).getImage().getScaledInstance(o.getWidth() - margin * 6, o.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-                        }
-                    }
-                }
+                adjustImage();
             }
 
             @Override
@@ -298,5 +274,22 @@ public class MCQuestion extends Question {
     @Override
     public void setOrdered(Boolean ordered) {
         this.ordered = ordered;
+    }
+
+    @Override
+    public void adjustImage() {
+        if(questionTextLabel.getIcon() != null)  {
+            if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
+                questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+            }
+        }
+
+        for(ButtonOption o : options) {
+            if(o.getIcon() != null)  {
+                if(o.getWidth() - margin * 6 < o.getIcon().getIconWidth()) {
+                    o.setIcon(new ImageIcon(new ImageIcon(o.getImagePath()).getImage().getScaledInstance(o.getWidth() - margin * 6, o.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+                }
+            }
+        }
     }
 }
