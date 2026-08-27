@@ -1,9 +1,0 @@
-{
-    MULTIPLE_CHOICE {
-        {
-            false {
-                
-            }
-        }
-    }
-}
