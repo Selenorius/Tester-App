@@ -6,8 +6,5 @@ build
 
 # Ignore App config
 /examSettings.txt
-
 /settings.txt
-
 /editorSettings.txt
-
