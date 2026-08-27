@@ -1,8 +1,7 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.margin;
 
 import java.awt.Color;
@@ -33,8 +32,8 @@ public class RoundedSpinner extends JSpinner {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        borderColor = examAddBorderColor;
-        setBackground(fieldColor);
+        borderColor = backgroundColor.brighter();
+        setBackground(backgroundColor);
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
@@ -42,7 +41,7 @@ public class RoundedSpinner extends JSpinner {
         label.setForeground(Color.WHITE);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
-        editor.setBackground(fieldColor);
+        editor.setBackground(backgroundColor);
         editor.setLayout(layout);
 
         constraints.fill =  GridBagConstraints.BOTH;
@@ -51,7 +50,7 @@ public class RoundedSpinner extends JSpinner {
         constraints.insets  = new Insets(0, margin * 2, 0, margin * 2);
 
         editor.add(label, constraints);
-        editor.getTextField().setBackground(fieldColor);
+        editor.getTextField().setBackground(backgroundColor);
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE.darker());
         editor.getTextField().setCaretColor(Color.WHITE);
@@ -76,8 +75,8 @@ public class RoundedSpinner extends JSpinner {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        borderColor = examAddBorderColor;
-        setBackground(fieldColor);
+        borderColor = backgroundColor.brighter();
+        setBackground(backgroundColor);
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
@@ -85,7 +84,7 @@ public class RoundedSpinner extends JSpinner {
         label.setForeground(Color.WHITE);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
-        editor.setBackground(fieldColor);
+        editor.setBackground(backgroundColor);
         editor.setLayout(layout);
 
         constraints.fill =  GridBagConstraints.BOTH;
@@ -93,7 +92,7 @@ public class RoundedSpinner extends JSpinner {
         constraints.weighty = 0.5;
         constraints.insets  = new Insets(0, margin * 2, 0, margin * 2);
 
-        editor.getTextField().setBackground(fieldColor);
+        editor.getTextField().setBackground(backgroundColor);
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE.darker());
         editor.getTextField().setCaretColor(Color.WHITE);
@@ -118,8 +117,8 @@ public class RoundedSpinner extends JSpinner {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        borderColor = examAddBorderColor;
-        setBackground(fieldColor);
+        borderColor = backgroundColor.brighter();
+        setBackground(backgroundColor);
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
@@ -127,7 +126,7 @@ public class RoundedSpinner extends JSpinner {
         label.setForeground(Color.WHITE);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
-        editor.setBackground(fieldColor);
+        editor.setBackground(backgroundColor);
         editor.setLayout(layout);
 
         constraints.fill =  GridBagConstraints.BOTH;
@@ -135,7 +134,7 @@ public class RoundedSpinner extends JSpinner {
         constraints.weighty = 0.5;
         constraints.insets  = new Insets(0, margin * 2, 0, margin * 2);
 
-        editor.getTextField().setBackground(fieldColor);
+        editor.getTextField().setBackground(backgroundColor);
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE.darker());
         editor.getTextField().setCaretColor(Color.WHITE);

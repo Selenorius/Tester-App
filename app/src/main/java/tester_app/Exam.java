@@ -2,8 +2,8 @@ package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.deleteColor;
-import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.root;
@@ -227,8 +227,8 @@ public class Exam extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel();
-        questionMenu.setBackground(fieldColor);
-        questionMenu.setBorderColor(examAddBorderColor);
+        questionMenu.setBackground(backgroundColor);
+        questionMenu.setBorderColor(borderColor);
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
 

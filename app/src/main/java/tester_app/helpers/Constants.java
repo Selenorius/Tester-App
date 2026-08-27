@@ -47,21 +47,22 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(28, 28, 19),
+        fieldColor = new Color(28, 28, 28),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
-        borderColor = backgroundColor.brighter().brighter(),
-        topicBackgroundColor = backgroundColor.brighter(),
-        topicBorderColor = borderColor.brighter(),
-        examBackgroundColor = topicBackgroundColor.brighter(),
-        examBorderColor = topicBorderColor.brighter(),
-        editBackgroundColor = examBackgroundColor.brighter(),
-        editBorderColor = examBorderColor.brighter(),
-        examAddBackgroundColor = fieldColor,
-        examAddBorderColor = new Color(140, 84, 28),
+        borderColor = null,
+        topicBackgroundColor = fieldColor,
+        topicBorderColor = null,
+        examBackgroundColor = fieldColor.brighter(),
+        examBorderColor = null,
+        editBackgroundColor = fieldColor,
+        editBorderColor = null,
+        examAddBackgroundColor = fieldColor.brighter(),
+        examAddBorderColor = null,
 
         copyColor = new Color(28, 108, 160),
+        pasteColor = new Color(168, 78, 28),
         editColor = new Color(48, 140, 28),
         deleteColor = new Color(140, 48, 28),
         blotBackgroundColor = new Color(184, 28, 84),

@@ -1,16 +1,20 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
+import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
+import static tester_app.helpers.Constants.topicBackgroundColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -226,8 +230,8 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(fieldColor);
-        dirMenu.setBorderColor(examAddBorderColor);
+        dirMenu.setBackground(backgroundColor);
+        dirMenu.setBorderColor(borderColor);
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
@@ -284,7 +288,7 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
-        addButton.setBackground(fieldColor);
+        addButton.setBackground(topicBackgroundColor);
         addButton.setBorderColor(examAddBorderColor);
         addButton.setBorderPainted(true);
         
@@ -299,7 +303,7 @@ public class Tester extends ConsoleErrorJFrame {
         addExamButton.setBackground(editColor);
 
         styleButton(pasteButton, "Paste");
-        pasteButton.setBackground(examAddBorderColor);
+        pasteButton.setBackground(pasteColor);
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;

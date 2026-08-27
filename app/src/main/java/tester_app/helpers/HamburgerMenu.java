@@ -43,6 +43,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         selectionColor,
         borderColor;
     private String buttonText;
+    private Boolean isGrid;
 
     public HamburgerMenu(HamburgerMenuBuilder builder) {
         super();
@@ -50,6 +51,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.blotOffset = 0;
         this.menuSize = 0;
         this.radius = 10;
+        this.isGrid = false;
         this.selectionColor = Constants.selectionColor;
         this.borderColor = null;
         if(builder.text != null) {
@@ -187,7 +189,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
     public void addComponent(Component component, int anchor, int fill, double weighty) {
         constraints.fill = fill;
-        constraints.gridx = 1;
+        if(isGrid) {
+            constraints.gridx = (getMenuSize() % 2) + 1;
+        } else {
+            constraints.gridx = 1;
+        }
         constraints.weightx = 0.5;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
@@ -246,6 +252,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         return buttonText;
     }
 
+    public Boolean getIsGrid() {
+        return isGrid;
+    }
+
     // SETTERS
     public void setSelectionColor(Color selectionColor) {
         this.menuButton.setSelectionColor(selectionColor);
@@ -266,6 +276,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
     public void setText(String text) {
         this.buttonText = "   " + text + "   ";
+    }
+
+    public void setIsGrid(Boolean isGrid) {
+        this.isGrid = isGrid;
     }
 
     @Override

@@ -6,11 +6,13 @@ import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editBackgroundColor;
 import static tester_app.helpers.Constants.editBorderColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.examAddBackgroundColor;
 import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.examBackgroundColor;
 import static tester_app.helpers.Constants.examBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.topicBackgroundColor;
 import static tester_app.helpers.Constants.topicBorderColor;
@@ -67,7 +69,7 @@ public class Topic extends HamburgerMenu {
 
         this.setBackground(topicBackgroundColor);
         this.setBorderColor(topicBorderColor);
-        this.setBlotOffset(5);
+        this.setBlotOffset(2);
     }
 
     public void loadFiles(final File dir, final Image fileIcon) {
@@ -209,16 +211,22 @@ public class Topic extends HamburgerMenu {
         });
 
         if(titled) {
-            addComponent(addButton);
-            addComponent(pasteButton);
-            addComponent(copyButton);
-            addComponent(deleteButton);
+            HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
+            addHam.setBackground(examBackgroundColor);
+            addHam.setBorderColor(examBorderColor);
+            addHam.setIsGrid(true);
+            addHam.addComponent(addButton);
+            addHam.addComponent(pasteButton);
+            addHam.addComponent(deleteButton);
+            addHam.addComponent(copyButton);
+
+            addComponent(addHam);
 
             styleButton(addButton, "Add exam");
             addButton.setBackground(editColor);
 
             styleButton(pasteButton, "Paste exam");
-            pasteButton.setBackground(examAddBorderColor);
+            pasteButton.setBackground(pasteColor);
 
             styleButton(copyButton, "Copy topic");
             copyButton.setBackground(copyColor);
@@ -309,7 +317,7 @@ public class Topic extends HamburgerMenu {
     
         examMenu.addComponent(editMenu);
 
-        examMenu.setBlotOffset(7 - editMenu.getMenuSize());
+        examMenu.setBlotOffset(6 - editMenu.getMenuSize());
 
         RoundedButton copyButton = new RoundedButton();
         copyButton.addActionListener(new ActionListener() {
@@ -339,8 +347,15 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        examMenu.addComponent(copyButton);
-        examMenu.addComponent(deleteButton);
+
+        HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
+        addHam.setBackground(editBackgroundColor);
+        addHam.setBorderColor(editBorderColor);
+        addHam.setIsGrid(true);
+        addHam.addComponent(deleteButton);
+        addHam.addComponent(copyButton);
+
+        examMenu.addComponent(addHam);
 
         styleButton(copyButton, "Copy exam");
         copyButton.setBackground(copyColor);
@@ -380,11 +395,44 @@ public class Topic extends HamburgerMenu {
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             editPanel = new RoundedPanel();
-            editPanel.setBackground(fieldColor);
+            editPanel.setBackground(examAddBackgroundColor);
             editPanel.setBorderColor(examAddBorderColor);
             editPanel.setBorderPainted(true);
             editPanel.setLayout(getLayout());
             addMargin(editPanel, margin * 2);
+
+            HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
+            addHam.setBackground(editBackgroundColor);
+            addHam.setBorderColor(editBorderColor);
+            addHam.setIsGrid(true);
+
+            RoundedButton deleteButton = new RoundedButton();
+            deleteButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int response = JOptionPane.showConfirmDialog(
+                        tester,
+                        "Are you sure you want to delete this question?",
+                        "Warning",
+                        JOptionPane.YES_NO_OPTION
+                    );
+
+                    if (response == JOptionPane.YES_OPTION) {
+                        questions.remove(q);
+
+                        exam.setQuestions(questions);
+                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
+
+                        tester.reset();
+                    }
+                }
+            });
+
+            constraints.insets = new Insets(margin, margin, margin, margin);
+
+            addHam.addComponent(deleteButton);
+
+            styleButton(deleteButton, "Delete question");
+            deleteButton.setBackground(deleteColor);
 
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
@@ -540,7 +588,7 @@ public class Topic extends HamburgerMenu {
                     textPanel.setBorderColor(examAddBorderColor);
                     textPanel.setBorderPainted(true);
 
-                    RoundedButton deleteButton = new RoundedButton();
+                    deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             int response = JOptionPane.showConfirmDialog(
@@ -685,7 +733,7 @@ public class Topic extends HamburgerMenu {
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     constraints.gridx = 1;
 
-                    RoundedButton deleteButton = new RoundedButton();
+                    deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             int response = JOptionPane.showConfirmDialog(
@@ -810,7 +858,7 @@ public class Topic extends HamburgerMenu {
 
                 constraints.insets = new Insets(margin, margin, margin, margin);
 
-                editPanel.add(addButton, constraints);
+                addHam.addComponent(addButton);
 
                 styleButton(addButton, "Add answer");
                 addButton.setBackground(editColor);
@@ -829,45 +877,19 @@ public class Topic extends HamburgerMenu {
 
                 constraints.insets = new Insets(margin, margin, margin, margin);
 
-                editPanel.add(addButton, constraints);
+                addHam.addComponent(addButton);
 
                 styleButton(addButton, "Add answer");
                 addButton.setBackground(editColor);
             }
 
-            RoundedButton deleteButton = new RoundedButton();
-            deleteButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    int response = JOptionPane.showConfirmDialog(
-                        tester,
-                        "Are you sure you want to delete this question?",
-                        "Warning",
-                        JOptionPane.YES_NO_OPTION
-                    );
-
-                    if (response == JOptionPane.YES_OPTION) {
-                        questions.remove(q);
-
-                        exam.setQuestions(questions);
-                        exam.saveToFile(file.getName().substring(0, file.getName().length() - 4), file.getParentFile());
-
-                        tester.reset();
-                    }
-                }
-            });
-
-            constraints.insets = new Insets(margin, margin, margin, margin);
-
-            editPanel.add(deleteButton, constraints);
-
-            styleButton(deleteButton, "Delete question");
-            deleteButton.setBackground(deleteColor);
+            editPanel.add(addHam, constraints);
 
             editMenu.addComponent(editPanel);
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBackground(fieldColor);
+        addMenu.setBackground(examAddBackgroundColor);
         addMenu.setBorderColor(examAddBorderColor);
         addMenu.setBorderPainted(true);
 
