@@ -322,6 +322,8 @@ public class Exam extends ConsoleErrorJFrame {
 
                     case 2:
                         if(line.contains("{")) {
+                            text = null;
+
                             if(line.contains("\"")) {
                                 if(qt != "") {
                                     qt += line.substring(0, line.indexOf("\""));
@@ -342,8 +344,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
                                     newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
-                                }
-                                if(newQuestion.getAnswerText() == null && text.contains("\"")) {
+                                } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 }
@@ -355,9 +356,9 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(newQuestion.getQuestionImage() == null && text.contains(">")) {
                                     newQuestion.setQuestionImage(text.substring(0, text.indexOf(">")));
                                     text = text.substring(text.indexOf(">") + 1);
-                                }
-                                if(newQuestion.getAnswerImage() == null && text.contains(">")) {
+                                } else if(newQuestion.getAnswerImage() == null && text.contains(">")) {
                                     newQuestion.setAnswerImage(text.substring(0, text.indexOf(">")));
+                                    text = text.substring(text.indexOf(">") + 1);
                                 }
                             }
 
@@ -393,8 +394,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
                                     newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
-                                }
-                                if(newQuestion.getAnswerText() == null && text.contains("\"")) {
+                                } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 }
@@ -420,9 +420,9 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(newQuestion.getQuestionImage() == null && text.contains(">")) {
                                     newQuestion.setQuestionImage(text.substring(0, text.indexOf(">")));
                                     text = text.substring(text.indexOf(">") + 1);
-                                }
-                                if(newQuestion.getAnswerImage() == null && text.contains(">")) {
+                                } else if(newQuestion.getAnswerImage() == null && text.contains(">")) {
                                     newQuestion.setAnswerImage(text.substring(0, text.indexOf(">")));
+                                    text = text.substring(text.indexOf(">") + 1);
                                 }
                             }
                         }
@@ -497,8 +497,10 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(text.contains("\"")) {
                                     if(newQuestion.getClass() == WQuestion.class) {
                                         newTextOption.addText(text.substring(0, text.indexOf("\"")));
+                                        text = line.substring(line.indexOf("\"") + 1);
                                     } else {
                                         newButtonOption.setText(text.substring(0, text.indexOf("\"")));
+                                        text = line.substring(line.indexOf("\"") + 1);
                                     }
                                 } else {
                                     consoleErrorMessage("loadQuestions.option.addText", "No closing \".");
@@ -511,6 +513,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(text.contains(">")) {
                                     if(newQuestion.getClass() == MCQuestion.class) {
                                         newButtonOption.setImagePath(text.substring(0, text.indexOf(">")));
+                                        text = line.substring(line.indexOf(">") + 1);
                                     }
                                 } else {
                                     consoleErrorMessage("loadQuestions.option.addImage", "No closing >.");
@@ -610,19 +613,17 @@ public class Exam extends ConsoleErrorJFrame {
             }
             if(q.getAnswerText() == null) {
                 answer = "";
-            }
-            else if(q.getAnswerText().isBlank()) {
+            } else if(q.getAnswerText().isBlank()) {
                 answer = "";
             }
             if(q.getQuestionImage() == null) {
                 qImage = "";
-            }
-            else if(q.getQuestionImage().isBlank()) {
+            } else if(q.getQuestionImage().isBlank()) {
                 qImage = "";
             }
             if(q.getAnswerImage() == null) {
                 aImage = "";
-            }else if(q.getAnswerImage().isBlank()) {
+            } else if(q.getAnswerImage().isBlank()) {
                 aImage = "";
             }
 
@@ -669,23 +670,7 @@ public class Exam extends ConsoleErrorJFrame {
             }
 
             out += tab(1) + type + ordered + goal + "{" + System.lineSeparator();
-            if(answer.isBlank() && qImage.isBlank() && aImage.isBlank()) {
-                out += tab(2) + text + "{" + System.lineSeparator();
-            } else {
-                if(!text.isBlank()) {
-                    out += tab(2) + text + System.lineSeparator();
-                }
-                if(!answer.isBlank()) {
-                    out += tab(2) + answer + System.lineSeparator();
-                }
-                if(!qImage.isBlank()) {
-                    out += tab(2) + qImage + System.lineSeparator();
-                }
-                if(!aImage.isBlank()) {
-                    out += tab(2) + aImage + System.lineSeparator();
-                }
-                out += tab(2) + "{" + System.lineSeparator();
-            }
+            out += tab(2) + text + answer + qImage + aImage + "{" + System.lineSeparator();
             out += options;
             out += tab(2) + "}" + System.lineSeparator();
             out += tab(1) + "}" + System.lineSeparator();

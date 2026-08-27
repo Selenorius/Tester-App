@@ -104,8 +104,8 @@ public class TFQuestion extends Question {
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridy = 1;
-        constraints.weightx = 10;
-        constraints.weighty = 10;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         options.add(o);

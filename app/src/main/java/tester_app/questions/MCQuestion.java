@@ -111,10 +111,11 @@ public class MCQuestion extends Question {
             }
         });
 
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 1;
-        constraints.weightx = 10;
-        constraints.weighty = 10;
+        constraints.gridx = (options.size() % 2) + 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         options.add(o);
@@ -129,7 +130,7 @@ public class MCQuestion extends Question {
             } else if(image.isBlank()) {
                 styleButton(o, text);
             } else {
-                styleButton(o, text.substring(0, text.length() - 1), new ImageIcon(image).getImage());
+                styleButton(o, text.substring(0, text.length()), new ImageIcon(image).getImage());
             }
         } else if(text != null) {
             if(!text.isBlank()) {
@@ -161,12 +162,15 @@ public class MCQuestion extends Question {
 
         inputArea.removeAll();
 
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         for(ButtonOption o : options) {
+            constraints.gridx = (inputArea.getComponentCount() % 2) + 1;
+
             inputArea.add(o, constraints);
         }
     }
