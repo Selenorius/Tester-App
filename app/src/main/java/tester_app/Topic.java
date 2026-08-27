@@ -45,6 +45,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import tester_app.helpers.DirectoryRestrictedFileSystemView;
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedPanel;
@@ -456,7 +457,7 @@ public class Topic extends HamburgerMenu {
             RoundedButton imageButton = new RoundedButton();
             imageButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = new JFileChooser();
+                    JFileChooser fileChooser = new JFileChooser(new DirectoryRestrictedFileSystemView());
                     fileChooser.setCurrentDirectory(new File("./resources"));
                     FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
                     fileChooser.setFileFilter(filter);
@@ -689,7 +690,7 @@ public class Topic extends HamburgerMenu {
                     imageButton = new RoundedButton();
                     imageButton.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            JFileChooser fileChooser = new JFileChooser();
+                            JFileChooser fileChooser = new JFileChooser(new DirectoryRestrictedFileSystemView());
                             fileChooser.setCurrentDirectory(new File("./resources"));
                             FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
                             fileChooser.setFileFilter(filter);

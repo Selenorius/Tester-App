@@ -45,7 +45,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import tester_app.editors.TextEditor;
 import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.FrameResizeListener;
@@ -443,11 +442,6 @@ public class Tester extends ConsoleErrorJFrame {
     }
     private void addComponent(Component c) {
         addComponent(c, GridBagConstraints.CENTER);
-    }
-
-    public void startEditor() {
-        new TextEditor(this);
-        this.dispose();
     }
 
     public void startExam(File f, Tester tester) {
