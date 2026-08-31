@@ -52,6 +52,7 @@ import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
+import tester_app.questions.Question;
 
 public class Tester extends ConsoleErrorJFrame {
     private JScrollPane scrollPane;
@@ -68,6 +69,7 @@ public class Tester extends ConsoleErrorJFrame {
         titleLabel;
     private Component copiedComponent;
     private File copiedFile;
+    private Question copiedQuestion;
 
     private int
         windowstate,
@@ -582,6 +584,10 @@ public class Tester extends ConsoleErrorJFrame {
         return this.copiedComponent;
     }
 
+    public Question getCopiedQuestion() {
+        return copiedQuestion;
+    }
+
     // SETTERS
     public void setCopiedComponent(Component component) {
         this.copiedComponent =  component;
@@ -589,5 +595,9 @@ public class Tester extends ConsoleErrorJFrame {
 
     public void setCopiedFile(File file) {
         this.copiedFile = file;
+    }
+
+    public void setCopiedQuestion(Question copiedQuestion) {
+        this.copiedQuestion = copiedQuestion;
     }
 }

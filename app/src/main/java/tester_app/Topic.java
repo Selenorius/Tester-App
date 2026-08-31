@@ -1,6 +1,5 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editBackgroundColor;
@@ -369,8 +368,9 @@ public class Topic extends HamburgerMenu {
 
     private HamburgerMenu loadEditMenu(File file, Component parent) {
         Exam exam = new Exam(file, tester);
-        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text("Edit " + exam.getName()).build();
-        RoundedPanel editPanel;
+        HamburgerMenu
+            editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text("Edit " + exam.getName()).build(),
+            editPanel;
 
         ArrayList<Question> questions = exam.getQuestions();
         ArrayList<RoundedTextArea>
@@ -395,12 +395,15 @@ public class Topic extends HamburgerMenu {
             constraints.weighty = 0.5;
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-            editPanel = new RoundedPanel();
+            String qText = q.getQuestionText();
+            if(qText.length() > 20) {
+                qText = qText.substring(0, 20) + "...";
+            }
+
+            editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text(qText).build();
             editPanel.setBackground(examAddBackgroundColor);
             editPanel.setBorderColor(examAddBorderColor);
-            editPanel.setBorderPainted(true);
-            editPanel.setLayout(getLayout());
-            addMargin(editPanel, margin * 2);
+            editPanel.setBlotOffset(2);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
             addHam.setBackground(editBackgroundColor);
@@ -428,9 +431,17 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
+            RoundedButton copyButton = new RoundedButton();
+            deleteButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    copy(q);
+                }
+            });
+
             constraints.insets = new Insets(margin, margin, margin, margin);
 
             addHam.addComponent(deleteButton);
+            addHam.addComponent(copyButton);
 
             styleButton(deleteButton, "Delete question");
             deleteButton.setBackground(deleteColor);
@@ -525,7 +536,7 @@ public class Topic extends HamburgerMenu {
             constraints.gridx = 1;
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-            editPanel.add(textPanel, constraints);
+            editPanel.addComponent(textPanel);
             questionTextAreas.add(textArea);
 
             if(q.getClass() == WQuestion.class) {
@@ -635,7 +646,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-                    editPanel.add(textPanel, constraints);
+                    editPanel.addComponent(textPanel);
                     
                     optionTextAreas.add(textArea);
                 }
@@ -804,7 +815,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-                    editPanel.add(textPanel, constraints);
+                    editPanel.addComponent(textPanel);
                     
                     optionRadioButtons.add(radioButton);
                     optionTextAreas.add(textArea);
@@ -835,7 +846,7 @@ public class Topic extends HamburgerMenu {
 
                 constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-                editPanel.add(textPanel, constraints);
+                editPanel.addComponent(textPanel);
                 
                 optionRadioButtons.add(radioButton);
             }
@@ -884,7 +895,7 @@ public class Topic extends HamburgerMenu {
                 addButton.setBackground(editColor);
             }
 
-            editPanel.add(addHam, constraints);
+            editPanel.addComponent(addHam);
 
             editMenu.addComponent(editPanel);
         }
@@ -1069,6 +1080,9 @@ public class Topic extends HamburgerMenu {
         tester.setCopiedComponent(this);
         tester.setCopiedFile(file);
     }
+    public void copy(Question question) {
+        tester.setCopiedQuestion(question);
+    }
 
     public void paste(File dir) {
         if(
@@ -1102,6 +1116,9 @@ public class Topic extends HamburgerMenu {
                 }
             }
         }
+    }
+    public void paste(Exam exam) {
+        exam.addQuestion(tester.getCopiedQuestion());
     }
 
     // SETTERS
