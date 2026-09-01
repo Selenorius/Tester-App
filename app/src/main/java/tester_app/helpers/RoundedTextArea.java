@@ -69,6 +69,7 @@ public class RoundedTextArea extends JTextArea {
             @Override
             public void focusGained(FocusEvent e) {
                 label.setVisible(false);
+                setForeground(Color.WHITE);
             }
         });
     }
