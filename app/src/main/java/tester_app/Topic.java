@@ -11,10 +11,16 @@ import static tester_app.helpers.Constants.examBackgroundColor;
 import static tester_app.helpers.Constants.examBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
+import static tester_app.helpers.Constants.mcQuestionBorderColor;
 import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.tfQuestionBackgroundColor;
+import static tester_app.helpers.Constants.tfQuestionBorderColor;
 import static tester_app.helpers.Constants.topicBackgroundColor;
 import static tester_app.helpers.Constants.topicBorderColor;
+import static tester_app.helpers.Constants.wQuestionBackgroundColor;
+import static tester_app.helpers.Constants.wQuestionBorderColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -409,13 +415,24 @@ public class Topic extends HamburgerMenu {
             }
 
             editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text(qText).build();
-            editPanel.setBackground(examAddBackgroundColor);
-            editPanel.setBorderColor(examAddBorderColor);
+            if(q.getClass() == WQuestion.class) {
+                editPanel.setBackground(wQuestionBackgroundColor);
+                editPanel.setBorderColor(wQuestionBorderColor);
+                editPanel.setButtonColor(wQuestionBackgroundColor.brighter());
+            } else if(q.getClass() == MCQuestion.class) {
+                editPanel.setBackground(mcQuestionBackgroundColor);
+                editPanel.setBorderColor(mcQuestionBorderColor);
+                editPanel.setButtonColor(mcQuestionBackgroundColor.brighter());
+            } else {
+                editPanel.setBackground(tfQuestionBackgroundColor);
+                editPanel.setBorderColor(tfQuestionBorderColor);
+                editPanel.setButtonColor(tfQuestionBackgroundColor.brighter());
+            }
             editPanel.setBlotOffset(2);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
             addHam.setBackground(editBackgroundColor);
-            addHam.setBorderColor(editBorderColor);
+            addHam.setBorderColor(editPanel.getBorderColor());
             addHam.setIsGrid(true);
 
             RoundedButton deleteButton = new RoundedButton();
@@ -460,7 +477,7 @@ public class Topic extends HamburgerMenu {
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
             textPanel.setBackground(fieldColor);
-            textPanel.setBorderColor(examAddBorderColor);
+            textPanel.setBorderColor(editPanel.getBorderColor());
             textPanel.setBorderPainted(true);
 
             RoundedButton deleteImageButton = new RoundedButton();
@@ -504,6 +521,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
+            textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
             if(
                 questionImage != null &&
@@ -518,7 +536,6 @@ public class Topic extends HamburgerMenu {
             } else {
                 styleButton(imageButton, "Add image");
             }
-            textPanel.add(imageButton, constraints);
 
             constraints.gridy = 1;
 
@@ -608,7 +625,7 @@ public class Topic extends HamburgerMenu {
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
                     textPanel.setBackground(fieldColor);
-                    textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBorderColor(editPanel.getBorderColor());
                     textPanel.setBorderPainted(true);
 
                     deleteButton = new RoundedButton();
@@ -693,7 +710,7 @@ public class Topic extends HamburgerMenu {
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
                     textPanel.setBackground(fieldColor);
-                    textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBorderColor(editPanel.getBorderColor());
                     textPanel.setBorderPainted(true);
 
                     RoundedButton deleteImagePathButton = new RoundedButton();
@@ -729,6 +746,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
+                    textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();
                     if(
                         imagePath != null &&
@@ -743,7 +761,6 @@ public class Topic extends HamburgerMenu {
                     } else {
                         styleButton(imageButton, "Add image");
                     }
-                    textPanel.add(imageButton, constraints);
 
                     constraints.gridy = 1;
 
@@ -835,7 +852,7 @@ public class Topic extends HamburgerMenu {
                 textPanel = new RoundedPanel();
                 textPanel.setLayout(getLayout());
                 textPanel.setBackground(fieldColor);
-                textPanel.setBorderColor(examAddBorderColor);
+                textPanel.setBorderColor(editPanel.getBorderColor());
                 textPanel.setBorderPainted(true);
 
                 constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -1111,7 +1128,7 @@ public class Topic extends HamburgerMenu {
         tester.setCopiedQuestion(question);
     }
 
-    public void paste(File dir) {
+    public boolean paste(File dir) {
         if(
             tester.getCopiedComponent() != null &&
             tester.getCopiedFile() != null
@@ -1138,11 +1155,13 @@ public class Topic extends HamburgerMenu {
                     addComponent(copy);
 
                     tester.reset();
+                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
+        return false;
     }
 
     // SETTERS

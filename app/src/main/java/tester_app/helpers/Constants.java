@@ -70,7 +70,14 @@ public final class Constants {
             editBackgroundColor.getRed() + 40,
             editBackgroundColor.getGreen() + 40,
             editBackgroundColor.getBlue() + 40
-        );
+        ),
+
+        wQuestionBackgroundColor = new Color(14, 84, 44),
+        wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
+        mcQuestionBackgroundColor = new Color(14, 84, 84),
+        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter(),
+        tfQuestionBackgroundColor = new Color(14, 84, 64),
+        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter();
 
     //TAB
     public static final String tab(int i) {

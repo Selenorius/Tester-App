@@ -257,6 +257,7 @@ public class Tester extends ConsoleErrorJFrame {
                     file.mkdir();
                     addComponent(new Topic.TopicBuilder().text("New topic").build());
 
+                    addButton.toggle(false);
                     reset();
                 }
             }
@@ -273,6 +274,7 @@ public class Tester extends ConsoleErrorJFrame {
                         newExam.addComponent(new HamburgerMenu.HamburgerMenuBuilder().build());
                         uncategorized.addComponent(newExam);
                         
+                        addButton.toggle(false);
                         reset();
                     }
                 } catch (IOException e1) {
@@ -284,7 +286,9 @@ public class Tester extends ConsoleErrorJFrame {
         RoundedButton pasteButton = new RoundedButton();
         pasteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                paste();
+                if(paste()) {
+                    addButton.toggle(false);
+                }
             }
         });
 
@@ -491,7 +495,7 @@ public class Tester extends ConsoleErrorJFrame {
         this.setVisible(true);
     }
 
-    public void paste() {
+    public boolean paste() {
         if(
             copiedComponent != null &&
             copiedFile != null
@@ -533,10 +537,12 @@ public class Tester extends ConsoleErrorJFrame {
                 }
 
                 reset();
+                return true;
             } catch (IOException e) {
                 consoleErrorMessage(e);
             }
         }
+        return false;
     }
 
     // GETTERS

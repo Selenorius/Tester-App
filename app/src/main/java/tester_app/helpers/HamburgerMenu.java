@@ -53,7 +53,13 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.radius = 10;
         this.isGrid = false;
         this.selectionColor = Constants.selectionColor;
-        this.borderColor = null;
+        if(builder.parent != null) {
+            if(builder.parent.getBackground() != null) {
+                this.borderColor = builder.parent.getBackground().brighter();
+            }
+        } else {
+            this.borderColor = null;
+        }
         if(builder.text != null) {
             this.buttonText = "   " + builder.text + "   ";
         }
@@ -174,6 +180,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             menuButton.setSelectionColor(menu.getBackground());
         }
     }
+    public void toggle(Boolean value) {
+        if(value != isExtended()) {
+            toggle();
+        }
+    }
 
     public Boolean isExtended() {
         return menu.isVisible();
@@ -261,9 +272,23 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.menuButton.setSelectionColor(selectionColor);
         this.selectionColor = selectionColor;
     }
+
+    public void setBackground(Color backgroundColor) {
+        super.setBackground(backgroundColor);
+        if(this.menu != null) {
+            this.menu.setBackground(backgroundColor);
+        }
+    }
     
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+    }
+
+    public void setButtonColor(Color buttonColor) {
+        this.buttonColor = buttonColor;
+        if(menuButton != null) {
+            this.menuButton.setBackground(buttonColor);
+        }
     }
     
     public void setMenu(RoundedPanel menu) {

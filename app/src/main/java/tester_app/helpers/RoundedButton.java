@@ -69,9 +69,9 @@ public class RoundedButton extends JButton {
                 this.borderPaint = false;
             } else {
                 g2.setColor(new Color(
-                    getBackground().getBlue() - 10 > 0 ? getBackground().getRed() - 10 : 0,
-                    getBackground().getBlue() - 10 > 0 ? getBackground().getGreen() - 10 : 0,
-                    getBackground().getBlue() - 10 > 0 ? getBackground().getBlue() - 10 : 0
+                    getBackground().getRed() - getBackground().getRed() / 6 > 0 ? getBackground().getRed() - getBackground().getRed() / 6 : 0,
+                    getBackground().getGreen() - getBackground().getGreen() / 6 > 0 ? getBackground().getGreen() - getBackground().getGreen() / 6 : 0,
+                    getBackground().getBlue() - getBackground().getBlue() / 6 > 0 ? getBackground().getBlue() - getBackground().getBlue() / 6 : 0
                 ));
             }
         } else {
@@ -94,15 +94,15 @@ public class RoundedButton extends JButton {
                 if(buttonSelectionColor == null ) {
                     if(buttonBorderColor != null) {
                         g2.setColor(new Color(
-                            buttonBorderColor.getRed() - 10 > 0 ? buttonBorderColor.getRed() - 10 : 0,
-                            buttonBorderColor.getRed() - 10 > 0 ? buttonBorderColor.getGreen() - 10 : 0,
-                            buttonBorderColor.getRed() - 10 > 0 ? buttonBorderColor.getBlue() - 10 : 0
+                            buttonBorderColor.getRed() - buttonBorderColor.getRed() / 6 > 0 ? buttonBorderColor.getRed() - buttonBorderColor.getRed() / 6 : 0,
+                            buttonBorderColor.getGreen() - buttonBorderColor.getGreen() / 6 > 0 ? buttonBorderColor.getGreen() - buttonBorderColor.getGreen() / 6 : 0,
+                            buttonBorderColor.getBlue() - buttonBorderColor.getBlue() / 6 > 0 ? buttonBorderColor.getBlue() - buttonBorderColor.getBlue() / 6 : 0
                         ));
                     } else {
                         g2.setColor(new Color(
-                            getBackground().brighter().getRed() - 10,
-                            getBackground().brighter().getGreen() - 10,
-                            getBackground().brighter().getBlue() - 10
+                            getBackground().brighter().getRed() - getBackground().brighter().getRed() / 6 > 0 ? getBackground().brighter().getRed() - getBackground().brighter().getRed() / 6 : 0,
+                            getBackground().brighter().getGreen() - getBackground().brighter().getGreen() / 6 > 0 ? getBackground().brighter().getGreen() - getBackground().brighter().getGreen() / 6 : 0,
+                            getBackground().brighter().getBlue() - getBackground().brighter().getBlue() / 6 > 0 ? getBackground().brighter().getBlue() - getBackground().brighter().getBlue() / 6 : 0
                         ));
                     }
                 }
