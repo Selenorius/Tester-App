@@ -396,8 +396,16 @@ public class Topic extends HamburgerMenu {
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             String qText = q.getQuestionText();
-            if(qText.length() > 20) {
-                qText = qText.substring(0, 20) + "...";
+            if(qText != null) {
+                if(qText != "") {
+                    if(qText.length() > 20) {
+                        qText = qText.substring(0, 20) + "...";
+                    }
+                } else {
+                    qText = "New " + q.getClass().getSimpleName();
+                }
+            } else {
+                qText = "New " + q.getClass().getSimpleName();
             }
 
             editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text(qText).build();
