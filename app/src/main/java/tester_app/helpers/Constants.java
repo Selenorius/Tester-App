@@ -72,11 +72,11 @@ public final class Constants {
             editBackgroundColor.getBlue() + 40
         ),
 
-        wQuestionBackgroundColor = new Color(14, 84, 44),
+        wQuestionBackgroundColor = new Color(24, 84, 24),
         wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
-        mcQuestionBackgroundColor = new Color(14, 84, 84),
+        mcQuestionBackgroundColor = new Color(24, 84, 84),
         mcQuestionBorderColor = mcQuestionBackgroundColor.brighter(),
-        tfQuestionBackgroundColor = new Color(14, 84, 64),
+        tfQuestionBackgroundColor = new Color(84, 84, 24),
         tfQuestionBorderColor = tfQuestionBackgroundColor.brighter();
 
     //TAB
