@@ -432,7 +432,7 @@ public class Topic extends HamburgerMenu {
             });
 
             RoundedButton copyButton = new RoundedButton();
-            deleteButton.addActionListener(new ActionListener() {
+            copyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     copy(q);
                 }
@@ -445,6 +445,9 @@ public class Topic extends HamburgerMenu {
 
             styleButton(deleteButton, "Delete question");
             deleteButton.setBackground(deleteColor);
+
+            styleButton(copyButton, "Copy question");
+            copyButton.setBackground(copyColor);
 
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
@@ -904,6 +907,7 @@ public class Topic extends HamburgerMenu {
         addMenu.setBackground(examAddBackgroundColor);
         addMenu.setBorderColor(examAddBorderColor);
         addMenu.setBorderPainted(true);
+        addMenu.setIsGrid(true);
 
         RoundedButton addWQButton = new RoundedButton();
         addWQButton.addActionListener(new ActionListener() {
@@ -967,6 +971,21 @@ public class Topic extends HamburgerMenu {
 
         styleButton(addTFButton, "Add true/false question");
         addTFButton.setBackground(editColor);
+
+        RoundedButton pasteButton = new RoundedButton();
+        pasteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                questions.add(tester.getCopiedQuestion());
+
+                saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+                tester.reset();
+            }
+        });
+
+        addMenu.addComponent(pasteButton);
+
+        styleButton(pasteButton, "Paste question");
+        pasteButton.setBackground(pasteColor);
 
         editMenu.addComponent(addMenu);
         
@@ -1116,9 +1135,6 @@ public class Topic extends HamburgerMenu {
                 }
             }
         }
-    }
-    public void paste(Exam exam) {
-        exam.addQuestion(tester.getCopiedQuestion());
     }
 
     // SETTERS
