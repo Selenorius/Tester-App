@@ -1,8 +1,8 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
@@ -50,7 +50,6 @@ public class MCQuestion extends Question {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
 
-        this.setBackground(null);
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -72,8 +71,7 @@ public class MCQuestion extends Question {
         });
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(fieldColor);
-        inputArea.setBorderColor(examAddBorderColor);
+        inputArea.setBackground(getBackground().darker());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
@@ -179,7 +177,8 @@ public class MCQuestion extends Question {
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
             options.remove(o);
-            inputArea.remove(o);
+            o.setEnabled(false);
+            o.setBackground(editColor);
             ++score;
 
             if(score >= goal) {
@@ -199,7 +198,8 @@ public class MCQuestion extends Question {
             return Test.SUCCESS;
         } else {
             options.remove(o);
-            inputArea.remove(o);
+            o.setEnabled(false);
+            o.setBackground(deleteColor);
 
             String
                 text = "",

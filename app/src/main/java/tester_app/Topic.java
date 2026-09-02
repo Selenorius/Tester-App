@@ -1,16 +1,8 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
-import static tester_app.helpers.Constants.editBackgroundColor;
-import static tester_app.helpers.Constants.editBorderColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examAddBackgroundColor;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.examBackgroundColor;
-import static tester_app.helpers.Constants.examBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
 import static tester_app.helpers.Constants.mcQuestionBorderColor;
@@ -19,8 +11,6 @@ import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.tfQuestionBackgroundColor;
 import static tester_app.helpers.Constants.tfQuestionBorderColor;
-import static tester_app.helpers.Constants.topicBackgroundColor;
-import static tester_app.helpers.Constants.topicBorderColor;
 import static tester_app.helpers.Constants.wQuestionBackgroundColor;
 import static tester_app.helpers.Constants.wQuestionBorderColor;
 
@@ -77,8 +67,6 @@ public class Topic extends HamburgerMenu {
         tester = builder.tester;
         titled = true;
 
-        this.setBackground(topicBackgroundColor);
-        this.setBorderColor(topicBorderColor);
         this.setBlotOffset(2);
     }
 
@@ -88,8 +76,12 @@ public class Topic extends HamburgerMenu {
         constraints.weightx = 0.5;
 
         RoundedPanel titlePanel = new RoundedPanel();
-        titlePanel.setBackground(fieldColor.darker());
-        titlePanel.setBorderColor(borderColor);
+        if(getBackground() != null) {
+            titlePanel.setBackground(getBackground().darker());
+        } else {
+            titlePanel.setBackground(getBackground());
+        }
+        titlePanel.setBorderColor(getBorderColor());
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
@@ -222,8 +214,6 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
-            addHam.setBackground(examBackgroundColor);
-            addHam.setBorderColor(examBorderColor);
             addHam.setIsGrid(true);
             addHam.addComponent(addButton);
             addHam.addComponent(pasteButton);
@@ -254,16 +244,18 @@ public class Topic extends HamburgerMenu {
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
         HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
-        examMenu.setBackground(examBackgroundColor);
-        examMenu.setBorderColor(examBorderColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
         RoundedPanel titlePanel = new RoundedPanel();
-        titlePanel.setBackground(fieldColor);
-        titlePanel.setBorderColor(examAddBorderColor);
+        if(examMenu.getBackground() != null) {
+            titlePanel.setBackground(examMenu.getBackground().darker());
+        } else {
+            titlePanel.setBackground(examMenu.getBackground());
+        }
+        titlePanel.setBorderColor(examMenu.getBorderColor());
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
@@ -359,8 +351,6 @@ public class Topic extends HamburgerMenu {
         });
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
-        addHam.setBackground(editBackgroundColor);
-        addHam.setBorderColor(editBorderColor);
         addHam.setIsGrid(true);
         addHam.addComponent(deleteButton);
         addHam.addComponent(copyButton);
@@ -393,8 +383,6 @@ public class Topic extends HamburgerMenu {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        editMenu.setBackground(editBackgroundColor);
-        editMenu.setBorderColor(editBorderColor);
         editMenu.setBlotOffset(1);
 
         for(Question q : questions) {
@@ -982,8 +970,6 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBackground(examAddBackgroundColor);
-        addMenu.setBorderColor(examAddBorderColor);
         addMenu.setBorderPainted(true);
         addMenu.setIsGrid(true);
 

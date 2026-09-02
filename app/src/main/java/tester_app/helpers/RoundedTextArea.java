@@ -36,6 +36,8 @@ public class RoundedTextArea extends JTextArea {
         this.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
         this.setFocusable(false);
         this.setDoubleBuffered(true);
+        this.setSelectionColor(selectionColor);
+        this.setSelectedTextColor(Color.BLACK);
         this.setLayout(new GridLayout());
 
         label = new JLabel();

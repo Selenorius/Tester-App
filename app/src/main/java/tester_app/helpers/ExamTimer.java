@@ -1,6 +1,5 @@
 package tester_app.helpers;
 
-import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 
 import java.awt.Color;
@@ -19,8 +18,16 @@ public class ExamTimer extends RoundedPanel {
     public ExamTimer() {
         super();
 
-        this.setBackground(fieldColor);
-        this.setBorderColor(examAddBorderColor);
+        if(this.getParent() != null) {
+            if(this.getParent().getBackground() != null) {
+                this.setBackground(this.getParent().getBackground().darker());
+            }
+            else {
+                this.setBackground(this.getParent().getBackground());
+            }
+        } else {
+            this.setBackground(fieldColor);
+        }
 
         run = true;
         start = System.currentTimeMillis();
