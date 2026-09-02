@@ -3,6 +3,7 @@ package tester_app.questions;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.selectionColor;
@@ -60,6 +61,8 @@ public class WQuestion extends Question {
         status = Test.SUCCESS;
         this.exam = exam;
 
+        this.setBackground(fieldColor.darker());
+        this.setBorderColor(fieldColor.darker());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -129,6 +132,7 @@ public class WQuestion extends Question {
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker());
+        inputArea.setBorderColor(getBackground().brighter());
         inputArea.add(scrollPane);
         inputArea.setBorderPainted(true);
         inputArea.setLayout(new GridLayout());

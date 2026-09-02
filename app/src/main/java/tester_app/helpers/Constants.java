@@ -47,7 +47,7 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(43, 43, 46),
+        fieldColor = new Color(46, 44, 43),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
@@ -66,12 +66,12 @@ public final class Constants {
         scrollBarColor = blotBackgroundColor,
         scrollBarBorderColor = scrollBarColor.brighter(),
 
-        wQuestionBackgroundColor = new Color(46, 88, 54).darker(),
+        wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
         wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
-        mcQuestionBackgroundColor = new Color(148, 132, 102).darker().darker(),
-        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter(),
-        tfQuestionBackgroundColor = new Color(170, 163, 214).darker().darker().darker(),
-        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter();
+        tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),
+        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter(),
+        mcQuestionBackgroundColor = new Color(184, 28, 84).darker().darker(),
+        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter();
 
     //TAB
     public static final String tab(int i) {

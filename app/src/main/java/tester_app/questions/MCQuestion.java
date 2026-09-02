@@ -4,6 +4,7 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
 
@@ -51,6 +52,8 @@ public class MCQuestion extends Question {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
 
+        this.setBackground(fieldColor.darker());
+        this.setBorderColor(fieldColor.darker());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -72,7 +75,8 @@ public class MCQuestion extends Question {
         });
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(getBackground().darker());
+        inputArea.setBackground(getBackground().brighter());
+        inputArea.setBorderColor(getBackground().brighter().brighter());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
