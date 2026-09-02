@@ -1,6 +1,7 @@
 package tester_app.helpers;
 
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -29,16 +30,18 @@ public class RoundedTextArea extends JTextArea {
         this.setLineWrap(true);
         this.setWrapStyleWord(true);
         this.setBackground(null);
-        this.setForeground(Color.GRAY);
+        this.setForeground(Color.WHITE);
         this.setCaretColor(Color.WHITE);
         this.setFont(null);
         this.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
         this.setFocusable(false);
         this.setDoubleBuffered(true);
+        this.setSelectionColor(selectionColor);
+        this.setSelectedTextColor(Color.BLACK);
         this.setLayout(new GridLayout());
 
         label = new JLabel();
-        label.setForeground(Color.WHITE.darker());
+        label.setForeground(Color.WHITE);
         this.add(label);
         if(!this.getText().isEmpty()) {
             label.setVisible(false);
@@ -48,7 +51,7 @@ public class RoundedTextArea extends JTextArea {
             @Override
             public void mouseExited(MouseEvent e) {
                 setFocusable(false);
-                setForeground(Color.WHITE.darker());
+                setForeground(Color.WHITE);
 
                 if(getText().isEmpty()) {
                     label.setVisible(true);
@@ -60,7 +63,7 @@ public class RoundedTextArea extends JTextArea {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setFocusable(true);
-                setForeground(Color.WHITE);
+                setForeground(selectionColor);
             }
         });
 
@@ -68,6 +71,7 @@ public class RoundedTextArea extends JTextArea {
             @Override
             public void focusGained(FocusEvent e) {
                 label.setVisible(false);
+                setForeground(Color.WHITE);
             }
         });
     }

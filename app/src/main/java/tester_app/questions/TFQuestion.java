@@ -1,11 +1,12 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.fieldColor;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -46,7 +47,8 @@ public class TFQuestion extends Question {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
 
-        this.setBackground(null);
+        this.setBackground(fieldColor.darker());
+        this.setBorderColor(fieldColor.darker());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -68,8 +70,8 @@ public class TFQuestion extends Question {
         });
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(fieldColor);
-        inputArea.setBorderColor(examAddBorderColor);
+        inputArea.setBackground(getBackground().brighter());
+        inputArea.setBorderColor(getBackground().brighter().brighter());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
@@ -136,6 +138,8 @@ public class TFQuestion extends Question {
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
             options.remove(o);
+            o.setEnabled(false);
+            o.setBackground(editColor);
             ++score;
 
             if(score >= goal) {
@@ -155,6 +159,8 @@ public class TFQuestion extends Question {
             return Test.SUCCESS;
         } else {
             options.remove(o);
+            o.setEnabled(false);
+            o.setBackground(deleteColor);
 
             ArrayList<ButtonOption> answers = new ArrayList<>();
 

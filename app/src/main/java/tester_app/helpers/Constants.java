@@ -47,19 +47,11 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(28, 28, 28),
+        fieldColor = new Color(34, 34, 36),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
         borderColor = null,
-        topicBackgroundColor = fieldColor,
-        topicBorderColor = null,
-        examBackgroundColor = fieldColor.brighter(),
-        examBorderColor = null,
-        editBackgroundColor = fieldColor,
-        editBorderColor = null,
-        examAddBackgroundColor = fieldColor.brighter(),
-        examAddBorderColor = null,
 
         copyColor = new Color(28, 108, 160),
         pasteColor = new Color(168, 78, 28),
@@ -67,10 +59,19 @@ public final class Constants {
         deleteColor = new Color(140, 48, 28),
         blotBackgroundColor = new Color(184, 28, 84),
         buttonBackgroundColor = new Color(
-            editBackgroundColor.getRed() + 40,
-            editBackgroundColor.getGreen() + 40,
-            editBackgroundColor.getBlue() + 40
-        );
+            backgroundColor.getRed() + 40,
+            backgroundColor.getGreen() + 40,
+            backgroundColor.getBlue() + 40
+        ),
+        scrollBarColor = blotBackgroundColor,
+        scrollBarBorderColor = scrollBarColor.brighter(),
+
+        wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
+        wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
+        tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),
+        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter(),
+        mcQuestionBackgroundColor = new Color(184, 28, 84).darker().darker(),
+        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter();
 
     //TAB
     public static final String tab(int i) {
@@ -216,10 +217,10 @@ public final class Constants {
                 g2.setPaint(fieldColor);
                 g2.fillRect(r.x, r.y, r.width, r.height);
 
-                g2.setPaint(fieldColor);
+                g2.setPaint(fieldColor.darker());
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(examAddBorderColor);
+                g2.setPaint(fieldColor.brighter());
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
@@ -227,26 +228,26 @@ public final class Constants {
             protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color color = buttonBackgroundColor;
+                Color color = scrollBarColor;
                 JScrollBar sb = (JScrollBar)c;
 
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
                 } else if(isDragging) {
-                    color = buttonBackgroundColor.darker();
+                    color = scrollBarColor.darker();
                 } else if(isThumbRollover()) {
-                    color = buttonBackgroundColor.darker();
+                    color = scrollBarColor.darker();
                 }
 
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
                 if(isDragging) {
-                    g2.setPaint(buttonBackgroundColor);
+                    g2.setPaint(scrollBarColor);
                 } else if(isThumbRollover()) {
-                    g2.setPaint(buttonBackgroundColor);
+                    g2.setPaint(scrollBarColor);
                 } else {
-                    g2.setPaint(buttonBackgroundColor.brighter());
+                    g2.setPaint(scrollBarColor.brighter());
                 }
 
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);

@@ -26,8 +26,22 @@ public class RoundedPanel extends JPanel implements Scrollable {
     public RoundedPanel() {
         this.radius = 10;
         this.borderPaint = true;
-        this.setBackground(backgroundColor);
-        this.borderColor = Constants.borderColor;
+        if(this.getParent() != null) {
+            if(this.getParent().getBackground() != null) {
+                this.setBackground(this.getParent().getBackground().brighter());
+            }
+            else {
+                this.setBackground(this.getParent().getBackground());
+            }
+        } else {
+            this.setBackground(backgroundColor);
+        }
+        if(getBackground() != null) {
+            this.borderColor = getBackground().brighter();
+        }
+        else {
+            this.borderColor = Constants.borderColor;
+        }
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 

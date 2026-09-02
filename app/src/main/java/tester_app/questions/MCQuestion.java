@@ -1,13 +1,15 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
+import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -50,7 +52,8 @@ public class MCQuestion extends Question {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
 
-        this.setBackground(null);
+        this.setBackground(fieldColor.darker());
+        this.setBorderColor(fieldColor.darker());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -72,8 +75,8 @@ public class MCQuestion extends Question {
         });
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(fieldColor);
-        inputArea.setBorderColor(examAddBorderColor);
+        inputArea.setBackground(getBackground().brighter());
+        inputArea.setBorderColor(getBackground().brighter().brighter());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
@@ -113,10 +116,21 @@ public class MCQuestion extends Question {
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = (options.size() % 2) + 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
+        int menCount = 0;
+        for(Component c : inputArea.getComponents()) {
+            constraints.gridx = 2 - (menCount++ % 2);
+
+            layout.setConstraints(c, constraints);
+        }
+
+        constraints.gridx = 2 - (inputArea.getComponentCount() % 2);
+        constraints.gridwidth = 3 - (inputArea.getComponentCount() % 2);
 
         options.add(o);
         inputArea.add(o, constraints);
@@ -147,6 +161,8 @@ public class MCQuestion extends Question {
         } else {
             styleButton(o);
         }
+
+        inputArea.revalidate();
     }
 
     @Override
@@ -160,26 +176,34 @@ public class MCQuestion extends Question {
             Collections.shuffle(options);
         }
 
-        inputArea.removeAll();
-
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-        for(ButtonOption o : options) {
-            constraints.gridx = (inputArea.getComponentCount() % 2) + 1;
+        int menCount = 0;
+        for(ButtonOption butt : options) {
+            constraints.gridx = 2 - (menCount % 2);
+            constraints.gridy = Math.abs(menCount++ / 2);
 
-            inputArea.add(o, constraints);
+            layout.setConstraints(butt, constraints);
         }
+
+        constraints.gridx = (inputArea.getComponentCount() % 2);
+        constraints.gridwidth = (inputArea.getComponentCount() % 2) - 1;
+
+        layout.setConstraints(options.getLast(), constraints);
     }
 
     @Override
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
             options.remove(o);
-            inputArea.remove(o);
+            o.setEnabled(false);
+            o.setBackground(editColor);
             ++score;
 
             if(score >= goal) {
@@ -199,7 +223,8 @@ public class MCQuestion extends Question {
             return Test.SUCCESS;
         } else {
             options.remove(o);
-            inputArea.remove(o);
+            o.setEnabled(false);
+            o.setBackground(deleteColor);
 
             String
                 text = "",

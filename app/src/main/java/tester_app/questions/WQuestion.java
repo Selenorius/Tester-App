@@ -1,10 +1,12 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.examAddBorderColor;
+import static tester_app.helpers.Constants.deleteColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
+import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleScrollPane;
 
 import java.awt.Color;
@@ -17,6 +19,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -57,7 +61,8 @@ public class WQuestion extends Question {
         status = Test.SUCCESS;
         this.exam = exam;
 
-        this.setBackground(null);
+        this.setBackground(fieldColor.darker());
+        this.setBorderColor(fieldColor.darker());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -83,35 +88,54 @@ public class WQuestion extends Question {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String in = textArea.getText();
+                    textArea.setEditable(false);
+                    textArea.setText(textArea.getText() + System.lineSeparator());
 
+                    String in = textArea.getText();
                     if(in != null) {
                         test(in);
                     }
+                } else if(textArea.getSelectedText() != null) {
+                    textArea.setEditable(true);
+                    textArea.setText(textArea.getSelectedText());
+
+                    textArea.setSelectionColor(selectionColor);
+                    textArea.setSelectedTextColor(Color.BLACK);
                 }
+            }
+        });
+        textArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                textArea.setEditable(true);
+
+                textArea.setSelectionColor(selectionColor);
+                textArea.setSelectedTextColor(Color.BLACK);
             }
         });
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setBackground(fieldColor);
+        textArea.setBackground(getBackground().darker());
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
+        textArea.setSelectionColor(selectionColor);
+        textArea.setSelectedTextColor(Color.BLACK);
         textArea.setFont(null);
         textArea.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
         
         scrollPane = new JScrollPane(textArea);
-        scrollPane.setBackground(fieldColor);
+        scrollPane.setBackground(getBackground().darker());
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         styleScrollPane(scrollPane);
 
         inputArea = new RoundedPanel();
+        inputArea.setBackground(getBackground().darker());
+        inputArea.setBorderColor(getBackground().brighter());
         inputArea.add(scrollPane);
-        inputArea.setBorderColor(examAddBorderColor);
         inputArea.setBorderPainted(true);
         inputArea.setLayout(new GridLayout());
-        inputArea.setBackground(fieldColor);
 
         questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
@@ -182,6 +206,10 @@ public class WQuestion extends Question {
 
         for(String u : used) {
             if(in.trim().equals(u.trim())) {
+                textArea.setSelectedTextColor(deleteColor);
+                textArea.setSelectionColor(textArea.getBackground());
+                textArea.select(0, textArea.getText().length());
+
                 String
                     text = "",
                     correctionText = "Correct Answers: ";
@@ -220,6 +248,10 @@ public class WQuestion extends Question {
                 TextOption t = options.get(0);
 
                 if(t.isTrue(in)) {
+                    textArea.setSelectedTextColor(editColor);
+                    textArea.setSelectionColor(textArea.getBackground());
+                    textArea.select(0, textArea.getText().length());
+
                     used.add(in);
                     if(options.size() > 1) {
                         options.remove(t);
@@ -245,6 +277,10 @@ public class WQuestion extends Question {
             } else {
                 for(TextOption o : options) {
                     if(o.isTrue(in)) {
+                        textArea.setSelectedTextColor(editColor);
+                        textArea.setSelectionColor(textArea.getBackground());
+                        textArea.select(0, textArea.getText().length());
+
                         used.add(in);
                         if(options.size() > 1) {
                             options.remove(o);
@@ -270,6 +306,10 @@ public class WQuestion extends Question {
                 }
             }
         }
+
+        textArea.setSelectedTextColor(deleteColor);
+        textArea.setSelectionColor(textArea.getBackground());
+        textArea.select(0, textArea.getText().length());
 
         String
             text = "",

@@ -1,11 +1,8 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
-import static tester_app.helpers.Constants.backgroundColor;
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examAddBorderColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
@@ -14,7 +11,6 @@ import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
-import static tester_app.helpers.Constants.topicBackgroundColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -186,7 +182,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         menuBar = new RoundedMenuBar();
         menuBar.setBorderPainted(false);
-        menuBar.setBackground(fieldColor);
+        menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
         FrameDragListener frameDragListener = new FrameDragListener(this);
@@ -231,8 +227,6 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(backgroundColor);
-        dirMenu.setBorderColor(borderColor);
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
@@ -257,6 +251,7 @@ public class Tester extends ConsoleErrorJFrame {
                     file.mkdir();
                     addComponent(new Topic.TopicBuilder().text("New topic").build());
 
+                    addButton.toggle(false);
                     reset();
                 }
             }
@@ -273,6 +268,7 @@ public class Tester extends ConsoleErrorJFrame {
                         newExam.addComponent(new HamburgerMenu.HamburgerMenuBuilder().build());
                         uncategorized.addComponent(newExam);
                         
+                        addButton.toggle(false);
                         reset();
                     }
                 } catch (IOException e1) {
@@ -284,14 +280,15 @@ public class Tester extends ConsoleErrorJFrame {
         RoundedButton pasteButton = new RoundedButton();
         pasteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                paste();
+                if(paste()) {
+                    addButton.toggle(false);
+                }
             }
         });
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
-        addButton.setBackground(topicBackgroundColor);
-        addButton.setBorderColor(examAddBorderColor);
         addButton.setBorderPainted(true);
+        addButton.setIsGrid(true);
         
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
@@ -491,7 +488,7 @@ public class Tester extends ConsoleErrorJFrame {
         this.setVisible(true);
     }
 
-    public void paste() {
+    public boolean paste() {
         if(
             copiedComponent != null &&
             copiedFile != null
@@ -533,10 +530,12 @@ public class Tester extends ConsoleErrorJFrame {
                 }
 
                 reset();
+                return true;
             } catch (IOException e) {
                 consoleErrorMessage(e);
             }
         }
+        return false;
     }
 
     // GETTERS

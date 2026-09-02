@@ -2,7 +2,6 @@ package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
@@ -197,7 +196,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         menuBar = new RoundedMenuBar();
         menuBar.setBorderPainted(false);
-        menuBar.setBackground(fieldColor);
+        menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
         FrameDragListener frameDragListener = new FrameDragListener(this);
@@ -227,8 +226,6 @@ public class Exam extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel();
-        questionMenu.setBackground(backgroundColor);
-        questionMenu.setBorderColor(borderColor);
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
 
@@ -543,6 +540,11 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         questionMenu.add(question, constraints);
+
+        questionMenu.setBackground(getBackground().darker());
+        questionMenu.setBorderColor(getBackground().brighter());
+        timer.setBackground(questionMenu.getBackground().darker());
+        timer.setBorderColor(questionMenu.getBackground().brighter());
     }
 
     public void start() {

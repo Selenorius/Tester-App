@@ -2,19 +2,17 @@ package tester_app;
 
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
-import static tester_app.helpers.Constants.editBackgroundColor;
-import static tester_app.helpers.Constants.editBorderColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examAddBackgroundColor;
-import static tester_app.helpers.Constants.examAddBorderColor;
-import static tester_app.helpers.Constants.examBackgroundColor;
-import static tester_app.helpers.Constants.examBorderColor;
-import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
+import static tester_app.helpers.Constants.mcQuestionBorderColor;
 import static tester_app.helpers.Constants.pasteColor;
+import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleButton;
-import static tester_app.helpers.Constants.topicBackgroundColor;
-import static tester_app.helpers.Constants.topicBorderColor;
+import static tester_app.helpers.Constants.tfQuestionBackgroundColor;
+import static tester_app.helpers.Constants.tfQuestionBorderColor;
+import static tester_app.helpers.Constants.wQuestionBackgroundColor;
+import static tester_app.helpers.Constants.wQuestionBorderColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -27,6 +25,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -67,8 +67,6 @@ public class Topic extends HamburgerMenu {
         tester = builder.tester;
         titled = true;
 
-        this.setBackground(topicBackgroundColor);
-        this.setBorderColor(topicBorderColor);
         this.setBlotOffset(2);
     }
 
@@ -78,8 +76,12 @@ public class Topic extends HamburgerMenu {
         constraints.weightx = 0.5;
 
         RoundedPanel titlePanel = new RoundedPanel();
-        titlePanel.setBackground(fieldColor);
-        titlePanel.setBorderColor(examAddBorderColor);
+        if(getBackground() != null) {
+            titlePanel.setBackground(getBackground().darker());
+        } else {
+            titlePanel.setBackground(getBackground());
+        }
+        titlePanel.setBorderColor(getBorderColor());
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
@@ -212,13 +214,11 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
-            addHam.setBackground(examBackgroundColor);
-            addHam.setBorderColor(examBorderColor);
             addHam.setIsGrid(true);
+            addHam.addComponent(copyButton);
+            addHam.addComponent(deleteButton);
             addHam.addComponent(addButton);
             addHam.addComponent(pasteButton);
-            addHam.addComponent(deleteButton);
-            addHam.addComponent(copyButton);
 
             addComponent(addHam);
 
@@ -244,16 +244,18 @@ public class Topic extends HamburgerMenu {
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
         HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
-        examMenu.setBackground(examBackgroundColor);
-        examMenu.setBorderColor(examBorderColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
         RoundedPanel titlePanel = new RoundedPanel();
-        titlePanel.setBackground(fieldColor);
-        titlePanel.setBorderColor(examAddBorderColor);
+        if(examMenu.getBackground() != null) {
+            titlePanel.setBackground(examMenu.getBackground().darker());
+        } else {
+            titlePanel.setBackground(examMenu.getBackground());
+        }
+        titlePanel.setBorderColor(examMenu.getBorderColor());
         titlePanel.setBorderPainted(true);
         titlePanel.setLayout(getLayout());
 
@@ -349,11 +351,9 @@ public class Topic extends HamburgerMenu {
         });
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
-        addHam.setBackground(editBackgroundColor);
-        addHam.setBorderColor(editBorderColor);
         addHam.setIsGrid(true);
-        addHam.addComponent(deleteButton);
         addHam.addComponent(copyButton);
+        addHam.addComponent(deleteButton);
 
         examMenu.addComponent(addHam);
 
@@ -383,8 +383,6 @@ public class Topic extends HamburgerMenu {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        editMenu.setBackground(editBackgroundColor);
-        editMenu.setBorderColor(editBorderColor);
         editMenu.setBlotOffset(1);
 
         for(Question q : questions) {
@@ -409,13 +407,24 @@ public class Topic extends HamburgerMenu {
             }
 
             editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text(qText).build();
-            editPanel.setBackground(examAddBackgroundColor);
-            editPanel.setBorderColor(examAddBorderColor);
+            if(q.getClass() == WQuestion.class) {
+                editPanel.setBackground(wQuestionBackgroundColor);
+                editPanel.setBorderColor(wQuestionBorderColor);
+                editPanel.setButtonColor(wQuestionBackgroundColor.brighter());
+            } else if(q.getClass() == MCQuestion.class) {
+                editPanel.setBackground(mcQuestionBackgroundColor);
+                editPanel.setBorderColor(mcQuestionBorderColor);
+                editPanel.setButtonColor(mcQuestionBackgroundColor.brighter());
+            } else {
+                editPanel.setBackground(tfQuestionBackgroundColor);
+                editPanel.setBorderColor(tfQuestionBorderColor);
+                editPanel.setButtonColor(tfQuestionBackgroundColor.brighter());
+            }
             editPanel.setBlotOffset(2);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
-            addHam.setBackground(editBackgroundColor);
-            addHam.setBorderColor(editBorderColor);
+            addHam.setBackground(editPanel.getBackground().darker());
+            addHam.setBorderColor(editPanel.getBorderColor());
             addHam.setIsGrid(true);
 
             RoundedButton deleteButton = new RoundedButton();
@@ -448,8 +457,8 @@ public class Topic extends HamburgerMenu {
 
             constraints.insets = new Insets(margin, margin, margin, margin);
 
-            addHam.addComponent(deleteButton);
             addHam.addComponent(copyButton);
+            addHam.addComponent(deleteButton);
 
             styleButton(deleteButton, "Delete question");
             deleteButton.setBackground(deleteColor);
@@ -459,8 +468,8 @@ public class Topic extends HamburgerMenu {
 
             RoundedPanel textPanel = new RoundedPanel();
             textPanel.setLayout(getLayout());
-            textPanel.setBackground(fieldColor);
-            textPanel.setBorderColor(examAddBorderColor);
+            textPanel.setBackground(editPanel.getBackground().darker());
+            textPanel.setBorderColor(editPanel.getBorderColor());
             textPanel.setBorderPainted(true);
 
             RoundedButton deleteImageButton = new RoundedButton();
@@ -504,6 +513,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
+            textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
             if(
                 questionImage != null &&
@@ -518,7 +528,6 @@ public class Topic extends HamburgerMenu {
             } else {
                 styleButton(imageButton, "Add image");
             }
-            textPanel.add(imageButton, constraints);
 
             constraints.gridy = 1;
 
@@ -542,6 +551,11 @@ public class Topic extends HamburgerMenu {
                     }
                 }
             });
+
+            if(q.getClass() == TFQuestion.class) {
+                constraints.gridheight = 2;
+            }
+
             textPanel.add(textArea, constraints);
 
             constraints.gridx = 1;
@@ -573,6 +587,8 @@ public class Topic extends HamburgerMenu {
                 if(q.isOrdered()) {
                     goalSpinner.setVisible(false);
                 }
+                goalSpinner.setBackground(textPanel.getBackground().brighter());
+                goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter());
 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setToolTipText("When selected, answers must be given in order");
@@ -593,11 +609,25 @@ public class Topic extends HamburgerMenu {
                         saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
                     }
                 });
+                radioButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        radioButton.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        radioButton.setForeground(selectionColor);
+                    }
+                });
+
+                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
                 textPanel.add(radioButton, constraints);
                 orderedRadioButtons.add(radioButton);
 
-                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+                constraints.gridx = 0;
+                constraints.gridwidth = 2;
 
                 textPanel.add(goalSpinner, constraints);
                 goalSpinners.add(goalSpinner);
@@ -607,8 +637,8 @@ public class Topic extends HamburgerMenu {
                 for(TextOption o : options) {
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
-                    textPanel.setBackground(fieldColor);
-                    textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBackground(editPanel.getBackground().darker().darker());
+                    textPanel.setBorderColor(editPanel.getBorderColor());
                     textPanel.setBorderPainted(true);
 
                     deleteButton = new RoundedButton();
@@ -672,11 +702,24 @@ public class Topic extends HamburgerMenu {
                         saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
                     }
                 });
+                radioButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        radioButton.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        radioButton.setForeground(selectionColor);
+                    }
+                });
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+
+                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
                 textPanel.add(radioButton, constraints);
 
@@ -692,8 +735,8 @@ public class Topic extends HamburgerMenu {
 
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
-                    textPanel.setBackground(fieldColor);
-                    textPanel.setBorderColor(examAddBorderColor);
+                    textPanel.setBackground(editPanel.getBackground().darker().darker());
+                    textPanel.setBorderColor(editPanel.getBorderColor());
                     textPanel.setBorderPainted(true);
 
                     RoundedButton deleteImagePathButton = new RoundedButton();
@@ -729,6 +772,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
+                    textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();
                     if(
                         imagePath != null &&
@@ -743,7 +787,6 @@ public class Topic extends HamburgerMenu {
                     } else {
                         styleButton(imageButton, "Add image");
                     }
-                    textPanel.add(imageButton, constraints);
 
                     constraints.gridy = 1;
 
@@ -800,24 +843,39 @@ public class Topic extends HamburgerMenu {
                     });
                     textPanel.add(textArea, constraints);
 
-                    radioButton = new JRadioButton();
-                    radioButton.setToolTipText("Is this answer true?");
-                    radioButton.addActionListener(new ActionListener() {
+                    JRadioButton optionRadioButton = new JRadioButton();
+                    optionRadioButton.setToolTipText("Is this answer true?");
+                    optionRadioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
                         }
                     });
+                    optionRadioButton.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            optionRadioButton.setForeground(Color.WHITE);
+                        }
 
-                    radioButton.setFocusable(false);
-                    radioButton.setBackground(null);
-                    radioButton.setForeground(Color.WHITE);
-                    radioButton.setText("True");
-                    radioButton.setSelected(o.isTrue());
-                    textPanel.add(radioButton, constraints);
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            optionRadioButton.setForeground(selectionColor);
+                        }
+                    });
+                    optionRadioButton.setFocusable(false);
+                    optionRadioButton.setBackground(null);
+                    optionRadioButton.setForeground(Color.WHITE);
+                    optionRadioButton.setText("True");
+                    optionRadioButton.setSelected(o.isTrue());
+
+                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+
+                    textPanel.add(optionRadioButton, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.gridx = 0;
+                    constraints.gridwidth = 2;
                     
                     textPanel.add(deleteButton, constraints);
 
@@ -828,14 +886,14 @@ public class Topic extends HamburgerMenu {
 
                     editPanel.addComponent(textPanel);
                     
-                    optionRadioButtons.add(radioButton);
+                    optionRadioButtons.add(optionRadioButton);
                     optionTextAreas.add(textArea);
                 }
             } else {
                 textPanel = new RoundedPanel();
                 textPanel.setLayout(getLayout());
-                textPanel.setBackground(fieldColor);
-                textPanel.setBorderColor(examAddBorderColor);
+                textPanel.setBackground(editPanel.getBackground().darker().darker());
+                textPanel.setBorderColor(editPanel.getBorderColor());
                 textPanel.setBorderPainted(true);
 
                 constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -846,6 +904,17 @@ public class Topic extends HamburgerMenu {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
+                    }
+                });
+                radioButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        radioButton.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        radioButton.setForeground(selectionColor);
                     }
                 });
                 radioButton.setFocusable(false);
@@ -912,8 +981,6 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBackground(examAddBackgroundColor);
-        addMenu.setBorderColor(examAddBorderColor);
         addMenu.setBorderPainted(true);
         addMenu.setIsGrid(true);
 
@@ -1111,7 +1178,7 @@ public class Topic extends HamburgerMenu {
         tester.setCopiedQuestion(question);
     }
 
-    public void paste(File dir) {
+    public boolean paste(File dir) {
         if(
             tester.getCopiedComponent() != null &&
             tester.getCopiedFile() != null
@@ -1138,11 +1205,13 @@ public class Topic extends HamburgerMenu {
                     addComponent(copy);
 
                     tester.reset();
+                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
+        return false;
     }
 
     // SETTERS
