@@ -8,6 +8,7 @@ import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -111,10 +112,21 @@ public class MCQuestion extends Question {
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = (options.size() % 2) + 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
+        int menCount = 0;
+        for(Component c : inputArea.getComponents()) {
+            constraints.gridx = 2 - (menCount++ % 2);
+
+            layout.setConstraints(c, constraints);
+        }
+
+        constraints.gridx = 2 - (inputArea.getComponentCount() % 2);
+        constraints.gridwidth = 3 - (inputArea.getComponentCount() % 2);
 
         options.add(o);
         inputArea.add(o, constraints);
@@ -145,6 +157,8 @@ public class MCQuestion extends Question {
         } else {
             styleButton(o);
         }
+
+        inputArea.revalidate();
     }
 
     @Override
@@ -158,19 +172,26 @@ public class MCQuestion extends Question {
             Collections.shuffle(options);
         }
 
-        inputArea.removeAll();
-
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-        for(ButtonOption o : options) {
-            constraints.gridx = (inputArea.getComponentCount() % 2) + 1;
+        int menCount = 0;
+        for(ButtonOption butt : options) {
+            constraints.gridx = 2 - (menCount % 2);
+            constraints.gridy = Math.abs(menCount++ / 2);
 
-            inputArea.add(o, constraints);
+            layout.setConstraints(butt, constraints);
         }
+
+        constraints.gridx = (inputArea.getComponentCount() % 2);
+        constraints.gridwidth = (inputArea.getComponentCount() % 2) - 1;
+
+        layout.setConstraints(options.getLast(), constraints);
     }
 
     @Override

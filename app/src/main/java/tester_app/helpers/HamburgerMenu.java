@@ -214,8 +214,20 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     public void addComponent(Component component, int anchor, int fill, double weighty) {
         constraints.fill = fill;
         if(isGrid) {
-            constraints.gridx = (getMenuSize() % 2) + 1;
+            int menCount = 0;
+
+            constraints.gridwidth = 1;
+
+            for(Component c : menu.getComponents()) {
+                constraints.gridx = 2 - (menCount++ % 2);
+
+                layout.setConstraints(c, constraints);
+            }
+
+            constraints.gridx = 2 - (getMenuSize() % 2);
+            constraints.gridwidth = 3 - (getMenuSize() % 2);
         } else {
+            constraints.gridwidth = 1;
             constraints.gridx = 1;
         }
         constraints.weightx = 0.5;
@@ -231,6 +243,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         menuSize = menu.getComponentCount() - 1 - blotOffset;
         size.setText("" + menuSize);
+
+        menu.revalidate();
     }
     public void addComponent(Component c, int anchor, int fill) {
         addComponent(c, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5);

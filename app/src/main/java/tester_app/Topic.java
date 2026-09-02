@@ -551,6 +551,11 @@ public class Topic extends HamburgerMenu {
                     }
                 }
             });
+
+            if(q.getClass() == TFQuestion.class) {
+                constraints.gridheight = 2;
+            }
+
             textPanel.add(textArea, constraints);
 
             constraints.gridx = 1;
@@ -616,14 +621,13 @@ public class Topic extends HamburgerMenu {
                     }
                 });
 
-                constraints.gridx = 0;
+                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
                 textPanel.add(radioButton, constraints);
                 orderedRadioButtons.add(radioButton);
 
-                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
-                constraints.gridx = 1;
-                constraints.gridy = 2;
+                constraints.gridx = 0;
+                constraints.gridwidth = 2;
 
                 textPanel.add(goalSpinner, constraints);
                 goalSpinners.add(goalSpinner);
@@ -714,6 +718,8 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+
+                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
                 textPanel.add(radioButton, constraints);
 
@@ -861,10 +867,15 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setForeground(Color.WHITE);
                     optionRadioButton.setText("True");
                     optionRadioButton.setSelected(o.isTrue());
+
+                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+
                     textPanel.add(optionRadioButton, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.gridx = 0;
+                    constraints.gridwidth = 2;
                     
                     textPanel.add(deleteButton, constraints);
 
