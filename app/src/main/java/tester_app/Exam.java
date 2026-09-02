@@ -5,17 +5,11 @@ import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
-import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
-import static tester_app.helpers.Constants.mcQuestionBorderColor;
 import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.tab;
-import static tester_app.helpers.Constants.tfQuestionBackgroundColor;
-import static tester_app.helpers.Constants.tfQuestionBorderColor;
-import static tester_app.helpers.Constants.wQuestionBackgroundColor;
-import static tester_app.helpers.Constants.wQuestionBorderColor;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
