@@ -215,10 +215,10 @@ public class Topic extends HamburgerMenu {
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
             addHam.setIsGrid(true);
+            addHam.addComponent(copyButton);
+            addHam.addComponent(deleteButton);
             addHam.addComponent(addButton);
             addHam.addComponent(pasteButton);
-            addHam.addComponent(deleteButton);
-            addHam.addComponent(copyButton);
 
             addComponent(addHam);
 
@@ -352,8 +352,8 @@ public class Topic extends HamburgerMenu {
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
         addHam.setIsGrid(true);
-        addHam.addComponent(deleteButton);
         addHam.addComponent(copyButton);
+        addHam.addComponent(deleteButton);
 
         examMenu.addComponent(addHam);
 
@@ -457,8 +457,8 @@ public class Topic extends HamburgerMenu {
 
             constraints.insets = new Insets(margin, margin, margin, margin);
 
-            addHam.addComponent(deleteButton);
             addHam.addComponent(copyButton);
+            addHam.addComponent(deleteButton);
 
             styleButton(deleteButton, "Delete question");
             deleteButton.setBackground(deleteColor);
