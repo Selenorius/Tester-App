@@ -47,7 +47,7 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(46, 44, 43),
+        fieldColor = new Color(34, 34, 36),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
