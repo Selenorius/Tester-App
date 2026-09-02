@@ -1,0 +1,30 @@
+{
+    WRITTEN "3" {
+        "Name 3 Ways to apply Security:" {
+            {
+                "Increase Visibility and Perception of Security Problems"
+                "highlight security problems"
+                "increase visibility of security problems"
+                "increase perception of security problems"
+            }
+            {
+                "Understanding of Security Mechanisms"
+                "understand security leaks"
+                "understand security leak"
+                "understand how security leaks happen"
+                "understand how security leaks happened"
+                "understand how security leak happened"
+                "understanding security leaks"
+                "understanding security leak"
+                "examine security leaks"
+                "examine security leak"
+            }
+            {
+                "Educating Users"
+                "educate users"
+                "user education"
+                "inform users"
+            }
+        }
+    }
+}

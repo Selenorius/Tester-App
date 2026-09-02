@@ -1,0 +1,33 @@
+{
+    TRUE_FALSE {
+        "There is one standard architecture for the IoT" {
+            false
+        }
+    }
+    WRITTEN "6" {
+        "The 6 main challenges, and therefore drivers for new network architectures for the IoT are:" {
+            {
+                "Scale"
+            }
+            {
+                "Constrained Devices"
+            }
+            {
+                "Constrained Networks"
+            }
+            {
+                "Data Security"
+                "Security"
+            }
+            {
+                "Legacy Device Support"
+            }
+            {
+                "Amount of Data"
+                "Data"
+                "Data Amount"
+                "Data Size"
+            }
+        }
+    }
+}
