@@ -22,9 +22,10 @@ public class RoundedButton extends JButton {
     public RoundedButton(String text) { 
         super(text);
         
-        setContentAreaFilled(false);
-        setFocusable(false);
-        setDoubleBuffered(true);
+        this.setContentAreaFilled(false);
+        this.setFocusable(false);
+        this.setDoubleBuffered(true);
+        this.setOpaque(false);
 
         this.radius = 10;
         this.borderPaint = true;
@@ -34,8 +35,9 @@ public class RoundedButton extends JButton {
     public RoundedButton() { 
         super();
 
-        setContentAreaFilled(false);
-        setFocusable(false);
+        this.setContentAreaFilled(false);
+        this.setFocusable(false);
+        this.setOpaque(false);
 
         this.radius = 10;
         this.borderPaint = true;

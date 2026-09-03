@@ -63,7 +63,7 @@ public final class Constants {
             backgroundColor.getGreen() + 40,
             backgroundColor.getBlue() + 40
         ),
-        scrollBarColor = blotBackgroundColor,
+        scrollBarColor = backgroundColor,
         scrollBarBorderColor = scrollBarColor.brighter(),
 
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
@@ -234,9 +234,17 @@ public final class Constants {
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
                 } else if(isDragging) {
-                    color = scrollBarColor.darker();
+                    color = new Color(
+                        scrollBarColor.getRed() - scrollBarColor.getRed() / 6 > 0 ? scrollBarColor.getRed() - scrollBarColor.getRed() / 6 : 0,
+                        scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 > 0 ? scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 : 0,
+                        scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 > 0 ? scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 : 0
+                    );
                 } else if(isThumbRollover()) {
-                    color = scrollBarColor.darker();
+                    color = new Color(
+                        scrollBarColor.getRed() - scrollBarColor.getRed() / 6 > 0 ? scrollBarColor.getRed() - scrollBarColor.getRed() / 6 : 0,
+                        scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 > 0 ? scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 : 0,
+                        scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 > 0 ? scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 : 0
+                    );
                 }
 
                 g2.setPaint(color);

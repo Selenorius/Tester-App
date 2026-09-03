@@ -228,6 +228,7 @@ public class Exam extends ConsoleErrorJFrame {
         questionMenu = new RoundedPanel();
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
+        questionMenu.setTextured(true);
 
         timer = new ExamTimer();
 

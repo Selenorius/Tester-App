@@ -73,6 +73,9 @@ public class MCQuestion extends Question {
             @Override
             public void componentHidden(ComponentEvent e) {}
         });
+        this.setTextured(true);
+        this.setTextureOffsetX(12);
+        this.setTextureOffsetY(22);
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().brighter());

@@ -520,6 +520,8 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
+            constraints.weightx = 10;
+
             textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
             if(
@@ -778,6 +780,8 @@ public class Topic extends HamburgerMenu {
                             tester.reset();
                         }
                     });
+
+                    constraints.weightx = 10;
 
                     textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();

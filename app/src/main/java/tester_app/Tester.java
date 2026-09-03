@@ -150,6 +150,7 @@ public class Tester extends ConsoleErrorJFrame {
                 updateSettings();
             }
         });
+        
         FrameResizeListener frameResizeListener = new FrameResizeListener(this);
         this.addMouseListener(frameResizeListener);
         this.addMouseMotionListener(frameResizeListener);
@@ -236,8 +237,11 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel();
+        dirMenu.setBackground(fieldColor.darker());
+        dirMenu.setBorderColor(fieldColor.brighter());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
+        dirMenu.setTextured(true);
 
         scrollPane = new JScrollPane(dirMenu);
         scrollPane.getViewport().setBackground(fieldColor);

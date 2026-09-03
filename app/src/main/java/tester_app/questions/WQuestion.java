@@ -82,6 +82,9 @@ public class WQuestion extends Question {
             @Override
             public void componentHidden(ComponentEvent e) {}
         });
+        this.setTextured(true);
+        this.setTextureOffsetX(12);
+        this.setTextureOffsetY(22);
 
         textArea = new JTextArea();
         textArea.addKeyListener(new KeyAdapter() {
