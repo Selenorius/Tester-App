@@ -8,7 +8,6 @@ Create and solve tests to study for your exams.
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/60019f46-2a59-4cea-a66e-95ea2f385274" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/94aa72e7-8533-4019-9c0d-23ac0710b910" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/9316a59d-801d-4f1a-af2b-cae5450bfe20" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/0ece16ce-95f0-4f82-8b2f-53ac551044ff" />
 <img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/de7c6749-7260-4036-ba33-48221f6bc3cd" />
 
 ## Download
