@@ -36,6 +36,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -222,16 +223,16 @@ public class Topic extends HamburgerMenu {
 
             addComponent(addHam);
 
-            styleButton(addButton, "Add exam");
+            styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
             addButton.setBackground(editColor);
 
-            styleButton(pasteButton, "Paste exam");
+            styleButton(pasteButton, "Paste exam", tester.getPasteIcon(), JButton.RIGHT);
             pasteButton.setBackground(pasteColor);
 
-            styleButton(copyButton, "Copy topic");
+            styleButton(copyButton, "Copy topic", tester.getCopyIcon(), JButton.RIGHT);
             copyButton.setBackground(copyColor);
 
-            styleButton(deleteButton, "Delete topic");
+            styleButton(deleteButton, "Delete topic", tester.getDeleteIcon(), JButton.RIGHT);
             deleteButton.setBackground(deleteColor);
         }
     }
@@ -357,10 +358,10 @@ public class Topic extends HamburgerMenu {
 
         examMenu.addComponent(addHam);
 
-        styleButton(copyButton, "Copy exam");
+        styleButton(copyButton, "Copy exam", tester.getCopyIcon(), JButton.RIGHT);
         copyButton.setBackground(copyColor);
 
-        styleButton(deleteButton, "Delete exam");
+        styleButton(deleteButton, "Delete exam", tester.getDeleteIcon(), JButton.RIGHT);
         deleteButton.setBackground(deleteColor);
 
         addComponent(examMenu);
@@ -369,7 +370,7 @@ public class Topic extends HamburgerMenu {
     private HamburgerMenu loadEditMenu(File file, Component parent) {
         Exam exam = new Exam(file, tester);
         HamburgerMenu
-            editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text("Edit " + exam.getName()).build(),
+            editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).build(),
             editPanel;
 
         ArrayList<Question> questions = exam.getQuestions();
@@ -406,7 +407,13 @@ public class Topic extends HamburgerMenu {
                 qText = "New " + q.getClass().getSimpleName();
             }
 
-            editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).text(qText).build();
+            if(q.getClass() == MCQuestion.class) {
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getMcIcon()).text(qText).build();
+            } else if(q.getClass() == TFQuestion.class) {
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getTfIcon()).text(qText).build();
+            } else {
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getWqIcon()).text(qText).build();
+            }
             if(q.getClass() == WQuestion.class) {
                 editPanel.setBackground(wQuestionBackgroundColor);
                 editPanel.setBorderColor(wQuestionBorderColor);
@@ -460,10 +467,10 @@ public class Topic extends HamburgerMenu {
             addHam.addComponent(copyButton);
             addHam.addComponent(deleteButton);
 
-            styleButton(deleteButton, "Delete question");
+            styleButton(deleteButton, "Delete question", tester.getDeleteIcon(), JButton.RIGHT);
             deleteButton.setBackground(deleteColor);
 
-            styleButton(copyButton, "Copy question");
+            styleButton(copyButton, "Copy question", tester.getCopyIcon(), JButton.RIGHT);
             copyButton.setBackground(copyColor);
 
             RoundedPanel textPanel = new RoundedPanel();
@@ -482,7 +489,7 @@ public class Topic extends HamburgerMenu {
                     tester.reset();
                 }
             });
-            styleButton(deleteImageButton, "Delete image");
+            styleButton(deleteImageButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
             deleteImageButton.setBackground(deleteColor);
             
             RoundedButton imageButton = new RoundedButton();
@@ -526,7 +533,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("\\") + 1));
                 }
             } else {
-                styleButton(imageButton, "Add image");
+                styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
             }
 
             constraints.gridy = 1;
@@ -682,7 +689,7 @@ public class Topic extends HamburgerMenu {
                     
                     textPanel.add(deleteButton, constraints);
 
-                    styleButton(deleteButton, "Delete answer");
+                    styleButton(deleteButton, "Delete answer", tester.getDeleteIcon(), JButton.RIGHT);
                     deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -749,7 +756,7 @@ public class Topic extends HamburgerMenu {
                             tester.reset();
                         }
                     });
-                    styleButton(deleteImagePathButton, "Delete image");
+                    styleButton(deleteImagePathButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
                     deleteImagePathButton.setBackground(deleteColor);
 
                     imageButton = new RoundedButton();
@@ -785,7 +792,7 @@ public class Topic extends HamburgerMenu {
                             styleButton(imageButton, imagePath.substring(imagePath.lastIndexOf("\\") + 1));
                         }
                     } else {
-                        styleButton(imageButton, "Add image");
+                        styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
                     }
 
                     constraints.gridy = 1;
@@ -879,7 +886,7 @@ public class Topic extends HamburgerMenu {
                     
                     textPanel.add(deleteButton, constraints);
 
-                    styleButton(deleteButton, "Delete answer");
+                    styleButton(deleteButton, "Delete answer", tester.getDeleteIcon(), JButton.RIGHT);
                     deleteButton.setBackground(deleteColor);
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
@@ -952,7 +959,7 @@ public class Topic extends HamburgerMenu {
 
                 addHam.addComponent(addButton);
 
-                styleButton(addButton, "Add answer");
+                styleButton(addButton, "Add answer", tester.getAddIcon(), JButton.RIGHT);
                 addButton.setBackground(editColor);
             } else if(q.getClass() == MCQuestion.class) {
                 RoundedButton addButton = new RoundedButton();
@@ -971,7 +978,7 @@ public class Topic extends HamburgerMenu {
 
                 addHam.addComponent(addButton);
 
-                styleButton(addButton, "Add answer");
+                styleButton(addButton, "Add answer", tester.getAddIcon(), JButton.RIGHT);
                 addButton.setBackground(editColor);
             }
 
@@ -999,7 +1006,7 @@ public class Topic extends HamburgerMenu {
 
         addMenu.addComponent(addWQButton);
 
-        styleButton(addWQButton, "Add written question");
+        styleButton(addWQButton, "Add written question", tester.getAddIcon(), JButton.RIGHT);
         addWQButton.setBackground(editColor);
 
         RoundedButton addMCButton = new RoundedButton();
@@ -1017,7 +1024,7 @@ public class Topic extends HamburgerMenu {
 
         addMenu.addComponent(addMCButton);
 
-        styleButton(addMCButton, "Add multiple choice question");
+        styleButton(addMCButton, "Add multiple choice question", tester.getAddIcon(), JButton.RIGHT);
         addMCButton.setBackground(editColor);
 
         RoundedButton addTFButton = new RoundedButton();
@@ -1044,7 +1051,7 @@ public class Topic extends HamburgerMenu {
     
         addMenu.addComponent(addTFButton);
 
-        styleButton(addTFButton, "Add true/false question");
+        styleButton(addTFButton, "Add true/false question", tester.getAddIcon(), JButton.RIGHT);
         addTFButton.setBackground(editColor);
 
         RoundedButton pasteButton = new RoundedButton();
@@ -1059,7 +1066,7 @@ public class Topic extends HamburgerMenu {
 
         addMenu.addComponent(pasteButton);
 
-        styleButton(pasteButton, "Paste question");
+        styleButton(pasteButton, "Paste question", tester.getPasteIcon(), JButton.RIGHT);
         pasteButton.setBackground(pasteColor);
 
         editMenu.addComponent(addMenu);

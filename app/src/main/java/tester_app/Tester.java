@@ -35,6 +35,7 @@ import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -77,7 +78,15 @@ public class Tester extends ConsoleErrorJFrame {
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
         editorButtonIcon = loadIcon("/editorButtonx32.png"),
-        backButtonIcon = loadIcon("/backButtonx32.png");
+        backButtonIcon = loadIcon("/backButtonx32.png"),
+        wqIcon = loadIcon("/WQ_iconx32.png"),
+        mcIcon = loadIcon("/MC_iconx32.png"),
+        tfIcon = loadIcon("/TF_iconx32.png"),
+        editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH),
+        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH),
+        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(15, 15, Image.SCALE_SMOOTH),
+        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH);
     private final String settingsFile = "settings.txt";
     
     public Tester() {
@@ -300,7 +309,7 @@ public class Tester extends ConsoleErrorJFrame {
         styleButton(addExamButton, "Create new exam", fileButtonIcon);
         addExamButton.setBackground(editColor);
 
-        styleButton(pasteButton, "Paste");
+        styleButton(pasteButton, "Paste", pasteIcon, JButton.RIGHT);
         pasteButton.setBackground(pasteColor);
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -409,25 +418,31 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadDir(final File dir) {
-        File[] files = dir.listFiles();
+        try {
+            File[] files = dir.listFiles();
 
-        if(files.length != 0) {
-            for (final File f : files) {
-                if (f.isDirectory()) {
-                    Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
+            if(files.length != 0) {
+                for (final File f : files) {
+                    if (f.isDirectory()) {
+                        Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
 
-                    dirTopic.loadFiles(f, fileButtonIcon);
+                        dirTopic.loadFiles(f, fileButtonIcon);
 
-                    addComponent(dirTopic);
-                    loadDir(f);
-                } else if(f.getParentFile().compareTo(root) == 0) {
-                    uncategorized.loadFiles(f, fileButtonIcon);
+                        addComponent(dirTopic);
+                        loadDir(f);
+                    } else if(f.getParentFile().compareTo(root) == 0) {
+                        uncategorized.loadFiles(f, fileButtonIcon);
+                    }
                 }
             }
+            
+            addComponent(uncategorized);
+            addComponent(addButton, GridBagConstraints.SOUTH);
+        } catch(Exception e) {
+            addComponent(new JLabel("Failed to read directory!" + System.lineSeparator() + "If the directory is protected, try running " + name + " as administrator."));
+
+            consoleErrorMessage(e);
         }
-        
-        addComponent(uncategorized);
-        addComponent(addButton, GridBagConstraints.SOUTH);
     }
 
     private void addComponent(Component c, int anchor) {
@@ -559,6 +574,22 @@ public class Tester extends ConsoleErrorJFrame {
         return backButtonIcon;
     }
 
+    public Image getWqIcon() {
+        return wqIcon;
+    }
+
+    public Image getMcIcon() {
+        return mcIcon;
+    }
+
+    public Image getTfIcon() {
+        return tfIcon;
+    }
+
+    public Image getEditIcon() {
+        return editIcon;
+    }
+
     public String getExtendedStates() {
         String out = "";
         int
@@ -585,6 +616,22 @@ public class Tester extends ConsoleErrorJFrame {
 
     public Question getCopiedQuestion() {
         return copiedQuestion;
+    }
+
+    public Image getCopyIcon() {
+        return copyIcon;
+    }
+
+    public Image getDeleteIcon() {
+        return deleteIcon;
+    }
+
+    public Image getAddIcon() {
+        return addIcon;
+    }
+
+    public Image getPasteIcon() {
+        return pasteIcon;
     }
 
     // SETTERS
