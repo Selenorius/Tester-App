@@ -2,13 +2,14 @@
 Create and solve tests to study for your exams.
 
 ## What does this thing look like?
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/8de9e94f-d8bf-4dd6-abbb-b19933ed9b29" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/bfab659f-2a11-432f-bee9-823878d94886" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/89f77e30-85d6-43e4-86b8-7d253d252cb8" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/11d8228a-93eb-442f-8226-b6833d139163" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/43da3417-6bdc-40b9-9c6c-c97135fd3000" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/2f627469-e90b-48c2-8ce4-7737e011b8b6" />
-<img width="960" height="720" alt="image" src="https://github.com/user-attachments/assets/191e118a-d05b-4892-98a3-f95da44a5bad" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/c0a6383a-c2d5-4cba-8f2d-8ae172cfab03" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/cd6f7245-058e-4538-a05d-24cec3fa4f7c" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/2c1a9cae-42f6-436b-b35e-8d971542d5f9" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/60019f46-2a59-4cea-a66e-95ea2f385274" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/94aa72e7-8533-4019-9c0d-23ac0710b910" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/9316a59d-801d-4f1a-af2b-cae5450bfe20" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/0ece16ce-95f0-4f82-8b2f-53ac551044ff" />
+<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/de7c6749-7260-4036-ba33-48221f6bc3cd" />
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
