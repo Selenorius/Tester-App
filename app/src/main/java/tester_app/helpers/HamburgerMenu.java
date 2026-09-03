@@ -136,7 +136,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             ((Container) parent).add(this);
         }
 
-        styleButton(menuButton, buttonText, builder.icon);
+        if(builder.textHPos != null) {
+            styleButton(menuButton, buttonText, builder.icon, builder.textHPos);
+        } else {
+            styleButton(menuButton, buttonText, builder.icon);
+        }
 
         if(isEmpty()) {
             empty.setVisible(true);
@@ -388,6 +392,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         public String text;
         public Image icon;
         public Component parent;
+        public Integer textHPos;
 
         public HamburgerMenuBuilder text(String text) {
             this.text = text;
@@ -401,6 +406,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         public HamburgerMenuBuilder parent(Component parent) {
             this.parent = parent;
+            return this;
+        }
+
+        public HamburgerMenuBuilder textHPos(Integer textHPos) {
+            this.textHPos = textHPos;
             return this;
         }
 
