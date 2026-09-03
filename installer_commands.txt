@@ -1,8 +1,8 @@
 # Windows Installer
-jpackage --type msi --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.ico --app-version 1.8.0 --vendor "github.com/Selenorius" --win-dir-chooser --java-options '--enable-preview' --license-file LICENSE
+jpackage --type msi --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.ico --app-version 1.8.1 --vendor "github.com/Selenorius" --win-dir-chooser --java-options '--enable-preview' --license-file LICENSE
 
 # macOS Package
-jpackage --type dmg --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.icns --app-version 1.8.0 --mac-package-identifier tester_app --mac-package-name "Tester App" --java-options '--enable-preview'
+jpackage --type dmg --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.icns --app-version 1.8.1 --mac-package-identifier tester_app --mac-package-name "Tester App" --java-options '--enable-preview'
 
 # Linux Package
-jpackage --type deb --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.png --app-version 1.8.0 --linux-package-name tester_app --linux-app-category "Utility" --java-options '--enable-preview'
+jpackage --type deb --input . --name TesterApp --main-jar app\build\libs\TesterApp.jar --main-class tester_app.App --icon app\src\main\resources\tester_appx96.png --app-version 1.8.1 --linux-package-name tester_app --linux-app-category "Utility" --java-options '--enable-preview'
