@@ -489,7 +489,7 @@ public class Topic extends HamburgerMenu {
                     tester.reset();
                 }
             });
-            styleButton(deleteImageButton, "Delete image");
+            styleButton(deleteImageButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
             deleteImageButton.setBackground(deleteColor);
             
             RoundedButton imageButton = new RoundedButton();
@@ -533,7 +533,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("\\") + 1));
                 }
             } else {
-                styleButton(imageButton, "Add image");
+                styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
             }
 
             constraints.gridy = 1;
@@ -756,7 +756,7 @@ public class Topic extends HamburgerMenu {
                             tester.reset();
                         }
                     });
-                    styleButton(deleteImagePathButton, "Delete image");
+                    styleButton(deleteImagePathButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
                     deleteImagePathButton.setBackground(deleteColor);
 
                     imageButton = new RoundedButton();
@@ -792,7 +792,7 @@ public class Topic extends HamburgerMenu {
                             styleButton(imageButton, imagePath.substring(imagePath.lastIndexOf("\\") + 1));
                         }
                     } else {
-                        styleButton(imageButton, "Add image");
+                        styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
                     }
 
                     constraints.gridy = 1;
