@@ -4,7 +4,8 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.FocusAdapter;
@@ -17,9 +18,18 @@ import javax.swing.JTextArea;
 
 public class RoundedTextArea extends JTextArea {
     private JLabel label;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
 
     public RoundedTextArea(String s) {
         super();
+
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
 
         if(s != null) {
             if(!s.equals("null")) {
@@ -38,12 +48,12 @@ public class RoundedTextArea extends JTextArea {
         this.setDoubleBuffered(true);
         this.setSelectionColor(selectionColor);
         this.setSelectedTextColor(Color.BLACK);
-        this.setLayout(new GridLayout());
+        this.setLayout(layout);
         this.setOpaque(false);
 
         label = new JLabel();
         label.setForeground(Color.WHITE);
-        this.add(label);
+        this.add(label, constraints);
         if(!this.getText().isEmpty()) {
             label.setVisible(false);
         }

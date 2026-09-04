@@ -37,6 +37,7 @@ public class RoundedButton extends JButton {
 
         this.setContentAreaFilled(false);
         this.setFocusable(false);
+        this.setDoubleBuffered(true);
         this.setOpaque(false);
 
         this.radius = 10;

@@ -388,7 +388,6 @@ public class Topic extends HamburgerMenu {
 
         for(Question q : questions) {
             constraints = new GridBagConstraints();
-
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
@@ -462,7 +461,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
-            constraints.insets = new Insets(margin, margin, margin, margin);
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             addHam.addComponent(copyButton);
             addHam.addComponent(deleteButton);
@@ -520,7 +519,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
-            constraints.weightx = 10;
+            constraints.weightx = 140;
 
             textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
@@ -546,7 +545,7 @@ public class Topic extends HamburgerMenu {
             constraints.fill = GridBagConstraints.BOTH;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
-            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+            constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
             constraints.gridx = 1;
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
@@ -565,15 +564,20 @@ public class Topic extends HamburgerMenu {
                 constraints.gridheight = 2;
             }
 
-            textPanel.add(textArea, constraints);
+            constraints.weightx = 0.1;
 
-            constraints.gridx = 1;
-            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+            textPanel.add(textArea, constraints);
 
             editPanel.addComponent(textPanel);
             questionTextAreas.add(textArea);
 
             if(q.getClass() == WQuestion.class) {
+                constraints = new GridBagConstraints();
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 0.5;
+                constraints.weighty = 0.5;
+                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
                 ArrayList<TextOption> options = q.getTextOptions();
 
                 RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(q.getGoal(), 1, ((WQuestion) q).getMaxScore(), 1), "Answer");
@@ -630,20 +634,31 @@ public class Topic extends HamburgerMenu {
                     }
                 });
 
-                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+                constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
+                constraints.weightx = 0.1;
+                constraints.gridx = 1;
+                constraints.gridy = 1;
 
                 textPanel.add(radioButton, constraints);
                 orderedRadioButtons.add(radioButton);
 
+                constraints.weightx = 0.5;
                 constraints.gridx = 0;
                 constraints.gridwidth = 2;
+
+                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+                constraints.gridy = 2;
 
                 textPanel.add(goalSpinner, constraints);
                 goalSpinners.add(goalSpinner);
 
-                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
-
                 for(TextOption o : options) {
+                    constraints = new GridBagConstraints();
+                    constraints.fill = GridBagConstraints.BOTH;
+                    constraints.weightx = 0.5;
+                    constraints.weighty = 0.5;
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
                     textPanel = new RoundedPanel();
                     textPanel.setLayout(getLayout());
                     textPanel.setBackground(editPanel.getBackground().darker().darker());
@@ -671,7 +686,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.insets = new Insets(margin, margin, margin, margin);
                     
                     textArea = new RoundedTextArea(o.getClearText());
                     textArea.setToolTipText("Click to change the answer text");
@@ -688,6 +703,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.gridy = 1;
                     
                     textPanel.add(deleteButton, constraints);
 
@@ -701,6 +717,12 @@ public class Topic extends HamburgerMenu {
                     optionTextAreas.add(textArea);
                 }
             } else if(q.getClass() == MCQuestion.class) {
+                constraints = new GridBagConstraints();
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 0.5;
+                constraints.weighty = 0.5;
+                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
                 ArrayList<ButtonOption> options = q.getButtonOptions();
 
                 JRadioButton radioButton = new JRadioButton();
@@ -728,15 +750,18 @@ public class Topic extends HamburgerMenu {
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
 
-                constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+                constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
+                constraints.weightx = 0.1;
+                constraints.gridx = 1;
+                constraints.gridy = 1;
 
                 textPanel.add(radioButton, constraints);
-
                 orderedRadioButtons.add(radioButton);
+
+                constraints.weightx = 0.5;
 
                 for(ButtonOption o : options) {
                     constraints = new GridBagConstraints();
-
                     constraints.fill = GridBagConstraints.BOTH;
                     constraints.weightx = 0.5;
                     constraints.weighty = 0.5;
@@ -781,7 +806,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.weightx = 10;
+                    constraints.weightx = 140;
 
                     textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();
@@ -831,7 +856,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
                     textArea = new RoundedTextArea(o.getText());
                     textArea.setToolTipText("Click to change the answer text");
@@ -852,6 +877,9 @@ public class Topic extends HamburgerMenu {
                             }
                         }
                     });
+
+                    constraints.weightx = 0.1;
+
                     textPanel.add(textArea, constraints);
 
                     JRadioButton optionRadioButton = new JRadioButton();
@@ -879,12 +907,13 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setText("True");
                     optionRadioButton.setSelected(o.isTrue());
 
-                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+                    constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
 
                     textPanel.add(optionRadioButton, constraints);
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+                    constraints.weightx = 0.5;
                     constraints.gridx = 0;
                     constraints.gridwidth = 2;
                     
@@ -901,13 +930,17 @@ public class Topic extends HamburgerMenu {
                     optionTextAreas.add(textArea);
                 }
             } else {
+                constraints = new GridBagConstraints();
+                constraints.fill = GridBagConstraints.BOTH;
+                constraints.weightx = 0.5;
+                constraints.weighty = 0.5;
+                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
                 textPanel = new RoundedPanel();
                 textPanel.setLayout(getLayout());
                 textPanel.setBackground(editPanel.getBackground().darker().darker());
                 textPanel.setBorderColor(editPanel.getBorderColor());
                 textPanel.setBorderPainted(true);
-
-                constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setToolTipText("Is the question text true?");
