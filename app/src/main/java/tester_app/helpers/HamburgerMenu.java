@@ -190,7 +190,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
             blot.setVisible(false);
             menu.setVisible(true);
-            if(menuButton.getIcon() != null) {
+            if(menuButton.getButtonIcon() != null) {
                 menuButton.setText("");
             }
             menuButton.setBackground(menu.getBackground());

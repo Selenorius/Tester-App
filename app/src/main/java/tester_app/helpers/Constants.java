@@ -107,8 +107,8 @@ public final class Constants {
             button.setBackground(buttonBackgroundColor);
         }
         if(buttonIcon != null) {
-            button.setIcon(new ImageIcon(buttonIcon));
-            button.setMinimumSize(new Dimension(button.getIcon().getIconWidth() * 2, button.getIcon().getIconHeight() * 2));
+            button.setButtonIcon(new ImageIcon(buttonIcon));
+            button.setIcon(null);
         }
         button.setText(buttonText);
         button.setHorizontalTextPosition(hPos);

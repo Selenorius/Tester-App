@@ -519,7 +519,7 @@ public class Topic extends HamburgerMenu {
                 }
             });
 
-            constraints.weightx = 140;
+            constraints.weightx = 0.1;
 
             textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
@@ -806,7 +806,7 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.weightx = 140;
+                    constraints.weightx = 0.1;
 
                     textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();

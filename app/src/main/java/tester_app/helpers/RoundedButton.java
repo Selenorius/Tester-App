@@ -6,9 +6,14 @@ import static tester_app.helpers.Constants.selectionColor;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class RoundedButton extends JButton {
     private int radius;
@@ -18,32 +23,73 @@ public class RoundedButton extends JButton {
     private Color
         buttonSelectionColor,
         buttonBorderColor;
+    
+    private JLabel label;
+    private GridBagLayout layout;
+    private GridBagConstraints constraints;
 
     public RoundedButton(String text) { 
-        super(text);
+        super();
+
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
         
         this.setContentAreaFilled(false);
         this.setFocusable(false);
         this.setDoubleBuffered(true);
         this.setOpaque(false);
+        this.setLayout(layout);
 
         this.radius = 10;
         this.borderPaint = true;
         this.borderState = true;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.CENTER;
+
+        this.add(label, constraints);
     }
     public RoundedButton() { 
         super();
+
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        label = new JLabel();
+        label.setForeground(Color.WHITE);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
 
         this.setContentAreaFilled(false);
         this.setFocusable(false);
         this.setDoubleBuffered(true);
         this.setOpaque(false);
+        this.setLayout(layout);
 
         this.radius = 10;
         this.borderPaint = true;
         this.borderState = true;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.CENTER;
+
+        this.add(label, constraints);
+    }
+
+    // GETTERS
+    public Icon getButtonIcon() {
+        return label.getIcon();
     }
     
     // SETTERS
@@ -57,6 +103,48 @@ public class RoundedButton extends JButton {
 
     public void setBorderColor(Color buttonBorderColor) {
         this.buttonBorderColor = buttonBorderColor;
+    }
+
+    public void setButtonIcon(Icon defaultIcon) {
+        if(label != null) {
+            label.setIcon(defaultIcon);
+        }
+    }
+
+    @Override
+    public void setIconTextGap(int iconTextGap) {
+        if(label != null) {
+            label.setIconTextGap(iconTextGap);
+        } else {
+            super.setIconTextGap(iconTextGap);
+        }
+    }
+
+    @Override
+    public void setText(String text) {
+        if(label != null) {
+            label.setText(text);
+        } else {
+            super.setText(text);
+        }
+    }
+
+    @Override
+    public void setHorizontalTextPosition(int textPosition) {
+        if(label != null) {
+            label.setHorizontalTextPosition(textPosition);
+        } else {
+            super.setHorizontalTextPosition(textPosition);
+        }
+    }
+
+    @Override
+    public void setVerticalTextPosition(int textPosition) {
+        if(label != null) {
+            label.setVerticalTextPosition(textPosition);
+        } else {
+            super.setVerticalTextPosition(textPosition);
+        }
     }
 
     @Override
