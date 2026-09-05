@@ -3,9 +3,7 @@ package tester_app.options;
 import tester_app.helpers.RoundedButton;
 
 public class ButtonOption extends RoundedButton {
-    String
-    text,
-    imagePath;
+    String imagePath;
     boolean value;
 
     // CONSTRUCTORS
@@ -17,23 +15,14 @@ public class ButtonOption extends RoundedButton {
     public boolean isTrue() {
         return value;
     }
-    public String getText() {
-        if(text == null) {
-            return "";
-        }
-        return text;
-    }
     public String getImagePath() {
         return imagePath;
     }
 
     // SETTERS
+    @Override
     public void setText(String text) {
-        if(text == null) {
-            this.text = "";
-        } else {
-            this.text = text;
-        }
+        super.setText(text);
     }
     public void setValue(boolean value) {
         this.value = value;

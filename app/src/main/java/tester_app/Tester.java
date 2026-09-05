@@ -83,10 +83,10 @@ public class Tester extends ConsoleErrorJFrame {
         mcIcon = loadIcon("/MC_iconx32.png"),
         tfIcon = loadIcon("/TF_iconx32.png"),
         editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH),
-        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH),
-        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(15, 15, Image.SCALE_SMOOTH),
-        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
     private final String settingsFile = "settings.txt";
     
     public Tester() {

@@ -395,11 +395,7 @@ public class Topic extends HamburgerMenu {
 
             String qText = q.getQuestionText();
             if(qText != null) {
-                if(qText != "") {
-                    if(qText.length() > 20) {
-                        qText = qText.substring(0, 20) + "...";
-                    }
-                } else {
+                if(qText == "") {
                     qText = "New " + q.getClass().getSimpleName();
                 }
             } else {
@@ -520,6 +516,7 @@ public class Topic extends HamburgerMenu {
             });
 
             constraints.weightx = 0.1;
+            constraints.weighty = 0.1;
 
             textPanel.add(imageButton, constraints);
             String questionImage = q.getQuestionImage();
@@ -563,8 +560,6 @@ public class Topic extends HamburgerMenu {
             if(q.getClass() == TFQuestion.class) {
                 constraints.gridheight = 2;
             }
-
-            constraints.weightx = 0.1;
 
             textPanel.add(textArea, constraints);
 
@@ -807,6 +802,7 @@ public class Topic extends HamburgerMenu {
                     });
 
                     constraints.weightx = 0.1;
+                    constraints.weighty = 0.1;
 
                     textPanel.add(imageButton, constraints);
                     String imagePath = o.getImagePath();
@@ -858,7 +854,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
-                    textArea = new RoundedTextArea(o.getText());
+                    textArea = new RoundedTextArea(o.getButtonText());
                     textArea.setToolTipText("Click to change the answer text");
                     textArea.setLabel("Enter answer...");
                     textArea.addKeyListener(new KeyAdapter() {

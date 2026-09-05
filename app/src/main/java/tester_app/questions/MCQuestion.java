@@ -139,31 +139,10 @@ public class MCQuestion extends Question {
         inputArea.add(o, constraints);
 
         String
-            text = o.getText(),
+            text = o.getButtonText(),
             image = o.getImagePath();
-        if(text != null && image != null) {
-            if(text.isBlank()) {
-                styleButton(o, new ImageIcon(image).getImage());
-            } else if(image.isBlank()) {
-                styleButton(o, text);
-            } else {
-                styleButton(o, text.substring(0, text.length()), new ImageIcon(image).getImage());
-            }
-        } else if(text != null) {
-            if(!text.isBlank()) {
-                styleButton(o, text);
-            } else {
-                styleButton(o);
-            }
-        } else if(image != null) {
-            if(!image.isBlank()) {
-                styleButton(o, new ImageIcon(image).getImage());
-            } else {
-                styleButton(o);
-            }
-        } else {
-            styleButton(o);
-        }
+
+        styleButton(o, text, new ImageIcon(image).getImage());
 
         inputArea.revalidate();
     }

@@ -23,6 +23,7 @@ public class RoundedButton extends JButton {
     private Color
         buttonSelectionColor,
         buttonBorderColor;
+    private String buttonText;
     
     private JLabel label;
     private GridBagLayout layout;
@@ -34,7 +35,7 @@ public class RoundedButton extends JButton {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        label = new JLabel(text);
+        label = new JLabel();
         label.setForeground(Color.WHITE);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -56,6 +57,8 @@ public class RoundedButton extends JButton {
         constraints.anchor = GridBagConstraints.CENTER;
 
         this.add(label, constraints);
+
+        setText(text);
     }
     public RoundedButton() { 
         super();
@@ -112,6 +115,23 @@ public class RoundedButton extends JButton {
     }
 
     @Override
+    public Color getForeground() {
+        if(label != null) {
+            return label.getForeground();
+        }
+        return super.getForeground();
+    }
+
+    @Override
+    public void setForeground(Color color) {
+        if(label != null) {
+            label.setForeground(color);
+        } else {
+            super.setForeground(color);
+        }
+    }
+
+    @Override
     public void setIconTextGap(int iconTextGap) {
         if(label != null) {
             label.setIconTextGap(iconTextGap);
@@ -120,12 +140,44 @@ public class RoundedButton extends JButton {
         }
     }
 
+    public String getButtonText() {
+        return buttonText;
+    }
+
     @Override
     public void setText(String text) {
+        buttonText = text;
+
+        int length = 60;
+        String out = null;
+
+        if(text != null) {
+            if(text.length() < length) {
+                out = text;
+            } else {
+                String line = null;
+
+                out = "<html><center>";
+
+                while(text.length() > length) {
+                    line = text.substring(0, length);
+
+                    if(line.contains(" ")) {
+                        out += text.substring(0, line.lastIndexOf(" ") + 1) + "<br>";
+                        text = text.substring(line.lastIndexOf(" ") + 1, text.length());
+                    } else {
+                        out += line + "<br>";
+                        text = text.substring(length, text.length());
+                    }
+                }
+                out += text + "</center></html>";
+            }
+        }
+
         if(label != null) {
-            label.setText(text);
+            label.setText(out);
         } else {
-            super.setText(text);
+            super.setText(out);
         }
     }
 

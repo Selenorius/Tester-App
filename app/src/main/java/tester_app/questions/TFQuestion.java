@@ -116,10 +116,8 @@ public class TFQuestion extends Question {
         options.add(o);
         inputArea.add(o, constraints);
 
-        String text = o.getText();
-        if(text != null && !text.isBlank()) {
-            styleButton(o, text.substring(0, text.length()));
-        }
+        String text = o.getButtonText();
+        styleButton(o, text);
     }
 
     @Override
