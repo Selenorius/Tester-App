@@ -30,7 +30,8 @@
         }
     }
     TRUE_FALSE {
-        "IoT in manufacturing brings with it the opportunity for inserting intelligence into factories" {
+        "IoT in manufacturing brings with it the opportunity for inserting intelligence into
+ factories" {
             true
         }
     }
@@ -42,64 +43,64 @@
     MULTIPLE_CHOICE {
         "Telecommunication organizations often emphasize..." {
             true {
-                
+                "Connectivity and communication between devices" 
             }
             false {
-                
+                "Integration of physical objects into digital information systems" 
             }
             false {
-                
+                "Operational efficiency and automation" 
             }
             false {
-                
+                "Smart products and user experiences" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "Computer scientists may focus on..." {
             false {
-                
+                "Connectivity and communication between devices" 
             }
             true {
-                
+                "Integration of physical objects into digital information systems" 
             }
             false {
-                
+                "Operational efficiency and automation" 
             }
             false {
-                
+                "Smart products and user experiences" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "Industrial organizations frequently define the IoT in terms of of..." {
             false {
-                
+                "Connectivity and communication between devices" 
             }
             false {
-                
+                "Integration of physical objects into digital information systems" 
             }
             true {
-                
+                "Operational efficiency and automation" 
             }
             false {
-                
+                "Smart products and user experiences" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "Consumer-oriented companies tend to focus on..." {
             false {
-                
+                "Connectivity and communication between devices" 
             }
             false {
-                
+                "Integration of physical objects into digital information systems" 
             }
             false {
-                
+                "Operational efficiency and automation" 
             }
             true {
-                
+                "Smart products and user experiences" 
             }
         }
     }
@@ -111,143 +112,143 @@
     MULTIPLE_CHOICE {
         "IEEE described the phrase 'Internet of Things' as:" {
             true {
-                
+                "A network of items - each embedded with sensors - which are connected to the Internet" 
             }
             false {
-                
+                "A global infrastructure, enabling advanced services by interconnecting things based on information and communication technologies" 
             }
             false {
-                
+                "The network of physical objects that contain embedded technology to communicate and sense or interact with their internal states or external environment" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "The ITU-T defines the 'Internet of Things' as:" {
             false {
-                
+                "A network of items - each embedded with sensors - which are connected to the Internet" 
             }
             true {
-                
+                "A global infrastructure, enabling advanced services by interconnecting things based on information and communication technologies" 
             }
             false {
-                
+                "The network of physical objects that contain embedded technology to communicate and sense or interact with their internal states or external environment" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "The European Commission defines the 'Internet of Things' as:" {
             false {
-                
+                "A network of items - each embedded with sensors - which are connected to the Internet" 
             }
             false {
-                
+                "A global infrastructure, enabling advanced services by interconnecting things based on information and communication technologies" 
             }
             true {
-                
+                "The network of physical objects that contain embedded technology to communicate and sense or interact with their internal states or external environment" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "The characteristics of Passive Things are:" {
             true {
-                
+                "No internal power source" 
             }
             true {
-                
+                "Very limited or no computational capability" 
             }
             true {
-                
+                "Cannot initiate communication" 
             }
             true {
-                
+                "Respond only when activated by another device" 
             }
             true {
-                
+                "Low cost and long lifetime" 
             }
             true {
-                
+                "Primarily used for identification and tracking" 
             }
             false {
-                
+                "Have their own power source (battery, mains power, energy harvesting)" 
             }
             false {
-                
+                "Have communication capabilities and can establish the communication" 
             }
             false {
-                
+                "Are equipped with Sensors and/or actuators" 
             }
             false {
-                
+                "Have (limited) local processing capability" 
             }
             false {
-                
+                "Operate according to predefined behavior or remote control" 
             }
             false {
-                
+                "Have significant processing capability" 
             }
             false {
-                
+                "Make decisions locally" 
             }
             false {
-                
+                "Have adaptive and context-aware behavior" 
             }
             false {
-                
+                "Can operate with minimal human intervention" 
             }
             false {
-                
+                "Are often supported by artificial intelligence or machine learning" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "The characteristics of Active Things are:" {
             false {
-                
+                "No internal power source" 
             }
             false {
-                
+                "Very limited or no computational capability" 
             }
             false {
-                
+                "Cannot initiate communication" 
             }
             false {
-                
+                "Respond only when activated by another device" 
             }
             false {
-                
+                "Low cost and long lifetime" 
             }
             false {
-                
+                "Primarily used for identification and tracking" 
             }
             true {
-                
+                "Have their own power source (battery, mains power, energy harvesting)" 
             }
             true {
-                
+                "Have communication capabilities and can establish the communication" 
             }
             true {
-                
+                "Are equipped with Sensors and/or actuators" 
             }
             true {
-                
+                "Have (limited) local processing capability" 
             }
             true {
-                
+                "Operate according to predefined behavior or remote control" 
             }
             false {
-                
+                "Have significant processing capability" 
             }
             false {
-                
+                "Make decisions locally" 
             }
             false {
-                
+                "Have adaptive and context-aware behavior" 
             }
             false {
-                
+                "Can operate with minimal human intervention" 
             }
             false {
-                
+                "Are often supported by artificial intelligence or machine learning" 
             }
         }
     }
@@ -275,52 +276,52 @@
     MULTIPLE_CHOICE {
         "Autonomous Things are characterized by:" {
             false {
-                
+                "No internal power source" 
             }
             false {
-                
+                "Very limited or no computational capability" 
             }
             false {
-                
+                "Cannot initiate communication" 
             }
             false {
-                
+                "Respond only when activated by another device" 
             }
             false {
-                
+                "Low cost and long lifetime" 
             }
             false {
-                
+                "Primarily used for identification and tracking" 
             }
             true {
-                
+                "Have their own power source (battery, mains power, energy harvesting)" 
             }
             true {
-                
+                "Have communication capabilities and can establish the communication" 
             }
             true {
-                
+                "Are equipped with Sensors and/or actuators" 
             }
             false {
-                
+                "Have (limited) local processing capability" 
             }
             false {
-                
+                "Operate according to predefined behavior or remote control" 
             }
             true {
-                
+                "Have significant processing capability" 
             }
             true {
-                
+                "Make decisions locally" 
             }
             true {
-                
+                "Have adaptive and context-aware behavior" 
             }
             true {
-                
+                "Can operate with minimal human intervention" 
             }
             true {
-                
+                "Are often supported by artificial intelligence or machine learning" 
             }
         }
     }
@@ -341,20 +342,20 @@
     MULTIPLE_CHOICE {
         "'Information Technology' refers to..." {
             true {
-                
+                "Technologies used for the storage, processing, transmission, and management of information" 
             }
             false {
-                
+                "Hardware and software systems that monitor and control physical processes and equipment" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "'Operational Technology' refers to..." {
             false {
-                
+                "Technologies used for the storage, processing, transmission, and management of information" 
             }
             true {
-                
+                "Hardware and software systems that monitor and control physical processes and equipment" 
             }
         }
     }
@@ -389,32 +390,32 @@
     MULTIPLE_CHOICE {
         "Which are Information Technologies?" {
             true {
-                
+                "ERP" 
             }
             true {
-                
+                "CRM" 
             }
             false {
-                
+                "PLC" 
             }
             false {
-                
+                "SCADA" 
             }
         }
     }
     MULTIPLE_CHOICE {
         "Which are Operational Technologies?" {
             false {
-                
+                "ERP" 
             }
             false {
-                
+                "CRM" 
             }
             true {
-                
+                "PLC" 
             }
             true {
-                
+                "SCADA" 
             }
         }
     }
@@ -451,16 +452,16 @@ so-called __________ environments." {
     MULTIPLE_CHOICE {
         "One of the main economic drivers of IT/OT convergence is the potential for..." {
             true {
-                
+                "Significant Cost Reduction" 
             }
             false {
-                
+                "Improved Quality of Life" 
             }
             false {
-                
+                "Reduced environmental Toll" 
             }
             false {
-                
+                "A better Future" 
             }
         }
     }

@@ -2,13 +2,12 @@
 Create and solve tests to study for your exams.
 
 ## What does this thing look like?
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/c0a6383a-c2d5-4cba-8f2d-8ae172cfab03" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/cd6f7245-058e-4538-a05d-24cec3fa4f7c" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/2c1a9cae-42f6-436b-b35e-8d971542d5f9" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/60019f46-2a59-4cea-a66e-95ea2f385274" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/94aa72e7-8533-4019-9c0d-23ac0710b910" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/9316a59d-801d-4f1a-af2b-cae5450bfe20" />
-<img width="2560" height="1440" alt="image" src="https://github.com/user-attachments/assets/de7c6749-7260-4036-ba33-48221f6bc3cd" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b67bbb0e-a169-434a-b499-967760d42262" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6835c5ae-ba76-470d-a928-6b97b137776e" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/55da01b1-4077-47af-9472-c64fc126edb8" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5e8f60a3-7bd2-4ef3-8867-f706fd87b137" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1ca05bf1-8379-4d61-b808-c515de42e079" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7e716b09-93d7-470f-80fd-456ee7d677f7" />
 
 ## Download
 [Releases](https://github.com/Selenorius/Tester-App/releases)
@@ -24,7 +23,7 @@ Create and solve tests to study for your exams.
 3. Choose an option
 
 ### Step 3: Solve your exam
-1. Start **Tester App.jar**.
+1. Start **Tester App**.
 2. Pick your **Topic**.
 3. Pick your **Exam**.
 
