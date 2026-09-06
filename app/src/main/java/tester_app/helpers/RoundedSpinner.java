@@ -37,6 +37,7 @@ public class RoundedSpinner extends JSpinner {
         borderColor = backgroundColor.brighter();
         setBackground(backgroundColor);
         this.setDoubleBuffered(true);
+        this.setOpaque(false);
         addMargin(this, margin);
 
         label = new RoundedLabel(text);
@@ -82,6 +83,7 @@ public class RoundedSpinner extends JSpinner {
         borderColor = backgroundColor.brighter();
         setBackground(backgroundColor);
         this.setDoubleBuffered(true);
+        this.setOpaque(false);
         addMargin(this, margin);
 
         label = new RoundedLabel();
@@ -126,6 +128,7 @@ public class RoundedSpinner extends JSpinner {
         borderColor = backgroundColor.brighter();
         setBackground(backgroundColor);
         this.setDoubleBuffered(true);
+        this.setOpaque(false);
         addMargin(this, margin);
 
         label = new RoundedLabel();
