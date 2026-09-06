@@ -106,7 +106,18 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 hStep = 16,
                 vStep = 16;
 
-            g2.setColor(getBackground().brighter());
+            int
+                red = getBackground().brighter().getRed(),
+                green = getBackground().brighter().getGreen(),
+                blue = getBackground().brighter().getBlue();
+
+            g2.setColor(
+                new Color(
+                    red - red / 6 > 0 ? red - red / 6 : 0,
+                    green - green / 6 > 0 ? green - green / 6 : 0,
+                    blue - blue / 16 > 0 ? blue - blue / 16 : 0
+                )
+            );
 
             for(int w = hStep - textureOffsetX; w < getWidth() - radius / 2 + 2; w += hStep) {
                 for(int h = vStep - textureOffsetY; h < getHeight() - radius / 2 + 2; h += vStep) {

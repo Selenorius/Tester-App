@@ -238,16 +238,26 @@ public final class Constants {
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
                 } else if(isDragging) {
+                    int
+                        red = scrollBarColor.getRed(),
+                        green = scrollBarColor.getGreen(),
+                        blue = scrollBarColor.getBlue();
+
                     color = new Color(
-                        scrollBarColor.getRed() - scrollBarColor.getRed() / 6 > 0 ? scrollBarColor.getRed() - scrollBarColor.getRed() / 6 : 0,
-                        scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 > 0 ? scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 : 0,
-                        scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 > 0 ? scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 : 0
+                        red - red / 6 > 0 ? red - red / 6 : 0,
+                        green - green / 6 > 0 ? green - green / 6 : 0,
+                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
                     );
                 } else if(isThumbRollover()) {
+                    int
+                        red = scrollBarColor.getRed(),
+                        green = scrollBarColor.getGreen(),
+                        blue = scrollBarColor.getBlue();
+
                     color = new Color(
-                        scrollBarColor.getRed() - scrollBarColor.getRed() / 6 > 0 ? scrollBarColor.getRed() - scrollBarColor.getRed() / 6 : 0,
-                        scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 > 0 ? scrollBarColor.getGreen() - scrollBarColor.getGreen() / 6 : 0,
-                        scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 > 0 ? scrollBarColor.getBlue() - scrollBarColor.getBlue() / 6 : 0
+                        red - red / 6 > 0 ? red - red / 6 : 0,
+                        green - green / 6 > 0 ? green - green / 6 : 0,
+                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
                     );
                 }
 
