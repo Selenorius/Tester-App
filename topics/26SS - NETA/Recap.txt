@@ -121,23 +121,23 @@
     }
     MULTIPLE_CHOICE {
         "Which statement is true?" {
+            false {
+                
+            }
+            false {
+                
+            }
             true {
-                
-            }
-            false {
-                
-            }
-            false {
                 
             }
         }
     }
     MULTIPLE_CHOICE {
         "Which statement is true?" {
-            true {
+            false {
                 
             }
-            false {
+            true {
                 
             }
             false {
