@@ -2,6 +2,7 @@ package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
@@ -30,7 +31,6 @@ import java.util.Scanner;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -42,6 +42,7 @@ import tester_app.helpers.ExamTimer;
 import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.FrameResizeListener;
 import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
@@ -56,7 +57,7 @@ public class Exam extends ConsoleErrorJFrame {
     private RoundedPanel
         questionMenu,
         titleMenu;
-    private JLabel
+    private RoundedLabel
         iconLabel,
         titleLabel;
     private GridBagLayout layout;
@@ -99,7 +100,7 @@ public class Exam extends ConsoleErrorJFrame {
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
@@ -149,11 +150,12 @@ public class Exam extends ConsoleErrorJFrame {
 
         questions = new ArrayList<>();
 
-        iconLabel = new JLabel();
+        iconLabel = new RoundedLabel();
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
 
-        titleLabel = new JLabel("No label text found");
+        titleLabel = new RoundedLabel("No label text found");
         titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(buttonFont);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);

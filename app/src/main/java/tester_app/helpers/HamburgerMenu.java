@@ -2,6 +2,7 @@ package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.blotBackgroundColor;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
 
@@ -18,8 +19,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
         menuButton,
@@ -34,7 +33,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         radius,
         menuSize,
         blotOffset;
-    private JLabel
+    private RoundedLabel
         text,
         size;
     private Color
@@ -72,7 +71,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
         addMargin(this, 0);
 
-        text = new JLabel("Nothing here...");
+        text = new RoundedLabel("Nothing here...");
 
         menuButton = new RoundedButton();
         menuButton.addActionListener(new ActionListener() {
@@ -88,8 +87,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         blot.setRadius(4);
         addMargin(blot, 0);
 
-        size  = new JLabel("0");
+        size = new RoundedLabel("0");
         size.setForeground(Color.WHITE);
+        size.setFont(buttonFont);
         blot.add(size);
 
         menu = new RoundedPanel();
@@ -349,6 +349,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         int
             width = getSize().width,
@@ -367,6 +369,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     protected void paintBorder(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         int
             width = getSize().width,

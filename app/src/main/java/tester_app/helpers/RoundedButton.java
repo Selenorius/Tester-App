@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 
@@ -12,7 +13,6 @@ import java.awt.RenderingHints;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 public class RoundedButton extends JButton {
@@ -25,7 +25,7 @@ public class RoundedButton extends JButton {
         buttonBorderColor;
     private String buttonText;
     
-    private JLabel label;
+    private RoundedLabel label;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
 
@@ -35,10 +35,11 @@ public class RoundedButton extends JButton {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        label = new JLabel();
+        label = new RoundedLabel();
         label.setForeground(Color.WHITE);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setFont(buttonFont);
         
         this.setContentAreaFilled(false);
         this.setFocusable(false);
@@ -66,10 +67,11 @@ public class RoundedButton extends JButton {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        label = new JLabel();
+        label = new RoundedLabel();
         label.setForeground(Color.WHITE);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setFont(buttonFont);
 
         this.setContentAreaFilled(false);
         this.setFocusable(false);
@@ -203,6 +205,8 @@ public class RoundedButton extends JButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         if (getModel().isRollover()) {
             setForeground(selectionColor);
@@ -231,6 +235,8 @@ public class RoundedButton extends JButton {
     protected void paintBorder(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         if(borderPaint || borderState) {
             if (getModel().isRollover()) {

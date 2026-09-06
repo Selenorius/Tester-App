@@ -1,23 +1,27 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
+import static tester_app.helpers.Constants.textFont;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 public class RoundedTextArea extends JTextArea {
-    private JLabel label;
+    private RoundedLabel label;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
 
@@ -50,13 +54,15 @@ public class RoundedTextArea extends JTextArea {
         this.setSelectedTextColor(Color.BLACK);
         this.setLayout(layout);
         this.setOpaque(false);
+        this.setFont(textFont);
 
-        label = new JLabel();
-        label.setForeground(Color.WHITE);
+        label = new RoundedLabel();
+        label.setForeground(Color.WHITE.darker());
         this.add(label, constraints);
         if(!this.getText().isEmpty()) {
             label.setVisible(false);
         }
+        label.setFont(buttonFont);
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -98,5 +104,23 @@ public class RoundedTextArea extends JTextArea {
     // SETTERS
     public void setLabel(String text) {
         label.setText(text);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        
+        super.paintComponent(g2);
+    }
+
+    @Override
+    protected void paintBorder(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+
+        super.paintBorder(g2);
     }
 }

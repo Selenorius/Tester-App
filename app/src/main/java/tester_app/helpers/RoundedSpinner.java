@@ -2,8 +2,10 @@ package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
+import static tester_app.helpers.Constants.textFont;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,7 +17,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 
@@ -25,7 +26,7 @@ public class RoundedSpinner extends JSpinner {
     private RoundedSpinner.DefaultEditor editor;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
-    private JLabel label;
+    private RoundedLabel label;
 
     public RoundedSpinner(SpinnerModel model, String text) {
         super(model);
@@ -38,8 +39,9 @@ public class RoundedSpinner extends JSpinner {
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
-        label = new JLabel(text);
+        label = new RoundedLabel(text);
         label.setForeground(Color.WHITE);
+        label.setFont(buttonFont);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
         editor.setBackground(backgroundColor);
@@ -55,6 +57,7 @@ public class RoundedSpinner extends JSpinner {
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE);
         editor.getTextField().setCaretColor(Color.WHITE);
+        editor.getTextField().setFont(textFont);
         editor.getTextField().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -81,8 +84,9 @@ public class RoundedSpinner extends JSpinner {
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
-        label = new JLabel();
+        label = new RoundedLabel();
         label.setForeground(Color.WHITE);
+        label.setFont(buttonFont);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
         editor.setBackground(backgroundColor);
@@ -97,6 +101,7 @@ public class RoundedSpinner extends JSpinner {
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE);
         editor.getTextField().setCaretColor(Color.WHITE);
+        editor.getTextField().setFont(textFont);
         editor.getTextField().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -123,8 +128,9 @@ public class RoundedSpinner extends JSpinner {
         this.setDoubleBuffered(true);
         addMargin(this, margin);
 
-        label = new JLabel();
+        label = new RoundedLabel();
         label.setForeground(Color.WHITE);
+        label.setFont(buttonFont);
         
         editor = (RoundedSpinner.DefaultEditor) this.getEditor();
         editor.setBackground(backgroundColor);
@@ -139,6 +145,7 @@ public class RoundedSpinner extends JSpinner {
         editor.getTextField().setFocusable(false);
         editor.getTextField().setForeground(Color.WHITE);
         editor.getTextField().setCaretColor(Color.WHITE);
+        editor.getTextField().setFont(textFont);
         editor.getTextField().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -175,6 +182,8 @@ public class RoundedSpinner extends JSpinner {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
@@ -184,6 +193,8 @@ public class RoundedSpinner extends JSpinner {
     protected void paintBorder(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         
         g2.setColor(borderColor);
         g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);

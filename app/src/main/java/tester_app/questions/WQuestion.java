@@ -1,6 +1,7 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
@@ -8,6 +9,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleScrollPane;
+import static tester_app.helpers.Constants.textFont;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,7 +25,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -31,6 +32,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -125,6 +127,7 @@ public class WQuestion extends Question {
         textArea.setSelectedTextColor(Color.BLACK);
         textArea.setFont(null);
         textArea.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
+        textArea.setFont(textFont);
         
         scrollPane = new JScrollPane(textArea);
         scrollPane.setBackground(getBackground().darker());
@@ -140,13 +143,14 @@ public class WQuestion extends Question {
         inputArea.setBorderPainted(true);
         inputArea.setLayout(new GridLayout());
 
-        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
-        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questionTextLabel.setAlignmentX(RoundedLabel.CENTER_ALIGNMENT);
         questionTextLabel.setLayout(layout);
-        questionTextLabel.setHorizontalTextPosition(JLabel.CENTER);
-        questionTextLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        questionTextLabel.setHorizontalTextPosition(RoundedLabel.CENTER);
+        questionTextLabel.setVerticalTextPosition(RoundedLabel.BOTTOM);
         questionTextLabel.setIconTextGap(margin * 3);
+        questionTextLabel.setFont(buttonFont);
         addMargin(questionTextLabel, margin * 3);
         
         constraints.fill = GridBagConstraints.BOTH;

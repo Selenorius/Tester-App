@@ -1,6 +1,7 @@
 package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
@@ -18,12 +19,12 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import tester_app.Exam;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -78,13 +79,14 @@ public class TFQuestion extends Question {
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
-        questionTextLabel = new JLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
-        questionTextLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        questionTextLabel.setAlignmentX(RoundedLabel.CENTER_ALIGNMENT);
         questionTextLabel.setLayout(layout);
-        questionTextLabel.setHorizontalTextPosition(JLabel.CENTER);
-        questionTextLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        questionTextLabel.setHorizontalTextPosition(RoundedLabel.CENTER);
+        questionTextLabel.setVerticalTextPosition(RoundedLabel.BOTTOM);
         questionTextLabel.setIconTextGap(margin * 3);
+        questionTextLabel.setFont(buttonFont);
         addMargin(questionTextLabel, margin * 3);
 
         this.add(questionTextLabel, constraints);

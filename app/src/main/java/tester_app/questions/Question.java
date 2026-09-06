@@ -7,10 +7,10 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import tester_app.Exam;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedPanel;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
@@ -34,7 +34,7 @@ public abstract class Question extends RoundedPanel {
     protected Exam exam;
 
     protected RoundedPanel inputArea;
-    protected JLabel questionTextLabel;
+    protected RoundedLabel questionTextLabel;
 
     public void setInputAreaSize(int x, int y) {
         x -= 56;

@@ -3,6 +3,7 @@ package tester_app.helpers;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -44,6 +45,9 @@ public final class Constants {
     //APP DATA
     public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
+    public static final Font
+        textFont = new Font("Verdana", Font.PLAIN, 12),
+        buttonFont = new Font("Verdana", Font.PLAIN, 12);
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color

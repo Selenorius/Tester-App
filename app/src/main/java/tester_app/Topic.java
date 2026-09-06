@@ -1,5 +1,6 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
@@ -628,6 +629,7 @@ public class Topic extends HamburgerMenu {
                         radioButton.setForeground(selectionColor);
                     }
                 });
+                radioButton.setFont(buttonFont);
 
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 constraints.weightx = 0.1;
@@ -744,6 +746,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+                radioButton.setFont(buttonFont);
 
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 constraints.weightx = 0.1;
@@ -902,6 +905,7 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setForeground(Color.WHITE);
                     optionRadioButton.setText("True");
                     optionRadioButton.setSelected(o.isTrue());
+                    optionRadioButton.setFont(buttonFont);
 
                     constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
 
@@ -962,6 +966,8 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("True");
                 radioButton.setSelected(q.getButtonOptions().getFirst().isTrue());
+                radioButton.setFont(buttonFont);
+                
                 textPanel.add(radioButton, constraints);
 
                 constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);

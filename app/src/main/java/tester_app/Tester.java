@@ -1,6 +1,7 @@
 package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
@@ -36,7 +37,6 @@ import java.util.Scanner;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -47,6 +47,7 @@ import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.FrameResizeListener;
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
 import tester_app.questions.Question;
@@ -61,7 +62,7 @@ public class Tester extends ConsoleErrorJFrame {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
-    private JLabel
+    private RoundedLabel
         iconLabel,
         titleLabel;
     private Component copiedComponent;
@@ -108,7 +109,7 @@ public class Tester extends ConsoleErrorJFrame {
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
         try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
             consoleErrorMessage("UIManager.setLookAndFeel", e1.getMessage());
         }
@@ -200,11 +201,12 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
-        iconLabel = new JLabel();
+        iconLabel = new RoundedLabel();
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
 
-        titleLabel = new JLabel("Tester App");
+        titleLabel = new RoundedLabel("Tester App");
         titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(buttonFont);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
@@ -443,7 +445,11 @@ public class Tester extends ConsoleErrorJFrame {
             addComponent(uncategorized);
             addComponent(addButton, GridBagConstraints.SOUTH);
         } catch(Exception e) {
-            addComponent(new JLabel("Failed to read directory!" + System.lineSeparator() + "If the directory is protected, try running " + name + " as administrator."));
+            RoundedLabel fail = new RoundedLabel("Failed to read directory!" + System.lineSeparator() + "If the directory is protected, try running " + name + " as administrator.");
+            fail.setForeground(Color.WHITE);
+            fail.setFont(buttonFont);
+
+            addComponent(fail);
 
             consoleErrorMessage(e);
         }
