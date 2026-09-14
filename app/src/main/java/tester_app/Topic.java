@@ -3,6 +3,7 @@ package tester_app;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.examColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
 import static tester_app.helpers.Constants.mcQuestionBorderColor;
@@ -246,6 +247,7 @@ public class Topic extends HamburgerMenu {
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
         HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
+        examMenu.setButtonColor(examColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;

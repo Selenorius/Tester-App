@@ -222,11 +222,10 @@ public class Exam extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel();
-        questionMenu.setBackground(copyColor);
-        questionMenu.setBorderColor(copyColor.brighter());
+        questionMenu.setBackground(getBackground().darker());
+        questionMenu.setBorderColor(getBackground().brighter());
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
-        questionMenu.setTextured(true);
 
         timer = new ExamTimer();
 

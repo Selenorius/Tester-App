@@ -68,6 +68,9 @@ public final class Constants {
             backgroundColor.getBlue() + 40
         ),
 
+        topicColor = fieldColor.brighter(),
+        examColor = fieldColor,
+
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
         wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
         tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),

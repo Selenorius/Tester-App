@@ -2,7 +2,6 @@ package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
-import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
@@ -13,6 +12,7 @@ import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
+import static tester_app.helpers.Constants.topicColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -234,11 +234,10 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(copyColor);
-        dirMenu.setBorderColor(copyColor.brighter());
+        dirMenu.setBackground(fieldColor.darker());
+        dirMenu.setBorderColor(fieldColor.brighter());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
-        dirMenu.setTextured(true);
 
         scrollPane = new JScrollPane(dirMenu);
         scrollPane.setBackground(fieldColor);
@@ -253,6 +252,7 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
+        uncategorized.setButtonColor(topicColor);
 
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
@@ -427,6 +427,7 @@ public class Tester extends ConsoleErrorJFrame {
                 for (final File f : files) {
                     if (f.isDirectory()) {
                         Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
+                        dirTopic.setButtonColor(topicColor);
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 

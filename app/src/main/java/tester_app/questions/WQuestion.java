@@ -62,7 +62,7 @@ public class WQuestion extends Question {
         status = Test.SUCCESS;
         this.exam = exam;
 
-        this.setBackground(copyColor);
+        this.setBackground(exam.getBackground());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -82,13 +82,10 @@ public class WQuestion extends Question {
             @Override
             public void componentHidden(ComponentEvent e) {}
         });
-        this.setTextured(true);
-        this.setTextureOffsetX(12);
-        this.setTextureOffsetY(22);
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(getBackground().darker());
-        inputArea.setBorderColor(getBackground().brighter());
+        inputArea.setBackground(getBackground().darker().darker());
+        inputArea.setBorderColor(getBackground());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 
@@ -124,7 +121,7 @@ public class WQuestion extends Question {
         });
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setBackground(getBackground().darker());
+        textArea.setBackground(getBackground().darker().darker());
         textArea.setForeground(Color.WHITE);
         textArea.setCaretColor(Color.WHITE);
         textArea.setSelectionColor(selectionColor);

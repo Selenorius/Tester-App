@@ -53,7 +53,7 @@ public class MCQuestion extends Question {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
 
-        this.setBackground(copyColor);
+        this.setBackground(exam.getBackground());
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -73,13 +73,10 @@ public class MCQuestion extends Question {
             @Override
             public void componentHidden(ComponentEvent e) {}
         });
-        this.setTextured(true);
-        this.setTextureOffsetX(12);
-        this.setTextureOffsetY(22);
 
         inputArea = new RoundedPanel();
-        inputArea.setBackground(getBackground().darker());
-        inputArea.setBorderColor(getBackground().brighter());
+        inputArea.setBackground(getBackground().darker().darker());
+        inputArea.setBorderColor(getBackground());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 

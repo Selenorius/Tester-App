@@ -19,22 +19,15 @@ import javax.swing.Scrollable;
 import javax.swing.Timer;
 
 public class RoundedPanel extends JPanel implements Scrollable {
-    private int
-        radius,
-        textureOffsetX,
-        textureOffsetY;
+    private int radius;
     private Boolean
-        borderPaint,
-        textured;
+        borderPaint;
     private Color borderColor;
     private final Timer repaintTimer;
 
     public RoundedPanel() {
         this.radius = 10;
         this.borderPaint = true;
-        this.textured = false;
-        this.textureOffsetX = 0;
-        this.textureOffsetY = 0;
         this.setOpaque(false);
         if(this.getParent() != null) {
             if(this.getParent().getBackground() != null) {
@@ -82,14 +75,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
         this.radius = radius;
     }
 
-    public void setTextureOffsetX(int offset) {
-        this.textureOffsetX = offset;
-    }
-
-    public void setTextureOffsetY(int offset) {
-        this.textureOffsetY = offset;
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -101,29 +86,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
         
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-
-        if(textured) {
-            long time = System.currentTimeMillis() / 100;
-            int
-                hStep = 48,
-                vStep = 48;
-
-            for(int w = 0 - textureOffsetX; w < getWidth() - radius / 2 + 2; w += hStep) {
-                for(int h = 0 - textureOffsetY; h < getHeight() - radius / 2 + 2; h += vStep) {
-                    g2.setColor(getBackground().brighter());
-                        
-                    g2.fillArc(w, (int) ((h + time) % getHeight()), 3, 3, 0, 360);
-
-                    if(time++ % 10 == 0) {
-                        g2.setColor(editColor);
-                        
-                        g2.fillArc(w, h, hStep, vStep, 120, 300);
-                    }
-                }
-            }
-
-            repaint();
-        }
     }
 
     @Override
@@ -141,10 +103,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
     public void setBorderPainted(Boolean val) {
         this.borderPaint = val;
-    }
-
-    public void setTextured(Boolean val) {
-        this.textured = val;
     }
 
     @Override
