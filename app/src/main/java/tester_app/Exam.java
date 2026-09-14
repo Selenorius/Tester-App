@@ -3,7 +3,6 @@ package tester_app;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.buttonFont;
-import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
@@ -34,7 +33,9 @@ import java.util.Scanner;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -43,10 +44,12 @@ import tester_app.helpers.ConsoleErrorJFrame;
 import tester_app.helpers.ExamTimer;
 import tester_app.helpers.FrameDragListener;
 import tester_app.helpers.FrameResizeListener;
+import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
+import tester_app.helpers.RoundedSpinner;
 import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 import tester_app.questions.MCQuestion;
@@ -64,21 +67,36 @@ public class Exam extends ConsoleErrorJFrame {
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
     private ExamTimer timer;
+    private HamburgerMenu editMenu;
+    private ArrayList<Question> questions;
+    private ArrayList<JTextArea>
+        questionTextAreas,
+        optionTextAreas;
+    private ArrayList<JRadioButton>
+        optionRadioButtons,
+        orderedRadioButtons;
+    private ArrayList<RoundedSpinner> goalSpinners;
 
     private int
         score,
         currentIndex;
-    private ArrayList<Question> questions;
     private final Image
         icon = loadIcon("/tester_app_editorx96.png");
     private final String
         examName,
         settingsFile = "examSettings.txt";
+    private File examFile;
 
     public Exam(File examFile, Tester tester) {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
+        this.examFile = examFile;
+        this.questionTextAreas = new ArrayList<>();
+        this.optionTextAreas = new ArrayList<>();
+        this.optionRadioButtons = new ArrayList<>();
+        this.orderedRadioButtons = new ArrayList<>();
+        this.goalSpinners = new ArrayList<>();
         this.score = 0;
         currentIndex = 0;
         examName = examFile.getName().substring(0, examFile.getName().length() - 4);
@@ -647,7 +665,7 @@ public class Exam extends ConsoleErrorJFrame {
                     optionImage;
 
                 for(ButtonOption o : q.getButtonOptions()) {
-                    optionText = o.getText();
+                    optionText = o.getButtonText();
                     optionImage = o.getImagePath();
 
                     if(optionText != null) {
@@ -766,6 +784,34 @@ public class Exam extends ConsoleErrorJFrame {
         return examName;
     }
 
+    public HamburgerMenu getEditMenu() {
+        return editMenu;
+    }
+
+    public File getExamFile() {
+        return examFile;
+    }
+
+    public ArrayList<JTextArea> getQuestionTextAreas() {
+        return questionTextAreas;
+    }
+
+    public ArrayList<JTextArea> getOptionTextAreas() {
+        return optionTextAreas;
+    }
+
+    public ArrayList<JRadioButton> getOptionRadioButtons() {
+        return optionRadioButtons;
+    }
+
+    public ArrayList<JRadioButton> getOrderedRadioButtons() {
+        return orderedRadioButtons;
+    }
+
+    public ArrayList<RoundedSpinner> getGoalSpinners() {
+        return goalSpinners;
+    }
+
     // SETTERS
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
@@ -773,5 +819,29 @@ public class Exam extends ConsoleErrorJFrame {
 
     public void setQuestions(ArrayList<Question> newQuestions) {
         questions = newQuestions;
+    }
+
+    public void setEditMenu(HamburgerMenu editMenu) {
+        this.editMenu = editMenu;
+    }
+
+    public void setQuestionTextAreas(ArrayList<JTextArea> questionTextAreas) {
+        this.questionTextAreas = questionTextAreas;
+    }
+
+    public void setOptionTextAreas(ArrayList<JTextArea> optionTextAreas) {
+        this.optionTextAreas = optionTextAreas;
+    }
+
+    public void setOptionRadioButtons(ArrayList<JRadioButton> optionRadioButtons) {
+        this.optionRadioButtons = optionRadioButtons;
+    }
+
+    public void setOrderedRadioButtons(ArrayList<JRadioButton> orderedRadioButtons) {
+        this.orderedRadioButtons = orderedRadioButtons;
+    }
+
+    public void setGoalSpinners(ArrayList<RoundedSpinner> goalSpinners) {
+        this.goalSpinners = goalSpinners;
     }
 }

@@ -2,7 +2,6 @@ package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
-import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
