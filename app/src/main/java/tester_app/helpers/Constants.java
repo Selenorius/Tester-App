@@ -46,8 +46,8 @@ public final class Constants {
     public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
     public static final Font
-        textFont = new Font("Verdana", Font.PLAIN, 12),
-        buttonFont = new Font("Verdana", Font.PLAIN, 12);
+        textFont = new Font("Verdana", Font.PLAIN, 11),
+        buttonFont = new Font("Verdana", Font.PLAIN, 11);
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
@@ -67,8 +67,6 @@ public final class Constants {
             backgroundColor.getGreen() + 40,
             backgroundColor.getBlue() + 40
         ),
-        scrollBarColor = backgroundColor,
-        scrollBarBorderColor = scrollBarColor.brighter(),
 
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
         wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
@@ -192,6 +190,16 @@ public final class Constants {
     }
 
     public static void styleScrollPane(JScrollPane scrollPane) {
+        if(scrollPane.getBackground() == null) {
+            Color pColor = findParentBackground(scrollPane.getParent());
+
+            if(pColor != null) {
+                scrollPane.setBackground(pColor.brighter());
+            } else {
+                scrollPane.setBackground(fieldColor);
+            }
+        }
+
         addScrollMouseListener(scrollPane);
 
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
@@ -218,13 +226,13 @@ public final class Constants {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                g2.setPaint(fieldColor);
+                g2.setPaint(scrollPane.getBackground());
                 g2.fillRect(r.x, r.y, r.width, r.height);
 
-                g2.setPaint(fieldColor.darker());
+                g2.setPaint(scrollPane.getBackground().darker());
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(fieldColor.brighter());
+                g2.setPaint(scrollPane.getBackground().brighter());
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
@@ -232,27 +240,16 @@ public final class Constants {
             protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color color = scrollBarColor;
+                Color color = scrollPane.getBackground().brighter();
                 JScrollBar sb = (JScrollBar)c;
 
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
-                } else if(isDragging) {
+                } else if(isDragging || isThumbRollover()) {
                     int
-                        red = scrollBarColor.getRed(),
-                        green = scrollBarColor.getGreen(),
-                        blue = scrollBarColor.getBlue();
-
-                    color = new Color(
-                        red - red / 6 > 0 ? red - red / 6 : 0,
-                        green - green / 6 > 0 ? green - green / 6 : 0,
-                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
-                    );
-                } else if(isThumbRollover()) {
-                    int
-                        red = scrollBarColor.getRed(),
-                        green = scrollBarColor.getGreen(),
-                        blue = scrollBarColor.getBlue();
+                        red = color.getRed(),
+                        green = color.getGreen(),
+                        blue = color.getBlue();
 
                     color = new Color(
                         red - red / 6 > 0 ? red - red / 6 : 0,
@@ -264,14 +261,7 @@ public final class Constants {
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
-                if(isDragging) {
-                    g2.setPaint(scrollBarColor);
-                } else if(isThumbRollover()) {
-                    g2.setPaint(scrollBarColor);
-                } else {
-                    g2.setPaint(scrollBarColor.brighter());
-                }
-
+                g2.setPaint(color.brighter());
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 
                 g2.dispose();

@@ -3,6 +3,7 @@ package tester_app;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.buttonFont;
+import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
@@ -13,6 +14,7 @@ import static tester_app.helpers.Constants.styleScrollPane;
 import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -57,9 +59,7 @@ public class Exam extends ConsoleErrorJFrame {
     private RoundedPanel
         questionMenu,
         titleMenu;
-    private RoundedLabel
-        iconLabel,
-        titleLabel;
+    private RoundedLabel iconLabel;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
@@ -150,22 +150,22 @@ public class Exam extends ConsoleErrorJFrame {
 
         questions = new ArrayList<>();
 
-        iconLabel = new RoundedLabel();
+        iconLabel = new RoundedLabel("Tester App");
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
-
-        titleLabel = new RoundedLabel("No label text found");
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(buttonFont);
+        iconLabel.setForeground(Color.WHITE);
+        iconLabel.setFont(buttonFont);
+        iconLabel.setIconTextGap(margin * 2);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
         titleMenu.setBorderPainted(false);
         titleMenu.setLayout(layout);
 
-        constraints.insets = new Insets(0, 0, 0, margin * 2);
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.WEST;
 
         titleMenu.add(iconLabel, constraints);
-        titleMenu.add(titleLabel, constraints);
 
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
@@ -192,10 +192,6 @@ public class Exam extends ConsoleErrorJFrame {
             }
         });
 
-        RoundedPanel space = new RoundedPanel();
-        space.setBackground(null);
-        space.setBorderPainted(false);
-
         menuBar = new RoundedMenuBar();
         menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
@@ -206,17 +202,15 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 10;
+        constraints.insets = new Insets(0, 0, 0, 0);
+        constraints.anchor = GridBagConstraints.WEST;
+
         menuBar.add(titleMenu, constraints);
 
-        constraints = new GridBagConstraints();
-
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 10;
-        constraints.weighty = 0.5;
-
-        menuBar.add(space, constraints);
-
         constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.EAST;
 
         menuBar.add(minButton, constraints);
         menuBar.add(maxButton, constraints);
@@ -228,6 +222,8 @@ public class Exam extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel();
+        questionMenu.setBackground(copyColor);
+        questionMenu.setBorderColor(copyColor.brighter());
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
         questionMenu.setTextured(true);
@@ -239,11 +235,12 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0;
         constraints.anchor = GridBagConstraints.NORTHEAST;
-        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         questionMenu.add(timer, constraints);
 
         scrollPane = new JScrollPane(questionMenu);
+        scrollPane.setBackground(fieldColor);
         scrollPane.getViewport().setBackground(fieldColor);
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -542,12 +539,25 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.anchor = GridBagConstraints.SOUTH;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-        questionMenu.add(question, constraints);
+        for(Component c : question.getComponents()) {
+            if(c.getClass() == RoundedPanel.class) {
+                constraints.gridx = 1;
+                constraints.gridy = 2;
 
-        questionMenu.setBackground(getBackground().darker());
-        questionMenu.setBorderColor(getBackground().brighter());
+                questionMenu.add(c, constraints);
+            } else if(c.getClass() == RoundedLabel.class) {
+                constraints.gridx = 1;
+                constraints.gridy = 1;
+
+                questionMenu.add(c, constraints);
+            }
+        }
+
         timer.setBackground(questionMenu.getBackground().darker());
         timer.setBorderColor(questionMenu.getBackground().brighter());
+
+        questionMenu.revalidate();
+        questionMenu.repaint();
     }
 
     public void start() {
@@ -563,7 +573,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         addQuestion(currentQuestion);
 
-        titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+        iconLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + " | Score: " + score);
 
         setVisible(true);
     }
@@ -696,9 +706,13 @@ public class Exam extends ConsoleErrorJFrame {
     }
 
     public void next() {
-        questionMenu.remove(questions.get(currentIndex++));
+        for(Component c : questionMenu.getComponents()) {
+            if(c.getClass() == RoundedLabel.class || c.getClass() == RoundedPanel.class) {
+                questionMenu.remove(c);
+            }
+        }
 
-        Question question = questions.get(currentIndex);
+        Question question = questions.get(++currentIndex);
 
         addQuestion(question);
 
@@ -706,7 +720,7 @@ public class Exam extends ConsoleErrorJFrame {
             question.getTextArea().requestFocus();
         }
 
-        titleLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + "  |  Score: " + score);
+        iconLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + " | Score: " + score);
     }
 
     public void finish() {

@@ -2,9 +2,9 @@ package tester_app.questions;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
+import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.fieldColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.selectionColor;
@@ -15,7 +15,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -63,8 +62,7 @@ public class WQuestion extends Question {
         status = Test.SUCCESS;
         this.exam = exam;
 
-        this.setBackground(fieldColor.darker());
-        this.setBorderColor(fieldColor.darker());
+        this.setBackground(copyColor);
         this.setBorderPainted(false);
         this.setLayout(layout);
         this.addComponentListener(new ComponentListener() {
@@ -87,6 +85,12 @@ public class WQuestion extends Question {
         this.setTextured(true);
         this.setTextureOffsetX(12);
         this.setTextureOffsetY(22);
+
+        inputArea = new RoundedPanel();
+        inputArea.setBackground(getBackground().darker());
+        inputArea.setBorderColor(getBackground().brighter());
+        inputArea.setBorderPainted(true);
+        inputArea.setLayout(layout);
 
         textArea = new JTextArea();
         textArea.addKeyListener(new KeyAdapter() {
@@ -134,14 +138,6 @@ public class WQuestion extends Question {
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        styleScrollPane(scrollPane);
-
-        inputArea = new RoundedPanel();
-        inputArea.setBackground(getBackground().darker());
-        inputArea.setBorderColor(getBackground().brighter());
-        inputArea.add(scrollPane);
-        inputArea.setBorderPainted(true);
-        inputArea.setLayout(new GridLayout());
 
         questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
@@ -157,9 +153,12 @@ public class WQuestion extends Question {
         constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
+        inputArea.add(scrollPane, constraints);
+        styleScrollPane(scrollPane);
 
         this.add(questionTextLabel, constraints);
-
         this.add(inputArea, constraints);
     }
 

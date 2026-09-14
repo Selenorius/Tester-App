@@ -2,6 +2,7 @@ package tester_app;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
+import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.fieldColor;
@@ -62,9 +63,7 @@ public class Tester extends ConsoleErrorJFrame {
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedMenuBar menuBar;
-    private RoundedLabel
-        iconLabel,
-        titleLabel;
+    private RoundedLabel iconLabel;
     private Component copiedComponent;
     private File copiedFile;
     private Question copiedQuestion;
@@ -87,7 +86,8 @@ public class Tester extends ConsoleErrorJFrame {
         copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         addIcon = loadIcon("/add_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
+        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
     private final String settingsFile = "settings.txt";
     
     public Tester() {
@@ -187,10 +187,6 @@ public class Tester extends ConsoleErrorJFrame {
             }
         });
 
-        RoundedPanel space = new RoundedPanel();
-        space.setBackground(null);
-        space.setBorderPainted(false);
-
         menuBar = new RoundedMenuBar();
         menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
@@ -201,33 +197,32 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
-        iconLabel = new RoundedLabel();
+        iconLabel = new RoundedLabel("Tester App");
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
-
-        titleLabel = new RoundedLabel("Tester App");
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(buttonFont);
+        iconLabel.setForeground(Color.WHITE);
+        iconLabel.setFont(buttonFont);
+        iconLabel.setIconTextGap(margin * 2);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
         titleMenu.setBorderPainted(false);
         titleMenu.setLayout(layout);
         
-        constraints.insets = new Insets(0, 0, 0, margin * 2);
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.WEST;
 
         titleMenu.add(iconLabel, constraints);
-        titleMenu.add(titleLabel, constraints);
-
-        menuBar.add(titleMenu);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
-        constraints.weighty = 0.5;
         constraints.insets = new Insets(0, 0, 0, 0);
+        constraints.anchor = GridBagConstraints.WEST;
 
-        menuBar.add(space, constraints);
+        menuBar.add(titleMenu, constraints);
 
         constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.EAST;
 
         menuBar.add(minButton, constraints);
         menuBar.add(maxButton, constraints);
@@ -239,13 +234,14 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel();
-        dirMenu.setBackground(fieldColor.darker());
-        dirMenu.setBorderColor(fieldColor.brighter());
+        dirMenu.setBackground(copyColor);
+        dirMenu.setBorderColor(copyColor.brighter());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
         dirMenu.setTextured(true);
 
         scrollPane = new JScrollPane(dirMenu);
+        scrollPane.setBackground(fieldColor);
         scrollPane.getViewport().setBackground(fieldColor);
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -642,6 +638,10 @@ public class Tester extends ConsoleErrorJFrame {
 
     public Image getPasteIcon() {
         return pasteIcon;
+    }
+
+    public Image getResetIcon() {
+        return resetIcon;
     }
 
     // SETTERS

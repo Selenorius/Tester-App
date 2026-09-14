@@ -40,6 +40,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -372,7 +373,7 @@ public class Topic extends HamburgerMenu {
         HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).build();
 
         ArrayList<Question> questions = exam.getQuestions();
-        ArrayList<RoundedTextArea>
+        ArrayList<JTextArea>
             questionTextAreas = new ArrayList<>(),
             optionTextAreas = new ArrayList<>();
         ArrayList<JRadioButton>
@@ -544,13 +545,15 @@ public class Topic extends HamburgerMenu {
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
             textArea.setLabel("Enter question...");
             textArea.setToolTipText("Click to change the question text");
-            textArea.addFocusListener(new FocusAdapter() {
+            textArea.addKeyListener(new KeyAdapter() {
                 @Override
-                public void focusLost(FocusEvent e) {
-                    if(e != null) {
+                public void keyReleased(KeyEvent e) {
+                    if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        editPanel.setText(textArea.getText());
+
                         saveExam(file, questions, questionTextAreas, optionTextAreas, optionRadioButtons, orderedRadioButtons, goalSpinners);
-                    
-                        tester.reset();
+
+                        editPanel.revalidate();
                     }
                 }
             });
@@ -707,7 +710,7 @@ public class Topic extends HamburgerMenu {
 
                     editPanel.addComponent(optionTextPanel);
                     
-                    optionTextAreas.add(textArea);
+                    optionTextAreas.add(optionTextArea);
                 }
             } else if(q.getClass() == MCQuestion.class) {
                 constraints = new GridBagConstraints();
@@ -921,7 +924,7 @@ public class Topic extends HamburgerMenu {
                     editPanel.addComponent(optionTextPanel);
                     
                     optionRadioButtons.add(optionRadioButton);
-                    optionTextAreas.add(textArea);
+                    optionTextAreas.add(optionTextArea);
                 }
             } else {
                 constraints = new GridBagConstraints();
@@ -1108,8 +1111,8 @@ public class Topic extends HamburgerMenu {
     private void saveExam(
         File file,
         ArrayList<Question> questions,
-        ArrayList<RoundedTextArea> questionTextAreas,
-        ArrayList<RoundedTextArea> optionTextAreas,
+        ArrayList<JTextArea> questionTextAreas,
+        ArrayList<JTextArea> optionTextAreas,
         ArrayList<JRadioButton> optionRadioButtons,
         ArrayList<JRadioButton> orderedRadioButtons,
         ArrayList<RoundedSpinner> goalSpinners
@@ -1160,8 +1163,6 @@ public class Topic extends HamburgerMenu {
                                 tCount < optionTextAreas.size() &&
                                 rCount < optionRadioButtons.size()
                             ) {
-                                o.setText("");
-
                                 o.setText(optionTextAreas.get(tCount++).getText());
                                 o.setValue(optionRadioButtons.get(rCount++).isSelected());
                             }

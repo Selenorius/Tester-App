@@ -174,6 +174,8 @@ public class RoundedButton extends JButton {
                 }
                 out += text + "</center></html>";
             }
+        } else {
+            out = "";
         }
 
         if(label != null) {

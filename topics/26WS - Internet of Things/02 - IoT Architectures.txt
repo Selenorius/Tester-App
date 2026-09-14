@@ -30,4 +30,11 @@
             }
         }
     }
+    MULTIPLE_CHOICE {
+        "Hi I am a new Question" {
+            true {
+                
+            }
+        }
+    }
 }

@@ -4,7 +4,11 @@
 # Ignore Gradle build output directory
 build
 
+# Ignore VSCode files
+.vscode
+
 # Ignore App config
-/examSettings.txt
-/settings.txt
-/editorSettings.txt
+examSettings.txt
+settings.txt
+editorSettings.txt
+.vscode/settings.json

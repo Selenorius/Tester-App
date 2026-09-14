@@ -2,6 +2,7 @@ package tester_app.helpers;
 
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
+import static tester_app.helpers.Constants.editColor;
 import static tester_app.helpers.Constants.margin;
 
 import java.awt.Color;
@@ -102,31 +103,26 @@ public class RoundedPanel extends JPanel implements Scrollable {
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
         if(textured) {
+            long time = System.currentTimeMillis() / 100;
             int
-                hStep = 16,
-                vStep = 16;
+                hStep = 48,
+                vStep = 48;
 
-            int
-                red = getBackground().brighter().getRed(),
-                green = getBackground().brighter().getGreen(),
-                blue = getBackground().brighter().getBlue();
+            for(int w = 0 - textureOffsetX; w < getWidth() - radius / 2 + 2; w += hStep) {
+                for(int h = 0 - textureOffsetY; h < getHeight() - radius / 2 + 2; h += vStep) {
+                    g2.setColor(getBackground().brighter());
+                        
+                    g2.fillArc(w, (int) ((h + time) % getHeight()), 3, 3, 0, 360);
 
-            g2.setColor(
-                new Color(
-                    red - red / 6 > 0 ? red - red / 6 : 0,
-                    green - green / 6 > 0 ? green - green / 6 : 0,
-                    blue - blue / 16 > 0 ? blue - blue / 16 : 0
-                )
-            );
-
-            for(int w = hStep - textureOffsetX; w < getWidth() - radius / 2 + 2; w += hStep) {
-                for(int h = vStep - textureOffsetY; h < getHeight() - radius / 2 + 2; h += vStep) {
-                    g2.drawLine(w, h, w - hStep, h);
-                    g2.drawLine(w, h, w, h - vStep);
-                    g2.drawLine(w, h, w + hStep, h);
-                    g2.drawLine(w, h, w, h + vStep);
+                    if(time++ % 10 == 0) {
+                        g2.setColor(editColor);
+                        
+                        g2.fillArc(w, h, hStep, vStep, 120, 300);
+                    }
                 }
             }
+
+            repaint();
         }
     }
 

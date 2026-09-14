@@ -95,6 +95,70 @@ public class RoundedTextArea extends JTextArea {
             public void focusLost(FocusEvent e) {}
         });
     }
+    public RoundedTextArea() {
+        super();
+
+        layout = new GridBagLayout();
+        constraints = new GridBagConstraints();
+
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+
+        this.setLineWrap(true);
+        this.setWrapStyleWord(true);
+        this.setBackground(null);
+        this.setForeground(Color.WHITE);
+        this.setCaretColor(Color.WHITE);
+        this.setFont(null);
+        this.setMargin(new Insets(margin * 2, margin * 2, margin * 2, margin * 2));
+        this.setFocusable(false);
+        this.setDoubleBuffered(true);
+        this.setSelectionColor(selectionColor);
+        this.setSelectedTextColor(Color.BLACK);
+        this.setLayout(layout);
+        this.setOpaque(false);
+        this.setFont(textFont);
+
+        label = new RoundedLabel();
+        label.setForeground(Color.WHITE.darker());
+        this.add(label, constraints);
+        if(!this.getText().isEmpty()) {
+            label.setVisible(false);
+        }
+        label.setFont(buttonFont);
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setFocusable(false);
+                setForeground(Color.WHITE);
+
+                if(getText().isEmpty()) {
+                    label.setVisible(true);
+                } else {
+                    label.setVisible(false);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setFocusable(true);
+                setForeground(selectionColor);
+            }
+        });
+
+        this.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                label.setVisible(false);
+                setForeground(Color.WHITE);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {}
+        });
+    }
 
     @Override
     public void scrollRectToVisible(final Rectangle aRect) {}
