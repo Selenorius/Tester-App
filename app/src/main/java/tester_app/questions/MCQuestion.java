@@ -33,8 +33,7 @@ import tester_app.options.ButtonOption;
 import tester_app.options.TextOption;
 
 public class MCQuestion extends Question {
-    private ArrayList<ButtonOption>
-        options;
+    private ArrayList<ButtonOption> options;
     private Boolean ordered;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
@@ -90,7 +89,6 @@ public class MCQuestion extends Question {
         addMargin(questionTextLabel, margin * 3);
 
         this.add(questionTextLabel, constraints);
-
         this.add(inputArea, constraints);
     }
 
@@ -207,19 +205,20 @@ public class MCQuestion extends Question {
             String
                 text = "",
                 correctionText = "Correct Answers: ";
-        
-            if(options.size() == 1) {
-                correctionText = "Correct Answer: ";
-            }
 
+            int ansCount = 0;
             for(ButtonOption b : options) {
                 if(b.isTrue()) {
-                    String s = b.getText();
+                    String s = b.getButtonText();
                 
-                    if(!text.contains(s)) {
-                        text += "- " + s + System.lineSeparator();
-                    }
+                    text += "- " + s + System.lineSeparator();
+
+                    ++ansCount;
                 }
+            }
+
+            if(ansCount == 1) {
+                correctionText = "Correct Answer: ";
             }
 
             JOptionPane.showMessageDialog(
@@ -266,6 +265,7 @@ public class MCQuestion extends Question {
     @Override
     public void removeOption(ButtonOption buttonOption) {
         options.remove(buttonOption);
+        inputArea.remove(buttonOption);
     }
 
     @Override
@@ -276,6 +276,48 @@ public class MCQuestion extends Question {
     @Override
     public void setButtonOptions(ArrayList<ButtonOption> options) {
         this.options = options;
+
+        for(Component c : inputArea.getComponents()) {
+            if(c.getClass() == ButtonOption.class) {
+                inputArea.remove(c);
+            }
+        }
+
+        for(ButtonOption o : options) {
+            o.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    test(o);
+                }
+            });
+
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.weightx = 0.5;
+            constraints.weighty = 0.5;
+            constraints.gridwidth = 1;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
+            int menCount = 0;
+            for(Component c : inputArea.getComponents()) {
+                constraints.gridx = 2 - (menCount++ % 2);
+
+                layout.setConstraints(c, constraints);
+            }
+
+            constraints.gridx = 2 - (inputArea.getComponentCount() % 2);
+            constraints.gridwidth = 3 - (inputArea.getComponentCount() % 2);
+
+            inputArea.add(o, constraints);
+
+            String
+                text = o.getButtonText(),
+                image = o.getImagePath();
+
+            styleButton(o, text, new ImageIcon(image).getImage());
+
+            inputArea.revalidate();
+        }
     }
 
     @Override

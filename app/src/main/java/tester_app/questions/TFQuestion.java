@@ -9,6 +9,7 @@ import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -104,17 +105,17 @@ public class TFQuestion extends Question {
             }
         });
 
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-        options.add(o);
         inputArea.add(o, constraints);
+        options.add(o);
 
-        String text = o.getButtonText();
-        styleButton(o, text);
+        styleButton(o, o.getButtonText());
     }
 
     @Override
@@ -135,7 +136,6 @@ public class TFQuestion extends Question {
     @Override
     public Test test(ButtonOption o) {
         if(o.isTrue()) {
-            options.remove(o);
             o.setEnabled(false);
             o.setBackground(editColor);
             ++score;
@@ -156,22 +156,11 @@ public class TFQuestion extends Question {
 
             return Test.SUCCESS;
         } else {
-            options.remove(o);
             o.setEnabled(false);
             o.setBackground(deleteColor);
 
-            ArrayList<ButtonOption> answers = new ArrayList<>();
-
-            for(ButtonOption n : options) {
-                if(n.isTrue()) {
-                    answers.add(n);
-                }
-            }
-
             JOptionPane.showMessageDialog(
                 exam,
-                "Correct Answer: " + System.lineSeparator() + System.lineSeparator() +
-                "- " + options.get(0).getText() + System.lineSeparator() + System.lineSeparator() +
                 "Keep trying, you can do it!",
                 "Incorrect Answer!",
                 JOptionPane.PLAIN_MESSAGE
@@ -216,6 +205,7 @@ public class TFQuestion extends Question {
     @Override
     public void removeOption(ButtonOption buttonOption) {
         options.remove(buttonOption);
+        inputArea.remove(buttonOption);
     }
 
     @Override
@@ -226,6 +216,31 @@ public class TFQuestion extends Question {
     @Override
     public void setButtonOptions(ArrayList<ButtonOption> options) {
         this.options = options;
+
+        for(Component c : inputArea.getComponents()) {
+            if(c.getClass() == ButtonOption.class) {
+                inputArea.remove(c);
+            }
+        }
+
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridy = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+
+        for(ButtonOption o : options) {
+            o.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    test(o);
+                }
+            });
+
+            inputArea.add(o, constraints);
+
+            styleButton(o, o.getButtonText());
+        }
     }
 
     @Override
