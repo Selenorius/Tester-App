@@ -1,6 +1,6 @@
 # Ignore Gradle project-specific cache and build directory
 .gradle
-/app/build
+build
 
 # Ignore VSCode files
 .vscode
