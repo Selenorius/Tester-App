@@ -581,7 +581,11 @@ public class Topic extends HamburgerMenu {
 
                 ArrayList<TextOption> options = q.getTextOptions();
 
-                RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(q.getGoal(), 1, ((WQuestion) q).getMaxScore(), 1), "Answer");
+                int
+                    goal = q.getGoal(),
+                    maxScore = ((WQuestion) q).getMaxScore();
+
+                RoundedSpinner goalSpinner = new RoundedSpinner(new SpinnerNumberModel(goal <= maxScore ? goal : maxScore, 1, maxScore, 1), "Answer");
                 goalSpinner.setToolTipText("Determines how many correct answers are needed to pass");
                 if((Integer) goalSpinner.getValue() > 1) {
                     goalSpinner.setText("Answers");
@@ -712,7 +716,41 @@ public class Topic extends HamburgerMenu {
                                 lines.forEach(line -> {
                                     o.addText(line);
                                 });
+
+                                q.initGoal();
                                 
+                                int
+                                    goal = q.getGoal(),
+                                    maxScore = ((WQuestion) q).getMaxScore();
+
+                                goalSpinner.setModel(new SpinnerNumberModel(goal <= maxScore ? goal : maxScore, 1, maxScore, 1));
+                                goalSpinner.style("Answer");
+                                goalSpinner.setToolTipText("Determines how many correct answers are needed to pass");
+                                if((Integer) goalSpinner.getValue() > 1) {
+                                    goalSpinner.setText("Answers");
+                                }
+                                goalSpinner.addChangeListener(new ChangeListener() {
+                                    @Override
+                                    public void stateChanged(ChangeEvent e) {
+                                        int value = (int) goalSpinner.getValue();
+
+                                        if((Integer) value == 1) {
+                                            goalSpinner.setText("Answer");
+                                        } else {
+                                            goalSpinner.setText("Answers");
+                                        }
+
+                                        q.setGoal(value);
+
+                                        saveExam(exam);
+                                    }
+                                });
+                                if(q.isOrdered()) {
+                                    goalSpinner.setVisible(false);
+                                }
+                                goalSpinner.setBackground(textPanel.getBackground().brighter());
+                                goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter());
+
                                 saveExam(exam);
                             }
                         }
@@ -1169,11 +1207,14 @@ public class Topic extends HamburgerMenu {
                                 String text = optionTextAreas.get(tCount++).getText();
                                 Stream<String> lines = text.lines();
 
+
                                 o.clearText();
 
                                 lines.forEach(line -> {
                                     o.addText(line);
                                 });
+
+                                q.initGoal();
                             }
                         }
 
@@ -1221,6 +1262,8 @@ public class Topic extends HamburgerMenu {
         exam.setOptionRadioButtons(optionRadioButtons);
         exam.setOrderedRadioButtons(orderedRadioButtons);
         exam.setGoalSpinners(goalSpinners);
+
+        exam.getEditMenu().revalidate();
         
         try {
             File file = exam.getExamFile();

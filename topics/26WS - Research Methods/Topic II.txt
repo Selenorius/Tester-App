@@ -1,0 +1,12 @@
+{
+    WRITTEN "4" {
+        "Name 4 types of scientific papers:" {
+            {
+                "Literature Survey"
+                "Empirical Work"
+                "Engineering Work"
+                "Theoretical Work"
+            }
+        }
+    }
+}

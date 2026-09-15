@@ -31,6 +31,20 @@ public class RoundedSpinner extends JSpinner {
     public RoundedSpinner(SpinnerModel model, String text) {
         super(model);
 
+        style(text);
+    }
+    public RoundedSpinner(SpinnerModel model) {
+        super(model);
+
+        style();
+    }
+    public RoundedSpinner() {
+        super();
+
+        style();
+    }
+
+    public void style(String... text) {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
@@ -40,7 +54,10 @@ public class RoundedSpinner extends JSpinner {
         this.setOpaque(false);
         addMargin(this, margin);
 
-        label = new RoundedLabel(text);
+        label = new RoundedLabel();
+        for(String s : text) {
+            label.setText(s);
+        }
         label.setForeground(Color.WHITE);
         label.setFont(buttonFont);
         
@@ -74,97 +91,13 @@ public class RoundedSpinner extends JSpinner {
         });
         radius = 10;
     }
-    public RoundedSpinner(SpinnerModel model) {
-        super(model);
 
-        layout = new GridBagLayout();
-        constraints = new GridBagConstraints();
-
-        borderColor = backgroundColor.brighter();
-        setBackground(backgroundColor);
-        this.setDoubleBuffered(true);
-        this.setOpaque(false);
-        addMargin(this, margin);
-
-        label = new RoundedLabel();
-        label.setForeground(Color.WHITE);
-        label.setFont(buttonFont);
-        
-        editor = (RoundedSpinner.DefaultEditor) this.getEditor();
-        editor.setBackground(backgroundColor);
-        editor.setLayout(layout);
-
-        constraints.fill =  GridBagConstraints.BOTH;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.insets  = new Insets(0, margin * 2, 0, margin * 2);
-
-        editor.getTextField().setBackground(backgroundColor);
-        editor.getTextField().setFocusable(false);
-        editor.getTextField().setForeground(Color.WHITE);
-        editor.getTextField().setCaretColor(Color.WHITE);
-        editor.getTextField().setFont(textFont);
-        editor.getTextField().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseExited(MouseEvent e) {
-                editor.getTextField().setFocusable(false);
-                editor.getTextField().setForeground(Color.WHITE);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                editor.getTextField().setFocusable(true);
-                editor.getTextField().setForeground(selectionColor);
-            }
-        });
-        radius = 10;
-    }
-    public RoundedSpinner() {
-        super();
-
-        layout = new GridBagLayout();
-        constraints = new GridBagConstraints();
-
-        borderColor = backgroundColor.brighter();
-        setBackground(backgroundColor);
-        this.setDoubleBuffered(true);
-        this.setOpaque(false);
-        addMargin(this, margin);
-
-        label = new RoundedLabel();
-        label.setForeground(Color.WHITE);
-        label.setFont(buttonFont);
-        
-        editor = (RoundedSpinner.DefaultEditor) this.getEditor();
-        editor.setBackground(backgroundColor);
-        editor.setLayout(layout);
-
-        constraints.fill =  GridBagConstraints.BOTH;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.insets  = new Insets(0, margin * 2, 0, margin * 2);
-
-        editor.getTextField().setBackground(backgroundColor);
-        editor.getTextField().setFocusable(false);
-        editor.getTextField().setForeground(Color.WHITE);
-        editor.getTextField().setCaretColor(Color.WHITE);
-        editor.getTextField().setFont(textFont);
-        editor.getTextField().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseExited(MouseEvent e) {
-                editor.getTextField().setFocusable(false);
-                editor.getTextField().setForeground(Color.WHITE);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                editor.getTextField().setFocusable(true);
-                editor.getTextField().setForeground(selectionColor);
-            }
-        });
-        radius = 10;
+    // GETTERS
+    public String getText() {
+        return label.getText();
     }
 
+    // SETTERS
     public void setText(String text) {
         label.setText(text);
     }
