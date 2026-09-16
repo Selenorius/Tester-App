@@ -1,12 +1,13 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
 import static tester_app.helpers.Constants.mcQuestionBorderColor;
+import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.styleButton;
@@ -50,6 +51,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import tester_app.helpers.DirectoryRestrictedFileSystemView;
 import tester_app.helpers.HamburgerMenu;
 import tester_app.helpers.RoundedButton;
+import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedPanel;
 import tester_app.helpers.RoundedSpinner;
 import tester_app.helpers.RoundedTextArea;
@@ -152,6 +154,8 @@ public class Topic extends HamburgerMenu {
             getMenu().add(untitledPanel, constraints);
             setBlotOffset(getMenuSize() / 2);
         }
+
+        loadDir(dir);
         
         if(dir.isDirectory()) {
             for (final File f : dir.listFiles()) {
@@ -176,6 +180,19 @@ public class Topic extends HamburgerMenu {
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
+                }
+            }
+        });
+
+        RoundedButton addTopicButton = new RoundedButton();
+        addTopicButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                File file = new File(dir.getPath() + "/New topic");
+                if(!file.exists()) {
+                    file.mkdir();
+                    addComponent(new Topic.TopicBuilder().text("New topic").build());
+
+                    tester.reset();
                 }
             }
         });
@@ -221,14 +238,18 @@ public class Topic extends HamburgerMenu {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
             addHam.setIsGrid(true);
             addHam.addComponent(copyButton);
-            addHam.addComponent(deleteButton);
-            addHam.addComponent(addButton);
             addHam.addComponent(pasteButton);
+            addHam.addComponent(addButton);
+            addHam.addComponent(addTopicButton);
+            addHam.addComponent(deleteButton);
 
             addComponent(addHam);
 
             styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
             addButton.setBackground(editColor);
+
+            styleButton(addTopicButton, "Add topic", tester.getAddIcon(), JButton.RIGHT);
+            addTopicButton.setBackground(editColor);
 
             styleButton(pasteButton, "Paste exam", tester.getPasteIcon(), JButton.RIGHT);
             pasteButton.setBackground(pasteColor);
@@ -241,6 +262,38 @@ public class Topic extends HamburgerMenu {
         }
     }
 
+    public void loadDir(final File dir) {
+        try {
+            File[] files = dir.listFiles();
+
+            if(files.length != 0) {
+                for (final File f : files) {
+                    if (f.isDirectory()) {
+                        Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).tester(tester).build();
+
+                        dirTopic.loadFiles(f, tester.getFileButtonIcon());
+
+                        GridBagConstraints constraints = new GridBagConstraints();
+                        constraints.fill = GridBagConstraints.HORIZONTAL;
+                        constraints.gridx = 1;
+                        constraints.weightx = 0.5;
+                        constraints.insets = new Insets(margin, margin, margin, margin);
+
+                        getMenu().add(dirTopic, constraints);
+                    }
+                }
+            }
+        } catch(Exception e) {
+            RoundedLabel fail = new RoundedLabel("Failed to read directory!" + System.lineSeparator() + "If the directory is protected, try running " + name + " as administrator.");
+            fail.setForeground(Color.WHITE);
+            fail.setFont(buttonFont);
+
+            addComponent(fail);
+
+            e.printStackTrace();
+        }
+    }
+
     public void addExam(final File file, final Image fileIcon) {
         Exam exam = new Exam(file, tester);
         String
@@ -250,7 +303,6 @@ public class Topic extends HamburgerMenu {
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
         HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
-        examMenu.setButtonColor(examColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -610,7 +662,7 @@ public class Topic extends HamburgerMenu {
                     goalSpinner.setVisible(false);
                 }
                 goalSpinner.setBackground(textPanel.getBackground().brighter());
-                goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter());
+                goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter().brighter().brighter());
 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setToolTipText("When selected, answers must be given in order");

@@ -241,7 +241,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         questionMenu = new RoundedPanel();
         questionMenu.setBackground(getBackground().darker());
-        questionMenu.setBorderColor(getBackground().brighter());
+        questionMenu.setBorderColor(fieldColor.brighter().brighter());
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
 
@@ -571,7 +571,7 @@ public class Exam extends ConsoleErrorJFrame {
         }
 
         timer.setBackground(questionMenu.getBackground().darker());
-        timer.setBorderColor(questionMenu.getBackground().brighter());
+        timer.setBorderColor(questionMenu.getBackground().brighter().brighter());
 
         questionMenu.revalidate();
         questionMenu.repaint();

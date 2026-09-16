@@ -265,9 +265,9 @@ public class RoundedButton extends JButton {
                         );
                     } else {
                         int
-                        red = getBackground().brighter().getRed(),
-                        green = getBackground().brighter().getGreen(),
-                        blue = getBackground().brighter().getBlue();
+                        red = getBackground().brighter().brighter().brighter().getRed(),
+                        green = getBackground().brighter().brighter().brighter().getGreen(),
+                        blue = getBackground().brighter().brighter().brighter().getBlue();
 
                         g2.setColor(
                             new Color(
@@ -280,7 +280,7 @@ public class RoundedButton extends JButton {
                 }
             } else {
                 if(buttonSelectionColor == null) {
-                    g2.setColor(getBackground().brighter());
+                    g2.setColor(getBackground().brighter().brighter().brighter());
                 } else if(buttonBorderColor != null) {
                     g2.setColor(buttonBorderColor);
                 } else {

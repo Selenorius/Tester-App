@@ -12,7 +12,6 @@ import static tester_app.helpers.Constants.root;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
-import static tester_app.helpers.Constants.topicColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -235,7 +234,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         dirMenu = new RoundedPanel();
         dirMenu.setBackground(fieldColor.darker());
-        dirMenu.setBorderColor(fieldColor.brighter());
+        dirMenu.setBorderColor(fieldColor.brighter().brighter());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
@@ -252,7 +251,6 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
-        uncategorized.setButtonColor(topicColor);
 
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
@@ -427,12 +425,10 @@ public class Tester extends ConsoleErrorJFrame {
                 for (final File f : files) {
                     if (f.isDirectory()) {
                         Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
-                        dirTopic.setButtonColor(topicColor);
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 
                         addComponent(dirTopic);
-                        loadDir(f);
                     } else if(f.getParentFile().compareTo(root) == 0) {
                         uncategorized.loadFiles(f, fileButtonIcon);
                     }

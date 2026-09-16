@@ -84,7 +84,7 @@ public class WQuestion extends Question {
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker().darker());
-        inputArea.setBorderColor(getBackground());
+        inputArea.setBorderColor(getBackground().brighter());
         inputArea.setBorderPainted(true);
         inputArea.setLayout(layout);
 

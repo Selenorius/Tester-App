@@ -55,7 +55,7 @@ public final class Constants {
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
-        borderColor = null,
+        borderColor = backgroundColor.brighter(),
 
         copyColor = new Color(28, 108, 160),
         pasteColor = new Color(168, 78, 28),
@@ -68,15 +68,12 @@ public final class Constants {
             backgroundColor.getBlue() + 40
         ),
 
-        topicColor = fieldColor.brighter(),
-        examColor = fieldColor,
-
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
-        wQuestionBorderColor = wQuestionBackgroundColor.brighter(),
+        wQuestionBorderColor = wQuestionBackgroundColor.brighter().brighter().brighter(),
         tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),
-        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter(),
+        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter().brighter().brighter(),
         mcQuestionBackgroundColor = new Color(184, 28, 84).darker().darker(),
-        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter();
+        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter().brighter().brighter();
 
     //TAB
     public static final String tab(int i) {
@@ -235,7 +232,7 @@ public final class Constants {
                 g2.setPaint(scrollPane.getBackground().darker());
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(scrollPane.getBackground().brighter());
+                g2.setPaint(scrollPane.getBackground().brighter().brighter());
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
@@ -264,7 +261,7 @@ public final class Constants {
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
-                g2.setPaint(color.brighter());
+                g2.setPaint(color.brighter().brighter().brighter());
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 
                 g2.dispose();
