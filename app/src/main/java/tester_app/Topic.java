@@ -168,6 +168,19 @@ public class Topic extends HamburgerMenu {
             addExam(dir, fileIcon);
         }
 
+        RoundedButton addTopicButton = new RoundedButton();
+        addTopicButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                File file = new File(dir.getPath() + "/New topic");
+                if(!file.exists()) {
+                    file.mkdir();
+                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
+
+                    tester.reset();
+                }
+            }
+        });
+
         RoundedButton addButton = new RoundedButton();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -181,19 +194,6 @@ public class Topic extends HamburgerMenu {
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                }
-            }
-        });
-
-        RoundedButton addTopicButton = new RoundedButton();
-        addTopicButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File file = new File(dir.getPath() + "/New topic");
-                if(!file.exists()) {
-                    file.mkdir();
-                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
-
-                    tester.reset();
                 }
             }
         });
@@ -240,17 +240,17 @@ public class Topic extends HamburgerMenu {
             addHam.setGrid(true);
             addHam.addComponent(copyButton);
             addHam.addComponent(pasteButton);
-            addHam.addComponent(addButton);
             addHam.addComponent(addTopicButton);
+            addHam.addComponent(addButton);
             addHam.addComponent(deleteButton);
 
             addComponent(addHam);
 
-            styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
-            addButton.setBackground(editColor);
-
             styleButton(addTopicButton, "Add topic", tester.getAddIcon(), JButton.RIGHT);
             addTopicButton.setBackground(editColor);
+
+            styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
+            addButton.setBackground(editColor);
 
             styleButton(pasteButton, "Paste exam", tester.getPasteIcon(), JButton.RIGHT);
             pasteButton.setBackground(pasteColor);
