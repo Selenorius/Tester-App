@@ -5,6 +5,7 @@ import static tester_app.helpers.Constants.blotBackgroundColor;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
+import static tester_app.helpers.Constants.search;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,8 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import tester_app.Topic;
 
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
@@ -126,8 +125,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.weightx = 0.001;
-        constraints.weighty = 0.001;
         constraints.anchor = GridBagConstraints.NORTHEAST;
         constraints.insets = new Insets(0, 0, 0, 0);
 
@@ -230,7 +227,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.WEST;
 
         menuButton.add(searchPanel, constraints);
@@ -238,33 +234,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         searchPanel.setVisible(false);
 
         this.setVisible(true);
-    }
-
-    public void search(Container container, String s) {
-        for(Component c : container.getComponents()) {
-            if(
-                c.getClass() == HamburgerMenu.class ||
-                c.getClass() == Topic.class
-            ) {
-                if(((HamburgerMenu) c).getText() != null) {
-                    if(((HamburgerMenu) c).getText().toLowerCase().contains(s.toLowerCase())) {
-                        c.setVisible(true);
-                    } else {
-                        c.setVisible(false);
-                    }
-                }
-            } else if(c.getClass() == RoundedTextArea.class) {
-                if(((RoundedTextArea) c).getText() != null) {
-                    if(((RoundedTextArea) c).getText().toLowerCase().contains(s.toLowerCase())) {
-                        c.getParent().setVisible(true);
-                    } else {
-                        c.getParent().setVisible(false);
-                    }
-                }
-            } else if(c.getClass() == RoundedPanel.class) {
-                search((Container) c, s);
-            }
-        }
     }
 
     public void toggle() {

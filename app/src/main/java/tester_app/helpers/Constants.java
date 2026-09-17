@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Container;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import tester_app.Exam;
+import tester_app.Topic;
 import tester_app.questions.Question;
 import tester_app.questions.Question.Test;
 
@@ -324,5 +326,32 @@ public final class Constants {
 
         object.addMouseListener(mouseAdapter);
         object.addMouseMotionListener(mouseAdapter);
+    }
+
+    public static void search(Container container, String s) {
+        for(Component c : container.getComponents()) {
+            if(
+                c.getClass() == HamburgerMenu.class ||
+                c.getClass() == Topic.class
+            ) {
+                if(((HamburgerMenu) c).getText() != null) {
+                    if(((HamburgerMenu) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.setVisible(true);
+                    } else {
+                        c.setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedTextArea.class) {
+                if(((RoundedTextArea) c).getText() != null) {
+                    if(((RoundedTextArea) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.getParent().setVisible(true);
+                    } else {
+                        c.getParent().setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedPanel.class) {
+                search((Container) c, s);
+            }
+        }
     }
 }

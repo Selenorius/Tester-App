@@ -9,6 +9,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.root;
+import static tester_app.helpers.Constants.search;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
@@ -22,6 +23,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -50,6 +53,7 @@ import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
+import tester_app.helpers.RoundedTextArea;
 import tester_app.questions.Question;
 
 public class Tester extends ConsoleErrorJFrame {
@@ -418,6 +422,52 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadDir(final File dir) {
+        RoundedPanel searchPanel = new RoundedPanel();
+        if(dirMenu.getBackground() != null) {
+            searchPanel.setBackground(dirMenu.getBackground().darker());
+            searchPanel.setBorderColor(dirMenu.getBackground().brighter().brighter().brighter());
+        } else {
+            searchPanel.setBackground(dirMenu.getBackground());
+            searchPanel.setBorderColor(dirMenu.getBackground());
+        }
+        searchPanel.setBorderPainted(true);
+        searchPanel.setLayout(layout);
+
+        RoundedTextArea searchArea = new RoundedTextArea();
+        searchArea.setPlaceholder("Search...");
+        searchArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    dirMenu.requestFocus();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                    search(dirMenu, searchArea.getText());
+                }
+            }
+        });
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        searchPanel.add(searchArea, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+
+        dirMenu.add(searchPanel, constraints);
+        
         try {
             File[] files = dir.listFiles();
 
@@ -449,11 +499,13 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void addComponent(Component c, int anchor) {
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = anchor;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         dirMenu.add(c, constraints);
     }
