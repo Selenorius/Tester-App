@@ -8,10 +8,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -23,8 +25,45 @@ public class RoundedPanel extends JPanel implements Scrollable {
         borderPaint;
     private Color borderColor;
     private final Timer repaintTimer;
+    private final Image texture;
 
+    public RoundedPanel(Image texture) {
+        this.texture = texture;
+        this.radius = 10;
+        this.borderPaint = true;
+        this.setOpaque(false);
+        if(this.getParent() != null) {
+            if(this.getParent().getBackground() != null) {
+                this.setBackground(this.getParent().getBackground().brighter());
+            }
+            else {
+                this.setBackground(this.getParent().getBackground());
+            }
+        } else {
+            this.setBackground(backgroundColor);
+        }
+        if(getBackground() != null) {
+            this.borderColor = getBackground().brighter().brighter().brighter();
+        } else {
+            this.borderColor = Constants.borderColor;
+        }
+        this.setDoubleBuffered(true);
+        addMargin(this, margin);
+
+        repaintTimer = new Timer(50, e -> repaint());
+        repaintTimer.setRepeats(false);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                repaintTimer.restart();
+            }
+        });
+        
+        setOpaque(false);
+    }
     public RoundedPanel() {
+        this.texture = null;
         this.radius = 10;
         this.borderPaint = true;
         this.setOpaque(false);
@@ -82,8 +121,26 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
         super.paintComponent(g2);
         
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        if(texture != null) {
+            int
+                wStep = 32,
+                hStep = 32,
+                x = getVisibleRect().x,
+                y = getVisibleRect().y,
+                width = getVisibleRect().width,
+                height = getVisibleRect().height;
+            
+            g2.setClip(new RoundRectangle2D.Double(x, y, width, height, radius, radius));
+
+            for(int w = 0; w < getWidth(); w += wStep) {
+                for(int h = 0; h < getHeight(); h += hStep) {
+                    g2.drawImage(texture, w, h, null);
+                }
+            }
+        } else {
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        }
     }
 
     @Override
@@ -95,7 +152,18 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
         if(borderPaint) {
             g2.setColor(borderColor);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+
+            if(texture != null) {
+                int
+                    x = getVisibleRect().x,
+                    y = getVisibleRect().y,
+                    width = getVisibleRect().width,
+                    height = getVisibleRect().height;
+
+                g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+            } else {
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+            }
         }
     }
 

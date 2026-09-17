@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
 
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
@@ -28,8 +29,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         empty;
     private RoundedPanel
         menu,
-        blot,
-        searchPanel;
+        blot;
+    private RoundedTextArea searchPanel;
     private Component parent;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
@@ -186,7 +187,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         this.buttonColor = menuButton.getBackground();
 
-        searchPanel = new RoundedPanel();
+        searchPanel = new RoundedTextArea(menu);
+        searchPanel.setPlaceholder("Search...");
         if(menuButton.getBackground() != null) {
             searchPanel.setBackground(menuButton.getBackground().darker());
             searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter());
@@ -194,12 +196,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             searchPanel.setBackground(menuButton.getBackground());
             searchPanel.setBorderColor(menuButton.getBackground());
         }
-        searchPanel.setBorderPainted(true);
-        searchPanel.setLayout(getLayout());
-
-        RoundedTextArea searchArea = new RoundedTextArea();
-        searchArea.setPlaceholder("Search...");
-        searchArea.addKeyListener(new KeyAdapter() {
+        searchPanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -211,18 +208,12 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             @Override
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() != KeyEvent.VK_ENTER) {
-                    search(menu, searchArea.getText());
+                    search(menu, searchPanel.getText());
                 }
             }
         });
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-
-        searchPanel.add(searchArea, constraints);
-
-        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -437,11 +428,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         if(!isExtended()) {
             g2.setColor(null);
-            g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
         } else {
             g2.setColor(getBackground());
-            g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
         }
+
+        g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
     }
 
     @Override

@@ -92,6 +92,7 @@ public class Exam extends ConsoleErrorJFrame {
         constraints = new GridBagConstraints();
 
         this.examFile = examFile;
+        this.questions = new ArrayList<>();
         this.questionTextAreas = new ArrayList<>();
         this.optionTextAreas = new ArrayList<>();
         this.optionRadioButtons = new ArrayList<>();
@@ -166,25 +167,6 @@ public class Exam extends ConsoleErrorJFrame {
         this.getContentPane().setBackground(fieldColor);
         this.setBackground(fieldColor);
 
-        questions = new ArrayList<>();
-
-        iconLabel = new RoundedLabel("Tester App");
-        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
-        iconLabel.setForeground(Color.WHITE);
-        iconLabel.setFont(buttonFont);
-        iconLabel.setIconTextGap(margin * 2);
-
-        titleMenu = new RoundedPanel();
-        titleMenu.setBackground(null);
-        titleMenu.setBorderPainted(false);
-        titleMenu.setLayout(layout);
-
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.weightx = 0.5;
-        constraints.anchor = GridBagConstraints.WEST;
-
-        titleMenu.add(iconLabel, constraints);
-
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -220,6 +202,23 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
+        iconLabel = new RoundedLabel("Tester App");
+        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
+        iconLabel.setForeground(Color.WHITE);
+        iconLabel.setFont(buttonFont);
+        iconLabel.setIconTextGap(margin * 2);
+
+        titleMenu = new RoundedPanel();
+        titleMenu.setBackground(null);
+        titleMenu.setBorderPainted(false);
+        titleMenu.setLayout(layout);
+
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        titleMenu.add(iconLabel, constraints);
+
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
         constraints.insets = new Insets(0, 0, 0, 0);
@@ -239,7 +238,7 @@ public class Exam extends ConsoleErrorJFrame {
         styleButton(backButton, "End exam");
         backButton.setBackground(deleteColor);
 
-        questionMenu = new RoundedPanel();
+        questionMenu = new RoundedPanel(loadIcon("/texture.png"));
         questionMenu.setBackground(getBackground().darker());
         questionMenu.setBorderColor(fieldColor.brighter().brighter());
         questionMenu.setBorderPainted(true);
@@ -278,6 +277,7 @@ public class Exam extends ConsoleErrorJFrame {
         loadQuestions(examFile);
 
         this.setVisible(false);
+        this.pack();
     }
 
     @SuppressWarnings("null")

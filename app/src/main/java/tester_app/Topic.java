@@ -1,5 +1,6 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
@@ -82,28 +83,23 @@ public class Topic extends HamburgerMenu {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
-        RoundedPanel titlePanel = new RoundedPanel();
-        if(getBackground() != null) {
-            titlePanel.setBackground(getBackground().darker());
-        } else {
-            titlePanel.setBackground(getBackground());
-        }
-        titlePanel.setBorderColor(getBorderColor());
-        titlePanel.setBorderPainted(true);
-        titlePanel.setLayout(getLayout());
-
         RoundedPanel untitledPanel = new RoundedPanel();
         untitledPanel.setBackground(null);
         untitledPanel.setBorderPainted(false);
         untitledPanel.setVisible(false);
 
-        RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
-        titleArea.setToolTipText("Click to change the name of this topic");
-        titleArea.addFocusListener(new FocusAdapter() {
+        RoundedTextArea titlePanel = new RoundedTextArea(dir.getName(), getMenu());
+        titlePanel.setToolTipText("Click to change the name of this topic");
+        if(getBackground() != null) {
+            titlePanel.setBackground(getBackground().darker());
+        } else {
+            titlePanel.setBackground(getBackground());
+        }
+        titlePanel.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    String fileTitle = titleArea.getText();
+                    String fileTitle = titlePanel.getText();
 
                     if(fileTitle.length() <= 30) {
                         String
@@ -128,13 +124,13 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titleArea.addKeyListener(new KeyAdapter() {
+        titlePanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(titleArea.getText().length() <= 30) {
-                    titleArea.setForeground(Color.WHITE);
+                if(titlePanel.getText().length() <= 30) {
+                    titlePanel.setForeground(Color.WHITE);
                 } else {
-                    titleArea.setForeground(deleteColor);
+                    titlePanel.setForeground(deleteColor);
                 }
 
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -143,7 +139,6 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titlePanel.add(titleArea, constraints);
 
         constraints.weightx = 0;
         constraints.gridx = 0;
@@ -311,26 +306,21 @@ public class Topic extends HamburgerMenu {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
-        RoundedPanel titlePanel = new RoundedPanel();
+        loadEditMenu(exam, examMenu);
+
+        RoundedTextArea titlePanel = new RoundedTextArea(examName, examMenu);
+        titlePanel.setToolTipText("Click to change the name of this exam");
+        titlePanel.setPlaceholder("Enter exam name...");
         if(examMenu.getBackground() != null) {
             titlePanel.setBackground(examMenu.getBackground().darker());
         } else {
             titlePanel.setBackground(examMenu.getBackground());
         }
-        titlePanel.setBorderColor(examMenu.getBorderColor());
-        titlePanel.setBorderPainted(true);
-        titlePanel.setLayout(getLayout());
-
-        loadEditMenu(exam, examMenu);
-
-        RoundedTextArea titleArea = new RoundedTextArea(examName);
-        titleArea.setToolTipText("Click to change the name of this exam");
-        titleArea.setPlaceholder("Enter exam name...");
-        titleArea.addFocusListener(new FocusAdapter() {
+        titlePanel.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    String fileTitle = titleArea.getText();
+                    String fileTitle = titlePanel.getText();
 
                     if(fileTitle.length() <= 30) {
                         Path oldDirPath = Paths.get(file.getPath());
@@ -350,13 +340,13 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titleArea.addKeyListener(new KeyAdapter() {
+        titlePanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(titleArea.getText().length() <= 30) {
-                    titleArea.setForeground(Color.WHITE);
+                if(titlePanel.getText().length() <= 30) {
+                    titlePanel.setForeground(Color.WHITE);
                 } else {
-                    titleArea.setForeground(deleteColor);
+                    titlePanel.setForeground(deleteColor);
                 }
 
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -365,7 +355,6 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titlePanel.add(titleArea, constraints);
         
         examMenu.addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
 
@@ -598,12 +587,13 @@ public class Topic extends HamburgerMenu {
 
             constraints = new GridBagConstraints();
             constraints.fill = GridBagConstraints.BOTH;
+            constraints.gridx = 1;
+            constraints.gridy = 0;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
             constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
-            constraints.gridx = 1;
 
-            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
+            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText(), textPanel);
             textArea.setPlaceholder("Enter question...");
             textArea.setToolTipText("Click to change the question text");
             textArea.addKeyListener(new KeyAdapter() {
@@ -674,6 +664,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -754,9 +745,9 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.insets = new Insets(margin, margin, margin, margin);
+                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
-                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText());
+                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
                     optionTextArea.setPlaceholder("Enter answer...");
                     optionTextArea.addKeyListener(new KeyAdapter() {
@@ -838,6 +829,7 @@ public class Topic extends HamburgerMenu {
 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setToolTipText("When selected, answers must be given in order");
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -972,7 +964,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
-                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText());
+                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
                     optionTextArea.setPlaceholder("Enter answer...");
                     optionTextArea.addKeyListener(new KeyAdapter() {
@@ -1001,6 +993,7 @@ public class Topic extends HamburgerMenu {
 
                     JRadioButton optionRadioButton = new JRadioButton();
                     optionRadioButton.setToolTipText("Is this answer true?");
+                    optionRadioButton.setIconTextGap(margin * 2);
                     optionRadioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -1059,6 +1052,7 @@ public class Topic extends HamburgerMenu {
                 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setToolTipText("Is the question text true?");
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

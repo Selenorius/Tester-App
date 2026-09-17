@@ -152,6 +152,8 @@ public class Tester extends ConsoleErrorJFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 updateSettings();
+
+                System.exit(0);
             }
         });
         
@@ -236,7 +238,7 @@ public class Tester extends ConsoleErrorJFrame {
         styleButton(backButton, "Exit");
         backButton.setBackground(deleteColor);
 
-        dirMenu = new RoundedPanel();
+        dirMenu = new RoundedPanel(loadIcon("/texture.png"));
         dirMenu.setBackground(fieldColor.darker());
         dirMenu.setBorderColor(fieldColor.brighter().brighter());
         dirMenu.setBorderPainted(true);
@@ -327,6 +329,7 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         this.setVisible(true);
+        this.pack();
     }
 
     private void updateSettings() {
@@ -422,7 +425,7 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadDir(final File dir) {
-        RoundedPanel searchPanel = new RoundedPanel();
+        RoundedTextArea searchPanel = new RoundedTextArea(dirMenu);
         if(dirMenu.getBackground() != null) {
             searchPanel.setBackground(dirMenu.getBackground().darker());
             searchPanel.setBorderColor(dirMenu.getBackground().brighter().brighter().brighter());
@@ -430,12 +433,8 @@ public class Tester extends ConsoleErrorJFrame {
             searchPanel.setBackground(dirMenu.getBackground());
             searchPanel.setBorderColor(dirMenu.getBackground());
         }
-        searchPanel.setBorderPainted(true);
-        searchPanel.setLayout(layout);
-
-        RoundedTextArea searchArea = new RoundedTextArea();
-        searchArea.setPlaceholder("Search...");
-        searchArea.addKeyListener(new KeyAdapter() {
+        searchPanel.setPlaceholder("Search...");
+        searchPanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -447,7 +446,7 @@ public class Tester extends ConsoleErrorJFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() != KeyEvent.VK_ENTER) {
-                    String text = searchArea.getText();
+                    String text = searchPanel.getText();
 
                     search(dirMenu, text);
 
@@ -459,12 +458,6 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
-
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.weightx = 0.5;
-
-        searchPanel.add(searchArea, constraints);
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;

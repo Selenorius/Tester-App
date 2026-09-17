@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -243,6 +244,7 @@ public class RoundedButton extends JButton {
             g2.setColor(getBackground());
             if(!this.isSelected()) this.borderPaint = true;
         }
+
         g2.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
         super.paintComponent(g2);
     }
