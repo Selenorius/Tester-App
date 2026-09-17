@@ -258,7 +258,7 @@ public class Tester extends ConsoleErrorJFrame {
                 File file = new File(root.getPath() + "/New topic");
                 if(!file.exists()) {
                     file.mkdir();
-                    addComponent(new Topic.TopicBuilder().text("New topic").build());
+                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
 
                     addButton.toggle(false);
                     reset();
@@ -273,7 +273,7 @@ public class Tester extends ConsoleErrorJFrame {
                     File file = new File(root.getPath() + "/New exam.txt");
                     if(!file.exists()) {
                         file.createNewFile();
-                        HamburgerMenu newExam = new HamburgerMenu.HamburgerMenuBuilder().text("New exam").build();
+                        HamburgerMenu newExam = new HamburgerMenu.HamburgerMenuBuilder().text("New exam").hasSearch(true).build();
                         newExam.addComponent(new HamburgerMenu.HamburgerMenuBuilder().build());
                         uncategorized.addComponent(newExam);
                         
@@ -297,7 +297,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
         addButton.setBorderPainted(true);
-        addButton.setIsGrid(true);
+        addButton.setGrid(true);
         
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
@@ -424,7 +424,7 @@ public class Tester extends ConsoleErrorJFrame {
             if(files.length != 0) {
                 for (final File f : files) {
                     if (f.isDirectory()) {
-                        Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
+                        Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).hasSearch(true).tester(this).build();
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 

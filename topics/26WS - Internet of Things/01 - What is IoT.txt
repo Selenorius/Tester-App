@@ -30,8 +30,7 @@
         }
     }
     TRUE_FALSE {
-        "IoT in manufacturing brings with it the opportunity for inserting intelligence into
- factories" {
+        "IoT in manufacturing brings with it the opportunity for inserting intelligence into factories" {
             true
         }
     }

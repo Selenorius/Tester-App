@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
@@ -46,6 +47,7 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
+        addMargin(this, margin * 3);
 
         this.radius = 10;
         this.borderPaint = true;
@@ -53,6 +55,8 @@ public class RoundedButton extends JButton {
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -78,6 +82,7 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
+        addMargin(this, margin * 3);
 
         this.radius = 10;
         this.borderPaint = true;
@@ -85,6 +90,8 @@ public class RoundedButton extends JButton {
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;

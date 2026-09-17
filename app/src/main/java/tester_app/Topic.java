@@ -190,7 +190,7 @@ public class Topic extends HamburgerMenu {
                 File file = new File(dir.getPath() + "/New topic");
                 if(!file.exists()) {
                     file.mkdir();
-                    addComponent(new Topic.TopicBuilder().text("New topic").build());
+                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
 
                     tester.reset();
                 }
@@ -236,7 +236,7 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
-            addHam.setIsGrid(true);
+            addHam.setGrid(true);
             addHam.addComponent(copyButton);
             addHam.addComponent(pasteButton);
             addHam.addComponent(addButton);
@@ -269,7 +269,7 @@ public class Topic extends HamburgerMenu {
             if(files.length != 0) {
                 for (final File f : files) {
                     if (f.isDirectory()) {
-                        Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).tester(tester).build();
+                        Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).hasSearch(true).tester(tester).build();
 
                         dirTopic.loadFiles(f, tester.getFileButtonIcon());
 
@@ -302,7 +302,7 @@ public class Topic extends HamburgerMenu {
         RoundedButton
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
-        HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
+        HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).hasSearch(true).build();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -322,7 +322,7 @@ public class Topic extends HamburgerMenu {
 
         RoundedTextArea titleArea = new RoundedTextArea(examName);
         titleArea.setToolTipText("Click to change the name of this exam");
-        titleArea.setLabel("Enter exam name...");
+        titleArea.setPlaceholder("Enter exam name...");
         titleArea.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
@@ -410,7 +410,7 @@ public class Topic extends HamburgerMenu {
         });
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
-        addHam.setIsGrid(true);
+        addHam.setGrid(true);
         addHam.addComponent(copyButton);
         addHam.addComponent(deleteButton);
 
@@ -428,7 +428,7 @@ public class Topic extends HamburgerMenu {
     }
 
     private void loadEditMenu(Exam exam, Component parent) {
-        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).build();
+        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).hasSearch(true).build();
 
         ArrayList<Question> questions = exam.getQuestions();
         ArrayList<JTextArea>
@@ -462,17 +462,17 @@ public class Topic extends HamburgerMenu {
             }
             
             if(q.getClass() == TFQuestion.class) {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getTfIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getTfIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(tfQuestionBackgroundColor);
                 editPanel.setBorderColor(tfQuestionBorderColor);
                 editPanel.setButtonColor(tfQuestionBackgroundColor.brighter());
             } else if(q.getClass() == MCQuestion.class) {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getMcIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getMcIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(mcQuestionBackgroundColor);
                 editPanel.setBorderColor(mcQuestionBorderColor);
                 editPanel.setButtonColor(mcQuestionBackgroundColor.brighter());
             } else {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getWqIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getWqIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(wQuestionBackgroundColor);
                 editPanel.setBorderColor(wQuestionBorderColor);
                 editPanel.setButtonColor(wQuestionBackgroundColor.brighter());
@@ -482,7 +482,7 @@ public class Topic extends HamburgerMenu {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
             addHam.setBackground(editPanel.getBackground().darker());
             addHam.setBorderColor(editPanel.getBorderColor());
-            addHam.setIsGrid(true);
+            addHam.setGrid(true);
 
             RoundedButton deleteButton = new RoundedButton();
             deleteButton.addActionListener(new ActionListener() {
@@ -601,7 +601,7 @@ public class Topic extends HamburgerMenu {
             constraints.gridx = 1;
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
-            textArea.setLabel("Enter question...");
+            textArea.setPlaceholder("Enter question...");
             textArea.setToolTipText("Click to change the question text");
             textArea.addKeyListener(new KeyAdapter() {
                 @Override
@@ -755,7 +755,7 @@ public class Topic extends HamburgerMenu {
                     
                     RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText());
                     optionTextArea.setToolTipText("Click to change the answer text");
-                    optionTextArea.setLabel("Enter answer...");
+                    optionTextArea.setPlaceholder("Enter answer...");
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyReleased(KeyEvent e) {
@@ -971,7 +971,7 @@ public class Topic extends HamburgerMenu {
                     
                     RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText());
                     optionTextArea.setToolTipText("Click to change the answer text");
-                    optionTextArea.setLabel("Enter answer...");
+                    optionTextArea.setPlaceholder("Enter answer...");
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyPressed(KeyEvent e) {
@@ -1140,7 +1140,7 @@ public class Topic extends HamburgerMenu {
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
         addMenu.setBorderPainted(true);
-        addMenu.setIsGrid(true);
+        addMenu.setGrid(true);
 
         RoundedButton addWQButton = new RoundedButton();
         addWQButton.addActionListener(new ActionListener() {
@@ -1408,6 +1408,18 @@ public class Topic extends HamburgerMenu {
         @Override
         public TopicBuilder parent(Component parent) {
             this.parent = parent;
+            return this;
+        }
+
+        @Override
+        public TopicBuilder hasSearch(Boolean hasSearch) {
+            this.hasSearch = hasSearch;
+            return this;
+        }
+
+        @Override
+        public TopicBuilder textHPos(Integer textHPos) {
+            this.textHPos = textHPos;
             return this;
         }
 

@@ -164,12 +164,12 @@ public class RoundedTextArea extends JTextArea {
     public void scrollRectToVisible(final Rectangle aRect) {}
 
     // GETTERS
-    public String getLabel() {
+    public String getPlaceholder() {
         return label.getText();
     }
 
     // SETTERS
-    public void setLabel(String text) {
+    public void setPlaceholder(String text) {
         label.setText(text);
     }
 

@@ -18,6 +18,10 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import tester_app.Topic;
 
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
@@ -25,23 +29,27 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         empty;
     private RoundedPanel
         menu,
-        blot;
+        blot,
+        searchPanel;
     private Component parent;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
+    private RoundedLabel
+        text,
+        size;
+
     private int
         radius,
         menuSize,
         blotOffset;
-    private RoundedLabel
-        text,
-        size;
     private Color
         buttonColor,
         selectionColor,
         borderColor;
     private String buttonText;
-    private Boolean isGrid;
+    private Boolean
+        isGrid,
+        hasSearch;
 
     public HamburgerMenu(HamburgerMenuBuilder builder) {
         super();
@@ -50,6 +58,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.menuSize = 0;
         this.radius = 10;
         this.isGrid = false;
+        if(builder.hasSearch != null) {
+            this.hasSearch = builder.hasSearch;
+        } else {
+            this.hasSearch = false;
+        }
         this.selectionColor = Constants.selectionColor;
         if(builder.parent != null) {
             this.borderColor = builder.parent.getBackground() != null ? builder.parent.getBackground().brighter().brighter().brighter() : borderColor;
@@ -66,8 +79,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.setLayout(layout);
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
         addMargin(this, 0);
-
-        text = new RoundedLabel("Nothing here...");
 
         menuButton = new RoundedButton();
         menuButton.addActionListener(new ActionListener() {
@@ -98,9 +109,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         empty = new RoundedButton();
         empty.setLayout(layout);
 
+        text = new RoundedLabel("Nothing here...");
         text.setForeground(Color.WHITE);
         empty.add(text);
 
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -176,13 +189,90 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         this.buttonColor = menuButton.getBackground();
 
+        searchPanel = new RoundedPanel();
+        if(menuButton.getBackground() != null) {
+            searchPanel.setBackground(menuButton.getBackground().darker());
+            searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter());
+        } else {
+            searchPanel.setBackground(menuButton.getBackground());
+            searchPanel.setBorderColor(menuButton.getBackground());
+        }
+        searchPanel.setBorderPainted(true);
+        searchPanel.setLayout(getLayout());
+
+        RoundedTextArea searchArea = new RoundedTextArea();
+        searchArea.setPlaceholder("Search...");
+        searchArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    menu.requestFocus();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                    search(menu, searchArea.getText());
+                }
+            }
+        });
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 0.5;
+
+        searchPanel.add(searchArea, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        menuButton.add(searchPanel, constraints);
+
+        searchPanel.setVisible(false);
+
         this.setVisible(true);
+    }
+
+    public void search(Container container, String s) {
+        for(Component c : container.getComponents()) {
+            if(
+                c.getClass() == HamburgerMenu.class ||
+                c.getClass() == Topic.class
+            ) {
+                if(((HamburgerMenu) c).getText() != null) {
+                    if(((HamburgerMenu) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.setVisible(true);
+                    } else {
+                        c.setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedTextArea.class) {
+                if(((RoundedTextArea) c).getText() != null) {
+                    if(((RoundedTextArea) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.getParent().setVisible(true);
+                    } else {
+                        c.getParent().setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedPanel.class) {
+                search((Container) c, s);
+            }
+        }
     }
 
     public void toggle() {
         if(isExtended()) {
             addMargin(this, 0);
 
+            searchPanel.setVisible(false);
+            addMargin(menuButton, margin * 3);
             menuButton.setSelectionColor(null);
             menuButton.setBackground(buttonColor);
             menuButton.setText(buttonText);
@@ -204,6 +294,17 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             }
             menuButton.setBackground(menu.getBackground());
             menuButton.setSelectionColor(menu.getBackground());
+            addMargin(menuButton, margin * 2);
+            if(menuButton.getBackground() != null) {
+                searchPanel.setBackground(menuButton.getBackground().darker());
+                searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter());
+            } else {
+                searchPanel.setBackground(menuButton.getBackground());
+                searchPanel.setBorderColor(menuButton.getBackground());
+            }
+            if(hasSearch) {
+                searchPanel.setVisible(true);
+            }
         }
     }
     public void toggle(Boolean value) {
@@ -350,7 +451,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.buttonText = "   " + text + "   ";
     }
 
-    public void setIsGrid(Boolean isGrid) {
+    public void setGrid(Boolean isGrid) {
         this.isGrid = isGrid;
     }
 
@@ -406,6 +507,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         public Image icon;
         public Component parent;
         public Integer textHPos;
+        public Boolean hasSearch;
 
         public HamburgerMenuBuilder text(String text) {
             this.text = text;
@@ -424,6 +526,11 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         public HamburgerMenuBuilder textHPos(Integer textHPos) {
             this.textHPos = textHPos;
+            return this;
+        }
+
+        public HamburgerMenuBuilder hasSearch(Boolean hasSearch) {
+            this.hasSearch = hasSearch;
             return this;
         }
 
