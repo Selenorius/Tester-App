@@ -252,7 +252,7 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setViewportView(dirMenu);
         styleScrollPane(scrollPane);
 
-        uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).tester(this).build();
+        uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).hasSearch(true).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
 
@@ -277,7 +277,7 @@ public class Tester extends ConsoleErrorJFrame {
                     File file = new File(root.getPath() + "/New exam.txt");
                     if(!file.exists()) {
                         file.createNewFile();
-                        HamburgerMenu newExam = new HamburgerMenu.HamburgerMenuBuilder().text("New exam").hasSearch(true).build();
+                        HamburgerMenu newExam = new HamburgerMenu.HamburgerMenuBuilder().text("New exam").build();
                         newExam.addComponent(new HamburgerMenu.HamburgerMenuBuilder().build());
                         uncategorized.addComponent(newExam);
                         
@@ -447,7 +447,15 @@ public class Tester extends ConsoleErrorJFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() != KeyEvent.VK_ENTER) {
-                    search(dirMenu, searchArea.getText());
+                    String text = searchArea.getText();
+
+                    search(dirMenu, text);
+
+                    if(uncategorized.isEmpty()) {
+                        uncategorized.setVisible(false);
+                    } else if(uncategorized.getText().toLowerCase().contains(text.toLowerCase())) {
+                        uncategorized.setVisible(true);
+                    }
                 }
             }
         });

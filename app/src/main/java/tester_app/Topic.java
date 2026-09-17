@@ -95,6 +95,7 @@ public class Topic extends HamburgerMenu {
         RoundedPanel untitledPanel = new RoundedPanel();
         untitledPanel.setBackground(null);
         untitledPanel.setBorderPainted(false);
+        untitledPanel.setVisible(false);
 
         RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
         titleArea.setToolTipText("Click to change the name of this topic");
@@ -151,7 +152,7 @@ public class Topic extends HamburgerMenu {
         if(titled) {
             addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
         } else {
-            getMenu().add(untitledPanel, constraints);
+            addComponent(untitledPanel);
             setBlotOffset(getMenuSize() / 2);
         }
 
@@ -266,20 +267,22 @@ public class Topic extends HamburgerMenu {
         try {
             File[] files = dir.listFiles();
 
-            if(files.length != 0) {
-                for (final File f : files) {
-                    if (f.isDirectory()) {
-                        Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).hasSearch(true).tester(tester).build();
+            if(files != null) {
+                if(files.length > 0) {
+                    for (final File f : files) {
+                        if (f.isDirectory()) {
+                            Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).hasSearch(true).tester(tester).build();
 
-                        dirTopic.loadFiles(f, tester.getFileButtonIcon());
+                            dirTopic.loadFiles(f, tester.getFileButtonIcon());
 
-                        GridBagConstraints constraints = new GridBagConstraints();
-                        constraints.fill = GridBagConstraints.HORIZONTAL;
-                        constraints.gridx = 1;
-                        constraints.weightx = 0.5;
-                        constraints.insets = new Insets(margin, margin, margin, margin);
+                            GridBagConstraints constraints = new GridBagConstraints();
+                            constraints.fill = GridBagConstraints.HORIZONTAL;
+                            constraints.gridx = 1;
+                            constraints.weightx = 0.5;
+                            constraints.insets = new Insets(margin, margin, margin, margin);
 
-                        getMenu().add(dirTopic, constraints);
+                            getMenu().add(dirTopic, constraints);
+                        }
                     }
                 }
             }
@@ -302,7 +305,7 @@ public class Topic extends HamburgerMenu {
         RoundedButton
             startButton = new RoundedButton(),
             deleteButton = new RoundedButton();
-        HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).hasSearch(true).build();
+        HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
