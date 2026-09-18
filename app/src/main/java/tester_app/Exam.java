@@ -92,6 +92,7 @@ public class Exam extends ConsoleErrorJFrame {
         constraints = new GridBagConstraints();
 
         this.examFile = examFile;
+        this.questions = new ArrayList<>();
         this.questionTextAreas = new ArrayList<>();
         this.optionTextAreas = new ArrayList<>();
         this.optionRadioButtons = new ArrayList<>();
@@ -166,25 +167,6 @@ public class Exam extends ConsoleErrorJFrame {
         this.getContentPane().setBackground(fieldColor);
         this.setBackground(fieldColor);
 
-        questions = new ArrayList<>();
-
-        iconLabel = new RoundedLabel("Tester App");
-        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
-        iconLabel.setForeground(Color.WHITE);
-        iconLabel.setFont(buttonFont);
-        iconLabel.setIconTextGap(margin * 2);
-
-        titleMenu = new RoundedPanel();
-        titleMenu.setBackground(null);
-        titleMenu.setBorderPainted(false);
-        titleMenu.setLayout(layout);
-
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.weightx = 0.5;
-        constraints.anchor = GridBagConstraints.WEST;
-
-        titleMenu.add(iconLabel, constraints);
-
         RoundedButton minButton = new RoundedButton();
         minButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -211,7 +193,6 @@ public class Exam extends ConsoleErrorJFrame {
         });
 
         menuBar = new RoundedMenuBar();
-        menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
@@ -219,6 +200,22 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.addMouseListener(frameDragListener);
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
+
+        iconLabel = new RoundedLabel("Tester App");
+        iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
+        iconLabel.setForeground(Color.WHITE);
+        iconLabel.setFont(buttonFont);
+        iconLabel.setIconTextGap(margin * 2);
+
+        titleMenu = new RoundedPanel();
+        titleMenu.setBackground(null);
+        titleMenu.setLayout(layout);
+
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.WEST;
+
+        titleMenu.add(iconLabel, constraints);
 
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
@@ -239,9 +236,9 @@ public class Exam extends ConsoleErrorJFrame {
         styleButton(backButton, "End exam");
         backButton.setBackground(deleteColor);
 
-        questionMenu = new RoundedPanel();
+        questionMenu = new RoundedPanel(loadIcon("/texture.png"));
         questionMenu.setBackground(getBackground().darker());
-        questionMenu.setBorderColor(fieldColor.brighter().brighter());
+        questionMenu.setBorderColor(getBackground().darker());
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
 
@@ -252,13 +249,13 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0;
         constraints.anchor = GridBagConstraints.NORTHEAST;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
         questionMenu.add(timer, constraints);
 
         scrollPane = new JScrollPane(questionMenu);
-        scrollPane.setBackground(fieldColor);
-        scrollPane.getViewport().setBackground(fieldColor);
+        scrollPane.setBackground(getBackground());
+        scrollPane.getViewport().setBackground(getBackground());
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -278,6 +275,7 @@ public class Exam extends ConsoleErrorJFrame {
         loadQuestions(examFile);
 
         this.setVisible(false);
+        this.pack();
     }
 
     @SuppressWarnings("null")

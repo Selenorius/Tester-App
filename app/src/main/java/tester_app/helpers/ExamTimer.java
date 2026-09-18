@@ -11,13 +11,16 @@ public class ExamTimer extends RoundedPanel {
     private long
         start,
         timer;
-    private Boolean run;
+    private Boolean
+        run,
+        borderPainted;
 
     private RoundedLabel label;
 
     public ExamTimer() {
         super();
 
+        this.borderPainted = false;
         run = true;
         start = System.currentTimeMillis();
 
@@ -51,6 +54,11 @@ public class ExamTimer extends RoundedPanel {
         run = true;
     }
 
+    // SETTERS
+    public void setBorderPainted(Boolean borderPainted) {
+        this.borderPainted = borderPainted;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -78,6 +86,8 @@ public class ExamTimer extends RoundedPanel {
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        super.paintBorder(g2);
+        if(borderPainted) {
+            super.paintBorder(g2);
+        }
     }
 }

@@ -82,27 +82,22 @@ public class Topic extends HamburgerMenu {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
-        RoundedPanel titlePanel = new RoundedPanel();
+        RoundedPanel untitledPanel = new RoundedPanel();
+        untitledPanel.setBackground(null);
+        untitledPanel.setVisible(false);
+
+        RoundedTextArea titlePanel = new RoundedTextArea(dir.getName(), getMenu());
+        titlePanel.setToolTipText("Click to change the name of this topic");
         if(getBackground() != null) {
             titlePanel.setBackground(getBackground().darker());
         } else {
             titlePanel.setBackground(getBackground());
         }
-        titlePanel.setBorderColor(getBorderColor());
-        titlePanel.setBorderPainted(true);
-        titlePanel.setLayout(getLayout());
-
-        RoundedPanel untitledPanel = new RoundedPanel();
-        untitledPanel.setBackground(null);
-        untitledPanel.setBorderPainted(false);
-
-        RoundedTextArea titleArea = new RoundedTextArea(dir.getName());
-        titleArea.setToolTipText("Click to change the name of this topic");
-        titleArea.addFocusListener(new FocusAdapter() {
+        titlePanel.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    String fileTitle = titleArea.getText();
+                    String fileTitle = titlePanel.getText();
 
                     if(fileTitle.length() <= 30) {
                         String
@@ -127,13 +122,13 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titleArea.addKeyListener(new KeyAdapter() {
+        titlePanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(titleArea.getText().length() <= 30) {
-                    titleArea.setForeground(Color.WHITE);
+                if(titlePanel.getText().length() <= 30) {
+                    titlePanel.setForeground(Color.WHITE);
                 } else {
-                    titleArea.setForeground(deleteColor);
+                    titlePanel.setForeground(deleteColor);
                 }
 
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -142,7 +137,6 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titlePanel.add(titleArea, constraints);
 
         constraints.weightx = 0;
         constraints.gridx = 0;
@@ -151,7 +145,7 @@ public class Topic extends HamburgerMenu {
         if(titled) {
             addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
         } else {
-            getMenu().add(untitledPanel, constraints);
+            addComponent(untitledPanel);
             setBlotOffset(getMenuSize() / 2);
         }
 
@@ -167,6 +161,19 @@ public class Topic extends HamburgerMenu {
             addExam(dir, fileIcon);
         }
 
+        RoundedButton addTopicButton = new RoundedButton();
+        addTopicButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                File file = new File(dir.getPath() + "/New topic");
+                if(!file.exists()) {
+                    file.mkdir();
+                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
+
+                    tester.reset();
+                }
+            }
+        });
+
         RoundedButton addButton = new RoundedButton();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -180,19 +187,6 @@ public class Topic extends HamburgerMenu {
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                }
-            }
-        });
-
-        RoundedButton addTopicButton = new RoundedButton();
-        addTopicButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File file = new File(dir.getPath() + "/New topic");
-                if(!file.exists()) {
-                    file.mkdir();
-                    addComponent(new Topic.TopicBuilder().text("New topic").build());
-
-                    tester.reset();
                 }
             }
         });
@@ -236,20 +230,20 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
-            addHam.setIsGrid(true);
+            addHam.setGrid(true);
             addHam.addComponent(copyButton);
             addHam.addComponent(pasteButton);
-            addHam.addComponent(addButton);
             addHam.addComponent(addTopicButton);
+            addHam.addComponent(addButton);
             addHam.addComponent(deleteButton);
 
             addComponent(addHam);
 
-            styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
-            addButton.setBackground(editColor);
-
             styleButton(addTopicButton, "Add topic", tester.getAddIcon(), JButton.RIGHT);
             addTopicButton.setBackground(editColor);
+
+            styleButton(addButton, "Add exam", tester.getAddIcon(), JButton.RIGHT);
+            addButton.setBackground(editColor);
 
             styleButton(pasteButton, "Paste exam", tester.getPasteIcon(), JButton.RIGHT);
             pasteButton.setBackground(pasteColor);
@@ -266,20 +260,22 @@ public class Topic extends HamburgerMenu {
         try {
             File[] files = dir.listFiles();
 
-            if(files.length != 0) {
-                for (final File f : files) {
-                    if (f.isDirectory()) {
-                        Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).tester(tester).build();
+            if(files != null) {
+                if(files.length > 0) {
+                    for (final File f : files) {
+                        if (f.isDirectory()) {
+                            Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).hasSearch(true).tester(tester).build();
 
-                        dirTopic.loadFiles(f, tester.getFileButtonIcon());
+                            dirTopic.loadFiles(f, tester.getFileButtonIcon());
 
-                        GridBagConstraints constraints = new GridBagConstraints();
-                        constraints.fill = GridBagConstraints.HORIZONTAL;
-                        constraints.gridx = 1;
-                        constraints.weightx = 0.5;
-                        constraints.insets = new Insets(margin, margin, margin, margin);
+                            GridBagConstraints constraints = new GridBagConstraints();
+                            constraints.fill = GridBagConstraints.HORIZONTAL;
+                            constraints.gridx = 1;
+                            constraints.weightx = 0.5;
+                            constraints.insets = new Insets(margin, margin, margin, margin);
 
-                        getMenu().add(dirTopic, constraints);
+                            getMenu().add(dirTopic, constraints);
+                        }
                     }
                 }
             }
@@ -308,26 +304,21 @@ public class Topic extends HamburgerMenu {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
 
-        RoundedPanel titlePanel = new RoundedPanel();
+        loadEditMenu(exam, examMenu);
+
+        RoundedTextArea titlePanel = new RoundedTextArea(examName, examMenu);
+        titlePanel.setToolTipText("Click to change the name of this exam");
+        titlePanel.setPlaceholder("Enter exam name...");
         if(examMenu.getBackground() != null) {
             titlePanel.setBackground(examMenu.getBackground().darker());
         } else {
             titlePanel.setBackground(examMenu.getBackground());
         }
-        titlePanel.setBorderColor(examMenu.getBorderColor());
-        titlePanel.setBorderPainted(true);
-        titlePanel.setLayout(getLayout());
-
-        loadEditMenu(exam, examMenu);
-
-        RoundedTextArea titleArea = new RoundedTextArea(examName);
-        titleArea.setToolTipText("Click to change the name of this exam");
-        titleArea.setLabel("Enter exam name...");
-        titleArea.addFocusListener(new FocusAdapter() {
+        titlePanel.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
                 if(e != null) {
-                    String fileTitle = titleArea.getText();
+                    String fileTitle = titlePanel.getText();
 
                     if(fileTitle.length() <= 30) {
                         Path oldDirPath = Paths.get(file.getPath());
@@ -347,13 +338,13 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titleArea.addKeyListener(new KeyAdapter() {
+        titlePanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(titleArea.getText().length() <= 30) {
-                    titleArea.setForeground(Color.WHITE);
+                if(titlePanel.getText().length() <= 30) {
+                    titlePanel.setForeground(Color.WHITE);
                 } else {
-                    titleArea.setForeground(deleteColor);
+                    titlePanel.setForeground(deleteColor);
                 }
 
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -362,7 +353,6 @@ public class Topic extends HamburgerMenu {
                 }
             }
         });
-        titlePanel.add(titleArea, constraints);
         
         examMenu.addComponent(titlePanel, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0);
 
@@ -410,7 +400,7 @@ public class Topic extends HamburgerMenu {
         });
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
-        addHam.setIsGrid(true);
+        addHam.setGrid(true);
         addHam.addComponent(copyButton);
         addHam.addComponent(deleteButton);
 
@@ -428,7 +418,7 @@ public class Topic extends HamburgerMenu {
     }
 
     private void loadEditMenu(Exam exam, Component parent) {
-        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).build();
+        HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).hasSearch(true).build();
 
         ArrayList<Question> questions = exam.getQuestions();
         ArrayList<JTextArea>
@@ -462,27 +452,30 @@ public class Topic extends HamburgerMenu {
             }
             
             if(q.getClass() == TFQuestion.class) {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getTfIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getTfIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(tfQuestionBackgroundColor);
                 editPanel.setBorderColor(tfQuestionBorderColor);
                 editPanel.setButtonColor(tfQuestionBackgroundColor.brighter());
             } else if(q.getClass() == MCQuestion.class) {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getMcIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getMcIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(mcQuestionBackgroundColor);
                 editPanel.setBorderColor(mcQuestionBorderColor);
                 editPanel.setButtonColor(mcQuestionBackgroundColor.brighter());
             } else {
-                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getWqIcon()).text(qText).build();
+                editPanel = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getWqIcon()).text(qText).hasSearch(true).build();
                 editPanel.setBackground(wQuestionBackgroundColor);
                 editPanel.setBorderColor(wQuestionBorderColor);
                 editPanel.setButtonColor(wQuestionBackgroundColor.brighter());
             }
             editPanel.setBlotOffset(2);
+            editPanel.setOpacity(1);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
             addHam.setBackground(editPanel.getBackground().darker());
             addHam.setBorderColor(editPanel.getBorderColor());
-            addHam.setIsGrid(true);
+            addHam.setButtonColor(editPanel.getBackground().brighter());
+            addHam.setGrid(true);
+            addHam.setOpacity(1);
 
             RoundedButton deleteButton = new RoundedButton();
             deleteButton.addActionListener(new ActionListener() {
@@ -527,7 +520,7 @@ public class Topic extends HamburgerMenu {
             textPanel.setLayout(getLayout());
             textPanel.setBackground(editPanel.getBackground().darker());
             textPanel.setBorderColor(editPanel.getBorderColor());
-            textPanel.setBorderPainted(true);
+            textPanel.setOpacity(1);
 
             RoundedButton deleteImageButton = new RoundedButton();
             deleteImageButton.addActionListener(new ActionListener() {
@@ -588,6 +581,7 @@ public class Topic extends HamburgerMenu {
             } else {
                 styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
             }
+            imageButton.setBackground(textPanel.getBackground().brighter());
 
             constraints.gridy = 1;
 
@@ -595,13 +589,14 @@ public class Topic extends HamburgerMenu {
 
             constraints = new GridBagConstraints();
             constraints.fill = GridBagConstraints.BOTH;
+            constraints.gridx = 1;
+            constraints.gridy = 0;
             constraints.weightx = 0.5;
             constraints.weighty = 0.5;
             constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
-            constraints.gridx = 1;
 
-            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText());
-            textArea.setLabel("Enter question...");
+            RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText(), textPanel);
+            textArea.setPlaceholder("Enter question...");
             textArea.setToolTipText("Click to change the question text");
             textArea.addKeyListener(new KeyAdapter() {
                 @Override
@@ -618,6 +613,7 @@ public class Topic extends HamburgerMenu {
                     }
                 }
             });
+            textArea.setOpacity(1);
 
             textPanel.add(textArea, constraints);
 
@@ -665,12 +661,14 @@ public class Topic extends HamburgerMenu {
                 goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter().brighter().brighter());
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -728,7 +726,7 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
-                    optionTextPanel.setBorderPainted(true);
+                    optionTextPanel.setOpacity(1);
 
                     deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
@@ -751,11 +749,12 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.insets = new Insets(margin, margin, margin, margin);
+                    constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
-                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText());
+                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
-                    optionTextArea.setLabel("Enter answer...");
+                    optionTextArea.setPlaceholder("Enter answer...");
+                    optionTextArea.setOpacity(1);
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyReleased(KeyEvent e) {
@@ -834,7 +833,9 @@ public class Topic extends HamburgerMenu {
                 ArrayList<ButtonOption> options = q.getButtonOptions();
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("When selected, answers must be given in order");
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -881,7 +882,7 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
-                    optionTextPanel.setBorderPainted(true);
+                    optionTextPanel.setOpacity(1);
 
                     RoundedButton deleteImagePathButton = new RoundedButton();
                     deleteImagePathButton.addActionListener(new ActionListener() {
@@ -934,6 +935,7 @@ public class Topic extends HamburgerMenu {
                     } else {
                         styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
                     }
+                    imageButton.setBackground(textPanel.getBackground().brighter());
 
                     constraints.gridy = 1;
 
@@ -969,9 +971,10 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
                     
-                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText());
+                    RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
-                    optionTextArea.setLabel("Enter answer...");
+                    optionTextArea.setPlaceholder("Enter answer...");
+                    optionTextArea.setOpacity(1);
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyPressed(KeyEvent e) {
@@ -997,7 +1000,9 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.add(optionTextArea, constraints);
 
                     JRadioButton optionRadioButton = new JRadioButton();
+                    optionRadioButton.setOpaque(false);
                     optionRadioButton.setToolTipText("Is this answer true?");
+                    optionRadioButton.setIconTextGap(margin * 2);
                     optionRadioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -1055,7 +1060,9 @@ public class Topic extends HamburgerMenu {
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("Is the question text true?");
+                radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -1139,8 +1146,7 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBorderPainted(true);
-        addMenu.setIsGrid(true);
+        addMenu.setGrid(true);
 
         RoundedButton addWQButton = new RoundedButton();
         addWQButton.addActionListener(new ActionListener() {
@@ -1408,6 +1414,18 @@ public class Topic extends HamburgerMenu {
         @Override
         public TopicBuilder parent(Component parent) {
             this.parent = parent;
+            return this;
+        }
+
+        @Override
+        public TopicBuilder hasSearch(Boolean hasSearch) {
+            this.hasSearch = hasSearch;
+            return this;
+        }
+
+        @Override
+        public TopicBuilder textHPos(Integer textHPos) {
+            this.textHPos = textHPos;
             return this;
         }
 

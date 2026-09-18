@@ -9,6 +9,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.name;
 import static tester_app.helpers.Constants.pasteColor;
 import static tester_app.helpers.Constants.root;
+import static tester_app.helpers.Constants.search;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
@@ -22,6 +23,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -50,6 +53,7 @@ import tester_app.helpers.RoundedButton;
 import tester_app.helpers.RoundedLabel;
 import tester_app.helpers.RoundedMenuBar;
 import tester_app.helpers.RoundedPanel;
+import tester_app.helpers.RoundedTextArea;
 import tester_app.questions.Question;
 
 public class Tester extends ConsoleErrorJFrame {
@@ -148,6 +152,8 @@ public class Tester extends ConsoleErrorJFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 updateSettings();
+
+                System.exit(0);
             }
         });
         
@@ -187,7 +193,6 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         menuBar = new RoundedMenuBar();
-        menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
@@ -204,7 +209,6 @@ public class Tester extends ConsoleErrorJFrame {
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
-        titleMenu.setBorderPainted(false);
         titleMenu.setLayout(layout);
         
         constraints.fill = GridBagConstraints.NONE;
@@ -232,15 +236,15 @@ public class Tester extends ConsoleErrorJFrame {
         styleButton(backButton, "Exit");
         backButton.setBackground(deleteColor);
 
-        dirMenu = new RoundedPanel();
-        dirMenu.setBackground(fieldColor.darker());
-        dirMenu.setBorderColor(fieldColor.brighter().brighter());
+        dirMenu = new RoundedPanel(loadIcon("/texture.png"));
+        dirMenu.setBackground(getBackground().darker());
+        dirMenu.setBorderColor(getBackground().darker());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
         scrollPane = new JScrollPane(dirMenu);
-        scrollPane.setBackground(fieldColor);
-        scrollPane.getViewport().setBackground(fieldColor);
+        scrollPane.setBackground(getBackground());
+        scrollPane.getViewport().setBackground(getBackground());
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -248,7 +252,7 @@ public class Tester extends ConsoleErrorJFrame {
         scrollPane.setViewportView(dirMenu);
         styleScrollPane(scrollPane);
 
-        uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).tester(this).build();
+        uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).hasSearch(true).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
 
@@ -258,7 +262,7 @@ public class Tester extends ConsoleErrorJFrame {
                 File file = new File(root.getPath() + "/New topic");
                 if(!file.exists()) {
                     file.mkdir();
-                    addComponent(new Topic.TopicBuilder().text("New topic").build());
+                    addComponent(new Topic.TopicBuilder().text("New topic").hasSearch(true).build());
 
                     addButton.toggle(false);
                     reset();
@@ -296,8 +300,7 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
-        addButton.setBorderPainted(true);
-        addButton.setIsGrid(true);
+        addButton.setGrid(true);
         
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);
@@ -323,6 +326,7 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         this.setVisible(true);
+        this.pack();
     }
 
     private void updateSettings() {
@@ -418,13 +422,55 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void loadDir(final File dir) {
+        RoundedTextArea searchPanel = new RoundedTextArea(dirMenu);
+        if(dirMenu.getBackground() != null) {
+            searchPanel.setBackground(dirMenu.getBackground().darker());
+        } else {
+            searchPanel.setBackground(dirMenu.getBackground());
+        }
+        searchPanel.setPlaceholder("Search...");
+        searchPanel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    dirMenu.requestFocus();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() != KeyEvent.VK_ENTER) {
+                    String text = searchPanel.getText();
+
+                    search(dirMenu, text);
+
+                    if(uncategorized.isEmpty()) {
+                        uncategorized.setVisible(false);
+                    } else if(uncategorized.getText().toLowerCase().contains(text.toLowerCase())) {
+                        uncategorized.setVisible(true);
+                    }
+                }
+            }
+        });
+
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+
+        dirMenu.add(searchPanel, constraints);
+        
         try {
             File[] files = dir.listFiles();
 
             if(files.length != 0) {
                 for (final File f : files) {
                     if (f.isDirectory()) {
-                        Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).tester(this).build();
+                        Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).hasSearch(true).tester(this).build();
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 
@@ -449,11 +495,13 @@ public class Tester extends ConsoleErrorJFrame {
     }
 
     private void addComponent(Component c, int anchor) {
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = anchor;
+        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         dirMenu.add(c, constraints);
     }

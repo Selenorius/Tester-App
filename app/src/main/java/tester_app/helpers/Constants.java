@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Container;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -29,10 +31,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import tester_app.Exam;
+import tester_app.Topic;
 import tester_app.questions.Question;
 import tester_app.questions.Question.Test;
 
 public final class Constants {
+    public static float opacity = (float) 0.75;
 
     //ANSI COLORS
     public static final String ANSI_RESET = "\u001B[0m";
@@ -51,11 +55,11 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(34, 34, 36),
+        fieldColor = new Color(0, 0, 0),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
-        borderColor = backgroundColor.brighter(),
+        borderColor = Color.WHITE,
 
         copyColor = new Color(28, 108, 160),
         pasteColor = new Color(168, 78, 28),
@@ -104,7 +108,7 @@ public final class Constants {
         Color pColor = findParentBackground(button.getParent());
 
         if(pColor != null) {
-            button.setBackground(pColor.brighter());
+            button.setBackground(pColor);
         } else {
             button.setBackground(buttonBackgroundColor);
         }
@@ -226,22 +230,28 @@ public final class Constants {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
                 g2.setPaint(scrollPane.getBackground());
                 g2.fillRect(r.x, r.y, r.width, r.height);
+
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
                 g2.setPaint(scrollPane.getBackground().darker());
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(scrollPane.getBackground().brighter().brighter());
-                g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
+                //g2.setPaint(scrollPane.getBackground().darker());
+                //g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
             @Override
             protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color color = scrollPane.getBackground().brighter();
+                Color color = scrollPane.getBackground().brighter().brighter().brighter();
                 JScrollBar sb = (JScrollBar)c;
+
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
@@ -252,16 +262,16 @@ public final class Constants {
                         blue = color.getBlue();
 
                     color = new Color(
-                        red - red / 6 > 0 ? red - red / 6 : 0,
-                        green - green / 6 > 0 ? green - green / 6 : 0,
-                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
+                        red + red / 2 < 256 ? red + red / 2 : 255,
+                        green + green / 2 < 256 ? green + green / 2 : 255,
+                        blue + blue / 2 < 256 ? blue + blue / 2 : 255
                     );
                 }
 
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
-                g2.setPaint(color.brighter().brighter().brighter());
+                g2.setPaint(color);
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 
                 g2.dispose();
@@ -324,5 +334,32 @@ public final class Constants {
 
         object.addMouseListener(mouseAdapter);
         object.addMouseMotionListener(mouseAdapter);
+    }
+
+    public static void search(Container container, String s) {
+        for(Component c : container.getComponents()) {
+            if(
+                c.getClass() == HamburgerMenu.class ||
+                c.getClass() == Topic.class
+            ) {
+                if(((HamburgerMenu) c).getText() != null) {
+                    if(((HamburgerMenu) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.setVisible(true);
+                    } else {
+                        c.setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedTextArea.class) {
+                if(((RoundedTextArea) c).getText() != null) {
+                    if(((RoundedTextArea) c).getText().toLowerCase().contains(s.toLowerCase())) {
+                        c.getParent().setVisible(true);
+                    } else {
+                        c.getParent().setVisible(false);
+                    }
+                }
+            } else if(c.getClass() == RoundedPanel.class) {
+                search((Container) c, s);
+            }
+        }
     }
 }

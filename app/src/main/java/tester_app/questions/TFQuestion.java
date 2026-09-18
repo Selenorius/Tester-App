@@ -72,8 +72,10 @@ public class TFQuestion extends Question {
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker().darker());
         inputArea.setBorderColor(getBackground().brighter());
-        inputArea.setBorderPainted(true);
+        inputArea.setBorderPainted(false);
         inputArea.setLayout(layout);
+        inputArea.setTransparency(true);
+        addMargin(inputArea, 0);
 
         questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
@@ -110,7 +112,7 @@ public class TFQuestion extends Question {
         constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, 0, 0, 0);
 
         inputArea.add(o, constraints);
         options.add(o);

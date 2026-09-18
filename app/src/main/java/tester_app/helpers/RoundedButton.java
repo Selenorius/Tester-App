@@ -1,9 +1,11 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,7 +21,8 @@ public class RoundedButton extends JButton {
     private int radius;
     private Boolean
         borderPaint,
-        borderState;
+        borderState,
+        isTransparent;
     private Color
         buttonSelectionColor,
         buttonBorderColor;
@@ -46,13 +49,17 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
+        addMargin(this, margin * 3);
 
         this.radius = 10;
-        this.borderPaint = true;
+        this.borderPaint = false;
         this.borderState = true;
+        this.isTransparent = false;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -78,13 +85,17 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
+        addMargin(this, margin * 3);
 
         this.radius = 10;
-        this.borderPaint = true;
+        this.borderPaint = false;
         this.borderState = true;
+        this.isTransparent = false;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -95,6 +106,10 @@ public class RoundedButton extends JButton {
     // GETTERS
     public Icon getButtonIcon() {
         return label.getIcon();
+    }
+
+    public String getButtonText() {
+        return buttonText;
     }
     
     // SETTERS
@@ -114,6 +129,10 @@ public class RoundedButton extends JButton {
         if(label != null) {
             label.setIcon(defaultIcon);
         }
+    }
+
+    public void setTransparency(Boolean isTransparent) {
+        this.isTransparent = isTransparent;
     }
 
     @Override
@@ -140,10 +159,6 @@ public class RoundedButton extends JButton {
         } else {
             super.setIconTextGap(iconTextGap);
         }
-    }
-
-    public String getButtonText() {
-        return buttonText;
     }
 
     @Override
@@ -216,25 +231,19 @@ public class RoundedButton extends JButton {
             if(buttonSelectionColor != null) {
                 g2.setColor(buttonSelectionColor);
                 this.borderPaint = false;
-            } else {
-                int
-                    red = getBackground().getRed(),
-                    green = getBackground().getGreen(),
-                    blue = getBackground().getBlue();
-
-                g2.setColor(
-                    new Color(
-                        red - red / 6 > 0 ? red - red / 6 : 0,
-                        green - green / 6 > 0 ? green - green / 6 : 0,
-                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
-                    )
-                );
             }
         } else {
             setForeground(Color.WHITE);
-            
-            g2.setColor(getBackground());
-            if(!this.isSelected()) this.borderPaint = true;
+
+            if(!this.isSelected()) this.borderPaint = false;
+        }
+
+        g2.setColor(getBackground());
+
+        if(isTransparent) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+        } else {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         }
         g2.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
         super.paintComponent(g2);
@@ -247,38 +256,13 @@ public class RoundedButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        if(borderPaint || borderState) {
-            if (getModel().isRollover()) {
-                if(buttonSelectionColor == null ) {
-                    if(buttonBorderColor != null) {
-                        int
-                            red = buttonBorderColor.getRed(),
-                            green = buttonBorderColor.getGreen(),
-                            blue = buttonBorderColor.getBlue();
-
-                        g2.setColor(
-                            new Color(
-                                red - red / 6 > 0 ? red - red / 6 : 0,
-                                green - green / 6 > 0 ? green - green / 6 : 0,
-                                blue - blue / 6 > 0 ? blue - blue / 6 : 0
-                            )
-                        );
-                    } else {
-                        int
-                        red = getBackground().brighter().brighter().brighter().getRed(),
-                        green = getBackground().brighter().brighter().brighter().getGreen(),
-                        blue = getBackground().brighter().brighter().brighter().getBlue();
-
-                        g2.setColor(
-                            new Color(
-                                red - red / 6 > 0 ? red - red / 6 : 0,
-                                green - green / 6 > 0 ? green - green / 6 : 0,
-                                blue - blue / 6 > 0 ? blue - blue / 6 : 0
-                            )
-                        );
-                    }
-                }
-            } else {
+        if (getModel().isRollover()) {
+            if(buttonSelectionColor == null ) {
+                g2.setColor(selectionColor);
+                g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
+            }
+        } else {
+            if(borderPaint && borderState) {
                 if(buttonSelectionColor == null) {
                     g2.setColor(getBackground().brighter().brighter().brighter());
                 } else if(buttonBorderColor != null) {
@@ -286,10 +270,12 @@ public class RoundedButton extends JButton {
                 } else {
                     g2.setColor(getBackground());
                 }
+
+                if(buttonSelectionColor == null) {
+                    g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
+                }
             }
-            if(buttonSelectionColor == null) {
-                g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
-            }
+            
         }
     }
 
