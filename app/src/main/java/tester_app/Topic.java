@@ -1,6 +1,5 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
