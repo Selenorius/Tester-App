@@ -1,0 +1,27 @@
+{
+    MULTIPLE_CHOICE {
+        "The aim of research is..." {
+            true {
+                "to search for something new and to provide the foundations for development activities" 
+            }
+            false {
+                "to implement something new" 
+            }
+        }
+    }
+    MULTIPLE_CHOICE {
+        "The aim of development is..." {
+            false {
+                "to search for something new and to provide the foundations for development activities" 
+            }
+            true {
+                "to implement something new" 
+            }
+        }
+    }
+    TRUE_FALSE {
+        "Research comprises of “creative work undertaken on a systematic basis in order to increase the stock of knowledge, including knowledge of humans, culture, and society, and the use of this stock of knowledge to devise new applications.”" {
+            true
+        }
+    }
+}
