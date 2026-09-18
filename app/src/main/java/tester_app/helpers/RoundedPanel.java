@@ -3,7 +3,9 @@ package tester_app.helpers;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.margin;
+import static tester_app.helpers.Constants.opacity;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,7 +24,8 @@ import javax.swing.Timer;
 public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
     private Boolean
-        borderPaint;
+        borderPaint,
+        isTransparent;
     private Color borderColor;
     private final Timer repaintTimer;
     private final Image texture;
@@ -30,7 +33,8 @@ public class RoundedPanel extends JPanel implements Scrollable {
     public RoundedPanel(Image texture) {
         this.texture = texture;
         this.radius = 10;
-        this.borderPaint = true;
+        this.borderPaint = false;
+        this.isTransparent = false;
         this.setOpaque(false);
         if(this.getParent() != null) {
             if(this.getParent().getBackground() != null) {
@@ -59,13 +63,12 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 repaintTimer.restart();
             }
         });
-        
-        setOpaque(false);
     }
     public RoundedPanel() {
         this.texture = null;
         this.radius = 10;
-        this.borderPaint = true;
+        this.borderPaint = false;
+        this.isTransparent = false;
         this.setOpaque(false);
         if(this.getParent() != null) {
             if(this.getParent().getBackground() != null) {
@@ -94,8 +97,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 repaintTimer.restart();
             }
         });
-        
-        setOpaque(false);
     }
 
     // GETTERS
@@ -110,6 +111,10 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
     public void setRadius(int radius) {
         this.radius = radius;
+    }
+
+    public void setTransparency(Boolean isTransparent) {
+        this.isTransparent = isTransparent;
     }
 
     @Override
@@ -138,6 +143,11 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 }
             }
         } else {
+            if(isTransparent) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+            } else {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+            }
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
         }
@@ -160,9 +170,9 @@ public class RoundedPanel extends JPanel implements Scrollable {
                     width = getVisibleRect().width,
                     height = getVisibleRect().height;
 
-                g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+                g2.drawRoundRect(x, y, width, height, radius, radius);
             } else {
-                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+                g2.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
             }
         }
     }

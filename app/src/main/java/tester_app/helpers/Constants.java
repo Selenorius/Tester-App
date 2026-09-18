@@ -1,5 +1,6 @@
 package tester_app.helpers;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -35,6 +36,7 @@ import tester_app.questions.Question;
 import tester_app.questions.Question.Test;
 
 public final class Constants {
+    public static float opacity = (float) 0.75;
 
     //ANSI COLORS
     public static final String ANSI_RESET = "\u001B[0m";
@@ -57,7 +59,7 @@ public final class Constants {
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
-        borderColor = backgroundColor.brighter(),
+        borderColor = Color.WHITE,
 
         copyColor = new Color(28, 108, 160),
         pasteColor = new Color(168, 78, 28),
@@ -228,14 +230,18 @@ public final class Constants {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
                 g2.setPaint(scrollPane.getBackground());
                 g2.fillRect(r.x, r.y, r.width, r.height);
+
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
                 g2.setPaint(scrollPane.getBackground().darker());
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
 
-                g2.setPaint(scrollPane.getBackground().brighter().brighter());
-                g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
+                //g2.setPaint(scrollPane.getBackground().darker());
+                //g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
             }
 
             @Override
@@ -244,6 +250,8 @@ public final class Constants {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 Color color = scrollPane.getBackground().brighter();
                 JScrollBar sb = (JScrollBar)c;
+
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
                 if(!sb.isEnabled() || r.width > r.height) {
                     return;
@@ -263,7 +271,7 @@ public final class Constants {
                 g2.setPaint(color);
                 g2.fillRoundRect(r.x + 2 + margin, r.y, r.width - 2 - margin, r.height, 10, 10);
                 
-                g2.setPaint(color.brighter().brighter().brighter());
+                g2.setPaint(color);
                 g2.drawRoundRect(r.x + 2 + margin, r.y, r.width - 3 - margin, r.height - 1, 10, 10);
                 
                 g2.dispose();

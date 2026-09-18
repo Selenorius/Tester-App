@@ -193,7 +193,6 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         menuBar = new RoundedMenuBar();
-        menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
@@ -210,7 +209,6 @@ public class Tester extends ConsoleErrorJFrame {
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
-        titleMenu.setBorderPainted(false);
         titleMenu.setLayout(layout);
         
         constraints.fill = GridBagConstraints.NONE;
@@ -239,14 +237,14 @@ public class Tester extends ConsoleErrorJFrame {
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel(loadIcon("/texture.png"));
-        dirMenu.setBackground(fieldColor.darker());
-        dirMenu.setBorderColor(fieldColor.brighter().brighter());
+        dirMenu.setBackground(getBackground().darker());
+        dirMenu.setBorderColor(getBackground().darker());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
 
         scrollPane = new JScrollPane(dirMenu);
-        scrollPane.setBackground(fieldColor);
-        scrollPane.getViewport().setBackground(fieldColor);
+        scrollPane.setBackground(getBackground());
+        scrollPane.getViewport().setBackground(getBackground());
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -302,7 +300,6 @@ public class Tester extends ConsoleErrorJFrame {
         });
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
-        addButton.setBorderPainted(true);
         addButton.setGrid(true);
         
         addButton.addComponent(addTopicButton);
@@ -428,10 +425,8 @@ public class Tester extends ConsoleErrorJFrame {
         RoundedTextArea searchPanel = new RoundedTextArea(dirMenu);
         if(dirMenu.getBackground() != null) {
             searchPanel.setBackground(dirMenu.getBackground().darker());
-            searchPanel.setBorderColor(dirMenu.getBackground().brighter().brighter().brighter());
         } else {
             searchPanel.setBackground(dirMenu.getBackground());
-            searchPanel.setBorderColor(dirMenu.getBackground());
         }
         searchPanel.setPlaceholder("Search...");
         searchPanel.addKeyListener(new KeyAdapter() {

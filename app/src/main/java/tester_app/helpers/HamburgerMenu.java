@@ -7,6 +7,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.search;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -21,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.RoundRectangle2D;
 
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
@@ -49,7 +49,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     private String buttonText;
     private Boolean
         isGrid,
-        hasSearch;
+        hasSearch,
+        borderPainted;
 
     public HamburgerMenu(HamburgerMenuBuilder builder) {
         super();
@@ -58,6 +59,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.menuSize = 0;
         this.radius = 10;
         this.isGrid = false;
+        this.borderPainted = false;
         if(builder.hasSearch != null) {
             this.hasSearch = builder.hasSearch;
         } else {
@@ -65,7 +67,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         }
         this.selectionColor = Constants.selectionColor;
         if(builder.parent != null) {
-            this.borderColor = builder.parent.getBackground() != null ? builder.parent.getBackground().brighter().brighter().brighter() : borderColor;
+            this.borderColor = builder.parent.getBackground() != null ? builder.parent.getBackground().brighter().brighter().brighter() : Constants.borderColor;
         }
         if(builder.text != null) {
             this.buttonText = "   " + builder.text + "   ";
@@ -74,8 +76,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
-
-        this.setBorderPainted(false);
+        
         this.setLayout(layout);
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
         addMargin(this, 0);
@@ -90,7 +91,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         blot = new RoundedPanel();
         blot.setBackground(blotBackgroundColor);
         blot.setBorderColor(blotBackgroundColor.brighter().brighter().brighter());
-        blot.setBorderPainted(true);
+        blot.setBorderPainted(false);
         blot.setRadius(4);
         addMargin(blot, 0);
 
@@ -104,6 +105,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         menu.setBorderPainted(false);
         menu.setVisible(false);
         menu.setLayout(layout);
+        menu.setTransparency(true);
         addMargin(menu, 0);
 
         empty = new RoundedButton();
@@ -236,6 +238,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             menuButton.setSelectionColor(null);
             menuButton.setBackground(buttonColor);
             menuButton.setText(buttonText);
+            menuButton.setTransparency(false);
             menu.setVisible(false);
             blot.setVisible(true);
         } else {
@@ -249,6 +252,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
             blot.setVisible(false);
             menu.setVisible(true);
+            menuButton.setTransparency(true);
             if(menuButton.getButtonIcon() != null) {
                 menuButton.setText("");
             }
@@ -415,6 +419,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         this.isGrid = isGrid;
     }
 
+    public void setBorderPainted(Boolean borderPainted) {
+        this.borderPainted = borderPainted;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -430,8 +438,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             g2.setColor(null);
         } else {
             g2.setColor(getBackground());
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.25));
         }
-
+        
         g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);
     }
 
@@ -446,7 +455,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             width = getSize().width,
             height = getSize().height;
 
-        if(isExtended()) {
+        if(isExtended() && borderPainted) {
             g2.setColor(borderColor);
             g2.drawRoundRect(margin, margin, width - 1 - margin * 2, height - 1 - margin * 2, radius, radius);
         }

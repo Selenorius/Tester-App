@@ -7,6 +7,7 @@ import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
 import static tester_app.helpers.Constants.textFont;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,31 +17,38 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 
 public class RoundedSpinner extends JSpinner {
-    private Color borderColor;
-    private int radius;
     private RoundedSpinner.DefaultEditor editor;
     private GridBagLayout layout;
     private GridBagConstraints constraints;
     private RoundedLabel label;
 
+    private Color borderColor;
+    private int radius;
+    private Boolean borderPainted;
+
     public RoundedSpinner(SpinnerModel model, String text) {
         super(model);
+
+        this.borderPainted = false;
 
         style(text);
     }
     public RoundedSpinner(SpinnerModel model) {
         super(model);
 
+        this.borderPainted = false;
+
         style();
     }
     public RoundedSpinner() {
         super();
+
+        this.borderPainted = false;
 
         style();
     }
@@ -115,6 +123,10 @@ public class RoundedSpinner extends JSpinner {
         borderColor = color;
     }
 
+    public void setBorderPainted(Boolean borderPainted) {
+        this.borderPainted = borderPainted;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -122,6 +134,7 @@ public class RoundedSpinner extends JSpinner {
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
     }
@@ -132,8 +145,10 @@ public class RoundedSpinner extends JSpinner {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-        
-        g2.setColor(borderColor);
-        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+
+        if(borderPainted) {
+            g2.setColor(borderColor);
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+        }
     }  
 }

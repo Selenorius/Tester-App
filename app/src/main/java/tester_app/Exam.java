@@ -193,7 +193,6 @@ public class Exam extends ConsoleErrorJFrame {
         });
 
         menuBar = new RoundedMenuBar();
-        menuBar.setBorderPainted(false);
         menuBar.setBackground(getBackground());
         menuBar.setLayout(layout);
         menuBar.add(Box.createHorizontalGlue());
@@ -210,7 +209,6 @@ public class Exam extends ConsoleErrorJFrame {
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
-        titleMenu.setBorderPainted(false);
         titleMenu.setLayout(layout);
 
         constraints.fill = GridBagConstraints.NONE;
@@ -240,7 +238,7 @@ public class Exam extends ConsoleErrorJFrame {
 
         questionMenu = new RoundedPanel(loadIcon("/texture.png"));
         questionMenu.setBackground(getBackground().darker());
-        questionMenu.setBorderColor(fieldColor.brighter().brighter());
+        questionMenu.setBorderColor(getBackground().darker());
         questionMenu.setBorderPainted(true);
         questionMenu.setLayout(layout);
 
@@ -256,8 +254,8 @@ public class Exam extends ConsoleErrorJFrame {
         questionMenu.add(timer, constraints);
 
         scrollPane = new JScrollPane(questionMenu);
-        scrollPane.setBackground(fieldColor);
-        scrollPane.getViewport().setBackground(fieldColor);
+        scrollPane.setBackground(getBackground());
+        scrollPane.getViewport().setBackground(getBackground());
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

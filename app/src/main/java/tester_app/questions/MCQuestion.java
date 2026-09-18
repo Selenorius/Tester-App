@@ -75,8 +75,10 @@ public class MCQuestion extends Question {
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker().darker());
         inputArea.setBorderColor(getBackground().brighter());
-        inputArea.setBorderPainted(true);
+        inputArea.setBorderPainted(false);
         inputArea.setLayout(layout);
+        inputArea.setTransparency(true);
+        addMargin(inputArea, 0);
 
         questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
@@ -117,7 +119,7 @@ public class MCQuestion extends Question {
         constraints.weighty = 0.5;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, 0, 0, 0);
 
         int menCount = 0;
         for(Component c : inputArea.getComponents()) {
@@ -158,7 +160,7 @@ public class MCQuestion extends Question {
         constraints.weighty = 0.5;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, 0, 0, 0);
 
         int menCount = 0;
         for(ButtonOption butt : options) {

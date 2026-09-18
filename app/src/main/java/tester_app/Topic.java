@@ -1,6 +1,5 @@
 package tester_app;
 
-import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
@@ -85,7 +84,6 @@ public class Topic extends HamburgerMenu {
 
         RoundedPanel untitledPanel = new RoundedPanel();
         untitledPanel.setBackground(null);
-        untitledPanel.setBorderPainted(false);
         untitledPanel.setVisible(false);
 
         RoundedTextArea titlePanel = new RoundedTextArea(dir.getName(), getMenu());
@@ -519,7 +517,6 @@ public class Topic extends HamburgerMenu {
             textPanel.setLayout(getLayout());
             textPanel.setBackground(editPanel.getBackground().darker());
             textPanel.setBorderColor(editPanel.getBorderColor());
-            textPanel.setBorderPainted(true);
 
             RoundedButton deleteImageButton = new RoundedButton();
             deleteImageButton.addActionListener(new ActionListener() {
@@ -658,6 +655,7 @@ public class Topic extends HamburgerMenu {
                 goalSpinner.setBorderColor(textPanel.getBackground().brighter().brighter().brighter().brighter());
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.setFocusable(false);
                 radioButton.setBackground(null);
@@ -722,7 +720,6 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
-                    optionTextPanel.setBorderPainted(true);
 
                     deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
@@ -828,6 +825,7 @@ public class Topic extends HamburgerMenu {
                 ArrayList<ButtonOption> options = q.getButtonOptions();
 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
@@ -876,7 +874,6 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
-                    optionTextPanel.setBorderPainted(true);
 
                     RoundedButton deleteImagePathButton = new RoundedButton();
                     deleteImagePathButton.addActionListener(new ActionListener() {
@@ -992,6 +989,7 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.add(optionTextArea, constraints);
 
                     JRadioButton optionRadioButton = new JRadioButton();
+                    optionRadioButton.setOpaque(false);
                     optionRadioButton.setToolTipText("Is this answer true?");
                     optionRadioButton.setIconTextGap(margin * 2);
                     optionRadioButton.addActionListener(new ActionListener() {
@@ -1051,6 +1049,7 @@ public class Topic extends HamburgerMenu {
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 
                 JRadioButton radioButton = new JRadioButton();
+                radioButton.setOpaque(false);
                 radioButton.setToolTipText("Is the question text true?");
                 radioButton.setIconTextGap(margin * 2);
                 radioButton.addActionListener(new ActionListener() {
@@ -1136,7 +1135,6 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
-        addMenu.setBorderPainted(true);
         addMenu.setGrid(true);
 
         RoundedButton addWQButton = new RoundedButton();
