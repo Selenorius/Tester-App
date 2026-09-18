@@ -55,7 +55,7 @@ public final class Constants {
     public static final int margin = 4;
     public static final File root = new File("topics");
     public static final Color
-        fieldColor = new Color(34, 34, 36),
+        fieldColor = new Color(0, 0, 0),
         selectionColor = Color.YELLOW,
 
         backgroundColor = fieldColor.brighter(),
@@ -108,7 +108,7 @@ public final class Constants {
         Color pColor = findParentBackground(button.getParent());
 
         if(pColor != null) {
-            button.setBackground(pColor.brighter());
+            button.setBackground(pColor);
         } else {
             button.setBackground(buttonBackgroundColor);
         }
@@ -248,7 +248,7 @@ public final class Constants {
             protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color color = scrollPane.getBackground().brighter();
+                Color color = scrollPane.getBackground().brighter().brighter().brighter();
                 JScrollBar sb = (JScrollBar)c;
 
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
@@ -262,9 +262,9 @@ public final class Constants {
                         blue = color.getBlue();
 
                     color = new Color(
-                        red - red / 6 > 0 ? red - red / 6 : 0,
-                        green - green / 6 > 0 ? green - green / 6 : 0,
-                        blue - blue / 6 > 0 ? blue - blue / 6 : 0
+                        red + red / 2 < 256 ? red + red / 2 : 255,
+                        green + green / 2 < 256 ? green + green / 2 : 255,
+                        blue + blue / 2 < 256 ? blue + blue / 2 : 255
                     );
                 }
 

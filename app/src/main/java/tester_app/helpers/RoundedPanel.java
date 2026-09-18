@@ -3,7 +3,6 @@ package tester_app.helpers;
 import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.backgroundColor;
 import static tester_app.helpers.Constants.margin;
-import static tester_app.helpers.Constants.opacity;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -23,6 +22,7 @@ import javax.swing.Timer;
 
 public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
+    private float opacity;
     private Boolean
         borderPaint,
         isTransparent;
@@ -33,6 +33,7 @@ public class RoundedPanel extends JPanel implements Scrollable {
     public RoundedPanel(Image texture) {
         this.texture = texture;
         this.radius = 10;
+        this.opacity = Constants.opacity;
         this.borderPaint = false;
         this.isTransparent = false;
         this.setOpaque(false);
@@ -67,6 +68,7 @@ public class RoundedPanel extends JPanel implements Scrollable {
     public RoundedPanel() {
         this.texture = null;
         this.radius = 10;
+        this.opacity = Constants.opacity;
         this.borderPaint = false;
         this.isTransparent = false;
         this.setOpaque(false);
@@ -104,6 +106,10 @@ public class RoundedPanel extends JPanel implements Scrollable {
         return borderColor;
     }
 
+    public float getOpacity() {
+        return opacity;
+    }
+
     // SETTERS
     public void setBorderColor(Color bordeColor) {
         this.borderColor = bordeColor;
@@ -113,8 +119,16 @@ public class RoundedPanel extends JPanel implements Scrollable {
         this.radius = radius;
     }
 
+    public void setBorderPainted(Boolean val) {
+        this.borderPaint = val;
+    }
+
     public void setTransparency(Boolean isTransparent) {
         this.isTransparent = isTransparent;
+    }
+
+    public void setOpacity(double opacity) {
+        if((float) opacity <= 1 && (float) opacity > 0) this.opacity = (float) opacity;
     }
 
     @Override
@@ -175,10 +189,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 g2.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
             }
         }
-    }
-
-    public void setBorderPainted(Boolean val) {
-        this.borderPaint = val;
     }
 
     @Override

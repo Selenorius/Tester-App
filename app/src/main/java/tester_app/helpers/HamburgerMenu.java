@@ -79,6 +79,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         
         this.setLayout(layout);
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
+        this.setOpacity((float) 0.25);
         addMargin(this, 0);
 
         menuButton = new RoundedButton();
@@ -93,6 +94,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         blot.setBorderColor(blotBackgroundColor.brighter().brighter().brighter());
         blot.setBorderPainted(false);
         blot.setRadius(4);
+        blot.setOpacity(1);
         addMargin(blot, 0);
 
         size = new RoundedLabel("0");
@@ -173,7 +175,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                         blue - blue / 4 > 0 ? blue - blue / 4 : 0
                     )
                 );
-                menuButton.setBackground(builder.parent.getBackground().brighter());
+                menuButton.setBackground(builder.parent.getBackground());
                 empty.setBackground(builder.parent.getBackground().darker());
                 empty.setSelectionColor(builder.parent.getBackground().darker());
             } else {
@@ -193,7 +195,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         searchPanel.setPlaceholder("Search...");
         if(menuButton.getBackground() != null) {
             searchPanel.setBackground(menuButton.getBackground().darker());
-            searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter());
+            searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter().brighter().brighter());
         } else {
             searchPanel.setBackground(menuButton.getBackground());
             searchPanel.setBorderColor(menuButton.getBackground());
@@ -232,7 +234,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     public void toggle() {
         if(isExtended()) {
             addMargin(this, 0);
-
+            
             searchPanel.setVisible(false);
             addMargin(menuButton, margin * 3);
             menuButton.setSelectionColor(null);
@@ -438,7 +440,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             g2.setColor(null);
         } else {
             g2.setColor(getBackground());
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.25));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getOpacity()));
         }
         
         g2.fillRoundRect(margin, margin, width - margin * 2, height - margin * 2, radius, radius);

@@ -1,5 +1,6 @@
 package tester_app;
 
+import static tester_app.helpers.Constants.borderColor;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
@@ -468,11 +469,14 @@ public class Topic extends HamburgerMenu {
                 editPanel.setButtonColor(wQuestionBackgroundColor.brighter());
             }
             editPanel.setBlotOffset(2);
+            editPanel.setOpacity(1);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
             addHam.setBackground(editPanel.getBackground().darker());
             addHam.setBorderColor(editPanel.getBorderColor());
+            addHam.setButtonColor(editPanel.getBackground().brighter());
             addHam.setGrid(true);
+            addHam.setOpacity(1);
 
             RoundedButton deleteButton = new RoundedButton();
             deleteButton.addActionListener(new ActionListener() {
@@ -517,6 +521,7 @@ public class Topic extends HamburgerMenu {
             textPanel.setLayout(getLayout());
             textPanel.setBackground(editPanel.getBackground().darker());
             textPanel.setBorderColor(editPanel.getBorderColor());
+            textPanel.setOpacity(1);
 
             RoundedButton deleteImageButton = new RoundedButton();
             deleteImageButton.addActionListener(new ActionListener() {
@@ -577,6 +582,7 @@ public class Topic extends HamburgerMenu {
             } else {
                 styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
             }
+            imageButton.setBackground(textPanel.getBackground().brighter());
 
             constraints.gridy = 1;
 
@@ -608,6 +614,7 @@ public class Topic extends HamburgerMenu {
                     }
                 }
             });
+            textArea.setOpacity(1);
 
             textPanel.add(textArea, constraints);
 
@@ -720,6 +727,7 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
+                    optionTextPanel.setOpacity(1);
 
                     deleteButton = new RoundedButton();
                     deleteButton.addActionListener(new ActionListener() {
@@ -747,6 +755,7 @@ public class Topic extends HamburgerMenu {
                     RoundedTextArea optionTextArea = new RoundedTextArea(o.getClearText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
                     optionTextArea.setPlaceholder("Enter answer...");
+                    optionTextArea.setOpacity(1);
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyReleased(KeyEvent e) {
@@ -874,6 +883,7 @@ public class Topic extends HamburgerMenu {
                     optionTextPanel.setLayout(getLayout());
                     optionTextPanel.setBackground(editPanel.getBackground().darker().darker());
                     optionTextPanel.setBorderColor(editPanel.getBorderColor());
+                    optionTextPanel.setOpacity(1);
 
                     RoundedButton deleteImagePathButton = new RoundedButton();
                     deleteImagePathButton.addActionListener(new ActionListener() {
@@ -926,6 +936,7 @@ public class Topic extends HamburgerMenu {
                     } else {
                         styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
                     }
+                    imageButton.setBackground(textPanel.getBackground().brighter());
 
                     constraints.gridy = 1;
 
@@ -964,6 +975,7 @@ public class Topic extends HamburgerMenu {
                     RoundedTextArea optionTextArea = new RoundedTextArea(o.getButtonText(), optionTextPanel);
                     optionTextArea.setToolTipText("Click to change the answer text");
                     optionTextArea.setPlaceholder("Enter answer...");
+                    optionTextArea.setOpacity(1);
                     optionTextArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyPressed(KeyEvent e) {

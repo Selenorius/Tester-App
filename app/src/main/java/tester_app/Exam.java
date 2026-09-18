@@ -249,7 +249,7 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0;
         constraints.anchor = GridBagConstraints.NORTHEAST;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
         questionMenu.add(timer, constraints);
 

@@ -32,6 +32,7 @@ public class RoundedTextArea extends JTextArea {
     private int radius;
     private Color borderColor;
     private Boolean borderPainted;
+    private float opacity;
 
     public RoundedTextArea(String s, Component parent) {
         super();
@@ -62,6 +63,7 @@ public class RoundedTextArea extends JTextArea {
 
         radius = 10;
         borderPainted = false;
+        this.opacity = 1;
         this.parent = parent;
 
         if(this.parent != null) {
@@ -152,6 +154,7 @@ public class RoundedTextArea extends JTextArea {
 
         radius = 10;
         borderPainted = false;
+        this.opacity = 1;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
@@ -235,6 +238,7 @@ public class RoundedTextArea extends JTextArea {
 
         radius = 10;
         borderPainted = false;
+        this.opacity = 1;
         this.parent = parent;
 
         if(this.parent != null) {
@@ -319,6 +323,7 @@ public class RoundedTextArea extends JTextArea {
 
         radius = 10;
         borderPainted = false;
+        this.opacity = 1;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
@@ -401,13 +406,17 @@ public class RoundedTextArea extends JTextArea {
         this.borderPainted = borderPainted;
     }
 
+    public void setOpacity(double opacity) {
+        if((float) opacity <= 1 && (float) opacity > 0) this.opacity = (float) opacity;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.9));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 

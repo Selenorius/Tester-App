@@ -1,5 +1,7 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.textFont;
 
 import java.awt.Color;
