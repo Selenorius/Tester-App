@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 
 import javax.swing.Icon;
@@ -19,6 +20,7 @@ import javax.swing.SwingConstants;
 
 public class RoundedButton extends JButton {
     private int radius;
+    private float opacity;
     private Boolean
         borderPaint,
         borderState,
@@ -55,6 +57,7 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.opacity = 1;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
@@ -91,10 +94,11 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.opacity = 1;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
@@ -133,6 +137,32 @@ public class RoundedButton extends JButton {
 
     public void setTransparency(Boolean isTransparent) {
         this.isTransparent = isTransparent;
+    }
+
+    public void setOpacity(double opacity) {
+        if((float) opacity <= 1 && (float) opacity > 0) this.opacity = (float) opacity;
+    }
+
+    public void setHorizontalIconAlignment(int anchor) {
+        label.setHorizontalAlignment(anchor);
+
+        revalidate();
+        repaint();
+    }
+
+    public void setLabelInsets(Insets insets) {
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = insets;
+
+        layout.setConstraints(label, constraints);
+
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -243,7 +273,7 @@ public class RoundedButton extends JButton {
         if(isTransparent) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
         } else {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
         }
         g2.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
         super.paintComponent(g2);

@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.SwingConstants;
+
 public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerMenu> {
     private RoundedButton
         menuButton,
@@ -221,8 +223,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.fill = GridBagConstraints.NONE;
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.weightx = 0.5;
         constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 0, 0, margin * 3);
 
         menuButton.add(searchPanel, constraints);
 
@@ -240,6 +242,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             menuButton.setSelectionColor(null);
             menuButton.setBackground(buttonColor);
             menuButton.setText(buttonText);
+            menuButton.setHorizontalIconAlignment(SwingConstants.CENTER);
             menuButton.setTransparency(false);
             menu.setVisible(false);
             blot.setVisible(true);
@@ -255,6 +258,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             blot.setVisible(false);
             menu.setVisible(true);
             menuButton.setTransparency(true);
+            menuButton.setHorizontalIconAlignment(SwingConstants.LEFT);
             if(menuButton.getButtonIcon() != null) {
                 menuButton.setText("");
             }
@@ -423,6 +427,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
     public void setBorderPainted(Boolean borderPainted) {
         this.borderPainted = borderPainted;
+    }
+
+    public void setButtonOpacity(double opacity) {
+        if((float) opacity <= 1 && (float) opacity > 0) menuButton.setOpacity((float) opacity);
     }
 
     @Override
