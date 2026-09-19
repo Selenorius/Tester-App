@@ -28,6 +28,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -78,22 +79,22 @@ public class Tester extends ConsoleErrorJFrame {
     protected ArrayList<HamburgerMenu> extendedStates;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
-        dirButtonIcon = loadIcon("/dirButtonx32.png"),
-        fileButtonIcon = loadIcon("/fileButtonx32.png"),
+        dirButtonIcon = loadIcon("/dirButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        fileButtonIcon = loadIcon("/fileButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         editorButtonIcon = loadIcon("/editorButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         backButtonIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         returnButtonIcon = loadIcon("/returnButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         minButtonIcon = loadIcon("/minButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         maxButtonIcon = loadIcon("/maxButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        wqIcon = loadIcon("/WQ_iconx32.png"),
-        mcIcon = loadIcon("/MC_iconx32.png"),
-        tfIcon = loadIcon("/TF_iconx32.png"),
+        wqIcon = loadIcon("/WQ_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
+        mcIcon = loadIcon("/MC_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
+        tfIcon = loadIcon("/TF_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
         editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         addIcon = loadIcon("/add_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        resetIcon = loadIcon("/backButtonx32.png");
+        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
     private final String settingsFile = "settings.txt";
     
     public Tester() {

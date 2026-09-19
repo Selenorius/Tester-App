@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorMessage, LoadIcon {
@@ -42,9 +41,10 @@ public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorM
     }
 
     @Override
-    public Image loadIcon(final String name) {
+    public BufferedImage loadIcon(final String name) {
         try {
             BufferedImage source = ImageIO.read(ConsoleErrorJFrame.class.getResource(name));
+
             if(source == null) {
                 consoleErrorMessage(
                     "loadIcon",
@@ -55,18 +55,7 @@ public abstract class ConsoleErrorJFrame extends JFrame implements ConsoleErrorM
                 return new BufferedImage(64, 64, Image.SCALE_FAST);
             }
 
-            Image icon = new ImageIcon(source).getImage();
-            if(icon == null) {
-                consoleErrorMessage(
-                    "loadIcon",
-                    "Image cannot be null",
-                    "Image source: " + source
-                );
-
-                return new BufferedImage(64, 64, Image.SCALE_FAST);
-            }
-
-            return icon;
+            return source;
         } catch (Exception e) {
             consoleErrorMessage("loadIcon", e.getMessage());
 
