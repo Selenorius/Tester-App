@@ -20,6 +20,10 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JTextArea;
 
@@ -32,6 +36,7 @@ public class RoundedTextArea extends JTextArea {
     private int radius;
     private Color borderColor;
     private Boolean borderPainted;
+    private ArrayList<Boolean> isHalfRect;
     private float opacity;
 
     public RoundedTextArea(String s, Component parent) {
@@ -61,21 +66,26 @@ public class RoundedTextArea extends JTextArea {
         this.setOpaque(false);
         this.setFont(textFont);
 
-        radius = 10;
-        borderPainted = false;
+        this.radius = 10;
+        this.borderPainted = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
         this.parent = parent;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
-                this.setBackground(this.parent.getBackground().darker());
+                this.setBackground(this.parent.getBackground());
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             } else {
-                this.setBackground(fieldColor.darker());
+                this.setBackground(fieldColor);
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             }
         } else {
-            this.setBackground(fieldColor.darker());
+            this.setBackground(fieldColor);
             this.setBorderColor(this.getBackground().brighter().brighter().brighter());
         }
 
@@ -152,20 +162,25 @@ public class RoundedTextArea extends JTextArea {
         this.setOpaque(false);
         this.setFont(textFont);
 
-        radius = 10;
-        borderPainted = false;
+        this.radius = 10;
+        this.borderPainted = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
-                this.setBackground(this.parent.getBackground().darker());
+                this.setBackground(this.parent.getBackground());
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             } else {
-                this.setBackground(fieldColor.darker());
+                this.setBackground(fieldColor);
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             }
         } else {
-            this.setBackground(fieldColor.darker());
+            this.setBackground(fieldColor);
             this.setBorderColor(this.getBackground().brighter().brighter().brighter());
         }
 
@@ -236,21 +251,26 @@ public class RoundedTextArea extends JTextArea {
         this.setOpaque(false);
         this.setFont(textFont);
 
-        radius = 10;
-        borderPainted = false;
+        this.radius = 10;
+        this.borderPainted = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
         this.parent = parent;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
-                this.setBackground(this.parent.getBackground().darker());
+                this.setBackground(this.parent.getBackground());
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             } else {
-                this.setBackground(fieldColor.darker());
+                this.setBackground(fieldColor);
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             }
         } else {
-            this.setBackground(fieldColor.darker());
+            this.setBackground(fieldColor);
             this.setBorderColor(this.getBackground().brighter().brighter().brighter());
         }
 
@@ -321,20 +341,25 @@ public class RoundedTextArea extends JTextArea {
         this.setOpaque(false);
         this.setFont(textFont);
 
-        radius = 10;
-        borderPainted = false;
+        this.radius = 10;
+        this.borderPainted = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
 
         if(this.parent != null) {
             if(this.parent.getBackground() != null) {
-                this.setBackground(this.parent.getBackground().darker());
+                this.setBackground(this.parent.getBackground());
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             } else {
-                this.setBackground(fieldColor.darker());
+                this.setBackground(fieldColor);
                 this.setBorderColor(this.getBackground().brighter().brighter().brighter());
             }
         } else {
-            this.setBackground(fieldColor.darker());
+            this.setBackground(fieldColor);
             this.setBorderColor(this.getBackground().brighter().brighter().brighter());
         }
 
@@ -406,6 +431,15 @@ public class RoundedTextArea extends JTextArea {
         this.borderPainted = borderPainted;
     }
 
+    public void setHalfRect(Boolean nw, Boolean ne, Boolean se, Boolean sw) {
+        this.isHalfRect.clear();
+
+        this.isHalfRect.add(nw);
+        this.isHalfRect.add(ne);
+        this.isHalfRect.add(se);
+        this.isHalfRect.add(sw);
+    }
+
     public void setOpacity(double opacity) {
         if((float) opacity <= 1 && (float) opacity > 0) this.opacity = (float) opacity;
     }
@@ -418,7 +452,31 @@ public class RoundedTextArea extends JTextArea {
 
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
         g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        
+        int
+            width = getSize().width,
+            height = getSize().height;
+    
+        Area base = new Area(new RoundRectangle2D.Double(0, 0, width, height, radius, radius));
+
+        if(isHalfRect.get(0)) {
+            Area cut = new Area(new Rectangle2D.Double(0, 0, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(1)) {
+            Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, 0, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(2)) {
+            Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, getHeight() - radius, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(3)) {
+            Area cut = new Area(new Rectangle2D.Double(0, getHeight() - radius, radius, radius));
+            base.add(cut);
+        }
+
+        g2.fill(base);
 
         super.paintComponent(g2);
     }
@@ -431,7 +489,32 @@ public class RoundedTextArea extends JTextArea {
 
         if(borderPainted) {
             g2.setColor(borderColor);
-            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+            
+            int
+                width = getSize().width,
+                height = getSize().height;
+        
+            Area base = new Area(new RoundRectangle2D.Double(0, 0, width - 1, height - 1, radius, radius));
+
+            if(isHalfRect.get(0)) {
+                Area cut = new Area(new Rectangle2D.Double(0, 0, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(1)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - radius - 1, 0, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(2)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - radius - 1, getHeight() - radius - 1, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(3)) {
+                Area cut = new Area(new Rectangle2D.Double(0, getHeight() - radius - 1, radius, radius));
+                base.add(cut);
+            }
+
+            g2.draw(base);
         }
     }
 }

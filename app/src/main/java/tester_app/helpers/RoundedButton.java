@@ -13,6 +13,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -25,6 +29,7 @@ public class RoundedButton extends JButton {
         borderPaint,
         borderState,
         isTransparent;
+    private ArrayList<Boolean> isHalfRect;
     private Color
         buttonSelectionColor,
         buttonBorderColor;
@@ -57,6 +62,11 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
@@ -94,6 +104,11 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.opacity = 1;
         this.setSize(this.getSize().width + margin, this.getSize().height + margin);
 
@@ -114,6 +129,10 @@ public class RoundedButton extends JButton {
 
     public String getButtonText() {
         return buttonText;
+    }
+
+    public ArrayList<Boolean> getHalfRect() {
+        return isHalfRect;
     }
     
     // SETTERS
@@ -137,6 +156,18 @@ public class RoundedButton extends JButton {
 
     public void setTransparency(Boolean isTransparent) {
         this.isTransparent = isTransparent;
+    }
+
+    public void setHalfRect(ArrayList<Boolean> isHalfRect) {
+        this.isHalfRect = isHalfRect;
+    }
+    public void setHalfRect(Boolean nw, Boolean ne, Boolean se, Boolean sw) {
+        this.isHalfRect.clear();
+
+        this.isHalfRect.add(nw);
+        this.isHalfRect.add(ne);
+        this.isHalfRect.add(se);
+        this.isHalfRect.add(sw);
     }
 
     public void setOpacity(double opacity) {
@@ -275,7 +306,32 @@ public class RoundedButton extends JButton {
         } else {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
         }
-        g2.fillRoundRect(margin, margin, getWidth() - margin * 2, getHeight() - margin * 2, radius, radius); 
+
+        int
+            width = getSize().width,
+            height = getSize().height;
+        
+        Area base = new Area(new RoundRectangle2D.Double(margin, margin, width - margin * 2, height - margin * 2, radius, radius));
+
+        if(isHalfRect.get(0)) {
+            Area cut = new Area(new Rectangle2D.Double(margin, margin, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(1)) {
+            Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, margin, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(2)) {
+            Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, getHeight() - margin - radius, radius, radius));
+            base.add(cut);
+        }
+        if(isHalfRect.get(3)) {
+            Area cut = new Area(new Rectangle2D.Double(margin, getHeight() - margin - radius, radius, radius));
+            base.add(cut);
+        }
+
+        g2.fill(base);
+
         super.paintComponent(g2);
     }
 
@@ -289,7 +345,32 @@ public class RoundedButton extends JButton {
         if (getModel().isRollover()) {
             if(buttonSelectionColor == null ) {
                 g2.setColor(selectionColor);
-                g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+                
+                int
+                    width = getSize().width,
+                    height = getSize().height;
+            
+                Area base = new Area(new RoundRectangle2D.Double(margin, margin, width - 1 - margin * 2, height - 1 - margin * 2, radius, radius));
+
+                if(isHalfRect.get(0)) {
+                    Area cut = new Area(new Rectangle2D.Double(margin, margin, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(1)) {
+                    Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius - 1, margin, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(2)) {
+                    Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius - 1, getHeight() - margin - radius - 1, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(3)) {
+                    Area cut = new Area(new Rectangle2D.Double(margin, getHeight() - margin - radius - 1, radius, radius));
+                    base.add(cut);
+                }
+
+                g2.draw(base);
             }
         } else {
             if(borderPaint && borderState) {
@@ -302,7 +383,32 @@ public class RoundedButton extends JButton {
                 }
 
                 if(buttonSelectionColor == null) {
-                    g2.drawRoundRect(margin, margin, getWidth() - 1 - margin * 2, getHeight() - 1 - margin * 2, radius, radius);
+                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+
+                    int
+                        width = getSize().width,
+                        height = getSize().height;
+                
+                    Area base = new Area(new RoundRectangle2D.Double(margin, margin, width - 1 - margin * 2, height - 1 - margin * 2, radius, radius));
+
+                    if(isHalfRect.get(0)) {
+                        Area cut = new Area(new Rectangle2D.Double(margin, margin, radius, radius));
+                        base.add(cut);
+                    }
+                    if(isHalfRect.get(1)) {
+                        Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius - 1, margin, radius, radius));
+                        base.add(cut);
+                    }
+                    if(isHalfRect.get(2)) {
+                        Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius - 1, getHeight() - margin - radius - 1, radius, radius));
+                        base.add(cut);
+                    }
+                    if(isHalfRect.get(3)) {
+                        Area cut = new Area(new Rectangle2D.Double(margin, getHeight() - margin - radius - 1, radius, radius));
+                        base.add(cut);
+                    }
+
+                    g2.draw(base);
                 }
             }
             

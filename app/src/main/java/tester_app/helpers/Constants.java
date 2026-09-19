@@ -73,11 +73,11 @@ public final class Constants {
         ),
 
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
-        wQuestionBorderColor = wQuestionBackgroundColor.brighter().brighter().brighter(),
+        wQuestionBorderColor = wQuestionBackgroundColor,
         tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),
-        tfQuestionBorderColor = tfQuestionBackgroundColor.brighter().brighter().brighter(),
+        tfQuestionBorderColor = tfQuestionBackgroundColor,
         mcQuestionBackgroundColor = new Color(184, 28, 84).darker().darker(),
-        mcQuestionBorderColor = mcQuestionBackgroundColor.brighter().brighter().brighter();
+        mcQuestionBorderColor = mcQuestionBackgroundColor;
 
     //TAB
     public static final String tab(int i) {
@@ -108,7 +108,7 @@ public final class Constants {
         Color pColor = findParentBackground(button.getParent());
 
         if(pColor != null) {
-            button.setBackground(pColor);
+            button.setBackground(pColor.brighter());
         } else {
             button.setBackground(buttonBackgroundColor);
         }
@@ -174,6 +174,9 @@ public final class Constants {
         );
     }
 
+    public static final void addMargin(final Component c, final int nw, final int ne,  final int se, final int sw) {
+        ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(nw, ne, se, sw));
+    }
     public static final void addMargin(final Component c, final int val) {
         ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));
     }
@@ -336,7 +339,23 @@ public final class Constants {
         object.addMouseMotionListener(mouseAdapter);
     }
 
-    public static void search(Container container, String s) {
+    public static void search(Container container, String s, Boolean... textSort) {
+        Boolean sortText;
+
+        if(textSort != null) {
+            if(textSort.length > 0) {
+                if(textSort[0] == null) {
+                    sortText = false;
+                } else {
+                    sortText = textSort[0];
+                }
+            } else {
+                sortText = false;
+            }
+        } else {
+            sortText = false;
+        }
+
         for(Component c : container.getComponents()) {
             if(
                 c.getClass() == HamburgerMenu.class ||
@@ -349,7 +368,7 @@ public final class Constants {
                         c.setVisible(false);
                     }
                 }
-            } else if(c.getClass() == RoundedTextArea.class) {
+            } else if(c.getClass() == RoundedTextArea.class && sortText) {
                 if(((RoundedTextArea) c).getText() != null) {
                     if(((RoundedTextArea) c).getText().toLowerCase().contains(s.toLowerCase())) {
                         c.getParent().setVisible(true);
@@ -358,7 +377,7 @@ public final class Constants {
                     }
                 }
             } else if(c.getClass() == RoundedPanel.class) {
-                search((Container) c, s);
+                search((Container) c, s, textSort);
             }
         }
     }

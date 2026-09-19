@@ -241,6 +241,7 @@ public class Tester extends ConsoleErrorJFrame {
         dirMenu.setBorderColor(getBackground().darker());
         dirMenu.setBorderPainted(true);
         dirMenu.setLayout(layout);
+        addMargin(dirMenu, 0);
 
         scrollPane = new JScrollPane(dirMenu);
         scrollPane.setBackground(getBackground());
@@ -255,6 +256,9 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).hasSearch(true).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
+        uncategorized.setBackground(pasteColor.darker());
+        uncategorized.setButtonColor(pasteColor);
+        uncategorized.setBorderColor(pasteColor.darker());
 
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
@@ -269,6 +273,7 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
+        addTopicButton.setHalfRect(true, false, false, true);
 
         RoundedButton addExamButton = new RoundedButton();
         addExamButton.addActionListener(new ActionListener() {
@@ -289,6 +294,7 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
+        addExamButton.setHalfRect(false, true, true, false);
 
         RoundedButton pasteButton = new RoundedButton();
         pasteButton.addActionListener(new ActionListener() {
@@ -298,6 +304,7 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
         });
+        pasteButton.setHalfRect(true, true, false, false);
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
         addButton.setGrid(true);
@@ -471,10 +478,13 @@ public class Tester extends ConsoleErrorJFrame {
                 for (final File f : files) {
                     if (f.isDirectory()) {
                         Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).hasSearch(true).tester(this).build();
+                        dirTopic.setBackground(pasteColor.darker());
+                        dirTopic.setButtonColor(pasteColor);
+                        dirTopic.setBorderColor(pasteColor.darker());
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 
-                        addComponent(dirTopic);
+                        addComponent(dirTopic, GridBagConstraints.CENTER, 0, 0);
                     } else if(f.getParentFile().compareTo(root) == 0) {
                         uncategorized.loadFiles(f, fileButtonIcon);
                     }
@@ -494,19 +504,22 @@ public class Tester extends ConsoleErrorJFrame {
         }
     }
 
-    private void addComponent(Component c, int anchor) {
+    private void addComponent(Component c, int anchor, double weightx, double weighty) {
         constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.BOTH;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
+        constraints.weightx = weightx;
+        constraints.weighty = weighty;
         constraints.anchor = anchor;
         constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         dirMenu.add(c, constraints);
     }
+    private void addComponent(Component c, int anchor) {
+        addComponent(c, anchor, 0.5, 0.5);
+    }
     private void addComponent(Component c) {
-        addComponent(c, GridBagConstraints.CENTER);
+        addComponent(c, GridBagConstraints.NORTH);
     }
 
     public void startExam(File f, Tester tester) {

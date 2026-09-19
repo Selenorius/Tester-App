@@ -14,7 +14,10 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
@@ -26,6 +29,7 @@ public class RoundedPanel extends JPanel implements Scrollable {
     private Boolean
         borderPaint,
         isTransparent;
+    private ArrayList<Boolean> isHalfRect;
     private Color borderColor;
     private final Timer repaintTimer;
     private final Image texture;
@@ -36,6 +40,11 @@ public class RoundedPanel extends JPanel implements Scrollable {
         this.opacity = Constants.opacity;
         this.borderPaint = false;
         this.isTransparent = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.setOpaque(false);
         if(this.getParent() != null) {
             if(this.getParent().getBackground() != null) {
@@ -71,6 +80,11 @@ public class RoundedPanel extends JPanel implements Scrollable {
         this.opacity = Constants.opacity;
         this.borderPaint = false;
         this.isTransparent = false;
+        this.isHalfRect = new ArrayList<>();
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
+        this.isHalfRect.add(false);
         this.setOpaque(false);
         if(this.getParent() != null) {
             if(this.getParent().getBackground() != null) {
@@ -110,6 +124,10 @@ public class RoundedPanel extends JPanel implements Scrollable {
         return opacity;
     }
 
+    public ArrayList<Boolean> getIsHalfRect() {
+        return isHalfRect;
+    }
+
     // SETTERS
     public void setBorderColor(Color bordeColor) {
         this.borderColor = bordeColor;
@@ -125,6 +143,15 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
     public void setTransparency(Boolean isTransparent) {
         this.isTransparent = isTransparent;
+    }
+
+    public void setHalfRect(Boolean nw, Boolean ne, Boolean se, Boolean sw) {
+        this.isHalfRect.clear();
+
+        this.isHalfRect.add(nw);
+        this.isHalfRect.add(ne);
+        this.isHalfRect.add(se);
+        this.isHalfRect.add(sw);
     }
 
     public void setOpacity(double opacity) {
@@ -148,8 +175,27 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 y = getVisibleRect().y,
                 width = getVisibleRect().width,
                 height = getVisibleRect().height;
-            
-            g2.setClip(new RoundRectangle2D.Double(x, y, width, height, radius, radius));
+        
+            Area base = new Area(new RoundRectangle2D.Double(x, y, width, height, radius, radius));
+
+            if(isHalfRect.get(0)) {
+                Area cut = new Area(new Rectangle2D.Double(x, y, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(1)) {
+                Area cut = new Area(new Rectangle2D.Double(x + getWidth() - radius, y, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(2)) {
+                Area cut = new Area(new Rectangle2D.Double(x + getWidth() - radius, y + getHeight() - radius, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(3)) {
+                Area cut = new Area(new Rectangle2D.Double(x, y + getHeight() - radius, radius, radius));
+                base.add(cut);
+            }
+
+            g2.setClip(base);
 
             for(int w = 0; w < getWidth(); w += wStep) {
                 for(int h = 0; h < getHeight(); h += hStep) {
@@ -163,7 +209,31 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
             }
             g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+            
+            int
+                width = getSize().width,
+                height = getSize().height;
+        
+            Area base = new Area(new RoundRectangle2D.Double(0, 0, width, height, radius, radius));
+
+            if(isHalfRect.get(0)) {
+                Area cut = new Area(new Rectangle2D.Double(0, 0, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(1)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, 0, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(2)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, getHeight() - radius, radius, radius));
+                base.add(cut);
+            }
+            if(isHalfRect.get(3)) {
+                Area cut = new Area(new Rectangle2D.Double(0, getHeight() - radius, radius, radius));
+                base.add(cut);
+            }
+
+            g2.fill(base);
         }
     }
 
@@ -176,6 +246,7 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
         if(borderPaint) {
             g2.setColor(borderColor);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
             if(texture != null) {
                 int
@@ -184,9 +255,53 @@ public class RoundedPanel extends JPanel implements Scrollable {
                     width = getVisibleRect().width,
                     height = getVisibleRect().height;
 
-                g2.drawRoundRect(x, y, width, height, radius, radius);
+                Area base = new Area(new RoundRectangle2D.Double(x, y, width, height, radius, radius));
+
+                if(isHalfRect.get(0)) {
+                    Area cut = new Area(new Rectangle2D.Double(x, y, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(1)) {
+                    Area cut = new Area(new Rectangle2D.Double(x + getWidth() - radius, y, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(2)) {
+                    Area cut = new Area(new Rectangle2D.Double(x + getWidth() - radius, y + getHeight() - radius, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(3)) {
+                    Area cut = new Area(new Rectangle2D.Double(x, y + getHeight() - radius, radius, radius));
+                    base.add(cut);
+                }
+
+                g2.draw(base);
             } else {
-                g2.drawRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+                
+                int
+                    width = getSize().width,
+                    height = getSize().height;
+            
+                Area base = new Area(new RoundRectangle2D.Double(0, 0, width, height, radius, radius));
+
+                if(isHalfRect.get(0)) {
+                    Area cut = new Area(new Rectangle2D.Double(0, 0, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(1)) {
+                    Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, 0, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(2)) {
+                    Area cut = new Area(new Rectangle2D.Double(getWidth() - radius, getHeight() - radius, radius, radius));
+                    base.add(cut);
+                }
+                if(isHalfRect.get(3)) {
+                    Area cut = new Area(new Rectangle2D.Double(0, getHeight() - radius, radius, radius));
+                    base.add(cut);
+                }
+
+                g2.draw(base);
             }
         }
     }
