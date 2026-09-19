@@ -231,9 +231,9 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
 
-        styleButton(minButton, "Min");
-        styleButton(maxButton, "Max");
-        styleButton(backButton, "End exam");
+        styleButton(minButton, tester.getMinButtonIcon());
+        styleButton(maxButton, tester.getMaxButtonIcon());
+        styleButton(backButton, tester.getReturnButtonIcon());
         backButton.setBackground(deleteColor);
 
         questionMenu = new RoundedPanel(loadIcon("/texture.png"));

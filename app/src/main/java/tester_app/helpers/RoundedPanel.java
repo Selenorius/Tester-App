@@ -235,6 +235,8 @@ public class RoundedPanel extends JPanel implements Scrollable {
 
             g2.fill(base);
         }
+
+        g2.dispose();
     }
 
     @Override
@@ -304,6 +306,8 @@ public class RoundedPanel extends JPanel implements Scrollable {
                 g2.draw(base);
             }
         }
+
+        g2.dispose();
     }
 
     @Override

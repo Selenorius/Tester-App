@@ -18,15 +18,7 @@ public class RoundedMenuBar extends JMenuBar {
         
         g2.setColor(getBackground());
         g2.fillRect(0, 0, getWidth(), getHeight());
-    }
 
-    @Override
-    protected void paintBorder(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-
-        super.paintBorder(g2);
+        g2.dispose();
     }
 }

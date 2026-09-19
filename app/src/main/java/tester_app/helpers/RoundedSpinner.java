@@ -137,6 +137,8 @@ public class RoundedSpinner extends JSpinner {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         g2.setColor(getBackground());
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
+        g2.dispose();
     }
 
     @Override
@@ -150,5 +152,7 @@ public class RoundedSpinner extends JSpinner {
             g2.setColor(borderColor);
             g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
         }
+
+        g2.dispose();
     }  
 }

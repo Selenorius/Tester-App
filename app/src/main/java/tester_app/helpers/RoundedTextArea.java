@@ -478,7 +478,9 @@ public class RoundedTextArea extends JTextArea {
 
         g2.fill(base);
 
-        super.paintComponent(g2);
+        g2.dispose();
+
+        super.paintComponent(g);
     }
 
     @Override
@@ -516,5 +518,7 @@ public class RoundedTextArea extends JTextArea {
 
             g2.draw(base);
         }
+        
+        g2.dispose();
     }
 }

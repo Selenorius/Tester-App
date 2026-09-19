@@ -80,8 +80,11 @@ public class Tester extends ConsoleErrorJFrame {
         icon = loadIcon("/tester_appx96.png"),
         dirButtonIcon = loadIcon("/dirButtonx32.png"),
         fileButtonIcon = loadIcon("/fileButtonx32.png"),
-        editorButtonIcon = loadIcon("/editorButtonx32.png"),
-        backButtonIcon = loadIcon("/backButtonx32.png"),
+        editorButtonIcon = loadIcon("/editorButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        backButtonIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        returnButtonIcon = loadIcon("/returnButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        minButtonIcon = loadIcon("/minButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
+        maxButtonIcon = loadIcon("/maxButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         wqIcon = loadIcon("/WQ_iconx32.png"),
         mcIcon = loadIcon("/MC_iconx32.png"),
         tfIcon = loadIcon("/TF_iconx32.png"),
@@ -90,7 +93,7 @@ public class Tester extends ConsoleErrorJFrame {
         deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         addIcon = loadIcon("/add_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
         pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
+        resetIcon = loadIcon("/backButtonx32.png");
     private final String settingsFile = "settings.txt";
     
     public Tester() {
@@ -231,9 +234,9 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
 
-        styleButton(minButton, "Min");
-        styleButton(maxButton, "Max");
-        styleButton(backButton, "Exit");
+        styleButton(minButton, minButtonIcon);
+        styleButton(maxButton, maxButtonIcon);
+        styleButton(backButton, backButtonIcon);
         backButton.setBackground(deleteColor);
 
         dirMenu = new RoundedPanel(loadIcon("/texture.png"));
@@ -491,6 +494,10 @@ public class Tester extends ConsoleErrorJFrame {
                 }
             }
             
+            if(uncategorized.getMenuSize() > 0) {
+                ((HamburgerMenu) uncategorized.getMenu().getComponents()[uncategorized.getMenu().getComponentCount() - 1]).setHalfRect(true, true, false, false);
+            }
+                
             addComponent(uncategorized);
             addComponent(addButton, GridBagConstraints.SOUTH);
         } catch(Exception e) {
@@ -636,6 +643,15 @@ public class Tester extends ConsoleErrorJFrame {
 
     public Image getBackButtonIcon() {
         return backButtonIcon;
+    }
+    public Image getReturnButtonIcon() {
+        return returnButtonIcon;
+    }
+    public Image getMinButtonIcon() {
+        return minButtonIcon;
+    }
+    public Image getMaxButtonIcon() {
+        return maxButtonIcon;
     }
 
     public Image getWqIcon() {
