@@ -25,10 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import tester_app.Topic;
@@ -46,8 +43,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     private GridBagConstraints constraints;
     private RoundedLabel
         text,
-        size,
-        backLabel;
+        size;
 
     private int
         radius,
@@ -239,20 +235,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         menuButton.add(searchPanel, constraints);
 
-        backLabel = new RoundedLabel();
-        try {
-            backLabel.setIcon(new ImageIcon(ImageIO.read(ConsoleErrorJFrame.class.getResource("/backButtonx32.png")).getScaledInstance(14, 14, Image.SCALE_SMOOTH)));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        backLabel.setVisible(false);
-
-        constraints.gridx = 1;
-        constraints.anchor = GridBagConstraints.EAST;
-        constraints.insets = new Insets(margin, margin * 2, margin, margin * 2);
-
-        menuButton.add(backLabel, constraints);
-
         nw = menuButton.getHalfRect().get(0);
         ne = menuButton.getHalfRect().get(1);
         se = menuButton.getHalfRect().get(2);
@@ -268,7 +250,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             addMargin(this, 0);
             
             searchPanel.setVisible(false);
-            backLabel.setVisible(false);
             addMargin(menuButton, margin * 3);
             menuButton.setHalfRect(nw, ne, se, sw);
             menuButton.setSelectionColor(null);
@@ -301,7 +282,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                 searchPanel.setBackground(menuButton.getBackground());
                 searchPanel.setBorderColor(menuButton.getBackground());
             }
-            backLabel.setVisible(true);
             if(hasSearch) {
                 searchPanel.setVisible(true);
             }

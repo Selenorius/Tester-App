@@ -251,7 +251,7 @@ public final class Constants {
             protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color color = scrollPane.getBackground().brighter().brighter().brighter();
+                Color color = blotBackgroundColor;
                 JScrollBar sb = (JScrollBar)c;
 
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));

@@ -347,7 +347,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(qt != "") {
                                     qt += line.substring(0, line.indexOf("\""));
 
-                                    newQuestion.setQuestionText("<html><center>" + qt + "</html>");
+                                    newQuestion.setQuestionText(qt);
 
                                     qt = "";
                                 } else if(at != "") {
@@ -361,7 +361,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 text = line.substring(line.indexOf("\"") + 1);
 
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionText("<html><center>" + text.substring(0, text.indexOf("\"")) + "</html>");
+                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
@@ -397,7 +397,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(qt != "") {
                                     qt += line.substring(0, line.indexOf("\""));
 
-                                    newQuestion.setQuestionText("<html><center>" + qt + "<html>");
+                                    newQuestion.setQuestionText(qt);
 
                                     qt = "";
                                 } else if(at != "") {
@@ -411,7 +411,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 text = line.substring(line.indexOf("\"") + 1);
 
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionText("<html><center>" + text.substring(0, text.indexOf("\"")) + "<html>");
+                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
                                     text = text.substring(text.indexOf("\"") + 1);
                                 } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));

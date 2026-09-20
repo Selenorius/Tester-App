@@ -11,15 +11,15 @@ import javax.swing.SwingConstants;
 public class RoundedLabel extends JLabel {
     Boolean painted;
 
-    public RoundedLabel(String string, int hor) {
-        super(string, hor);
+    public RoundedLabel(String text, int hor) {
+        super("<html><center>" + text + "</html>", hor);
 
         this.painted = false;
 
         this.setHorizontalAlignment(hor);
     }
-    public RoundedLabel(String string) {
-        super(string);
+    public RoundedLabel(String text) {
+        super("<html><center>" + text + "</html>");
 
         this.painted = false;
 
@@ -36,6 +36,11 @@ public class RoundedLabel extends JLabel {
     // SETTERS
     public void setPainted(Boolean painted) {
         this.painted = painted;
+    }
+
+    @Override
+    public void setText(String text) {
+        super.setText("<html><center>" + text + "</html>");
     }
 
     @Override

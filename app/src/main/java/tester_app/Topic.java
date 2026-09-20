@@ -695,6 +695,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
                 radioButton.setIconTextGap(margin * 2);
+                radioButton.setFont(buttonFont);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -723,6 +724,7 @@ public class Topic extends HamburgerMenu {
                     }
                 });
 
+                constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 constraints.weightx = 0.1;
                 constraints.gridx = 1;
@@ -863,6 +865,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setOpaque(false);
                 radioButton.setToolTipText("When selected, answers must be given in order");
                 radioButton.setIconTextGap(margin * 2);
+                radioButton.setFont(buttonFont);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -888,6 +891,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setText("Ordered");
                 radioButton.setSelected(q.isOrdered());
 
+                constraints.fill = GridBagConstraints.HORIZONTAL;
                 constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
                 constraints.weightx = 0.1;
                 constraints.gridx = 1;
@@ -945,10 +949,14 @@ public class Topic extends HamburgerMenu {
                         }
                     });
 
-                    constraints.weightx = 0.1;
-                    constraints.weighty = 0.1;
+                    constraints = new GridBagConstraints();
+                    constraints.fill = GridBagConstraints.HORIZONTAL;
+                    constraints.weightx = 0.5;
+                    constraints.weighty = 0.5;
+                    constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
                     optionTextPanel.add(imageButton, constraints);
+
                     String imagePath = o.getImagePath();
                     if(
                         imagePath != null &&
@@ -1031,6 +1039,7 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setOpaque(false);
                     optionRadioButton.setToolTipText("Is this answer true?");
                     optionRadioButton.setIconTextGap(margin * 2);
+                    optionRadioButton.setFont(buttonFont);
                     optionRadioButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -1056,11 +1065,11 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setText("True");
                     optionRadioButton.setSelected(o.isTrue());
 
+                    constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
 
                     optionTextPanel.add(optionRadioButton, constraints);
 
-                    constraints.fill = GridBagConstraints.HORIZONTAL;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
                     constraints.weightx = 0.5;
                     constraints.gridx = 0;
@@ -1091,6 +1100,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setOpaque(false);
                 radioButton.setToolTipText("Is the question text true?");
                 radioButton.setIconTextGap(margin * 2);
+                radioButton.setFont(buttonFont);
                 radioButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -1118,13 +1128,14 @@ public class Topic extends HamburgerMenu {
                 radioButton.setForeground(Color.WHITE);
                 radioButton.setText("True");
                 radioButton.setSelected(q.getButtonOptions().getFirst().isTrue());
+
+                constraints.fill = GridBagConstraints.HORIZONTAL;
                 
                 textPanel.add(radioButton, constraints);
                 
                 optionRadioButtons.add(radioButton);
             }
 
-            constraints.fill = GridBagConstraints.HORIZONTAL;
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             if(q.getClass() == WQuestion.class) {

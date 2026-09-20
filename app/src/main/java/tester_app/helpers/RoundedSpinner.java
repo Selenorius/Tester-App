@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
+import javax.swing.SwingConstants;
 
 public class RoundedSpinner extends JSpinner {
     private RoundedSpinner.DefaultEditor editor;
@@ -63,7 +64,7 @@ public class RoundedSpinner extends JSpinner {
         this.setOpaque(false);
         addMargin(this, margin);
 
-        label = new RoundedLabel();
+        label = new RoundedLabel("", SwingConstants.LEFT);
         for(String s : text) {
             label.setText(s);
         }
