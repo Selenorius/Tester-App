@@ -50,7 +50,7 @@ public final class Constants {
     public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
     public static final Font
-        textFont = new Font("Verdana", Font.PLAIN, 12),
+        textFont = new Font("Verdana", Font.PLAIN, 14),
         buttonFont = new Font("Verdana", Font.BOLD, 14);
     public static final int margin = 6;
     public static final File root = new File("topics");
