@@ -14,6 +14,7 @@ import static tester_app.helpers.Constants.tab;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -37,6 +38,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -201,40 +203,43 @@ public class Exam extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
-        iconLabel = new RoundedLabel("Tester App");
+        iconLabel = new RoundedLabel("Tester App", SwingConstants.LEFT);
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
         iconLabel.setForeground(Color.WHITE);
-        iconLabel.setFont(buttonFont);
+        iconLabel.setFont(new Font(buttonFont.getFamily(), buttonFont.getStyle(), 11));
         iconLabel.setIconTextGap(margin * 2);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
         titleMenu.setLayout(layout);
 
-        constraints.fill = GridBagConstraints.NONE;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
         constraints.anchor = GridBagConstraints.WEST;
 
         titleMenu.add(iconLabel, constraints);
-
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        
         constraints.weightx = 10;
         constraints.insets = new Insets(0, 0, 0, 0);
         constraints.anchor = GridBagConstraints.WEST;
-
+        
         menuBar.add(titleMenu, constraints);
 
-        constraints.weightx = 0.5;
+        constraints.weightx = 0;
         constraints.anchor = GridBagConstraints.EAST;
 
         menuBar.add(minButton, constraints);
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
 
-        styleButton(minButton, tester.getMinButtonIcon());
-        styleButton(maxButton, tester.getMaxButtonIcon());
-        styleButton(backButton, tester.getReturnButtonIcon());
-        backButton.setBackground(deleteColor);
+        styleButton(minButton, tester.getMinButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        styleButton(maxButton, tester.getMaxButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        styleButton(backButton, tester.getReturnButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        backButton.setSelectionColor(deleteColor);
+
+        addMargin(minButton, margin * 3, margin, margin * 3, margin);
+        addMargin(maxButton, margin * 3, margin, margin * 3, margin);
+        addMargin(backButton, margin * 3, margin, margin * 3, margin);
 
         questionMenu = new RoundedPanel(loadIcon("/texture.png"));
         questionMenu.setBackground(getBackground().darker());
@@ -251,7 +256,7 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0;
         constraints.anchor = GridBagConstraints.NORTHEAST;
-        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * -1);
+        constraints.insets = new Insets(margin * 2, margin * 3, margin * 3, margin * -1);
 
         questionMenu.add(timer, constraints);
 
@@ -342,7 +347,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(qt != "") {
                                     qt += line.substring(0, line.indexOf("\""));
 
-                                    newQuestion.setQuestionText(qt);
+                                    newQuestion.setQuestionText("<html><center>" + qt + "</html>");
 
                                     qt = "";
                                 } else if(at != "") {
@@ -356,7 +361,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 text = line.substring(line.indexOf("\"") + 1);
 
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
+                                    newQuestion.setQuestionText("<html><center>" + text.substring(0, text.indexOf("\"")) + "</html>");
                                     text = text.substring(text.indexOf("\"") + 1);
                                 } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
@@ -392,7 +397,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 if(qt != "") {
                                     qt += line.substring(0, line.indexOf("\""));
 
-                                    newQuestion.setQuestionText(qt);
+                                    newQuestion.setQuestionText("<html><center>" + qt + "<html>");
 
                                     qt = "";
                                 } else if(at != "") {
@@ -406,7 +411,7 @@ public class Exam extends ConsoleErrorJFrame {
                                 text = line.substring(line.indexOf("\"") + 1);
 
                                 if(newQuestion.getQuestionText() == null && text.contains("\"")) {
-                                    newQuestion.setQuestionText(text.substring(0, text.indexOf("\"")));
+                                    newQuestion.setQuestionText("<html><center>" + text.substring(0, text.indexOf("\"")) + "<html>");
                                     text = text.substring(text.indexOf("\"") + 1);
                                 } else if(newQuestion.getAnswerText() == null && text.contains("\"")) {
                                     newQuestion.setAnswerText(text.substring(0, text.indexOf("\"")));
@@ -554,17 +559,18 @@ public class Exam extends ConsoleErrorJFrame {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.SOUTH;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
         for(Component c : question.getComponents()) {
             if(c.getClass() == RoundedPanel.class) {
                 constraints.gridx = 1;
                 constraints.gridy = 2;
+                constraints.insets = new Insets(margin, margin, margin, margin);
 
                 questionMenu.add(c, constraints);
             } else if(c.getClass() == RoundedLabel.class) {
                 constraints.gridx = 1;
                 constraints.gridy = 1;
+                constraints.insets = new Insets(0, margin * 2, margin, margin * 2);
 
                 questionMenu.add(c, constraints);
             }

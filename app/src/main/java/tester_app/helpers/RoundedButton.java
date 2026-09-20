@@ -288,6 +288,8 @@ public class RoundedButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
+        g2.setColor(getBackground());
+
         if (getModel().isRollover()) {
             setForeground(selectionColor);
 
@@ -300,8 +302,6 @@ public class RoundedButton extends JButton {
 
             if(!this.isSelected()) this.borderPaint = false;
         }
-
-        g2.setColor(getBackground());
 
         if(isTransparent) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));

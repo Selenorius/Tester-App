@@ -17,6 +17,7 @@ import static tester_app.helpers.Constants.styleScrollPane;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -28,7 +29,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,6 +43,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -79,22 +80,22 @@ public class Tester extends ConsoleErrorJFrame {
     protected ArrayList<HamburgerMenu> extendedStates;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
-        dirButtonIcon = loadIcon("/dirButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        fileButtonIcon = loadIcon("/fileButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        editorButtonIcon = loadIcon("/editorButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        backButtonIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        returnButtonIcon = loadIcon("/returnButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        minButtonIcon = loadIcon("/minButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        maxButtonIcon = loadIcon("/maxButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        wqIcon = loadIcon("/WQ_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
-        mcIcon = loadIcon("/MC_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
-        tfIcon = loadIcon("/TF_iconx32.png").getScaledInstance(28, 14, Image.SCALE_SMOOTH),
-        editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH),
-        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(14, 14, Image.SCALE_SMOOTH);
+        dirButtonIcon = loadIcon("/dirButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        fileButtonIcon = loadIcon("/fileButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        editorButtonIcon = loadIcon("/editorButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        backButtonIcon = loadIcon("/backButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        returnButtonIcon = loadIcon("/returnButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        minButtonIcon = loadIcon("/minButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        maxButtonIcon = loadIcon("/maxButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        wqIcon = loadIcon("/WQ_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
+        mcIcon = loadIcon("/MC_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
+        tfIcon = loadIcon("/TF_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
+        editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
+        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH);
     private final String settingsFile = "settings.txt";
     
     public Tester() {
@@ -205,40 +206,43 @@ public class Tester extends ConsoleErrorJFrame {
         menuBar.addMouseMotionListener(frameDragListener);
         addMargin(menuBar, margin);
 
-        iconLabel = new RoundedLabel("Tester App");
+        iconLabel = new RoundedLabel("Tester App", SwingConstants.LEFT);
         iconLabel.setIcon(new ImageIcon(icon.getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH)));
         iconLabel.setForeground(Color.WHITE);
-        iconLabel.setFont(buttonFont);
+        iconLabel.setFont(new Font(buttonFont.getFamily(), buttonFont.getStyle(), 11));
         iconLabel.setIconTextGap(margin * 2);
 
         titleMenu = new RoundedPanel();
         titleMenu.setBackground(null);
         titleMenu.setLayout(layout);
         
-        constraints.fill = GridBagConstraints.NONE;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.5;
         constraints.anchor = GridBagConstraints.WEST;
 
         titleMenu.add(iconLabel, constraints);
 
-        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 10;
         constraints.insets = new Insets(0, 0, 0, 0);
         constraints.anchor = GridBagConstraints.WEST;
 
         menuBar.add(titleMenu, constraints);
 
-        constraints.weightx = 0.5;
+        constraints.weightx = 0;
         constraints.anchor = GridBagConstraints.EAST;
 
         menuBar.add(minButton, constraints);
         menuBar.add(maxButton, constraints);
         menuBar.add(backButton, constraints);
 
-        styleButton(minButton, minButtonIcon);
-        styleButton(maxButton, maxButtonIcon);
-        styleButton(backButton, backButtonIcon);
-        backButton.setBackground(deleteColor);
+        styleButton(minButton, minButtonIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        styleButton(maxButton, maxButtonIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        styleButton(backButton, backButtonIcon.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        backButton.setSelectionColor(deleteColor);
+
+        addMargin(minButton, margin * 3, margin, margin * 3, margin);
+        addMargin(maxButton, margin * 3, margin, margin * 3, margin);
+        addMargin(backButton, margin * 3, margin, margin * 3, margin);
 
         dirMenu = new RoundedPanel(loadIcon("/texture.png"));
         dirMenu.setBackground(getBackground().darker());

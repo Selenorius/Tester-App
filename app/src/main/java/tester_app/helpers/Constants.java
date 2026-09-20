@@ -36,7 +36,7 @@ import tester_app.questions.Question;
 import tester_app.questions.Question.Test;
 
 public final class Constants {
-    public static float opacity = (float) 0.75;
+    public static float opacity = (float) 1;
 
     //ANSI COLORS
     public static final String ANSI_RESET = "\u001B[0m";
@@ -50,9 +50,9 @@ public final class Constants {
     public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
     public static final Font
-        textFont = new Font("Verdana", Font.PLAIN, 11),
-        buttonFont = new Font("Verdana", Font.PLAIN, 11);
-    public static final int margin = 4;
+        textFont = new Font("Verdana", Font.PLAIN, 12),
+        buttonFont = new Font("Verdana", Font.BOLD, 14);
+    public static final int margin = 6;
     public static final File root = new File("topics");
     public static final Color
         fieldColor = new Color(0, 0, 0),

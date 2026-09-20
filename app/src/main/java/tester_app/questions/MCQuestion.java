@@ -46,11 +46,6 @@ public class MCQuestion extends Question {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 1;
-        constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-
         this.setBackground(exam.getBackground());
         this.setBorderPainted(false);
         this.setLayout(layout);
@@ -80,7 +75,8 @@ public class MCQuestion extends Question {
         inputArea.setTransparency(true);
         addMargin(inputArea, 0);
 
-        questionTextLabel = new RoundedLabel("<html>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel = new RoundedLabel("<html><center>" + "No question text found" + "<html>", SwingConstants.CENTER);
+        questionTextLabel.setBackground(Color.WHITE);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(RoundedLabel.CENTER_ALIGNMENT);
         questionTextLabel.setLayout(layout);
@@ -88,10 +84,23 @@ public class MCQuestion extends Question {
         questionTextLabel.setVerticalTextPosition(RoundedLabel.BOTTOM);
         questionTextLabel.setIconTextGap(margin * 3);
         questionTextLabel.setFont(buttonFont);
+        questionTextLabel.setPainted(true);
         addMargin(questionTextLabel, margin * 3);
 
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 1;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.insets = new Insets(margin, margin, margin, margin);
+
         this.add(questionTextLabel, constraints);
+
+        constraints.insets = new Insets(0, 0, 0, 0);
+
         this.add(inputArea, constraints);
+
+        constraints = new GridBagConstraints();
     }
 
     @Override
