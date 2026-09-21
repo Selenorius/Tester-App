@@ -96,7 +96,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                 toggle();
             }
         });
-        addMargin(menuButton, margin * 3, margin, margin * 3, margin);
+        addMargin(menuButton, (int) (margin * 2.5), margin, (int) (margin * 2.5), margin);
 
         blot = new RoundedPanel();
         blot.setBackground(blotBackgroundColor);
@@ -235,6 +235,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets((int) (margin * 0.5), 0, (int) (margin * 0.5), 0);
 
         menuButton.add(searchPanel, constraints);
 

@@ -27,6 +27,7 @@ public class RoundedLabel extends JLabel {
         this.painted = false;
 
         this.setHorizontalAlignment(SwingConstants.CENTER);
+        addMargin(this, 0);
     }
     public RoundedLabel() {
         super();
@@ -40,8 +41,6 @@ public class RoundedLabel extends JLabel {
     // SETTERS
     public void setPainted(Boolean painted) {
         this.painted = painted;
-
-        addMargin(this, 0);
     }
 
     @Override
