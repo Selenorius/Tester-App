@@ -56,7 +56,6 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
-        addMargin(this, margin * 3);
 
         this.radius = 10;
         this.borderPaint = false;
@@ -99,7 +98,6 @@ public class RoundedButton extends JButton {
         this.setDoubleBuffered(true);
         this.setOpaque(false);
         this.setLayout(layout);
-        addMargin(this, margin * 3);
 
         this.radius = 10;
         this.borderPaint = false;
@@ -232,26 +230,22 @@ public class RoundedButton extends JButton {
         String out = null;
 
         if(text != null) {
-            if(text.length() < length) {
-                out = text;
-            } else {
-                String line = null;
+            String line = null;
 
-                out = "<html><center>";
+            out = "<html><center>";
 
-                while(text.length() > length) {
-                    line = text.substring(0, length);
+            while(text.length() > length) {
+                line = text.substring(0, length);
 
-                    if(line.contains(" ")) {
-                        out += text.substring(0, line.lastIndexOf(" ") + 1) + "<br>";
-                        text = text.substring(line.lastIndexOf(" ") + 1, text.length());
-                    } else {
-                        out += line + "<br>";
-                        text = text.substring(length, text.length());
-                    }
+                if(line.contains(" ")) {
+                    out += text.substring(0, line.lastIndexOf(" ") + 1) + "<br>";
+                    text = text.substring(line.lastIndexOf(" ") + 1, text.length());
+                } else {
+                    out += line + "<br>";
+                    text = text.substring(length, text.length());
                 }
-                out += text + "</center></html>";
             }
+            out += text + "</center></html>";
         } else {
             out = "";
         }
@@ -287,6 +281,12 @@ public class RoundedButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+
+        if(this.getButtonText() != null) {
+            addMargin(this, (int) (margin * 2.5), margin * 2, margin * 3, margin * 2);
+        } else {
+            addMargin(this, margin * 3, margin * 2, margin * 3, margin * 2);
+        }
 
         g2.setColor(getBackground());
 

@@ -600,8 +600,9 @@ public class Topic extends HamburgerMenu {
 
             constraints = new GridBagConstraints();
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.weightx = 0;
-            constraints.weighty = 0;
+            constraints.gridx = 0;
+            constraints.weightx = 0.5;
+            constraints.weighty = 0.5;
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             textPanel.add(imageButton, constraints);
@@ -618,7 +619,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("\\") + 1));
                 }
             } else {
-                styleButton(imageButton, "<html>Add image</html>", tester.getAddIcon(), JButton.RIGHT);
+                styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
             }
             imageButton.setBackground(textPanel.getBackground().brighter());
 
