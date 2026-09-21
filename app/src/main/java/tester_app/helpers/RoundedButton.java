@@ -1,6 +1,5 @@
 package tester_app.helpers;
 
-import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.selectionColor;
@@ -78,17 +77,11 @@ public class RoundedButton extends JButton {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin * 2);
+        constraints.insets = new Insets(0, margin * 2, 0, margin * 2);
 
         this.add(label, constraints);
 
         setText(text);
-
-        if(this.getButtonText() != null) {
-            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
-        } else {
-            addMargin(this, margin * 3, margin, margin * 3, margin);
-        }
     }
     public RoundedButton() { 
         super();
@@ -127,11 +120,9 @@ public class RoundedButton extends JButton {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin * 2);
+        constraints.insets = new Insets(0, margin * 2, 0, margin * 2);
 
         this.add(label, constraints);
-
-        addMargin(this, margin * 3, margin, margin * 3, margin);
     }
 
     // GETTERS
@@ -287,12 +278,6 @@ public class RoundedButton extends JButton {
             }
         } else {
             super.setText(out);
-        }
-
-        if(this.getButtonText() != null) {
-            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
-        } else {
-            addMargin(this, margin * 3, margin, margin * 3, margin);
         }
     }
 
