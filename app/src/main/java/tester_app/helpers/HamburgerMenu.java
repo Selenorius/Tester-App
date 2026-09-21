@@ -270,7 +270,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             menu.setVisible(true);
             menuButton.setHorizontalIconAlignment(SwingConstants.LEFT);
             if(menuButton.getButtonIcon() != null) {
-                menuButton.setText("");
+                menuButton.setText(null);
             }
             menuButton.setSelectionColor(menu.getBackground());
             menuButton.setHalfRect(false, false, true, true);

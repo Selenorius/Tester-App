@@ -80,22 +80,22 @@ public class Tester extends ConsoleErrorJFrame {
     protected ArrayList<HamburgerMenu> extendedStates;
     protected final Image
         icon = loadIcon("/tester_appx96.png"),
-        dirButtonIcon = loadIcon("/dirButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        fileButtonIcon = loadIcon("/fileButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        editorButtonIcon = loadIcon("/editorButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        backButtonIcon = loadIcon("/backButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        returnButtonIcon = loadIcon("/returnButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        minButtonIcon = loadIcon("/minButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        maxButtonIcon = loadIcon("/maxButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        wqIcon = loadIcon("/WQ_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
-        mcIcon = loadIcon("/MC_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
-        tfIcon = loadIcon("/TF_iconx32.png").getScaledInstance(32, 16, Image.SCALE_SMOOTH),
-        editIcon = loadIcon("/edit_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        copyIcon = loadIcon("/copy_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        deleteIcon = loadIcon("/delete_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        addIcon = loadIcon("/add_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        pasteIcon = loadIcon("/paste_iconx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH),
-        resetIcon = loadIcon("/backButtonx32.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        dirButtonIcon = loadIcon("/dirButtonx32.png"),
+        fileButtonIcon = loadIcon("/fileButtonx32.png"),
+        editorButtonIcon = loadIcon("/editorButtonx32.png"),
+        backButtonIcon = loadIcon("/backButtonx32.png"),
+        returnButtonIcon = loadIcon("/returnButtonx32.png"),
+        minButtonIcon = loadIcon("/minButtonx32.png"),
+        maxButtonIcon = loadIcon("/maxButtonx32.png"),
+        wqIcon = loadIcon("/WQ_iconx32.png"),
+        mcIcon = loadIcon("/MC_iconx32.png"),
+        tfIcon = loadIcon("/TF_iconx32.png"),
+        editIcon = loadIcon("/edit_iconx32.png"),
+        copyIcon = loadIcon("/copy_iconx32.png"),
+        deleteIcon = loadIcon("/delete_iconx32.png"),
+        addIcon = loadIcon("/add_iconx32.png"),
+        pasteIcon = loadIcon("/paste_iconx32.png"),
+        resetIcon = loadIcon("/backButtonx32.png");
     private final String settingsFile = "settings.txt";
     
     public Tester() {

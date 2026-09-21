@@ -75,7 +75,7 @@ public class RoundedButton extends JButton {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin);
+        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin * 2);
 
         this.add(label, constraints);
 
@@ -277,16 +277,16 @@ public class RoundedButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        if(this.getButtonText() != null) {
+            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
+        } else {
+            addMargin(this, margin * 3, margin, margin * 3, margin);
+        }
+
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-
-        if(this.getButtonText() != null) {
-            addMargin(this, (int) (margin * 2.5), margin * 2, margin * 3, margin * 2);
-        } else {
-            addMargin(this, margin * 3, margin * 2, margin * 3, margin * 2);
-        }
 
         g2.setColor(getBackground());
 
