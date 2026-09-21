@@ -602,6 +602,8 @@ public class Exam extends ConsoleErrorJFrame {
         iconLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + " | Score: " + score);
 
         setVisible(true);
+
+        questions.get(currentIndex).adjustImage();
     }
 
     private void updateSettings() {
@@ -747,6 +749,8 @@ public class Exam extends ConsoleErrorJFrame {
         }
 
         iconLabel.setText(examName + " | Question " + (currentIndex + 1) + "/" + questions.size() + " | Score: " + score);
+
+        questions.get(currentIndex).adjustImage();
     }
 
     public void finish() {

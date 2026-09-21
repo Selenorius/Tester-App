@@ -7,6 +7,7 @@ import static tester_app.helpers.Constants.selectionColor;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -28,7 +29,8 @@ public class RoundedButton extends JButton {
     private Boolean
         borderPaint,
         borderState,
-        isTransparent;
+        isTransparent,
+        hasHTML;
     private ArrayList<Boolean> isHalfRect;
     private Color
         buttonSelectionColor,
@@ -61,6 +63,7 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.hasHTML = true;
         this.isHalfRect = new ArrayList<>();
         this.isHalfRect.add(false);
         this.isHalfRect.add(false);
@@ -80,6 +83,12 @@ public class RoundedButton extends JButton {
         this.add(label, constraints);
 
         setText(text);
+
+        if(this.getButtonText() != null) {
+            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
+        } else {
+            addMargin(this, margin * 3, margin, margin * 3, margin);
+        }
     }
     public RoundedButton() { 
         super();
@@ -103,6 +112,7 @@ public class RoundedButton extends JButton {
         this.borderPaint = false;
         this.borderState = true;
         this.isTransparent = false;
+        this.hasHTML = true;
         this.isHalfRect = new ArrayList<>();
         this.isHalfRect.add(false);
         this.isHalfRect.add(false);
@@ -120,6 +130,8 @@ public class RoundedButton extends JButton {
         constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin * 2);
 
         this.add(label, constraints);
+
+        addMargin(this, margin * 3, margin, margin * 3, margin);
     }
 
     // GETTERS
@@ -134,10 +146,18 @@ public class RoundedButton extends JButton {
     public ArrayList<Boolean> getHalfRect() {
         return isHalfRect;
     }
+
+    public Dimension getLabelSize() {
+        return label.getSize();
+    }
     
     // SETTERS
     public void setSelectionColor(Color color) {
-        buttonSelectionColor = color;
+        this.buttonSelectionColor = color;
+    }
+
+    public void setHTML(Boolean hasHTML) {
+        this.hasHTML = hasHTML;
     }
 
     public void setBorder(Boolean borderState) {
@@ -232,7 +252,11 @@ public class RoundedButton extends JButton {
         if(text != null) {
             String line = null;
 
-            out = "<html><center>";
+            if(hasHTML) {
+                out = "<html><center>";
+            } else {
+                out = "";
+            }
 
             while(text.length() > length) {
                 line = text.substring(0, length);
@@ -245,15 +269,30 @@ public class RoundedButton extends JButton {
                     text = text.substring(length, text.length());
                 }
             }
-            out += text + "</center></html>";
+            
+            if(hasHTML) {
+                out += text + "</center></html>";
+            } else {
+                out += text;
+            }
         } else {
             out = "";
         }
 
         if(label != null) {
-            label.setText(out);
+            if(hasHTML) {
+                label.setText(out, hasHTML);
+            } else {
+                label.setText(out, hasHTML);
+            }
         } else {
             super.setText(out);
+        }
+
+        if(this.getButtonText() != null) {
+            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
+        } else {
+            addMargin(this, margin * 3, margin, margin * 3, margin);
         }
     }
 
@@ -277,12 +316,6 @@ public class RoundedButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        if(this.getButtonText() != null) {
-            addMargin(this, (int) (margin * 2.5), margin, margin * 3, margin);
-        } else {
-            addMargin(this, margin * 3, margin, margin * 3, margin);
-        }
-
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);

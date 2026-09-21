@@ -1,8 +1,8 @@
 {
     MULTIPLE_CHOICE {
-        "Which are characteristics of a network application?" {
+        "Which are characteristics of a network application?" <C:\Users\jonat\Pictures\Feedback\{3B2F898C-E800-407D-A05D-DB635E8116FC}\Capture001.png> {
             false {
-                "Runs on different core systems" 
+                "Runs on different core systems" <C:\Users\jonat\Pictures\old camera photos\IMG_0230.JPG>
             }
             true {
                 "Communicates over networks" 

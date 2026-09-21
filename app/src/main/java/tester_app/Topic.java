@@ -547,7 +547,7 @@ public class Topic extends HamburgerMenu {
             textPanel.setBorderColor(editPanel.getBorderColor().darker());
             textPanel.setOpacity(1);
             textPanel.setHalfRect(true, true, true, true);
-
+            
             RoundedButton deleteImageButton = new RoundedButton();
             deleteImageButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -560,9 +560,8 @@ public class Topic extends HamburgerMenu {
                     tester.reset();
                 }
             });
-            styleButton(deleteImageButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
-            deleteImageButton.setBackground(deleteColor);
-            
+            deleteImageButton.setHTML(false);
+
             RoundedButton imageButton = new RoundedButton();
             imageButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -590,6 +589,8 @@ public class Topic extends HamburgerMenu {
                     tester.reset();
                 }
             });
+            imageButton.setHTML(false);
+
             if(q.getQuestionImage() == null) {
                 deleteImageButton.setVisible(false);
             } else if(q.getQuestionImage().isBlank()) {
@@ -600,9 +601,8 @@ public class Topic extends HamburgerMenu {
 
             constraints = new GridBagConstraints();
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            constraints.gridx = 0;
-            constraints.weightx = 0.5;
-            constraints.weighty = 0.5;
+            constraints.weightx = 0;
+            constraints.weighty = 0;
             constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             textPanel.add(imageButton, constraints);
@@ -627,13 +627,8 @@ public class Topic extends HamburgerMenu {
 
             textPanel.add(deleteImageButton, constraints);
 
-            constraints = new GridBagConstraints();
-            constraints.fill = GridBagConstraints.BOTH;
-            constraints.gridx = 1;
-            constraints.gridy = 0;
-            constraints.weightx = 0.5;
-            constraints.weighty = 0.5;
-            constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+            styleButton(deleteImageButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
+            deleteImageButton.setBackground(deleteColor);
 
             RoundedTextArea textArea = new RoundedTextArea(q.getQuestionText(), textPanel);
             textArea.setPlaceholder("Enter question...");
@@ -654,6 +649,14 @@ public class Topic extends HamburgerMenu {
                 }
             });
             textArea.setOpacity(1);
+
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.gridx = 1;
+            constraints.gridy = 0;
+            constraints.weightx = 0.1;
+            constraints.weighty = 0.5;
+            constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
 
             textPanel.add(textArea, constraints);
 
@@ -739,8 +742,8 @@ public class Topic extends HamburgerMenu {
                 });
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
-                constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
-                constraints.weightx = 0.1;
+                constraints.insets = new Insets(margin * 3, (int) (margin * 4.5), margin * 3, margin * 3);
+                constraints.weightx = 0.5;
                 constraints.gridx = 1;
                 constraints.gridy = 1;
 
@@ -906,7 +909,7 @@ public class Topic extends HamburgerMenu {
                 radioButton.setSelected(q.isOrdered());
 
                 constraints.fill = GridBagConstraints.HORIZONTAL;
-                constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
+                constraints.insets = new Insets(margin * 3, (int) (margin * 4.5), margin * 3, margin * 3);
                 constraints.weightx = 0.1;
                 constraints.gridx = 1;
                 constraints.gridy = 1;
@@ -942,8 +945,7 @@ public class Topic extends HamburgerMenu {
                             tester.reset();
                         }
                     });
-                    styleButton(deleteImagePathButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
-                    deleteImagePathButton.setBackground(deleteColor);
+                    deleteImagePathButton.setHTML(false);
 
                     imageButton = new RoundedButton();
                     imageButton.addActionListener(new ActionListener() {
@@ -972,6 +974,8 @@ public class Topic extends HamburgerMenu {
                             tester.reset();
                         }
                     });
+                    imageButton.setHTML(false);
+
                     if(o.getImagePath() == null) {
                         deleteImagePathButton.setVisible(false);
                     } else if(o.getImagePath().isBlank()) {
@@ -1007,6 +1011,9 @@ public class Topic extends HamburgerMenu {
                     constraints.gridy = 1;
 
                     optionTextPanel.add(deleteImagePathButton, constraints);
+
+                    styleButton(deleteImagePathButton, "Delete image", tester.getDeleteIcon(), JButton.RIGHT);
+                    deleteImagePathButton.setBackground(deleteColor);
 
                     constraints = new GridBagConstraints();
                     constraints.fill = GridBagConstraints.BOTH;
@@ -1097,7 +1104,7 @@ public class Topic extends HamburgerMenu {
                     optionRadioButton.setSelected(o.isTrue());
 
                     constraints.fill = GridBagConstraints.HORIZONTAL;
-                    constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
+                    constraints.insets = new Insets(margin * 3, (int) (margin * 4.5), margin * 3, margin * 3);
 
                     optionTextPanel.add(optionRadioButton, constraints);
 
@@ -1125,7 +1132,7 @@ public class Topic extends HamburgerMenu {
                 constraints.weighty = 0.5;
                 constraints.gridx = 1;
                 constraints.gridy = 1;
-                constraints.insets = new Insets(margin * 4, margin * 4, margin * 4, margin * 4);
+                constraints.insets = new Insets(margin * 3, (int) (margin * 4.5), margin * 3, margin * 3);
                 
                 JRadioButton radioButton = new JRadioButton();
                 radioButton.setOpaque(false);

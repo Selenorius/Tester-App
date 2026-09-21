@@ -12,8 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Scrollable;
-import javax.swing.Timer;
 
 public class RoundedPanel extends JPanel implements Scrollable {
     private int radius;
@@ -31,7 +28,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
         isTransparent;
     private ArrayList<Boolean> isHalfRect;
     private Color borderColor;
-    private final Timer repaintTimer;
     private final Image texture;
 
     public RoundedPanel(Image texture) {
@@ -63,16 +59,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
         }
         this.setDoubleBuffered(true);
         addMargin(this, margin);
-
-        repaintTimer = new Timer(50, e -> repaint());
-        repaintTimer.setRepeats(false);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaintTimer.restart();
-            }
-        });
     }
     public RoundedPanel() {
         this.texture = null;
@@ -103,16 +89,6 @@ public class RoundedPanel extends JPanel implements Scrollable {
         }
         this.setDoubleBuffered(true);
         addMargin(this, margin);
-
-        repaintTimer = new Timer(50, e -> repaint());
-        repaintTimer.setRepeats(false);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaintTimer.restart();
-            }
-        });
     }
 
     // GETTERS

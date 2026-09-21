@@ -4,12 +4,14 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.getScaledDimension;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -49,23 +51,6 @@ public class MCQuestion extends Question {
         this.setBackground(exam.getBackground());
         this.setBorderPainted(false);
         this.setLayout(layout);
-        this.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                adjustImage();
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {}
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-                adjustImage();
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {}
-        });
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker().darker());
@@ -85,7 +70,7 @@ public class MCQuestion extends Question {
         questionTextLabel.setIconTextGap(margin * 3);
         questionTextLabel.setFont(buttonFont);
         questionTextLabel.setPainted(true);
-        addMargin(questionTextLabel, margin * 3);
+        addMargin(questionTextLabel, margin * 3, margin * 4, margin * 3, margin * 4);
 
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
@@ -339,15 +324,17 @@ public class MCQuestion extends Question {
     @Override
     public void adjustImage() {
         if(questionTextLabel.getIcon() != null)  {
-            if(questionTextLabel.getWidth() - margin * 6 < questionTextLabel.getIcon().getIconWidth()) {
-                questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(questionTextLabel.getWidth() - margin * 6, questionTextLabel.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
-            }
+            Dimension newSize = getScaledDimension(new Dimension(questionTextLabel.getIcon().getIconWidth(), questionTextLabel.getIcon().getIconHeight()), questionTextLabel.getSize());
+
+            questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(newSize.width, newSize.height, Image.SCALE_SMOOTH)));
         }
 
         for(ButtonOption o : options) {
-            if(o.getIcon() != null)  {
-                if(o.getWidth() - margin * 6 < o.getIcon().getIconWidth()) {
-                    o.setIcon(new ImageIcon(new ImageIcon(o.getImagePath()).getImage().getScaledInstance(o.getWidth() - margin * 6, o.getHeight() - margin * 6, Image.SCALE_SMOOTH)));
+            if(o.getButtonIcon() != null)  {
+                if(o.getButtonIcon().getIconWidth() > 0 && o.getButtonIcon().getIconHeight() > 0) {
+                    Dimension newSize = getScaledDimension(new Dimension(o.getButtonIcon().getIconWidth(), o.getButtonIcon().getIconHeight()), o.getSize());
+        
+                    o.setButtonIcon(new ImageIcon(new ImageIcon(o.getImagePath()).getImage().getScaledInstance(newSize.width, newSize.height, Image.SCALE_SMOOTH)));
                 }
             }
         }

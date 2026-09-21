@@ -19,6 +19,7 @@ public class RoundedLabel extends JLabel {
         this.painted = false;
 
         this.setHorizontalAlignment(hor);
+        addMargin(this, 0);
     }
     public RoundedLabel(String text) {
         super("<html><center>" + text + "</html>");
@@ -33,16 +34,22 @@ public class RoundedLabel extends JLabel {
         this.painted = false;
 
         this.setHorizontalAlignment(SwingConstants.CENTER);
+        addMargin(this, 0);
     }
 
     // SETTERS
     public void setPainted(Boolean painted) {
         this.painted = painted;
+
+        addMargin(this, 0);
     }
 
     @Override
     public void setText(String text) {
         super.setText("<html><center>" + text + "</html>");
+    }
+    public void setText(String text, Boolean hasHTML) {
+        super.setText(text);
     }
 
     @Override
@@ -61,8 +68,6 @@ public class RoundedLabel extends JLabel {
         }
         
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
-
-        addMargin(this, 0);
         
         super.paintComponent(g2);
 

@@ -50,8 +50,8 @@ public final class Constants {
     public static final Dimension size = new Dimension(960, 720);
     public static final String name = "Tester App";
     public static final Font
-        textFont = new Font("Verdana", Font.PLAIN, 14),
-        buttonFont = new Font("Verdana", Font.BOLD, 14);
+        textFont = new Font("Verdana", Font.PLAIN, 13),
+        buttonFont = new Font("Verdana", Font.BOLD, 13);
     public static final int margin = 6;
     public static final File root = new File("topics");
     public static final Color
@@ -402,5 +402,18 @@ public final class Constants {
                 search((Container) c, s, textSort);
             }
         }
+    }
+
+    public static Dimension getScaledDimension(Dimension size, Dimension boundary) {
+        int originalWidth = size.width;
+        int originalHeight = size.height;
+        int boundWidth = boundary.width;
+        int newWidth = originalWidth;
+        int newHeight = originalHeight;
+
+        newWidth = boundWidth;
+        newHeight = (newWidth * originalHeight) / originalWidth;
+
+        return new Dimension(newWidth, newHeight);
     }
 }

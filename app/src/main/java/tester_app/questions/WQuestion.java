@@ -4,6 +4,7 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.getScaledDimension;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
 import static tester_app.helpers.Constants.selectionColor;
@@ -13,6 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -22,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -62,23 +65,6 @@ public class WQuestion extends Question {
         this.setBackground(exam.getBackground());
         this.setBorderPainted(false);
         this.setLayout(layout);
-        this.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                adjustImage();
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {}
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-                adjustImage();
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {}
-        });
 
         inputArea = new RoundedPanel();
         inputArea.setBackground(getBackground().darker().darker());
@@ -134,7 +120,7 @@ public class WQuestion extends Question {
         questionTextLabel.setIconTextGap(margin * 3);
         questionTextLabel.setFont(buttonFont);
         questionTextLabel.setPainted(true);
-        addMargin(questionTextLabel, margin * 3);
+        addMargin(questionTextLabel, margin * 3, margin * 4, margin * 3, margin * 4);
         
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
@@ -350,6 +336,15 @@ public class WQuestion extends Question {
     // SETTERS
     public void setGoal(int goal) {
         this.goal = goal;
+    }
+
+    @Override
+    public void adjustImage() {
+        if(questionTextLabel.getIcon() != null)  {
+            Dimension newSize = getScaledDimension(new Dimension(questionTextLabel.getIcon().getIconWidth(), questionTextLabel.getIcon().getIconHeight()), questionTextLabel.getSize());
+
+            questionTextLabel.setIcon(new ImageIcon(new ImageIcon(getQuestionImage()).getImage().getScaledInstance(newSize.width, newSize.height, Image.SCALE_SMOOTH)));
+        }
     }
 
     @Override
