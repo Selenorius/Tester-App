@@ -48,7 +48,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     private int
         radius,
         menuSize,
-        blotOffset;
+        blotOffset,
+        hPos;
     private Color
         selectionColor,
         borderColor;
@@ -159,8 +160,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         if(builder.textHPos != null) {
             styleButton(menuButton, buttonText, builder.icon, builder.textHPos);
+            this.hPos = builder.textHPos;
         } else {
             styleButton(menuButton, buttonText, builder.icon);
+            this.hPos = SwingConstants.CENTER;
         }
 
         if(isEmpty()) {
@@ -232,7 +235,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(0, 0, 0, margin * 2);
 
         menuButton.add(searchPanel, constraints);
 
@@ -252,9 +254,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             
             searchPanel.setVisible(false);
             menuButton.setHalfRect(nw, ne, se, sw);
-            menuButton.setSelectionColor(null);
-            menuButton.setText(buttonText);
+            menuButton.setHorizontalTextPosition(hPos);
             menuButton.setHorizontalIconAlignment(SwingConstants.CENTER);
+            menuButton.setIconTextGap(margin);
             menu.setVisible(false);
             blot.setVisible(true);
         } else {
@@ -269,10 +271,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             blot.setVisible(false);
             menu.setVisible(true);
             menuButton.setHorizontalIconAlignment(SwingConstants.LEFT);
-            if(menuButton.getButtonIcon() != null) {
-                menuButton.setText(null);
-            }
-            menuButton.setSelectionColor(menu.getBackground());
+            menuButton.setHorizontalTextPosition(SwingConstants.RIGHT);
+            menuButton.setIconTextGap((int) (margin * 1.75));
             menuButton.setHalfRect(false, false, true, true);
             if(menuButton.getBackground() != null) {
                 searchPanel.setBackground(menuButton.getBackground().darker());
