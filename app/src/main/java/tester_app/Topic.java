@@ -140,7 +140,7 @@ public class Topic extends HamburgerMenu {
         constraints.gridy = 0;
         
         if(titled) {
-            addComponent(titlePanel, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0);
+            addComponent(titlePanel, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 0, margin, 0, 0);
         } else {
             addComponent(untitledPanel);
             setBlotOffset(getMenuSize() / 2);
@@ -360,7 +360,7 @@ public class Topic extends HamburgerMenu {
             }
         });
         
-        examMenu.addComponent(titlePanel, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0);
+        examMenu.addComponent(titlePanel, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 0, margin, 0, 0);
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -553,6 +553,8 @@ public class Topic extends HamburgerMenu {
                 public void actionPerformed(ActionEvent e) {
                     q.setQuestionImage("");
 
+                    deleteImageButton.setVisible(false);
+
                     saveExam(exam);
 
                     tester.reset();
@@ -588,11 +590,22 @@ public class Topic extends HamburgerMenu {
                     tester.reset();
                 }
             });
+            if(q.getQuestionImage() == null) {
+                deleteImageButton.setVisible(false);
+            } else if(q.getQuestionImage().isBlank()) {
+                deleteImageButton.setVisible(false);
+            } else {
+                deleteImageButton.setVisible(true);
+            }
 
-            constraints.weightx = 0.1;
-            constraints.weighty = 0.1;
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            constraints.weightx = 0;
+            constraints.weighty = 0;
+            constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
             textPanel.add(imageButton, constraints);
+
             String questionImage = q.getQuestionImage();
             if(
                 questionImage != null &&
@@ -605,7 +618,7 @@ public class Topic extends HamburgerMenu {
                     styleButton(imageButton, questionImage.substring(questionImage.lastIndexOf("\\") + 1));
                 }
             } else {
-                styleButton(imageButton, "Add image", tester.getAddIcon(), JButton.RIGHT);
+                styleButton(imageButton, "<html>Add image</html>", tester.getAddIcon(), JButton.RIGHT);
             }
             imageButton.setBackground(textPanel.getBackground().brighter());
 
@@ -643,7 +656,7 @@ public class Topic extends HamburgerMenu {
 
             textPanel.add(textArea, constraints);
 
-            editPanel.addComponent(textPanel);
+            editPanel.addComponent(textPanel, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5, 0.5, 0, margin, 0, 0);
             questionTextAreas.add(textArea);
 
             if(q.getClass() == WQuestion.class) {
@@ -848,7 +861,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-                    editPanel.addComponent(optionTextPanel);
+                    editPanel.addComponent(optionTextPanel, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5, 0.5, 0, margin, 0, 0);
                     
                     optionTextAreas.add(optionTextArea);
                 }
@@ -921,6 +934,8 @@ public class Topic extends HamburgerMenu {
                         public void actionPerformed(ActionEvent e) {
                             o.setImagePath("");
 
+                            deleteImagePathButton.setVisible(false);
+
                             saveExam(exam);
 
                             tester.reset();
@@ -943,16 +958,31 @@ public class Topic extends HamburgerMenu {
                                 o.setImagePath(fileChooser.getSelectedFile().getAbsolutePath());
                             }
 
+                            if(o.getImagePath() == null) {
+                                deleteImagePathButton.setVisible(false);
+                            } else if(o.getImagePath().isBlank()) {
+                                deleteImagePathButton.setVisible(false);
+                            } else {
+                                deleteImagePathButton.setVisible(true);
+                            }
+
                             saveExam(exam);
 
                             tester.reset();
                         }
                     });
+                    if(o.getImagePath() == null) {
+                        deleteImagePathButton.setVisible(false);
+                    } else if(o.getImagePath().isBlank()) {
+                        deleteImagePathButton.setVisible(false);
+                    } else {
+                        deleteImagePathButton.setVisible(true);
+                    }
 
                     constraints = new GridBagConstraints();
                     constraints.fill = GridBagConstraints.HORIZONTAL;
-                    constraints.weightx = 0.5;
-                    constraints.weighty = 0.5;
+                    constraints.weightx = 0;
+                    constraints.weighty = 0;
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
                     optionTextPanel.add(imageButton, constraints);
@@ -1082,7 +1112,7 @@ public class Topic extends HamburgerMenu {
 
                     constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
 
-                    editPanel.addComponent(optionTextPanel);
+                    editPanel.addComponent(optionTextPanel, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5, 0.5, 0, margin, 0, 0);
                     
                     optionRadioButtons.add(optionRadioButton);
                     optionTextAreas.add(optionTextArea);
@@ -1183,7 +1213,7 @@ public class Topic extends HamburgerMenu {
 
             editPanel.addComponent(addHam);
 
-            editMenu.addComponent(editPanel);
+            editMenu.addComponent(editPanel, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0.5, 0.5, 0, margin, 0, 0);
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();

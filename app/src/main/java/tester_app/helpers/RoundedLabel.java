@@ -1,5 +1,8 @@
 package tester_app.helpers;
 
+import static tester_app.helpers.Constants.addMargin;
+import static tester_app.helpers.Constants.margin;
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -59,6 +62,8 @@ public class RoundedLabel extends JLabel {
         }
         
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
+        addMargin(this, 0);
         
         super.paintComponent(g2);
 

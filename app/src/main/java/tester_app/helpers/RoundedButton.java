@@ -50,8 +50,7 @@ public class RoundedButton extends JButton {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
         label.setFont(buttonFont);
-        addMargin(label, margin * 2);
-        
+
         this.setContentAreaFilled(false);
         this.setFocusable(false);
         this.setDoubleBuffered(true);
@@ -73,10 +72,11 @@ public class RoundedButton extends JButton {
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
-        constraints.gridy = 1;
+        constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin);
 
         this.add(label, constraints);
 
@@ -119,7 +119,7 @@ public class RoundedButton extends JButton {
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(0, margin * 2, 0, margin * 2);
+        constraints.insets = new Insets((int) (margin * 0.75), margin * 2, 0, margin * 2);
 
         this.add(label, constraints);
     }

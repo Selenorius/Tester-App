@@ -235,6 +235,9 @@ public class Exam extends ConsoleErrorJFrame {
         styleButton(minButton, tester.getMinButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
         styleButton(maxButton, tester.getMaxButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
         styleButton(backButton, tester.getReturnButtonIcon().getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+        minButton.setBackground(getBackground());
+        maxButton.setBackground(getBackground());
+        backButton.setBackground(getBackground());
         backButton.setSelectionColor(deleteColor);
 
         addMargin(minButton, margin * 3, margin, margin * 3, margin);

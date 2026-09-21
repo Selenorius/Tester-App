@@ -174,11 +174,33 @@ public final class Constants {
         );
     }
 
-    public static final void addMargin(final Component c, final int nw, final int ne,  final int se, final int sw) {
-        ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(nw, ne, se, sw));
+    /**
+    Adds a margin to a {@Code Component} by creating an {@Code EmptyBorder}.
+    @param component
+        the {@Code Component} to receive the border
+    @param top
+        an {@Code Integer} specifying the width of the top, in pixels
+    @param left
+        an {@Code Integer} specifying the width of the left side, in pixels
+    @param bottom
+        an {@Code Integer} specifying the width of the  bottom, in pixels
+    @param right
+        an {@Code Integer} specifying the width of the right side, in pixels
+    @return void
+    */
+    public static final void addMargin(final Component component, final int top, final int left,  final int bottom, final int right) {
+        ((JComponent) component).setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
     }
-    public static final void addMargin(final Component c, final int val) {
-        ((JComponent) c).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));
+    /**
+    Adds a margin to a {@Code Component} by creating an {@Code EmptyBorder}.
+    @param component
+        the {@Code Component} to receive the border
+    @param val
+        an {@Code Integer} specifying the width of the border, in pixels
+    @return {@Code void}
+    */
+    public static final void addMargin(final Component component, final int val) {
+        ((JComponent) component).setBorder(BorderFactory.createEmptyBorder(val, val, val, val));
     }
 
     public static final void next(Exam exam, Question currentQuestion) {

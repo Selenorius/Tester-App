@@ -95,6 +95,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                 toggle();
             }
         });
+        addMargin(menuButton, margin * 3, margin, margin * 3, margin);
 
         blot = new RoundedPanel();
         blot.setBackground(blotBackgroundColor);
@@ -231,7 +232,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(margin * 2, margin * -1, margin * 2, margin * 2);
+        constraints.insets = new Insets(0, 0, 0, margin * 2);
 
         menuButton.add(searchPanel, constraints);
 
@@ -250,7 +251,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             addMargin(this, 0);
             
             searchPanel.setVisible(false);
-            addMargin(menuButton, margin * 3);
             menuButton.setHalfRect(nw, ne, se, sw);
             menuButton.setSelectionColor(null);
             menuButton.setText(buttonText);
@@ -274,7 +274,6 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             }
             menuButton.setSelectionColor(menu.getBackground());
             menuButton.setHalfRect(false, false, true, true);
-            addMargin(menuButton, margin * 2);
             if(menuButton.getBackground() != null) {
                 searchPanel.setBackground(menuButton.getBackground().darker());
                 searchPanel.setBorderColor(menuButton.getBackground().brighter().brighter().brighter());
@@ -340,9 +339,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             component.getClass() == HamburgerMenu.class ||
             component.getClass() == Topic.class
         ) {
-            constraints.insets = new Insets(margin + top, margin + left, bottom, margin + right);
+            constraints.insets = new Insets(top, left, bottom, margin + right);
         } else {
-            constraints.insets = new Insets(margin * 2 + top, margin * 2 + left, margin * 2 + bottom, margin * 2 + right);
+            constraints.insets = new Insets(margin + top, margin + left, margin + bottom, margin * 2 + right);
         }
 
         menu.add(component, constraints);
