@@ -178,34 +178,34 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                     red = builder.parent.getBackground().getRed(),
                     green = builder.parent.getBackground().getGreen(),
                     blue = builder.parent.getBackground().getBlue();
-
-                this.setBackground(
-                    new Color(
-                        red - red / 4 > 0 ? red - red / 4 : 0,
-                        green - green / 4 > 0 ? green - green / 4 : 0,
-                        blue - blue / 4 > 0 ? blue - blue / 4 : 0
-                    )
+                Color color = new Color(
+                    (red + red / 2) % 161,
+                    (green + green / 2) % 161,
+                    (blue + blue / 2) % 161
                 );
-                menuButton.setBackground(builder.parent.getBackground().brighter());
-                empty.setBackground(builder.parent.getBackground().darker());
-                empty.setSelectionColor(builder.parent.getBackground().darker());
+
+                this.setBackground(color);
+                menuButton.setBackground(color.brighter());
+                empty.setBackground(color.darker());
+                empty.setSelectionColor(color.darker());
+                borderColor = color.brighter();
             } else {
                 this.setBackground(null);
                 menuButton.setBackground(null);
                 empty.setBackground(null);
                 empty.setSelectionColor(null);
+                borderColor = null;
             }
         } else {
             this.setBackground(null);
             menuButton.setBackground(null);
             empty.setBackground(null);
             empty.setSelectionColor(null);
+            borderColor = null;
         }
-        this.borderColor = getBackground();
 
         searchPanel = new RoundedTextArea(menu);
         searchPanel.setPlaceholder("Search...");
-        searchPanel.setHalfRect(true, false, false, true);
         if(menuButton.getBackground() != null) {
             searchPanel.setBackground(menuButton.getBackground());
             searchPanel.setBorderColor(menuButton.getBackground());
@@ -232,10 +232,10 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets((int) (margin * 0.5), 0, (int) (margin * 0.5), 0);
+        constraints.anchor = GridBagConstraints.EAST;
+        constraints.insets = new Insets((int) (margin * 0.5), margin * 2, (int) (margin * 0.5), margin * 2);
 
         menuButton.add(searchPanel, constraints);
 
@@ -417,6 +417,7 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
         if(this.menu != null) {
             this.menu.setBackground(backgroundColor);
         }
+
         if(backgroundColor != null && empty != null) {
             empty.setBackground(backgroundColor.darker());
             empty.setSelectionColor(backgroundColor.darker());
@@ -424,6 +425,13 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
             empty.setBackground(backgroundColor);
             empty.setSelectionColor(backgroundColor);
         }
+
+        if(backgroundColor != null && menuButton != null) {
+            menuButton.setBackground(backgroundColor.brighter());
+        } else if(menuButton != null) {
+            menuButton.setBackground(backgroundColor);
+        }
+        
     }
     
     public void setBorderColor(Color borderColor) {
@@ -446,7 +454,8 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
     }
 
     public void setText(String text) {
-        this.buttonText = "   " + text + "   ";
+        this.menuButton.setText(text);
+        this.buttonText = text;
     }
 
     public void setGrid(Boolean isGrid) {
@@ -474,44 +483,42 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
 
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        if(isExtended()) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
-        if(!isExtended()) {
-            g2.setColor(null);
-        } else {
             g2.setColor(getBackground());
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getOpacity()));
-        }
 
-        int
-            width = getSize().width,
-            height = getSize().height;
-        
-        Area base = new Area(new RoundRectangle2D.Double(margin, margin, width - margin * 2, height - margin * 2, radius, radius));
+            int
+                width = getSize().width,
+                height = getSize().height;
+            
+            Area base = new Area(new RoundRectangle2D.Double(margin, margin, width - margin * 2, height - margin * 2, radius, radius));
 
-        if(getIsHalfRect().get(0)) {
-            Area cut = new Area(new Rectangle2D.Double(margin, margin, radius, radius));
-            base.add(cut);
-        }
-        if(getIsHalfRect().get(1)) {
-            Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, margin, radius, radius));
-            base.add(cut);
-        }
-        if(getIsHalfRect().get(2)) {
-            Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, getHeight() - margin - radius, radius, radius));
-            base.add(cut);
-        }
-        if(getIsHalfRect().get(3)) {
-            Area cut = new Area(new Rectangle2D.Double(margin, getHeight() - margin - radius, radius, radius));
-            base.add(cut);
-        }
+            if(getIsHalfRect().get(0)) {
+                Area cut = new Area(new Rectangle2D.Double(margin, margin, radius, radius));
+                base.add(cut);
+            }
+            if(getIsHalfRect().get(1)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, margin, radius, radius));
+                base.add(cut);
+            }
+            if(getIsHalfRect().get(2)) {
+                Area cut = new Area(new Rectangle2D.Double(getWidth() - margin - radius, getHeight() - margin - radius, radius, radius));
+                base.add(cut);
+            }
+            if(getIsHalfRect().get(3)) {
+                Area cut = new Area(new Rectangle2D.Double(margin, getHeight() - margin - radius, radius, radius));
+                base.add(cut);
+            }
 
-        g2.fill(base);
+            g2.fill(base);
 
-        g2.dispose();
+            g2.dispose();
+        }
     }
 
     @Override

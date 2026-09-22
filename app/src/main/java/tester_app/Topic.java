@@ -4,6 +4,8 @@ import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.copyColor;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
+import static tester_app.helpers.Constants.editMenuColor;
+import static tester_app.helpers.Constants.examColor;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.mcQuestionBackgroundColor;
 import static tester_app.helpers.Constants.mcQuestionBorderColor;
@@ -235,6 +237,7 @@ public class Topic extends HamburgerMenu {
 
         if(titled) {
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(this).icon(tester.getEditorButtonIcon()).build();
+            addHam.setBackground(this.getBackground());
             addHam.setGrid(true);
             addHam.setHalfRect(true, true, false, false);
 
@@ -273,9 +276,6 @@ public class Topic extends HamburgerMenu {
                         if (f.isDirectory()) {
                             Topic dirTopic = new Topic.TopicBuilder().parent(this).text(f.getName()).icon(tester.getDirButtonIcon()).hasSearch(true).tester(tester).build();
                             dirTopic.setHalfRect(true, true, true, true);
-                            dirTopic.setBackground(getBackground().darker());
-                            dirTopic.setButtonColor(getBackground());
-                            dirTopic.setBorderColor(getBackground().darker());
 
                             dirTopic.loadFiles(f, tester.getFileButtonIcon());
 
@@ -305,9 +305,7 @@ public class Topic extends HamburgerMenu {
             deleteButton = new RoundedButton();
         HamburgerMenu examMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(this.getMenu()).text(examName).icon(fileIcon).build();
         examMenu.setHalfRect(true, true, true, true);
-        examMenu.setBackground(copyColor);
-        examMenu.setButtonColor(copyColor.brighter());
-        examMenu.setBorderColor(copyColor);
+        examMenu.setBackground(examColor);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -374,7 +372,6 @@ public class Topic extends HamburgerMenu {
         styleButton(startButton, "Start exam");
     
         examMenu.addComponent(exam.getEditMenu());
-        exam.getEditMenu().setButtonColor(editColor.brighter());
 
         examMenu.setBlotOffset(6 - exam.getEditMenu().getMenuSize());
 
@@ -410,6 +407,7 @@ public class Topic extends HamburgerMenu {
         deleteButton.setHalfRect(false, true, false, true);
 
         HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(examMenu).icon(tester.getEditorButtonIcon()).build();
+        addHam.setBackground(examMenu.getBackground());
         addHam.setGrid(true);
         addHam.setHalfRect(true, true, false, false);
 
@@ -431,10 +429,8 @@ public class Topic extends HamburgerMenu {
 
     private void loadEditMenu(Exam exam, Component parent) {
         HamburgerMenu editMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(parent).icon(tester.getEditIcon()).textHPos(JButton.RIGHT).text("Edit " + exam.getName()).hasSearch(true).build();
+        editMenu.setBackground(editMenuColor);
         editMenu.setHalfRect(true, true, true, true);
-        editMenu.setButtonColor(editColor.brighter());
-        editMenu.setBackground(editColor);
-        editMenu.setBorderColor(editColor);
 
         ArrayList<Question> questions = exam.getQuestions();
         ArrayList<JTextArea>
@@ -488,6 +484,7 @@ public class Topic extends HamburgerMenu {
             editPanel.setOpacity(1);
 
             HamburgerMenu addHam = new HamburgerMenu.HamburgerMenuBuilder().parent(editPanel).icon(tester.getEditorButtonIcon()).build();
+            addHam.setBackground(editPanel.getBackground());
             addHam.setHalfRect(true, true, false, false);
             addHam.setGrid(true);
             addHam.setOpacity(1);
@@ -1225,6 +1222,7 @@ public class Topic extends HamburgerMenu {
         }
 
         HamburgerMenu addMenu = new HamburgerMenu.HamburgerMenuBuilder().parent(editMenu).icon(tester.getEditorButtonIcon()).build();
+        addMenu.setBackground(editMenu.getBackground());
         addMenu.setHalfRect(true, true, false, false);
         addMenu.setGrid(true);
 

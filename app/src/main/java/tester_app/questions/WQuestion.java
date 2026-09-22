@@ -106,7 +106,7 @@ public class WQuestion extends Question {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setFont(textFont);
-        textArea.setOpacity(0.75);
+        textArea.setOpacity(1);
 
         questionTextLabel = new RoundedLabel("<html><center>" + "No question text found" + "<html>", SwingConstants.CENTER);
         questionTextLabel.setBackground(Color.WHITE);

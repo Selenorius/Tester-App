@@ -1,6 +1,6 @@
 {
     MULTIPLE_CHOICE {
-        "Which are characteristics of a network application?" {
+        "Which are characteristics of a network applications?" {
             false {
                 "Runs on different core systems" 
             }

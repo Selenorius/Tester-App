@@ -13,6 +13,7 @@ import static tester_app.helpers.Constants.search;
 import static tester_app.helpers.Constants.size;
 import static tester_app.helpers.Constants.styleButton;
 import static tester_app.helpers.Constants.styleScrollPane;
+import static tester_app.helpers.Constants.topicColor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -267,9 +268,7 @@ public class Tester extends ConsoleErrorJFrame {
         uncategorized = new Topic.TopicBuilder().parent(dirMenu).text("Uncategorized").icon(dirButtonIcon).hasSearch(true).tester(this).build();
         uncategorized.setTitled(false);
         uncategorized.setBlotOffset(0);
-        uncategorized.setBackground(pasteColor.darker());
-        uncategorized.setButtonColor(pasteColor);
-        uncategorized.setBorderColor(pasteColor.darker());
+        uncategorized.setBackground(topicColor);
 
         RoundedButton addTopicButton = new RoundedButton();
         addTopicButton.addActionListener(new ActionListener() {
@@ -478,7 +477,7 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.anchor = GridBagConstraints.NORTH;
-        constraints.insets = new Insets(margin * 3, margin * 3, margin * 3, margin * 3);
+        constraints.insets = new Insets(margin * 4, margin * 4, margin * 2, margin * 4);
 
         dirMenu.add(searchPanel, constraints);
         
@@ -489,9 +488,7 @@ public class Tester extends ConsoleErrorJFrame {
                 for (final File f : files) {
                     if (f.isDirectory()) {
                         Topic dirTopic = new Topic.TopicBuilder().parent(dirMenu).text(f.getName()).icon(dirButtonIcon).hasSearch(true).tester(this).build();
-                        dirTopic.setBackground(pasteColor.darker());
-                        dirTopic.setButtonColor(pasteColor);
-                        dirTopic.setBorderColor(pasteColor.darker());
+                        dirTopic.setBackground(topicColor);
 
                         dirTopic.loadFiles(f, fileButtonIcon);
 
@@ -508,6 +505,16 @@ public class Tester extends ConsoleErrorJFrame {
                 
             addComponent(uncategorized);
             addComponent(addButton, GridBagConstraints.SOUTH);
+
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            constraints.gridx = 1;
+            constraints.weightx = 0.5;
+            constraints.weighty = 0.5;
+            constraints.anchor = GridBagConstraints.SOUTH;
+            constraints.insets = new Insets(margin, margin * 3, margin * 3, margin * 3);
+
+            layout.setConstraints(addButton, constraints);
         } catch(Exception e) {
             RoundedLabel fail = new RoundedLabel("Failed to read directory!" + System.lineSeparator() + "If the directory is protected, try running " + name + " as administrator.");
             fail.setForeground(Color.WHITE);
@@ -526,7 +533,7 @@ public class Tester extends ConsoleErrorJFrame {
         constraints.weightx = weightx;
         constraints.weighty = weighty;
         constraints.anchor = anchor;
-        constraints.insets = new Insets(margin * 2, margin * 2, margin * 2, margin * 2);
+        constraints.insets = new Insets(margin, margin * 3, margin, margin * 3);
 
         dirMenu.add(c, constraints);
     }
