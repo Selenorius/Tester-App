@@ -53,7 +53,7 @@ public final class Constants {
         textFont = new Font("Verdana", Font.PLAIN, 13),
         buttonFont = new Font("Verdana", Font.BOLD, 13);
     public static final int margin = 6;
-    public static final File root = new File("/topics");
+    public static final File root = new File("topics");
     public static final Color
         fieldColor = new Color(0, 0, 0),
         selectionColor = Color.YELLOW,
