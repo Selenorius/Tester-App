@@ -318,6 +318,7 @@ public class Tester extends ConsoleErrorJFrame {
 
         addButton = new HamburgerMenu.HamburgerMenuBuilder().parent(dirMenu).icon(editorButtonIcon).build();
         addButton.setGrid(true);
+        addButton.setBackground(fieldColor);
         
         addButton.addComponent(addTopicButton);
         addButton.addComponent(addExamButton);

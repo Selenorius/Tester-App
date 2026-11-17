@@ -72,9 +72,9 @@ public final class Constants {
             backgroundColor.getBlue() + 40
         ),
 
-        topicColor = new Color(117, 91, 42),
-        examColor = new Color(42, 91, 117),
-        editMenuColor = new Color(91, 117, 42),
+        topicColor = new Color(127, 101, 32),
+        examColor = new Color(32, 101, 127),
+        editMenuColor = new Color(101, 127, 32),
 
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
         wQuestionBorderColor = wQuestionBackgroundColor,
