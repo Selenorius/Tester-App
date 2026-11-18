@@ -61,10 +61,10 @@ public final class Constants {
         backgroundColor = fieldColor.brighter(),
         borderColor = Color.WHITE,
 
-        copyColor = new Color(42, 91, 160),
-        pasteColor = new Color(180, 111, 42),
-        editColor = new Color(91, 160, 42),
-        deleteColor = new Color(180, 71, 42),
+        copyColor = new Color(42, 91, 200),
+        pasteColor = new Color(200, 111, 42),
+        editColor = new Color(91, 200, 42),
+        deleteColor = new Color(200, 71, 42),
         blotBackgroundColor = new Color(184, 28, 84),
         buttonBackgroundColor = new Color(
             backgroundColor.getRed() + 40,
@@ -72,9 +72,9 @@ public final class Constants {
             backgroundColor.getBlue() + 40
         ),
 
-        topicColor = new Color(127, 101, 32),
-        examColor = new Color(32, 101, 127),
-        editMenuColor = new Color(101, 127, 32),
+        topicColor = new Color(25, 0, 15),
+        examColor = new Color(100, 125, 150),
+        editMenuColor = fieldColor,
 
         wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
         wQuestionBorderColor = wQuestionBackgroundColor,

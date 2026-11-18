@@ -179,9 +179,9 @@ public class HamburgerMenu extends RoundedPanel implements Comparable<HamburgerM
                     green = builder.parent.getBackground().getGreen(),
                     blue = builder.parent.getBackground().getBlue();
                 Color color = new Color(
-                    (25 + red + 53) % 161,
-                    (25 + green + 37) % 161,
-                    (25 + blue + 47) % 161
+                    (50 + red + 50) % 150,
+                    (50 + green + 50) % 150,
+                    (50 + blue + 50) % 150
                 );
 
                 this.setBackground(color);

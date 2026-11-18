@@ -12,11 +12,13 @@ import javax.swing.SwingConstants;
 
 public class RoundedLabel extends JLabel {
     Boolean painted;
+    float opacity;
 
     public RoundedLabel(String text, int hor) {
         super("<html><center>" + text + "</html>", hor);
 
         this.painted = false;
+        this.opacity = (float) 0.75;
 
         this.setHorizontalAlignment(hor);
         addMargin(this, 0);
@@ -25,6 +27,7 @@ public class RoundedLabel extends JLabel {
         super("<html><center>" + text + "</html>");
 
         this.painted = false;
+        this.opacity = (float) 0.75;
 
         this.setHorizontalAlignment(SwingConstants.CENTER);
         addMargin(this, 0);
@@ -33,6 +36,7 @@ public class RoundedLabel extends JLabel {
         super();
 
         this.painted = false;
+        this.opacity = (float) 0.75;
 
         this.setHorizontalAlignment(SwingConstants.CENTER);
         addMargin(this, 0);
@@ -41,6 +45,10 @@ public class RoundedLabel extends JLabel {
     // SETTERS
     public void setPainted(Boolean painted) {
         this.painted = painted;
+    }
+
+    public void setOpacity(float opacity) {
+        this.opacity = opacity;
     }
 
     @Override
@@ -61,7 +69,7 @@ public class RoundedLabel extends JLabel {
         if(painted) {
             int radius = 10;
 
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.25));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
         }
