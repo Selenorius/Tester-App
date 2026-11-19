@@ -76,11 +76,12 @@ public final class Constants {
         examColor = new Color(100, 125, 150),
         editMenuColor = fieldColor,
 
-        wQuestionBackgroundColor = new Color(84, 28, 184).darker().darker(),
+        questionBackgroundColor = new Color(150, 100, 125),
+        wQuestionBackgroundColor = new Color(125, 100, 150),
         wQuestionBorderColor = wQuestionBackgroundColor,
-        tfQuestionBackgroundColor = new Color(28, 184, 84).darker().darker(),
+        tfQuestionBackgroundColor = new Color(100, 150, 125),
         tfQuestionBorderColor = tfQuestionBackgroundColor,
-        mcQuestionBackgroundColor = new Color(184, 28, 84).darker().darker(),
+        mcQuestionBackgroundColor = new Color(150, 100, 125),
         mcQuestionBorderColor = mcQuestionBackgroundColor;
 
     //TAB

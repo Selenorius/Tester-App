@@ -4,10 +4,10 @@ import static tester_app.helpers.Constants.addMargin;
 import static tester_app.helpers.Constants.buttonFont;
 import static tester_app.helpers.Constants.deleteColor;
 import static tester_app.helpers.Constants.editColor;
-import static tester_app.helpers.Constants.examColor;
 import static tester_app.helpers.Constants.getScaledDimension;
 import static tester_app.helpers.Constants.margin;
 import static tester_app.helpers.Constants.next;
+import static tester_app.helpers.Constants.questionBackgroundColor;
 import static tester_app.helpers.Constants.styleButton;
 
 import java.awt.Color;
@@ -60,7 +60,7 @@ public class MCQuestion extends Question {
         addMargin(inputArea, 0);
 
         questionTextLabel = new RoundedLabel("<html><center>" + "No question text found" + "<html>", SwingConstants.CENTER);
-        questionTextLabel.setBackground(examColor);
+        questionTextLabel.setBackground(questionBackgroundColor);
         questionTextLabel.setForeground(Color.WHITE);
         questionTextLabel.setAlignmentX(RoundedLabel.CENTER_ALIGNMENT);
         questionTextLabel.setLayout(layout);
